@@ -66,3 +66,23 @@ export const defaultListPageLayout: PageLayout = {
   ],
   right: [],
 }
+
+// components for pages that display lists of pages with preview cards (e.g. tags or folders)
+export const previewListPageLayout: PageLayout = {
+  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
+  left: [
+    Component.PageTitle(),
+    Component.MobileOnly(Component.Spacer()),
+    Component.Flex({
+      components: [
+        {
+          Component: Component.Search(),
+          grow: true,
+        },
+        { Component: Component.Darkmode() },
+      ],
+    }),
+    Component.Explorer(),
+  ],
+  right: [],
+}

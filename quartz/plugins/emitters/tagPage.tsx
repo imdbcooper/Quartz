@@ -15,6 +15,7 @@ import { StaticResources } from "../../util/resources"
 
 interface TagPageOptions extends FullPageLayout {
   sort?: (f1: QuartzPluginData, f2: QuartzPluginData) => number
+  usePreviewList?: boolean
 }
 
 function computeTagInfo(
@@ -97,7 +98,7 @@ export const TagPage: QuartzEmitterPlugin<Partial<TagPageOptions>> = (userOpts) 
   const opts: FullPageLayout = {
     ...sharedPageComponents,
     ...defaultListPageLayout,
-    pageBody: TagContent({ sort: userOpts?.sort }),
+    pageBody: TagContent({ sort: userOpts?.sort, usePreviewList: userOpts?.usePreviewList }),
     ...userOpts,
   }
 

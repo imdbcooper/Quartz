@@ -22,6 +22,7 @@ import { BuildCtx } from "../../util/ctx"
 import { StaticResources } from "../../util/resources"
 interface FolderPageOptions extends FullPageLayout {
   sort?: (f1: QuartzPluginData, f2: QuartzPluginData) => number
+  usePreviewList?: boolean
 }
 
 async function* processFolderInfo(
@@ -101,10 +102,10 @@ function _getFolders(slug: FullSlug): SimpleSlug[] {
 }
 
 export const FolderPage: QuartzEmitterPlugin<Partial<FolderPageOptions>> = (userOpts) => {
-  const opts: FullPageLayout = {
+ const opts: FullPageLayout = {
     ...sharedPageComponents,
     ...defaultListPageLayout,
-    pageBody: FolderContent({ sort: userOpts?.sort }),
+    pageBody: FolderContent({ sort: userOpts?.sort, usePreviewList: userOpts?.usePreviewList }),
     ...userOpts,
   }
 

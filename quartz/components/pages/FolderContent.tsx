@@ -2,6 +2,7 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 
 import style from "../styles/listPage.scss"
 import { PageList, SortFn } from "../PageList"
+import { PagePreviewList } from "../PagePreviewList"
 import { Root } from "hast"
 import { htmlToJsx } from "../../util/jsx"
 import { i18n } from "../../i18n"
@@ -15,13 +16,15 @@ interface FolderContentOptions {
    * Whether to display number of folders
    */
   showFolderCount: boolean
-  showSubfolders: boolean
+ showSubfolders: boolean
   sort?: SortFn
+  usePreviewList: boolean
 }
 
 const defaultOptions: FolderContentOptions = {
   showFolderCount: true,
   showSubfolders: true,
+ usePreviewList: false,
 }
 
 export default ((opts?: Partial<FolderContentOptions>) => {
@@ -114,13 +117,17 @@ export default ((opts?: Partial<FolderContentOptions>) => {
             </p>
           )}
           <div>
-            <PageList {...listProps} />
+            {options.usePreviewList ? (
+              <PagePreviewList {...listProps} />
+            ) : (
+              <PageList {...listProps} />
+            )}
           </div>
         </div>
       </div>
     )
   }
 
-  FolderContent.css = concatenateResources(style, PageList.css)
+  FolderContent.css = concatenateResources(style, PageList.css, PagePreviewList.css)
   return FolderContent
 }) satisfies QuartzComponentConstructor

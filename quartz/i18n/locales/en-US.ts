@@ -59,6 +59,9 @@ export default {
     contentMeta: {
       readingTime: ({ minutes }) => `${minutes} min read`,
     },
+    previewList: {
+      noImage: "No image",
+    },
   },
   pages: {
     rss: {

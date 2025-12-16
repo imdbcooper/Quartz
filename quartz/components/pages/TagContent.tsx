@@ -1,6 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "../types"
 import style from "../styles/listPage.scss"
 import { PageList, SortFn } from "../PageList"
+import { PagePreviewList } from "../PagePreviewList"
 import { FullSlug, getAllSegmentPrefixes, resolveRelative, simplifySlug } from "../../util/path"
 import { QuartzPluginData } from "../../plugins/vfile"
 import { Root } from "hast"
@@ -12,10 +13,12 @@ import { concatenateResources } from "../../util/resources"
 interface TagContentOptions {
   sort?: SortFn
   numPages: number
+  usePreviewList: boolean
 }
 
 const defaultOptions: TagContentOptions = {
-  numPages: 10,
+ numPages: 10,
+  usePreviewList: false,
 }
 
 export default ((opts?: Partial<TagContentOptions>) => {
@@ -99,7 +102,11 @@ export default ((opts?: Partial<TagContentOptions>) => {
                         </>
                       )}
                     </p>
-                    <PageList limit={options.numPages} {...listProps} sort={options?.sort} />
+                    {options.usePreviewList ? (
+                      <PagePreviewList limit={options.numPages} {...listProps} sort={options?.sort} />
+                    ) : (
+                      <PageList limit={options.numPages} {...listProps} sort={options?.sort} />
+                    )}
                   </div>
                 </div>
               )
@@ -120,7 +127,11 @@ export default ((opts?: Partial<TagContentOptions>) => {
           <div class="page-listing">
             <p>{i18n(cfg.locale).pages.tagContent.itemsUnderTag({ count: pages.length })}</p>
             <div>
-              <PageList {...listProps} sort={options?.sort} />
+              {options.usePreviewList ? (
+                <PagePreviewList {...listProps} sort={options?.sort} />
+              ) : (
+                <PageList {...listProps} sort={options?.sort} />
+              )}
             </div>
           </div>
         </div>
@@ -128,6 +139,6 @@ export default ((opts?: Partial<TagContentOptions>) => {
     }
   }
 
-  TagContent.css = concatenateResources(style, PageList.css)
+  TagContent.css = concatenateResources(style, PageList.css, PagePreviewList.css)
   return TagContent
 }) satisfies QuartzComponentConstructor
