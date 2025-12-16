@@ -1,5 +1,5 @@
 ---
-{"publish":true,"title":"Welcome to My Digital Garden","description":"My personal notes and thoughts","created":"2025-12-16T11:24:10.173+03:00","modified":"2025-12-16T11:51:41.879+03:00","cssclasses":""}
+{"publish":true,"title":"Welcome to My Digital Garden","description":"My personal notes and thoughts","created":"2025-12-16T11:24:10.173+03:00","modified":"2025-12-16T18:42:08.322+03:00","cssclasses":""}
 ---
 
 
