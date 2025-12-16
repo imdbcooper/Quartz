@@ -1,0 +1,46 @@
+name: Deploy Quartz to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main                    # Триггер при push в main ветку
+                                # Измени на v4 если у тебя другая ветка
+
+permissions:
+  contents: write               # Разрешение писать в репо
+  pages: write
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      # 1️⃣  Клонировать репо
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      # 2️⃣  Установить Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+          cache: 'npm'
+      
+      # 3️⃣  Установить зависимости
+      - name: Install dependencies
+        run: npm ci
+      
+      # 4️⃣  Собрать Quartz
+      - name: Build Quartz
+        run: npx quartz build
+      
+      # 5️⃣  Развернуть на GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./public
+          publish_branch: gh-pages
+          cname: ''
