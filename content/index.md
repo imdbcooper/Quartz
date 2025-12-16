@@ -1,11 +1,11 @@
 ---
-{"publish":true,"title":"Главное меню","description":"My personal notes and thoughts","created":"2025-12-16T11:24:10.173+03:00","modified":"2025-12-16T22:22:54.446+03:00","cssclasses":""}
+{"publish":true,"title":"Главное меню","description":"My personal notes and thoughts","created":"2025-12-16T11:24:10.173+03:00","modified":"2025-12-16T23:53:29.229+03:00","cssclasses":""}
 ---
 
 [[Кoнтакты]] [[Кoнтакты]] [[Кoнтакты]]
 
 
-## Welcomee!  👋
+## Welcomee! 👋
 
 This is my digital garden powered by **Quartz**.
 
