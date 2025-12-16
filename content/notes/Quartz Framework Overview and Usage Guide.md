@@ -1,8 +1,6 @@
 ---
-{"publish":true,"title":"Untitled","description":"Brief description for social media","created":"2025-12-16","modified":"2025-12-16T10:31:15.111+03:00","tags":["blog"],"cssclasses":""}
+{"publish":true,"title":"Quartz Framework Overview and Usage Guide","description":"Brief description for social media","created":"2025-12-16","modified":"2025-12-16T10:31:15.111+03:00","tags":["blog"],"cssclasses":""}
 ---
-
-# Untitled
 
 ## Introduction
 
