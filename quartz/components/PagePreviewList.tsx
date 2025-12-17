@@ -68,7 +68,7 @@ export const PagePreviewList: QuartzComponent = ({ cfg, fileData, allFiles, limi
   return (
     <div class="page-preview-list">
       {previewData.map((preview) => (
-        <a href={resolveRelative(fileData.slug!, preview.slug)} class="preview-card">
+        <a href={resolveRelative(fileData.slug!, preview.slug)} class="preview-card internal">
           <div class="preview-image-container">
             {preview.previewImage ? (
               <img src={preview.previewImage} alt={preview.title} class="preview-image" />
