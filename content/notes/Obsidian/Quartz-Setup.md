@@ -1,7 +1,16 @@
 ---
-{"publish":true,"title":"Quartz-Setup","description":"Brief description for social media","created":"2025-12-16","modified":"2025-12-16T10:31:15.111+03:00","tags":["tutorial","obsidian","Quartz"],"cssclasses":""}
+publish: true
+title: Quartz-Setup
+description: Brief description for social media
+created: 2025-12-16
+modified: 2025-12-16T10:31:15.111+03:00
+tags:
+  - tutorial
+  - obsidian
+  - Quartz
+cssclasses: ""
+draft: false
 ---
-
 # Установка и настройка сайта на Obsidian и Quartz
 
 Quartz + Obsidian позволяют превратить локальные заметки в полноценный статический сайт, который автоматически публикуется на GitHub Pages. Ниже — пошаговое руководство, основанное на реальных проблемах и их решениях.

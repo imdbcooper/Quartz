@@ -1,7 +1,8 @@
 ---
-{"publish":true,"title":"Главное меню","description":"My personal notes and thoughts","created":"2025-12-16T11:24:10.173+03:00","modified":"2025-12-16T23:53:29.229+03:00","cssclasses":""}
+title: Главное меню
+description: My personal notes and thoughts
+publish: true
 ---
-
 [[Кoнтакты]] [[Кoнтакты]] [[Кoнтакты]]
 
 
