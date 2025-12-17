@@ -1,5 +1,5 @@
 ---
-{"publish":true,"title":"Quartz 4 быстрый генератор статических сайтов с интеграцией Obsidian","description":"Brief description for social media","created":"2025-12-16","modified":"2025-12-16T10:31:15.111+03:00","tags":["blog"],"cssclasses":""}
+{"publish":true,"title":"Quartz 4 быстрый генератор статических сайтов с интеграцией Obsidian","description":"Brief description for social media","created":"2025-12-16","modified":"2025-12-16T10:31:15.111+03:00","tags":["obsidian","Quartz"],"cssclasses":""}
 ---
 
 ## Quartz 4: быстрый генератор статических сайтов с интеграцией Obsidian
