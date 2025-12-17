@@ -2,7 +2,7 @@
 {"publish":true,"title":"Кастомизация Quartz 4","created":"2025-12-16","modified":"2025-12-16T10:31:15.111+03:00","tags":["tutorial","obsidian","Quartz"],"cssclasses":""}
 ---
 
-![Obsidian](https://obsidian.md/images/screenshot-1.0-hero-combo.png)
+![[images/screenshot-1.0-hero-combo.png]]
 На основе имеющейся документации и актуальной информации о Quartz 4, вот основные точки кастомизации:
 
 ---
