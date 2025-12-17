@@ -3,122 +3,130 @@
 ---
 
 ![[images/123.png]]
+## Рекомендуемые размеры изображений для превью
+
+Для корректного отображения изображений в карточках превью без появления полей или искажения пропорций:
+
+- **Рекомендуемый размер**: 400x300 пикселей (соотношение сторон 4:3)
+- **Минимальный размер**: 300x200 пикселей
+- **Максимальный размер**: 800x600 пикселей
+- **Форматы**: PNG, JPG, WebP
+
+Изображения будут автоматически масштабироваться и подгоняться под размеры контейнера с помощью CSS свойства `object-fit: cover`, которое сохраняет пропорции и обрезает лишнее.
+
+---
+
 На основе имеющейся документации и актуальной информации о Quartz 4, вот основные точки кастомизации:
 
 ---
 
 ## 1. Основные настройки в `quartz.config.ts`
 
-Это главный файл конфигурации. Вот ключевые параметры:
+Это главный файл конфигурации. Вот ключевые параметры (актуальные поля соответствуют коду в `quartz.config.ts`):
 
 ```typescript
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "🧠 Мой Цифровой Сад",        // Название сайта (можно с эмодзи вместо логотипа)
-    enableSPA: true,                          // Single Page App — быстрая навигация
-    enablePopovers: true,                     // Подсказки при наведении
-    locale: "ru-RU",                          // Локаль
-    baseUrl: "yoursite.com",                  // Домен (без https://)
-    
-    ignorePatterns: [
-      "_private",                             // Папка для черновиков
-      "_templates",                           // Шаблоны
-      ".obsidian",                            // Служебные файлы Obsidian
-    ],
-    
+    pageTitle: "🧠 Мой Цифровой Сад",
+    pageTitleSuffix: "",
+    enableSPA: true,
+    enablePopovers: true,
+    analytics: { provider: "plausible" },
+    locale: "ru-RU",
+    baseUrl: "yoursite.com",
+
+    // В коде по умолчанию используются без подчёркиваний
+    ignorePatterns: ["private", "templates", ".obsidian"],
+
+    // Какой тип даты брать по умолчанию: "created" | "modified" | "published"
+    defaultDateType: "modified",
+
     theme: {
+      // Дополнительно доступны опции шрифтов/кеша CDN
+      fontOrigin: "googleFonts",
+      cdnCaching: true,
+
       typography: {
-        header: "Merriweather",               // Шрифт заголовков
-        body: "Source Sans Pro"               // Шрифт основного текста
+        header: "Merriweather",
+        body: "Source Sans Pro",
+        code: "IBM Plex Mono",
       },
+
+      // Ключи цветов соответствуют реальной структуре
       colors: {
         lightMode: {
-          light: "#faf8f3",                   // Фон
-          lightgray: "#e5e5e5",               // Второстепенные элементы
-          gray: "#b8b8b8",                    // Текст (вторичный)
-          darkgray: "#4e4e4e",                // Текст (основной)
-          dark: "#2b2b2b",                    // Темные элементы
-          success: "#a3be8c",                 // Успех (зелёный)
-          warning: "#ebcb8b",                 // Предупреждение (жёлтый)
-          error: "#bf616a",                   // Ошибка (красный)
-          secondary: "#7fbbb3",               // Вторичный цвет (голубой)
-          tertiary: "#d08770",                // Третичный цвет (оранжевый)
-          highlight: "rgba(127, 187, 179, 0.15)", // Подсветка
+          light: "#faf8f3",
+          lightgray: "#e5e5e5",
+          gray: "#b8b8b8",
+          darkgray: "#4e4e4e",
+          dark: "#2b2b2b",
+          secondary: "#7fbbb3",
+          tertiary: "#d08770",
+          highlight: "rgba(127, 187, 179, 0.15)",
+          textHighlight: "#fff23688",
         },
         darkMode: {
-          light: "#1e1e1e",                   // Фон в тёмном режиме
+          light: "#1e1e1e",
           lightgray: "#393b44",
           gray: "#646464",
           darkgray: "#d4d4d4",
           dark: "#ebebec",
-          success: "#a3be8c",
-          warning: "#ebcb8b",
-          error: "#bf616a",
-          secondary: "#7fbbb3",
-          tertiary: "#d08770",
-          highlight: "rgba(127, 187, 179, 0.20)",
+          secondary: "#7b97aa",
+          tertiary: "#84a59d",
+          highlight: "rgba(143, 159, 169, 0.15)",
+          textHighlight: "#b3aa0288",
         },
       },
     },
   },
-  
+
   plugins: {
     transformers: [/* трансформеры */],
     filters: [/* фильтры */],
     emitters: [/* эмиттеры */],
   },
-};
+}
 ```
-
----
-
-## 2. Настройка меню и навигации в `quartz.layout.ts`
-
-Вот как выглядит структура макета страницы:
+ (актуально для `defaultContentPageLayout`):
 
 ```typescript
 export const defaultContentPageLayout: PageLayout = {
-  // Элементы в шапке страницы
   beforeBody: [
     Component.ConditionalRender({
-      component: Component.Breadcrumbs(),     // Хлебные крошки
+      component: Component.Breadcrumbs(),
       condition: (page) => page.fileData.slug !== "index",
     }),
-    Component.ArticleTitle(),                 // Заголовок статьи
-    Component.ContentMeta(),                  // Мета-информация (дата, теги)
-    Component.TagList(),                      // Список тегов
+    Component.ArticleTitle(),
+    Component.ContentMeta(),
+    Component.TagList(),
   ],
-  
-  // Левая боковая панель (навигация)
   left: [
-    Component.PageTitle(),                    // Название сайта
+    Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
-    Component.Explorer(),                     // Файловая структура (меню папок)
-    Component.RecentNotes(),                  // Последние заметки
+    Component.Flex({
+      components: [
+        { Component: Component.Search(), grow: true },
+        { Component: Component.Darkmode() },
+        { Component: Component.ReaderMode() },
+      ],
+    }),
+    Component.Explorer(),
   ],
-  
-  // Основной контент
-  center: [
-    // Сюда попадает основной текст
-  ],
-  
-  // Правая боковая панель
   right: [
-    Component.Graph(),                        // Граф связей
-    Component.DesktopOnly(Component.TableOfContents()), // Содержание
-    Component.Backlinks(),                    // Обратные ссылки
+    Component.Graph(),
+    Component.DesktopOnly(Component.TableOfContents()),
+    Component.Backlinks(),
   ],
-  
-  // Футер страницы
-  afterBody: [],
-};
+}
 ```
+
+> Примечание: тип `PageLayout` включает только `beforeBody`, `left` и `right`. Для общих элементов страницы (например, `afterBody` с комментариями или футером) нужно редактировать `sharedPageComponents` (тип `SharedLayout`) в `quartz.layout.ts`.
 
 **Как добавить пользовательское меню:**
 
-1. Отредактируйте компонент `Component.Explorer()`, чтобы скрыть/отобразить нужные папки
+1. Отредактируйте компонент `Component.Explorer()` или его опции, чтобы скрыть/отобразить нужные папки
 2. Используйте `ignorePatterns` в `quartz.config.ts` для скрытия папок
-3. Добавьте ссылки вручную в `index.md`:
+3. Добавьте ссылки вручную в `index.md` (если хотите простое меню)
 
 ```markdown
 ---
@@ -145,21 +153,36 @@ pageTitle: "🪴 My Garden"  // Логотип через эмодзи
 
 **Вариант 2: Через логотип-файл (сложнее)**
 
-1. Поместите логотип в `content/static/logo.png`
-2. Создайте кастомный компонент или отредактируйте `Component.PageTitle()`
-3. В `quartz/components/PageTitle.tsx`:
+1. Поместите логотип в `content/static/logo.png` — `Assets` эмиттер скопирует его в выходную папку как `/static/logo.png`.
+2. Отредактируйте `quartz/components/PageTitle.tsx`, добавив изображение рядом с названием (следуя существующему стилю компонентов):
 
 ```typescript
-export default (props: QuartzComponentProps) => {
+import { pathToRoot } from "../util/path"
+import { QuartzComponent, QuartzComponentProps } from "./types"
+import { classNames } from "../util/lang"
+import { i18n } from "../i18n"
+
+const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
+  const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
+  const baseDir = pathToRoot(fileData.slug!)
   return (
-    <div class="page-title">
-      <a href="/">
-        <img src="/static/logo.png" alt="Logo" style="height: 40px;" />
+    <h2 class={classNames(displayClass, "page-title")}>
+      <a href={baseDir}>
+        <img src="/static/logo.png" alt="Logo" style="height: 28px; margin-right: 8px;" />
+        {title}
       </a>
-    </div>
+    </h2>
   )
 }
+
+PageTitle.css = `
+.page-title img { vertical-align: middle; }
+`
+
+export default (() => PageTitle) satisfies QuartzComponentConstructor
 ```
+
+Это соответствует шаблону компонентов в проекте и корректно использует `cfg`, `fileData` и встроенную систему стилей.
 
 ---
 
@@ -228,41 +251,43 @@ Quartz 4 имеет два основных макета:
 **Чтобы создать кастомный макет:**
 
 1. Отредактируйте `quartz.layout.ts`
-2. Создайте новый `PageLayout` объект
+2. Создайте новый `PageLayout` объект (учитывайте, что `PageLayout` содержит только `beforeBody`, `left` и `right`)
 3. Назначьте его в `defaultContentPageLayout` или `defaultListPageLayout`
 
 ```typescript
 export const customPageLayout: PageLayout = {
-  beforeBody: [
-    Component.Breadcrumbs(),
-    Component.ArticleTitle(),
-  ],
+  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle()],
   left: [
     Component.PageTitle(),
-    Component.Search(),
+    Component.Flex({ components: [{ Component: Component.Search(), grow: true }] }),
   ],
-  right: [
-    Component.TableOfContents(),
-  ],
-  afterBody: [
-    Component.Comments(),  // Если установлен
-  ],
-};
+  right: [Component.TableOfContents()],
+}
 ```
 
+Чтобы добавить общие элементы страницы, например комментарии, редактируйте `sharedPageComponents.afterBody` (тип `SharedLayout`) в `quartz.layout.ts`:
+
+```typescript
+export const sharedPageComponents: SharedLayout = {
+  head: Component.Head(),
+  header: [],
+  afterBody: [Component.Comments()], // <-- сюда добавляются общие секции страницы
+  footer: Component.Footer({ /* ... */ }),
+}
+```
 ---
 
 ## 6. Быстрый чек-лист кастомизации
 
 - [ ] Изменил `pageTitle` в `quartz.config.ts`
 - [ ] Задал правильный `baseUrl`
-- [ ] Настроил `ignorePatterns` для скрытия черновиков
-- [ ] Выбрал шрифты в `typography`
-- [ ] Задал цвета в `colors.lightMode` и `colors.darkMode`
-- [ ] Отредактировал `quartz.layout.ts` — добавил/убрал компоненты в панелях
+- [ ] Настроил `ignorePatterns` для скрытия черновиков (без подчёркиваний: `private`, `templates` и т.д.)
+- [ ] Выбрал шрифты в `typography` (header, body, code)
+- [ ] Задал цвета в `colors.lightMode` и `colors.darkMode` (используйте `secondary`, `tertiary`, `highlight`, `textHighlight`)
+- [ ] Отредактировал `quartz.layout.ts` — добавил/убрал компоненты в `beforeBody`, `left`, `right`
 - [ ] Создал `index.md` с главным меню
-- [ ] Добавил логотип (эмодзи или файл)
-- [ ] Проверил в локальном режиме: `npm run dev`
+- [ ] Добавил логотип (эмодзи или файл в `content/static`)
+- [ ] Проверил локально: `npx quartz build --serve -d <output-dir>` или `npm run docs`
 - [ ] Опубликовал через Publication Center
 
 ---
@@ -270,14 +295,15 @@ export const customPageLayout: PageLayout = {
 ## 7. Полезные ссылки и команды
 
 ```bash
-# Локальный запуск (для тестирования)
-npm run dev
+# Локальный запуск / просмотр (локальный preview)
+npx quartz build --serve -d <output-dir>
+# или (специальный скрипт для документации)
+npm run docs  # запускает: npx quartz build --serve -d docs
 
-# Сборка статического сайта
-npm run build
-
-# Просмотр результата
-npm run preview
+# Сборка статического сайта (production)
+npx quartz build -d <output-dir>
+# Получить информацию о бандле/артефактах
+npx quartz build --bundleInfo -d docs
 ```
 
 **Ключевые файлы для редактирования:**
