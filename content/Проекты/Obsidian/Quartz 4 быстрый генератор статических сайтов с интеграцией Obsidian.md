@@ -1,14 +1,15 @@
 ---
 publish: true
-title: Quartz 4 быстрый генератор статических сайтов с интеграцией Obsidian
-description: Brief description for social media
+title: Quartz4
+description: Quartz_4
 created: 2025-12-16
-modified: 2025-12-16T10:31:15.111+03:00
+updated: 2025-12-17 19:12
 tags:
   - obsidian
   - Quartz
 cssclasses: ""
 draft: false
+preview_image: /images/qyartz4.jpeg
 ---
 ## Quartz 4: быстрый генератор статических сайтов с интеграцией Obsidian
 

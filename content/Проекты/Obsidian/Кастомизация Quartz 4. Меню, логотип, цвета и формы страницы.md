@@ -1,17 +1,18 @@
 ---
 publish: true
-title: Кастомизация Quartz 4
-description:
+title: Custom Quartz 4
+description: Custom_Quartz 4
 created: 2025-12-16
-modified: 2025-12-16T10:31:15.111+03:00
+updated: 2025-12-17 17:08
 tags:
   - tutorial
   - obsidian
   - Quartz
 cssclasses: ""
 draft: false
-preview_image: /images/123.png
+preview_image: /images/castom.jpeg
 ---
+
 ![[123.png]]
 ## Рекомендуемые размеры изображений для превью
 

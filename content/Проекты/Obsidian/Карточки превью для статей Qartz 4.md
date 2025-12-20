@@ -1,7 +1,7 @@
 ---
 publish: true
-title: Карточки превью для статей Qartz 4
-description:
+title: Cart Preveiw Qartz 4
+description: Cart_Preveiw_Qartz 4
 created: 2025-12-17
 modified: 2025-12-16T10:31:15.111+03:00
 tags:
@@ -11,7 +11,7 @@ tags:
   - Quartz
 cssclasses: ""
 draft: false
-preview_image: /images/1234.png
+preview_image: /images/cart1.jpeg
 ---
 # Реализация компонента PagePreviewList в Quartz 4
 

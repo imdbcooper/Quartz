@@ -1,7 +1,7 @@
 ---
 publish: true
 title: Quartz-Setup
-description: Brief description for social media
+description: Quartz_Setup
 created: 2025-12-16
 modified: 2025-12-16T10:31:15.111+03:00
 tags:
@@ -10,8 +10,9 @@ tags:
   - Quartz
 cssclasses: ""
 draft: false
+preview_image: /images/setupquartz.jpeg
 ---
-# Установка и настройка сайта на Obsidian и Quartz
+# Установка и настройка сайта на Quartz и настройка Obsidian
 
 Quartz + Obsidian позволяют превратить локальные заметки в полноценный статический сайт, который автоматически публикуется на GitHub Pages. Ниже — пошаговое руководство, основанное на реальных проблемах и их решениях.
 
