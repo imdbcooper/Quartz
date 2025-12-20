@@ -67,22 +67,27 @@ export const PagePreviewList: QuartzComponent = ({ cfg, fileData, allFiles, limi
 
   return (
     <div class="page-preview-list">
-      {previewData.map((preview) => (
-        <a href={resolveRelative(fileData.slug!, preview.slug)} class="preview-card internal">
-          <div class="preview-image-container">
-            {preview.previewImage ? (
-              <img src={resolveRelative(fileData.slug!, preview.previewImage as FullSlug)} alt={preview.title} class="preview-image" />
-            ) : (
-              <div class="placeholder-image">
-                <span>{i18n(cfg.locale).components.previewList.noImage}</span>
+      {previewData.map((preview) => {
+        const href = resolveRelative(fileData.slug!, preview.slug)
+        return (
+          <article class="preview-card">
+            <a href={href} class="preview-link">
+              <div class="preview-image-container">
+                {preview.previewImage ? (
+                  <img src={resolveRelative(fileData.slug!, preview.previewImage as FullSlug)} alt={preview.title} class="preview-image" />
+                ) : (
+                  <div class="placeholder-image">
+                    <span>{i18n(cfg.locale).components.previewList.noImage}</span>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-          <div class="preview-content">
-            <h3 class="preview-title">{preview.title}</h3>
-            {preview.description && (
-              <p class="preview-description">{preview.description}</p>
-            )}
+              <div class="preview-content">
+                <h3 class="preview-title">{preview.title}</h3>
+                {preview.description && (
+                  <p class="preview-description">{preview.description}</p>
+                )}
+              </div>
+            </a>
             <div class="preview-meta">
               {preview.date && (
                 <span class="preview-date">
@@ -104,9 +109,9 @@ export const PagePreviewList: QuartzComponent = ({ cfg, fileData, allFiles, limi
                 </ul>
               )}
             </div>
-          </div>
-        </a>
-      ))}
+          </article>
+        )
+      })}
     </div>
   )
 }
@@ -114,81 +119,112 @@ export const PagePreviewList: QuartzComponent = ({ cfg, fileData, allFiles, limi
 PagePreviewList.css = `
 .page-preview-list {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 1.5rem;
- margin-top: 1rem;
+  margin-top: 1rem;
+  max-width: 100%;
 }
 
 .preview-card {
-  display: block;
-  text-decoration: none;
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--lightgray);
-  border-radius: 8px;
+  border-radius: 12px;
   overflow: hidden;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   background: var(--light);
-  color: var(--dark);
+  height: 100%;
 }
 
 .preview-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+}
+
+.preview-link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: inherit;
+  flex: 1;
+}
+
+.preview-link:hover {
+  text-decoration: none;
 }
 
 .preview-image-container {
   width: 100%;
-  height: 180px;
+  aspect-ratio: 16 / 10;
   overflow: hidden;
+  flex-shrink: 0;
+  background-color: var(--lightgray);
 }
 
 .preview-image {
- width: 100%;
+  width: 100%;
   height: 100%;
   object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.preview-card:hover .preview-image {
+  transform: scale(1.05);
 }
 
 .placeholder-image {
   width: 100%;
   height: 100%;
   display: flex;
- align-items: center;
+  align-items: center;
   justify-content: center;
   background-color: var(--lightgray);
   color: var(--gray);
+  font-size: 0.9rem;
 }
 
 .preview-content {
-  padding: 1rem;
+  padding: 1rem 1.2rem 0.5rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .preview-title {
- margin: 0 0 0.5rem 0;
-  font-size: 1.2rem;
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: 600;
   color: var(--dark);
+  line-height: 1.4;
 }
 
 .preview-description {
-  margin: 0.5rem 0;
+  margin: 0.25rem 0;
   color: var(--gray);
-  line-height: 1.4;
+  font-size: 0.9rem;
+  line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+  flex: 1;
 }
 
 .preview-meta {
-  margin-top: 0.75rem;
+  padding: 0.75rem 1.2rem 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
+  border-top: 1px solid var(--lightgray);
+  background: var(--light);
 }
 
 .preview-date {
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--gray);
+  opacity: 0.8;
 }
 
 .preview-tags {
@@ -196,13 +232,27 @@ PagePreviewList.css = `
   list-style: none;
   padding: 0;
   margin: 0;
-  gap: 0.5rem;
- flex-wrap: wrap;
+  gap: 0.4rem;
+  flex-wrap: wrap;
   justify-content: flex-end;
 }
 
 .preview-tags li {
   margin: 0;
+}
+
+.preview-tags .tag-link {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background-color: var(--highlight);
+  color: var(--secondary);
+  transition: background-color 0.2s ease;
+}
+
+.preview-tags .tag-link:hover {
+  background-color: var(--tertiary);
+  color: var(--light);
 }
 
 @media (max-width: 768px) {
@@ -213,6 +263,10 @@ PagePreviewList.css = `
   .preview-meta {
     flex-direction: column;
     align-items: flex-start;
+  }
+  
+  .preview-tags {
+    justify-content: flex-start;
   }
 }
 `
