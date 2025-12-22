@@ -1,0 +1,551 @@
+@use "../../styles/variables.scss" as *;
+
+
+// Mobile menu behavior
+@media all and ($mobile) {
+  .page > #quartz-body {
+    & > :not(.sidebar.left:has(.card-menu)) {
+      transition: transform 300ms ease-in-out;
+    }
+    &.lock-scroll > :not(.sidebar.left:has(.card-menu)) {
+      transform: translateX(100dvw);
+      transition: transform 300ms ease-in-out;
+    }
+
+    .sidebar.left:has(.card-menu) {
+      box-sizing: border-box;
+      position: sticky;
+      background-color: var(--light);
+      padding: 1rem 0;
+      margin: 0;
+    }
+
+    .hide-until-loaded ~ .card-menu-content {
+      display: none;
+    }
+  }
+}
+
+.card-menu {
+  display: flex;
+  flex-direction: column;
+  overflow-y: visible;
+  min-height: 1.2rem;
+  flex: 1 1 auto;
+
+  @media all and ($mobile) {
+    order: -1;
+    height: initial;
+    overflow: hidden;
+    flex-shrink: 0;
+    align-self: flex-start;
+    margin-top: auto;
+    margin-bottom: auto;
+  }
+
+  // Toggle buttons - only show mobile hamburger
+  button.mobile-menu {
+    display: none;
+  }
+
+  @media all and ($mobile) {
+    button.mobile-menu {
+      display: flex;
+    }
+  }
+
+  svg {
+    pointer-events: all;
+    transition: transform 0.35s ease;
+
+    & > polyline {
+      pointer-events: none;
+    }
+  }
+}
+
+button.mobile-menu {
+  background-color: transparent;
+  border: none;
+  text-align: left;
+  cursor: pointer;
+  padding: 0;
+  color: var(--dark);
+  display: flex;
+  align-items: center;
+}
+
+// Card Menu Content
+.card-menu-content {
+  list-style: none;
+  margin-top: 0;
+
+  // Desktop: always visible with scrolling
+  @media all and not ($mobile) {
+    display: block;
+    visibility: visible;
+    overflow-y: auto;
+    max-height: calc(100vh - 12rem);
+    padding-right: 0.5rem;
+    
+    // Custom scrollbar styling
+    &::-webkit-scrollbar {
+      width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: var(--gray);
+      border-radius: 3px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--darkgray);
+    }
+  }
+
+  @media all and ($mobile) {
+    box-sizing: border-box;
+    z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    margin-top: 0;
+    background-color: var(--light);
+    max-width: 100vw;
+    width: 100vw;
+    transform: translateX(-100vw);
+    transition:
+      transform 200ms ease,
+      visibility 200ms ease;
+    overflow-y: auto;
+    padding: 1.5rem;
+    padding-top: 4rem;
+    height: 100dvh;
+    max-height: 100dvh;
+    visibility: hidden;
+  }
+}
+
+// Mobile collapsed/expanded states
+.card-menu {
+  @media all and ($mobile) {
+    // Default state is collapsed on mobile
+    flex: 0 0 34px;
+
+    & > .card-menu-content {
+      transform: translateX(-100vw);
+      visibility: hidden;
+    }
+
+    &:not(.collapsed) {
+      & > .card-menu-content {
+        transform: translateX(0);
+        visibility: visible;
+      }
+    }
+
+    .mobile-menu {
+      position: fixed;
+      top: 0.75rem;
+      left: 0.75rem;
+      margin: 0;
+      padding: 5px;
+      z-index: 101;
+      background-color: var(--light);
+      border-radius: 4px;
+
+      .lucide-menu {
+        stroke: var(--darkgray);
+      }
+    }
+  }
+}
+
+// Header styles - only show on mobile
+.card-menu-header {
+  text-align: center;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+
+  @media all and not ($mobile) {
+    display: none;
+  }
+}
+
+.card-menu-title {
+  font-size: 1.5rem;
+  font-weight: $boldWeight;
+  margin: 0 0 0.25rem 0;
+  color: var(--dark);
+}
+
+.card-menu-meta {
+  font-size: 0.85rem;
+  color: var(--gray);
+}
+
+// Navigation buttons
+.card-menu-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+
+  @media all and not ($mobile) {
+    display: none;
+  }
+}
+
+.nav-button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--lightgray);
+  border-radius: 20px;
+  font-size: 0.85rem;
+  color: var(--dark);
+  text-decoration: none;
+  transition: all 0.2s ease;
+  background-color: transparent;
+
+  &:hover {
+    background-color: var(--lightgray);
+    color: var(--secondary);
+  }
+}
+
+// Menu sections
+.card-menu-sections {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+// Card section (top-level folders)
+.card-section {
+  background-color: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+}
+
+.card-section-header-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: transparent;
+  border: none;
+  text-align: left;
+  color: var(--dark);
+  cursor: pointer;
+}
+
+.card-section-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--secondary);
+
+  svg {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.card-section-title {
+  color: var(--dark);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: $semiBoldWeight;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  
+  &:hover {
+    color: var(--secondary);
+  }
+}
+
+.card-section-spacer {
+  flex: 1;
+  cursor: pointer;
+  min-width: 20px;
+}
+
+.card-section-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  color: var(--gray);
+  
+  &[aria-expanded="true"] {
+    .card-section-chevron svg {
+      transform: rotate(180deg);
+    }
+  }
+  
+  &:hover {
+    color: var(--darkgray);
+  }
+}
+
+.card-section-chevron {
+  display: flex;
+  align-items: center;
+  color: var(--gray);
+  transition: transform 0.3s ease;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.3s ease;
+  }
+}
+
+.card-section-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  
+  &.open {
+    max-height: 1000px;
+    transition: max-height 0.5s ease-in;
+  }
+}
+
+.card-section-items {
+  list-style: none;
+  padding: 0 1rem 1rem 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+// Card folder (nested folders)
+.card-folder {
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-folder-header-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: var(--highlight);
+  border: 1px solid var(--lightgray);
+  border-radius: 8px;
+  text-align: left;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: var(--lightgray);
+  }
+}
+
+.card-folder-title {
+  color: var(--dark);
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: $semiBoldWeight;
+  transition: color 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  
+  &:hover {
+    color: var(--secondary);
+  }
+}
+
+.card-folder-spacer {
+  flex: 1;
+  cursor: pointer;
+  min-width: 20px;
+}
+
+.card-folder-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  
+  &[aria-expanded="true"] {
+    .card-folder-chevron svg {
+      transform: rotate(180deg);
+    }
+  }
+}
+
+.card-folder-chevron {
+  display: flex;
+  align-items: center;
+  color: var(--gray);
+
+  svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+  }
+}
+
+.card-folder-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+  background-color: var(--highlight);
+  border: 1px solid var(--lightgray);
+  border-top: none;
+  border-radius: 0 0 8px 8px;
+
+  &.open {
+    max-height: 500px;
+    transition: max-height 0.5s ease-in;
+  }
+}
+
+.card-folder:has(.card-folder-content.open) .card-folder-header-container {
+  border-radius: 8px 8px 0 0;
+  border-bottom-color: transparent;
+}
+
+.card-folder-items {
+  list-style: none;
+  padding: 0.5rem 1rem;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+// Link items
+.card-link-item {
+  border-radius: 6px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: var(--lightgray);
+  }
+}
+
+.card-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--darkgray);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s ease;
+
+  &:hover {
+    color: var(--secondary);
+  }
+
+  &.active {
+    color: var(--secondary);
+    font-weight: $semiBoldWeight;
+  }
+}
+
+.card-link-icon {
+  display: flex;
+  align-items: center;
+  color: var(--gray);
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+// Simple file items (non-folder top-level items)
+.card-menu-item {
+  background-color: var(--light);
+  border: 1px solid var(--lightgray);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+
+  &:hover {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: var(--highlight);
+  }
+}
+
+.card-item-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  color: var(--dark);
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: $semiBoldWeight;
+  
+  &:hover {
+    color: var(--secondary);
+  }
+
+  &.active {
+    color: var(--secondary);
+  }
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23284b63' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+  }
+}
+
+// Footer
+.card-menu-footer {
+  text-align: center;
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--lightgray);
+
+  a {
+    color: var(--secondary);
+    font-weight: $semiBoldWeight;
+
+    &:hover {
+      color: var(--tertiary);
+    }
+  }
+
+  @media all and not ($mobile) {
+    display: none;
+  }
+}
+
+// Prevent scrolling when menu is open
+.mobile-no-scroll {
+  @media all and ($mobile) {
+    overscroll-behavior: none;
+    overflow: hidden;
+  }
+}
+
