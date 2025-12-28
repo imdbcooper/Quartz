@@ -1,7 +1,7 @@
 ---
 publish: true
-title: Quartz4
-description: Quartz_4
+title: Тесная интеграция Quartz 4 с  Obsidian
+description: Quartz 4 — это современный, минималистичный и производительный генератор статических сайтов, созданный с акцентом на создание личных веб-пространств в стиле "второго мозга" (Second Brain).
 created: 2025-12-16
 updated: 2025-12-17 19:12
 tags:

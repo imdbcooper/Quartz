@@ -1,7 +1,7 @@
 ---
 publish: true
-title: Custom Quartz 4
-description: Custom_Quartz 4
+title: Кастомизация Quartz 4
+description: Кастомизация Quartz 4. Меню, логотип, цвета и формы страницы
 created: 2025-12-16
 updated: 2025-12-17 17:08
 tags:

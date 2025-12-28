@@ -1,7 +1,7 @@
 ---
 publish: true
-title: Quartz-Setup
-description: Quartz_Setup
+title: Установка и настройка Quartz 4
+description: Quartz + Obsidian позволяют превратить локальные заметки в полноценный статический сайт, который автоматически публикуется на GitHub Pages
 created: 2025-12-16
 modified: 2025-12-16T10:31:15.111+03:00
 tags:

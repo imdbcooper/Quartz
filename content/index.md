@@ -3,6 +3,8 @@ title: Главное меню
 description: My personal notes and thoughts
 publish: true
 ---
+[[Кoнтакты]] [[Кoнтакты]] [[Кoнтакты]]
+
 
 ## Welcomee! 👋
 

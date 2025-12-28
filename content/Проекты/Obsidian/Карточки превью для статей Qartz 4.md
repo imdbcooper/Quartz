@@ -1,7 +1,7 @@
 ---
 publish: true
-title: Cart Preveiw Qartz 4
-description: Cart_Preveiw_Qartz 4
+title: Карточки превью для статей Qartz 4
+description: Создание компонента PagePreviewList, который будет отображать статьи в виде карточек с визуальным привлечением, позволяя пользователям быстро ознакомиться с содержимым страниц.
 created: 2025-12-17
 modified: 2025-12-16T10:31:15.111+03:00
 tags:
