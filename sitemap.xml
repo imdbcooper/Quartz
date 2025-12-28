@@ -1,6 +1,6 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml"><url>
     <loc>https://quartz.jzhao.xyz/</loc>
-    <lastmod>2025-12-22T15:08:33.000Z</lastmod>
+    <lastmod>2025-12-28T19:13:11.000Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/%D0%91%D0%BB%D0%BE%D0%B3/Index</loc>
     <lastmod>2025-12-17T19:38:00.000Z</lastmod>
@@ -14,6 +14,12 @@
     <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Audio-Scribe/</loc>
     <lastmod>2025-12-17T17:37:00.000Z</lastmod>
   </url><url>
+    <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Custom-%D0%BC%D0%B5%D0%BD%D1%8E-%D0%B4%D0%BB%D1%8F-Qartz-4</loc>
+    <lastmod>2025-12-28T21:57:00.000Z</lastmod>
+  </url><url>
+    <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Gemini-CLI-%D0%B2-Obsidian-%D0%9F%D0%BE%D0%BB%D0%BD%D1%8B%D0%B9-%D0%B3%D0%B0%D0%B9%D0%B4-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B8-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8</loc>
+    <lastmod>2025-12-28T21:51:00.000Z</lastmod>
+  </url><url>
     <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Quartz-4-%D0%B1%D1%8B%D1%81%D1%82%D1%80%D1%8B%D0%B9-%D0%B3%D0%B5%D0%BD%D0%B5%D1%80%D0%B0%D1%82%D0%BE%D1%80-%D1%81%D1%82%D0%B0%D1%82%D0%B8%D1%87%D0%B5%D1%81%D0%BA%D0%B8%D1%85-%D1%81%D0%B0%D0%B9%D1%82%D0%BE%D0%B2-%D1%81-%D0%B8%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D1%86%D0%B8%D0%B5%D0%B9-Obsidian</loc>
     <lastmod>2025-12-17T19:12:00.000Z</lastmod>
   </url><url>
@@ -26,8 +32,14 @@
     <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%9A%D0%B0%D1%81%D1%82%D0%BE%D0%BC%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F-Quartz-4.-%D0%9C%D0%B5%D0%BD%D1%8E,-%D0%BB%D0%BE%D0%B3%D0%BE%D1%82%D0%B8%D0%BF,-%D1%86%D0%B2%D0%B5%D1%82%D0%B0-%D0%B8-%D1%84%D0%BE%D1%80%D0%BC%D1%8B-%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D1%8B</loc>
     <lastmod>2025-12-17T17:08:00.000Z</lastmod>
   </url><url>
+    <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%9F%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B5%D0%B9-%D0%BE%D1%82-Perplexity-%D0%BA-Obsidian-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD-Copilot</loc>
+    <lastmod>2025-12-28T22:02:00.000Z</lastmod>
+  </url><url>
     <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B0-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B0-Quartz-4</loc>
     <lastmod>2025-12-16T07:31:15.111Z</lastmod>
+  </url><url>
+    <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%AD%D0%BC%D0%B1%D0%B5%D0%B4%D0%B4%D0%B8%D0%BD%D0%B3%D0%B8-%D0%B2-Obsidian-Copilot-%D0%B4%D0%BB%D1%8F-%D0%B8%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D0%B0-%D0%B7%D0%B0%D0%BC%D0%B5%D1%82%D0%BE%D0%BA</loc>
+    <lastmod>2025-12-28T21:59:00.000Z</lastmod>
   </url><url>
     <loc>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/Index</loc>
     <lastmod>2025-12-17T19:26:00.000Z</lastmod>
