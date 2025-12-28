@@ -41,7 +41,7 @@ let currentMenuState: Array<FolderState> = []
 function toggleMenu(this: HTMLElement) {
   const nearestMenu = this.closest(".card-menu") as HTMLElement
   if (!nearestMenu) return
-  
+
   const menuCollapsed = nearestMenu.classList.toggle("collapsed")
   nearestMenu.setAttribute(
     "aria-expanded",
@@ -60,17 +60,17 @@ function toggleMenu(this: HTMLElement) {
 function toggleSection(evt: MouseEvent) {
   const target = evt.target as HTMLElement
   if (!target) return
-  
+
   // Find the header container that was clicked
   let container = target.closest(".card-folder-header-container, .card-section-header-container") as MaybeHTMLElement
-  
+
   // If target is the container itself, use it directly
   if (!container && (target.classList.contains("card-folder-header-container") || target.classList.contains("card-section-header-container"))) {
     container = target as HTMLElement
   }
-  
+
   if (!container) return
-  
+
   // Check if we clicked on the link itself (not its children)
   const titleLink = container.querySelector(".card-folder-title, .card-section-title") as HTMLAnchorElement
   if (titleLink && (target === titleLink || target.closest("a.card-folder-title, a.card-section-title") === titleLink)) {
@@ -79,21 +79,21 @@ function toggleSection(evt: MouseEvent) {
       return // Allow navigation
     }
   }
-  
+
   // For all other clicks on the container (spacer, button, empty space, SVG), toggle
   evt.preventDefault()
   evt.stopPropagation()
-  
+
   // Get the toggle button from the container
   const toggleButton = container.querySelector(".card-folder-toggle, .card-section-toggle") as MaybeHTMLElement
   if (!toggleButton) {
     return
   }
-  
+
   // Find the parent li element
   const li = container.parentElement as MaybeHTMLElement
   if (!li) return
-  
+
   // Find the content element
   const content = li.querySelector(".card-folder-content, .card-section-content") as MaybeHTMLElement
   if (!content) return
@@ -101,13 +101,48 @@ function toggleSection(evt: MouseEvent) {
   // Toggle the expanded state
   const isExpanded = toggleButton.getAttribute("aria-expanded") === "true"
   const newExpandedState = !isExpanded
-  
+
   // Update aria-expanded attribute
   toggleButton.setAttribute("aria-expanded", newExpandedState ? "true" : "false")
-  
+
   // Update content visibility
   if (newExpandedState) {
     content.classList.add("open")
+
+    // Accordion: close other sibling items (recursive accordion)
+    if (li.parentElement) {
+      const siblings = Array.from(li.parentElement.children) as HTMLElement[]
+      for (const sibling of siblings) {
+        if (sibling === li) continue
+
+        const siblingBtn = sibling.querySelector(".card-folder-toggle, .card-section-toggle")
+        const siblingContent = sibling.querySelector(".card-folder-content, .card-section-content")
+
+        if (siblingBtn && siblingContent) {
+          siblingBtn.setAttribute("aria-expanded", "false")
+          siblingContent.classList.remove("open")
+
+          // Update saved state for sibling
+          const siblingTitle = sibling.querySelector(".card-folder-title, .card-section-title") as HTMLAnchorElement
+          if (siblingTitle) {
+            const folderPath = siblingTitle.getAttribute("data-for") || siblingTitle.href
+            if (folderPath) {
+              const path = (typeof folderPath === "string" && folderPath.startsWith("/")
+                ? folderPath.replace(/\/$/, "")
+                : folderPath) as FullSlug
+
+              const existingState = currentMenuState.find((item) => item.path === path)
+              if (existingState) {
+                existingState.collapsed = true
+              } else {
+                currentMenuState.push({ path, collapsed: true })
+              }
+            }
+          }
+        }
+      }
+      localStorage.setItem("cardMenuState", JSON.stringify(currentMenuState))
+    }
   } else {
     content.classList.remove("open")
   }
@@ -116,7 +151,7 @@ function toggleSection(evt: MouseEvent) {
   if (titleLink) {
     const folderPath = titleLink.getAttribute("data-for") || titleLink.href
     if (folderPath) {
-      const path = typeof folderPath === "string" && folderPath.startsWith("/") 
+      const path = typeof folderPath === "string" && folderPath.startsWith("/")
         ? folderPath.replace(/\/$/, "") as FullSlug
         : folderPath as FullSlug
       const existingState = currentMenuState.find((item) => item.path === path)
@@ -133,20 +168,20 @@ function toggleSection(evt: MouseEvent) {
 function createFileLink(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElement {
   const li = document.createElement("li")
   li.className = "card-link-item"
-  
+
   const a = document.createElement("a")
   a.href = resolveRelative(currentSlug, node.slug)
   a.dataset.for = node.slug
   a.className = "card-link"
-  
+
   const iconSpan = document.createElement("span")
   iconSpan.className = "card-link-icon"
   iconSpan.innerHTML = icons.file
-  
+
   const textSpan = document.createElement("span")
   textSpan.className = "card-link-text"
   textSpan.textContent = node.displayName
-  
+
   a.appendChild(iconSpan)
   a.appendChild(textSpan)
   li.appendChild(a)
@@ -172,9 +207,9 @@ function createNestedFolder(
   const toggleButton = li.querySelector(".card-folder-toggle") as HTMLButtonElement
   const content = li.querySelector(".card-folder-content") as HTMLElement
   const ul = content.querySelector(".card-folder-items") as HTMLUListElement
-  
+
   const folderPath = node.slug
-  
+
   // Set up title link
   if (opts.folderClickBehavior === "link") {
     titleLink.href = resolveRelative(currentSlug, folderPath)
@@ -198,12 +233,12 @@ function createNestedFolder(
   const savedState = currentMenuState.find((item) => item.path === folderPath)
   const simpleFolderPath = simplifySlug(folderPath)
   const folderIsPrefixOfCurrentSlug = simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
-  
+
   // Only open if saved state says so, OR if current path is within this folder
-  const isOpen = savedState 
-    ? !savedState.collapsed 
+  const isOpen = savedState
+    ? !savedState.collapsed
     : folderIsPrefixOfCurrentSlug
-  
+
   toggleButton.setAttribute("aria-expanded", isOpen ? "true" : "false")
   if (isOpen) {
     content.classList.add("open")
@@ -217,7 +252,7 @@ function createNestedFolder(
       ul.appendChild(createFileLink(currentSlug, child))
     }
   }
-  
+
   return li
 }
 
@@ -236,12 +271,12 @@ function createSection(
   const toggleButton = li.querySelector(".card-section-toggle") as HTMLButtonElement
   const content = li.querySelector(".card-section-content") as HTMLElement
   const ul = content.querySelector(".card-section-items") as HTMLUListElement
-  
+
   const folderPath = node.slug
-  
+
   // Set up icon
   iconSpan.innerHTML = getIconForFolder(node.displayName)
-  
+
   // Set up title link
   if (opts.folderClickBehavior === "link") {
     titleLink.href = resolveRelative(currentSlug, folderPath)
@@ -265,12 +300,12 @@ function createSection(
   const savedState = currentMenuState.find((item) => item.path === folderPath)
   const simpleFolderPath = simplifySlug(folderPath)
   const folderIsPrefixOfCurrentSlug = simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
-  
+
   // Only open if saved state says so, OR if current path is within this folder
-  const isOpen = savedState 
-    ? !savedState.collapsed 
+  const isOpen = savedState
+    ? !savedState.collapsed
     : folderIsPrefixOfCurrentSlug
-  
+
   toggleButton.setAttribute("aria-expanded", isOpen ? "true" : "false")
   if (isOpen) {
     content.classList.add("open")
@@ -291,7 +326,7 @@ function createSection(
 function createTopLevelFile(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElement {
   const li = document.createElement("li")
   li.className = "card-menu-item"
-  
+
   const a = document.createElement("a")
   a.href = resolveRelative(currentSlug, node.slug)
   a.dataset.for = node.slug
@@ -368,7 +403,7 @@ async function setupCardMenu(currentSlug: FullSlug) {
       button.addEventListener("click", toggleMenu)
       window.addCleanup(() => button.removeEventListener("click", toggleMenu))
     }
-    
+
     // Set up event delegation for folder/section toggles
     // Use event delegation on the sections container to handle all clicks
     const handleMenuClick = (evt: MouseEvent) => {
@@ -395,9 +430,8 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     const mobileToggle = menu.querySelector(".mobile-menu")
     if (!mobileToggle) continue
 
-    // Check if we're on mobile (hamburger visible)
-    const isMobile = mobileToggle.checkVisibility()
-    
+    const isMobile = (mobileToggle as any).checkVisibility()
+
     if (isMobile) {
       // Mobile: start collapsed
       menu.classList.add("collapsed")
@@ -424,18 +458,18 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
 window.addEventListener("resize", function () {
   const menu = document.querySelector(".card-menu")
   if (!menu) return
-  
+
   const mobileToggle = menu.querySelector(".mobile-menu")
   if (!mobileToggle) return
-  
-  const isMobile = mobileToggle.checkVisibility()
-  
+
+  const isMobile = (mobileToggle as any).checkVisibility()
+
   if (isMobile) {
-    // Switched to mobile - collapse menu if not already
-    if (!menu.classList.contains("collapsed")) {
-      document.documentElement.classList.add("mobile-no-scroll")
-      document.body.classList.add("mobile-no-scroll")
-    }
+    // Switched to mobile - always collapse menu to prevent blocking content
+    menu.classList.add("collapsed")
+    menu.setAttribute("aria-expanded", "false")
+    document.documentElement.classList.remove("mobile-no-scroll")
+    document.body.classList.remove("mobile-no-scroll")
   } else {
     // Switched to desktop - always show menu, remove scroll locks
     menu.classList.remove("collapsed")
