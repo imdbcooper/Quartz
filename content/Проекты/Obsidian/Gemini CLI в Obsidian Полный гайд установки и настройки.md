@@ -224,6 +224,9 @@ gemini auth status  # Проверьте статус
 
 ---
 
+## См. также
+- [[Подключение моделей от Perplexity к Obsidian через плагин Copilot|Использование Perplexity Copilot]] для поиска в интернете.
+
 ## Итого
 
 ✅ Gemini CLI установлен  
