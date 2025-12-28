@@ -25,21 +25,34 @@ export const defaultContentPageLayout: PageLayout = {
     Component.ContentMeta(),
   ],
   left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
-      ],
-    }),
+    Component.Avatar(),
+    Component.MobileOnly(
+      Component.Flex({
+        components: [
+          {
+            Component: Component.Search(),
+            grow: true,
+          },
+          { Component: Component.Darkmode() },
+          { Component: Component.ReaderMode() },
+        ],
+      }),
+    ),
     Component.CardMenu(),
   ],
   right: [
+    Component.DesktopOnly(
+      Component.Flex({
+        components: [
+          {
+            Component: Component.Search(),
+            grow: true,
+          },
+          { Component: Component.Darkmode() },
+          { Component: Component.ReaderMode() },
+        ],
+      }),
+    ),
     Component.Graph(),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
@@ -50,38 +63,64 @@ export const defaultContentPageLayout: PageLayout = {
 export const defaultListPageLayout: PageLayout = {
   beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
   left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-      ],
-    }),
+    Component.Avatar(),
+    Component.MobileOnly(
+      Component.Flex({
+        components: [
+          {
+            Component: Component.Search(),
+            grow: true,
+          },
+          { Component: Component.Darkmode() },
+        ],
+      }),
+    ),
     Component.CardMenu(),
   ],
-  right: [],
+  right: [
+    Component.DesktopOnly(
+      Component.Flex({
+        components: [
+          {
+            Component: Component.Search(),
+            grow: true,
+          },
+          { Component: Component.Darkmode() },
+        ],
+      }),
+    ),
+  ],
 }
 
 // components for pages that display lists of pages with preview cards (e.g. tags or folders)
 export const previewListPageLayout: PageLayout = {
   beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle(), Component.ContentMeta()],
   left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        {
-          Component: Component.Search(),
-          grow: true,
-        },
-        { Component: Component.Darkmode() },
-      ],
-    }),
+    Component.Avatar(),
+    Component.MobileOnly(
+      Component.Flex({
+        components: [
+          {
+            Component: Component.Search(),
+            grow: true,
+          },
+          { Component: Component.Darkmode() },
+        ],
+      }),
+    ),
     Component.CardMenu(),
   ],
-  right: [],
+  right: [
+    Component.DesktopOnly(
+      Component.Flex({
+        components: [
+          {
+            Component: Component.Search(),
+            grow: true,
+          },
+          { Component: Component.Darkmode() },
+        ],
+      }),
+    ),
+  ],
 }
