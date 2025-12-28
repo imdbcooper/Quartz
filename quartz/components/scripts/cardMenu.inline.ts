@@ -430,8 +430,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
     const mobileToggle = menu.querySelector(".mobile-menu")
     if (!mobileToggle) continue
 
-    // Check if we're on mobile (hamburger visible)
-    const isMobile = mobileToggle.checkVisibility()
+    const isMobile = (mobileToggle as any).checkVisibility()
 
     if (isMobile) {
       // Mobile: start collapsed
@@ -463,7 +462,7 @@ window.addEventListener("resize", function () {
   const mobileToggle = menu.querySelector(".mobile-menu")
   if (!mobileToggle) return
 
-  const isMobile = mobileToggle.checkVisibility()
+  const isMobile = (mobileToggle as any).checkVisibility()
 
   if (isMobile) {
     // Switched to mobile - always collapse menu to prevent blocking content
