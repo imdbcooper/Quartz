@@ -227,7 +227,7 @@ button.mobile-menu {
 
 // Card section (top-level folders)
 .card-section {
-  background-color: var(--light);
+  background-color: transparent;
   border: 1px solid var(--lightgray);
   border-radius: 12px;
   overflow: hidden;
@@ -235,6 +235,7 @@ button.mobile-menu {
 
   &:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    background-color: transparent;
   }
 }
 
@@ -267,7 +268,7 @@ button.mobile-menu {
   color: var(--dark);
   text-decoration: none;
   font-size: 1rem;
-  font-weight: $semiBoldWeight;
+  font-weight: $normalWeight;
   transition: color 0.2s ease;
   cursor: pointer;
   white-space: nowrap;
@@ -348,14 +349,14 @@ button.mobile-menu {
   align-items: center;
   justify-content: space-between;
   padding: 0.75rem 1rem;
-  background: var(--highlight);
-  border: 1px solid var(--lightgray);
+  background: transparent;
+  border: none;
   border-radius: 8px;
   text-align: left;
   cursor: pointer;
   
   &:hover {
-    background-color: var(--lightgray);
+    background-color: transparent;
   }
 }
 
@@ -363,7 +364,7 @@ button.mobile-menu {
   color: var(--dark);
   text-decoration: none;
   font-size: 0.95rem;
-  font-weight: $semiBoldWeight;
+  font-weight: $normalWeight;
   transition: color 0.2s ease;
   cursor: pointer;
   white-space: nowrap;
@@ -410,8 +411,8 @@ button.mobile-menu {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
-  background-color: var(--highlight);
-  border: 1px solid var(--lightgray);
+  background-color: transparent;
+  border: none;
   border-top: none;
   border-radius: 0 0 8px 8px;
 
@@ -419,6 +420,11 @@ button.mobile-menu {
     max-height: 500px;
     transition: max-height 0.5s ease-in;
   }
+}
+
+.card-section-toggle,
+.card-folder-toggle {
+  display: none;
 }
 
 .card-folder:has(.card-folder-content.open) .card-folder-header-container {
@@ -441,7 +447,7 @@ button.mobile-menu {
   transition: background-color 0.2s ease;
 
   &:hover {
-    background-color: var(--lightgray);
+    background-color: transparent;
   }
 }
 
@@ -450,7 +456,7 @@ button.mobile-menu {
   align-items: center;
   gap: 0.5rem;
   padding: 0.5rem 0.75rem;
-  color: var(--darkgray);
+  color: var(--dark);
   text-decoration: none;
   font-size: 0.9rem;
   transition: color 0.2s ease;
@@ -461,14 +467,14 @@ button.mobile-menu {
 
   &.active {
     color: var(--secondary);
-    font-weight: $semiBoldWeight;
+    font-weight: $normalWeight;
   }
 }
 
 .card-link-icon {
   display: flex;
   align-items: center;
-  color: var(--gray);
+  color: var(--dark);
 
   svg {
     width: 16px;
@@ -478,14 +484,14 @@ button.mobile-menu {
 
 // Simple file items (non-folder top-level items)
 .card-menu-item {
-  background-color: var(--light);
+  background-color: transparent;
   border: 1px solid var(--lightgray);
   border-radius: 12px;
   transition: all 0.2s ease;
 
   &:hover {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    background-color: var(--highlight);
+    background-color: transparent;
   }
 }
 
@@ -497,7 +503,7 @@ button.mobile-menu {
   color: var(--dark);
   text-decoration: none;
   font-size: 1rem;
-  font-weight: $semiBoldWeight;
+  font-weight: $normalWeight;
   
   &:hover {
     color: var(--secondary);
@@ -505,6 +511,7 @@ button.mobile-menu {
 
   &.active {
     color: var(--secondary);
+    font-weight: $normalWeight;
   }
 
   &::before {
@@ -548,4 +555,3 @@ button.mobile-menu {
     overflow: hidden;
   }
 }
-
