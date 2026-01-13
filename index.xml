@@ -2,67 +2,67 @@
 <rss version="2.0">
     <channel>
       <title>Smirnoff</title>
-      <link>https://quartz.jzhao.xyz</link>
+      <link>https://slavx.ru</link>
       <description>Last 10 notes on Smirnoff</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
     <title>Anthropic блокирует разработчиков</title>
-    <link>https://quartz.jzhao.xyz/%D0%91%D0%BB%D0%BE%D0%B3/Hi-Tech-News/Anthropic-%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8%D1%80%D1%83%D0%B5%D1%82-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%BE%D0%B2</link>
-    <guid>https://quartz.jzhao.xyz/%D0%91%D0%BB%D0%BE%D0%B3/Hi-Tech-News/Anthropic-%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8%D1%80%D1%83%D0%B5%D1%82-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%BE%D0%B2</guid>
+    <link>https://slavx.ru/%D0%91%D0%BB%D0%BE%D0%B3/Hi-Tech-News/Anthropic-%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8%D1%80%D1%83%D0%B5%D1%82-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%BE%D0%B2</link>
+    <guid>https://slavx.ru/%D0%91%D0%BB%D0%BE%D0%B3/Hi-Tech-News/Anthropic-%D0%B1%D0%BB%D0%BE%D0%BA%D0%B8%D1%80%D1%83%D0%B5%D1%82-%D1%80%D0%B0%D0%B7%D1%80%D0%B0%D0%B1%D0%BE%D1%82%D1%87%D0%B8%D0%BA%D0%BE%D0%B2</guid>
     <description><![CDATA[ В январе 2026 года Anthropic реализовала строгие технические защиты против использования её моделей Claude ]]></description>
     <pubDate>Tue, 13 Jan 2026 22:42:00 GMT</pubDate>
   </item><item>
     <title>Подключение моделей от Perplexity к Obsidian</title>
-    <link>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%9F%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B5%D0%B9-%D0%BE%D1%82-Perplexity-%D0%BA-Obsidian-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD-Copilot</link>
-    <guid>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%9F%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B5%D0%B9-%D0%BE%D1%82-Perplexity-%D0%BA-Obsidian-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD-Copilot</guid>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%9F%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B5%D0%B9-%D0%BE%D1%82-Perplexity-%D0%BA-Obsidian-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD-Copilot</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%9F%D0%BE%D0%B4%D0%BA%D0%BB%D1%8E%D1%87%D0%B5%D0%BD%D0%B8%D0%B5-%D0%BC%D0%BE%D0%B4%D0%B5%D0%BB%D0%B5%D0%B9-%D0%BE%D1%82-Perplexity-%D0%BA-Obsidian-%D1%87%D0%B5%D1%80%D0%B5%D0%B7-%D0%BF%D0%BB%D0%B0%D0%B3%D0%B8%D0%BD-Copilot</guid>
     <description><![CDATA[ Подключение моделей от Perplexity к Obsidian через плагин Copilot. Бесплатные 5$ на подписке PRO ]]></description>
     <pubDate>Sun, 28 Dec 2025 22:02:00 GMT</pubDate>
   </item><item>
     <title>Obsidian Copilot для индекса заметок</title>
-    <link>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%AD%D0%BC%D0%B1%D0%B5%D0%B4%D0%B4%D0%B8%D0%BD%D0%B3%D0%B8-%D0%B2-Obsidian-Copilot-%D0%B4%D0%BB%D1%8F-%D0%B8%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D0%B0-%D0%B7%D0%B0%D0%BC%D0%B5%D1%82%D0%BE%D0%BA</link>
-    <guid>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%AD%D0%BC%D0%B1%D0%B5%D0%B4%D0%B4%D0%B8%D0%BD%D0%B3%D0%B8-%D0%B2-Obsidian-Copilot-%D0%B4%D0%BB%D1%8F-%D0%B8%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D0%B0-%D0%B7%D0%B0%D0%BC%D0%B5%D1%82%D0%BE%D0%BA</guid>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%AD%D0%BC%D0%B1%D0%B5%D0%B4%D0%B4%D0%B8%D0%BD%D0%B3%D0%B8-%D0%B2-Obsidian-Copilot-%D0%B4%D0%BB%D1%8F-%D0%B8%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D0%B0-%D0%B7%D0%B0%D0%BC%D0%B5%D1%82%D0%BE%D0%BA</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%AD%D0%BC%D0%B1%D0%B5%D0%B4%D0%B4%D0%B8%D0%BD%D0%B3%D0%B8-%D0%B2-Obsidian-Copilot-%D0%B4%D0%BB%D1%8F-%D0%B8%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D0%B0-%D0%B7%D0%B0%D0%BC%D0%B5%D1%82%D0%BE%D0%BA</guid>
     <description><![CDATA[ Подключение внешнего провайдера эмбеддингов (например, через прокси типа Polza, OpenRouter или локальный сервер) позволяет использовать более мощные или дешевые модели для семантического поиска по вашей базе заметок. ]]></description>
     <pubDate>Sun, 28 Dec 2025 21:59:00 GMT</pubDate>
   </item><item>
     <title>Создание карточного меню (Card Menu) в Quartz 4</title>
-    <link>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Custom-%D0%BC%D0%B5%D0%BD%D1%8E-%D0%B4%D0%BB%D1%8F-Qartz-4</link>
-    <guid>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Custom-%D0%BC%D0%B5%D0%BD%D1%8E-%D0%B4%D0%BB%D1%8F-Qartz-4</guid>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Custom-%D0%BC%D0%B5%D0%BD%D1%8E-%D0%B4%D0%BB%D1%8F-Qartz-4</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Custom-%D0%BC%D0%B5%D0%BD%D1%8E-%D0%B4%D0%BB%D1%8F-Qartz-4</guid>
     <description><![CDATA[ Руководство описывает создание кастомного карточного меню для Quartz 4, которое заменяет стандартный компонент Explorer. Меню автоматически строится из файловой структуры проекта, поддерживает сворачивание/разворачивание секций и адаптивно для мобильных устройств. ]]></description>
     <pubDate>Sun, 28 Dec 2025 21:57:00 GMT</pubDate>
   </item><item>
     <title>Gemini CLI в Obsidian Полный гайд</title>
-    <link>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Gemini-CLI-%D0%B2-Obsidian-%D0%9F%D0%BE%D0%BB%D0%BD%D1%8B%D0%B9-%D0%B3%D0%B0%D0%B9%D0%B4-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B8-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8</link>
-    <guid>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Gemini-CLI-%D0%B2-Obsidian-%D0%9F%D0%BE%D0%BB%D0%BD%D1%8B%D0%B9-%D0%B3%D0%B0%D0%B9%D0%B4-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B8-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8</guid>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Gemini-CLI-%D0%B2-Obsidian-%D0%9F%D0%BE%D0%BB%D0%BD%D1%8B%D0%B9-%D0%B3%D0%B0%D0%B9%D0%B4-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B8-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Gemini-CLI-%D0%B2-Obsidian-%D0%9F%D0%BE%D0%BB%D0%BD%D1%8B%D0%B9-%D0%B3%D0%B0%D0%B9%D0%B4-%D1%83%D1%81%D1%82%D0%B0%D0%BD%D0%BE%D0%B2%D0%BA%D0%B8-%D0%B8-%D0%BD%D0%B0%D1%81%D1%82%D1%80%D0%BE%D0%B9%D0%BA%D0%B8</guid>
     <description><![CDATA[ Гайд: Gemini AI + Obsidian. Используем мощь нейросети Google через командную строку для прокачки вашего «Второго мозга». Эффективно и бесплатно. ]]></description>
     <pubDate>Sun, 28 Dec 2025 21:51:00 GMT</pubDate>
   </item><item>
     <title>Главное меню</title>
-    <link>https://quartz.jzhao.xyz/</link>
-    <guid>https://quartz.jzhao.xyz/</guid>
+    <link>https://slavx.ru/</link>
+    <guid>https://slavx.ru/</guid>
     <description><![CDATA[ My personal notes and thoughts ]]></description>
     <pubDate>Sun, 28 Dec 2025 19:13:11 GMT</pubDate>
   </item><item>
     <title>Obsidian Knowledge Base</title>
-    <link>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/</link>
-    <guid>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/</guid>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/</guid>
     <description><![CDATA[ Central hub for Obsidian, Quartz, and AI integration guides. ]]></description>
     <pubDate>Sun, 28 Dec 2025 00:00:00 GMT</pubDate>
   </item><item>
     <title>Projects</title>
-    <link>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/</link>
-    <guid>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/</guid>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/</guid>
     <description><![CDATA[ Projects ]]></description>
     <pubDate>Wed, 17 Dec 2025 20:00:00 GMT</pubDate>
   </item><item>
     <title>Личный блог</title>
-    <link>https://quartz.jzhao.xyz/%D0%91%D0%BB%D0%BE%D0%B3/Index</link>
-    <guid>https://quartz.jzhao.xyz/%D0%91%D0%BB%D0%BE%D0%B3/Index</guid>
+    <link>https://slavx.ru/%D0%91%D0%BB%D0%BE%D0%B3/Index</link>
+    <guid>https://slavx.ru/%D0%91%D0%BB%D0%BE%D0%B3/Index</guid>
     <description><![CDATA[ Без названия ]]></description>
     <pubDate>Wed, 17 Dec 2025 19:38:00 GMT</pubDate>
   </item><item>
     <title>PromtGen</title>
-    <link>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/Index</link>
-    <guid>https://quartz.jzhao.xyz/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/Index</guid>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/Index</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/Index</guid>
     <description><![CDATA[ PromtGen ]]></description>
     <pubDate>Wed, 17 Dec 2025 19:26:00 GMT</pubDate>
   </item>
