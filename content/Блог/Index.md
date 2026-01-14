@@ -1,7 +1,7 @@
 ---
 publish: true
-title: Личный блог
-description: Без названия
+title: Blog
+description: Blog
 created: 2025-12-17 19:36
 updated: 2025-12-17 19:38
 tags:
