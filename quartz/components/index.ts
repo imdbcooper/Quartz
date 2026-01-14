@@ -26,6 +26,7 @@ import Flex from "./Flex"
 import ConditionalRender from "./ConditionalRender"
 import { PagePreviewList } from "./PagePreviewList"
 import Avatar from "./Avatar"
+import ServicesCarousel from "./ServicesCarousel"
 
 export {
   ArticleTitle,
@@ -56,4 +57,5 @@ export {
   ConditionalRender,
   PagePreviewList,
   Avatar,
+  ServicesCarousel,
 }

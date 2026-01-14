@@ -16,10 +16,11 @@ I'm sharing my thoughts, notes, and knowledge here.
 
 I'm a developer interested in technology, programming, and sharing knowledge.
 
+<services-carousel data-source="/static/data/services-carousel.json"></services-carousel>
+
+
 ## Latest Articles
 
 Check out my latest posts in the notes section.
 
 ---
-
-
