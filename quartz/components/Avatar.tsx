@@ -10,7 +10,7 @@ type AvatarOptions = {
 }
 
 const defaultOptions: AvatarOptions = {
-  imagePath: "images/avatar.jpg",
+  imagePath: "images/avatar.png",
   altText: "Profile photo",
 }
 

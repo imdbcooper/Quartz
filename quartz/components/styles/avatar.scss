@@ -23,6 +23,8 @@
   object-fit: cover;
   display: block;
   border: 1px solid var(--lightgray);
+  margin: 0;
+  padding: 0;
 
   @media all and ($mobile) {
     width: 44px;

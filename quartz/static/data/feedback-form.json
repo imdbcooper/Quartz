@@ -1,0 +1,127 @@
+{
+  "title": "Бриф на разработку",
+  "subtitle": "Заполните ключевые параметры — я вернусь с оценкой и планом.",
+  "action": "https://app.slavx.ru/api/v1/f/12a7dd50d5c0",
+  "method": "POST",
+  "submitLabel": "Отправить",
+  "privacyNote": "Отвечаю в течение дня. Без спама.",
+  "fields": [
+    {
+      "type": "text",
+      "name": "name",
+      "label": "Имя",
+      "placeholder": "Как к вам обращаться",
+      "required": true,
+      "autocomplete": "name",
+      "layout": "two-columns"
+    },
+    {
+      "type": "text",
+      "name": "company",
+      "label": "Компания",
+      "placeholder": "Название компании или проекта",
+      "autocomplete": "organization",
+      "layout": "two-columns"
+    },
+    {
+      "type": "tel",
+      "name": "phone",
+      "label": "Телефон",
+      "placeholder": "+7...",
+      "autocomplete": "tel",
+      "layout": "two-columns"
+    },
+    {
+      "type": "email",
+      "name": "email",
+      "label": "Email",
+      "placeholder": "you@example.com",
+      "required": true,
+      "autocomplete": "email",
+      "layout": "two-columns"
+    },
+    {
+      "type": "text",
+      "name": "telegram",
+      "label": "Telegram",
+      "placeholder": "@username",
+      "autocomplete": "off",
+      "layout": "two-columns"
+    },
+    {
+      "type": "select",
+      "name": "service",
+      "label": "Тип услуги",
+      "required": true,
+      "options": [
+        { "label": "Веб‑приложение / сайт", "value": "web" },
+        { "label": "Telegram‑бот", "value": "telegram_bot" },
+        { "label": "AI‑интеграция / автоматизация", "value": "ai_integration" },
+        { "label": "Аудит / консалтинг", "value": "audit" },
+        { "label": "Поддержка / развитие", "value": "support" },
+        { "label": "Другое", "value": "other" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "name": "scope",
+      "label": "Что нужно сделать",
+      "required": true,
+      "options": [
+        { "label": "Запуск с нуля", "value": "from_scratch" },
+        { "label": "Доработка существующего продукта", "value": "upgrade" },
+        { "label": "Интеграции с внешними сервисами", "value": "integrations" },
+        { "label": "Автоматизация процессов", "value": "automation" },
+        { "label": "Документация / гайды", "value": "docs" }
+      ]
+    },
+    {
+      "type": "range",
+      "name": "budget",
+      "label": "Бюджет, ₽",
+      "min": 50000,
+      "max": 500000,
+      "step": 25000,
+      "value": 150000,
+      "unit": "₽"
+    },
+    {
+      "type": "select",
+      "name": "timeline",
+      "label": "Сроки",
+      "required": true,
+      "options": [
+        { "label": "Срочно (1–2 недели)", "value": "urgent" },
+        { "label": "В течение месяца", "value": "month" },
+        { "label": "2–3 месяца", "value": "quarter" },
+        { "label": "Без жестких сроков", "value": "flex" }
+      ]
+    },
+    {
+      "type": "checkbox",
+      "name": "materials",
+      "label": "Что уже есть",
+      "options": [
+        { "label": "ТЗ или описание задачи", "value": "spec" },
+        { "label": "Прототип / макеты", "value": "design" },
+        { "label": "Текущий сайт / продукт", "value": "existing" },
+        { "label": "Доступы к аналитике / данным", "value": "analytics" }
+      ]
+    },
+    {
+      "type": "textarea",
+      "name": "message",
+      "label": "Описание задачи",
+      "placeholder": "Коротко опишите цель, аудиторию и результат",
+      "required": true,
+      "rows": 6
+    },
+    {
+      "type": "checkbox",
+      "name": "consent",
+      "label": "Согласен на обработку персональных данных",
+      "value": "yes",
+      "required": true
+    }
+  ]
+}

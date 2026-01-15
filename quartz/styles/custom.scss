@@ -4,11 +4,17 @@
 @media (max-width: 800px) {
   .page>#quartz-body .sidebar.left {
     padding-top: 0.6rem;
+    padding-bottom: 3px;
     align-items: flex-start;
     gap: 0.6rem;
   }
 
-  .page>#quartz-body .sidebar.left .card-menu .mobile-menu {
+  .page>#quartz-body .sidebar.left:has(.card-menu) {
+    padding-top: 0.6rem;
+    padding-bottom: 3px;
+  }
+
+  .page>#quartz-body .sidebar.left .card-menu.collapsed .mobile-menu {
     position: static;
     margin: 0;
     padding: 0;
@@ -29,8 +35,28 @@
   }
 
   .page>#quartz-body .sidebar.left .search {
-    max-width: none;
-    flex: 1 1 auto;
+    max-width: 11rem;
+    flex: 0 0 auto;
+  }
+
+  .page>#quartz-body .sidebar.left .search .search-button {
+    height: 1.7rem;
+    padding-right: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .page>#quartz-body .sidebar.left .search .search-button svg {
+    width: 16px;
+    min-width: 16px;
+    margin: 0 0.4rem;
+  }
+
+  .site-avatar {
+    margin-top: -0.35rem;
+  }
+
+  .readermode {
+    display: none;
   }
 }
 

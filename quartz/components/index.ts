@@ -27,6 +27,7 @@ import ConditionalRender from "./ConditionalRender"
 import { PagePreviewList } from "./PagePreviewList"
 import Avatar from "./Avatar"
 import ServicesCarousel from "./ServicesCarousel"
+import FeedbackForm from "./FeedbackForm"
 
 export {
   ArticleTitle,
@@ -58,4 +59,5 @@ export {
   PagePreviewList,
   Avatar,
   ServicesCarousel,
+  FeedbackForm,
 }

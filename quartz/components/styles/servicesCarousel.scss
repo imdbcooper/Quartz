@@ -130,12 +130,18 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 0.75rem;
+  position: relative;
+}
+
+.services-carousel__card-title-wrap {
+  width: 100%;
 }
 
 .services-carousel__card-title {
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: -0.01em;
+  padding-right: 4.25rem;
 }
 
 .services-carousel__card-desc {
@@ -150,11 +156,14 @@
 }
 
 .services-carousel__price {
+  position: absolute;
+  top: 0;
+  right: 0;
   font-size: 0.7rem;
-  padding: 0.35rem 0.6rem;
-  border-radius: 999px;
-  background: var(--sc-pill-bg);
-  border: 1px solid color-mix(in srgb, var(--dark) 20%, transparent);
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  border: none;
   color: var(--sc-text);
   white-space: nowrap;
 }
@@ -172,7 +181,7 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 1.15rem;
+  padding: 0.28rem 0.55rem;
   border-radius: 999px;
   background: var(--sc-button-bg);
   color: var(--sc-button-text);
@@ -235,7 +244,7 @@
 
   .services-carousel__button {
     font-size: 0.8rem;
-    padding: 0.35rem 0.8rem;
+    padding: 0.22rem 0.5rem;
   }
 
   .services-carousel__note {
