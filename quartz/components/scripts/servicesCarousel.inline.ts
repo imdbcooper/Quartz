@@ -649,7 +649,19 @@ async function initCarousel(root: HTMLElement) {
     })
   }
 
+  let resizeRaf = 0
+  const scheduleUpdate = () => {
+    if (resizeRaf) {
+      window.cancelAnimationFrame(resizeRaf)
+    }
+    resizeRaf = window.requestAnimationFrame(() => {
+      resizeRaf = 0
+      updateRadius()
+    })
+  }
+
   updateRadius()
+  scheduleUpdate()
 
   let rotation = 0
   let lastX = 0
@@ -737,7 +749,19 @@ async function initCarousel(root: HTMLElement) {
   elements.stage.addEventListener("pointerup", onPointerUp)
   elements.stage.addEventListener("pointercancel", onPointerCancel)
   elements.stage.addEventListener("pointerleave", onPointerCancel)
-  window.addEventListener("resize", updateRadius)
+  window.addEventListener("resize", scheduleUpdate)
+  window.visualViewport?.addEventListener("resize", scheduleUpdate)
+  window.visualViewport?.addEventListener("scroll", scheduleUpdate)
+
+  let resizeObserver: ResizeObserver | null = null
+  if ("ResizeObserver" in window) {
+    resizeObserver = new ResizeObserver(() => scheduleUpdate())
+    resizeObserver.observe(elements.stageWrap)
+    const firstCard = cardHolders[0]?.firstElementChild
+    if (firstCard instanceof HTMLElement) {
+      resizeObserver.observe(firstCard)
+    }
+  }
 
   rafId = window.requestAnimationFrame(tick)
   root.classList.add("is-ready")
@@ -749,7 +773,15 @@ async function initCarousel(root: HTMLElement) {
     elements.stage.removeEventListener("pointerup", onPointerUp)
     elements.stage.removeEventListener("pointercancel", onPointerCancel)
     elements.stage.removeEventListener("pointerleave", onPointerCancel)
-    window.removeEventListener("resize", updateRadius)
+    window.removeEventListener("resize", scheduleUpdate)
+    window.visualViewport?.removeEventListener("resize", scheduleUpdate)
+    window.visualViewport?.removeEventListener("scroll", scheduleUpdate)
+    if (resizeObserver) {
+      resizeObserver.disconnect()
+    }
+    if (resizeRaf) {
+      window.cancelAnimationFrame(resizeRaf)
+    }
   })
 }
 
