@@ -1,0 +1,91 @@
+{
+  "title": "",
+  "subtitle": "",
+  "hint": "",
+  "footerHint": "",
+  "autoSpeed": 8,
+  "dragSensitivity": 0.25,
+  "height": 0,
+  "radiusScale": 0.35,
+  "minRadius": 240,
+  "maxRadius": 520,
+  "defaultNote": "Ответ в течение дня",
+  "form": {
+    "action": "https://app.slavx.ru/api/v1/f/12a7dd50d5c0",
+    "method": "POST",
+    "submitLabel": "Отправить",
+    "privacyNote": "Без спама"
+  },
+  "cards": [
+    {
+      "title": "Аудит",
+      "description": "Разбор текущего состояния, рекомендации, план действий.",
+      "price": "от 10 000 ₽",
+      "note": "Ответ в течение дня",
+      "button": {
+        "text": "Заказать",
+        "href": "/contact"
+      }
+    },
+    {
+      "title": "Дизайн",
+      "description": "UI/UX, прототипы, дизайн-система, макеты.",
+      "price": "от 25 000 ₽",
+      "note": "Ответ в течение дня",
+      "button": {
+        "text": "Заказать",
+        "href": "/contact"
+      }
+    },
+    {
+      "title": "Разработка",
+      "description": "Лендинги, веб-приложения, интеграции.",
+      "price": "от 50 000 ₽",
+      "note": "Ответ в течение дня",
+      "button": {
+        "text": "Заказать",
+        "href": "/contact"
+      }
+    },
+    {
+      "title": "Поддержка",
+      "description": "Сопровождение, улучшения, A/B, аналитика.",
+      "price": "от 15 000 ₽/мес",
+      "note": "Ответ в течение дня",
+      "button": {
+        "text": "Заказать",
+        "href": "/contact"
+      }
+    },
+    {
+      "title": "Консалтинг",
+      "description": "Стратегия, процессы, технические решения.",
+      "price": "от 5 000 ₽/час",
+      "note": "Ответ в течение дня",
+      "button": {
+        "text": "Заказать",
+        "href": "/contact"
+      }
+    },
+    {
+      "title": "Обучение",
+      "description": "Воркшопы, наставничество, разбор задач.",
+      "price": "от 20 000 ₽",
+      "note": "Ответ в течение дня",
+      "button": {
+        "text": "Заказать",
+        "href": "/contact"
+      }
+    },
+    {
+      "title": "Разаботка сайт",
+      "description": "Сайт визитка, для малого бизнеса",
+      "price": "от 90 000 ₽",
+      "note": "Ответ в течение дня",
+      "button": {
+        "text": "Заказать",
+        "href": "/contact"
+      }
+    }
+  ]
+}
