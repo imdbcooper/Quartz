@@ -503,8 +503,8 @@ async function initCarousel(root: HTMLElement) {
   let minGap = readNumber(root.dataset.minGap ?? data.minGap, DEFAULTS.minGap)
   let ringScale = DEFAULTS.ringScale * 1.1
   if (window.innerWidth <= 600) {
-    minGap = 20
-    ringScale = DEFAULTS.ringScale * 0.85
+    minGap = Math.max(minGap, 36)
+    ringScale = DEFAULTS.ringScale
   }
   const fallbackNote = data.defaultNote
 
@@ -753,6 +753,11 @@ async function initCarousel(root: HTMLElement) {
   })
 }
 
-document.querySelectorAll<HTMLElement>("services-carousel, .services-carousel").forEach((root) => {
-  initCarousel(root)
-})
+const mountCarousels = () => {
+  document.querySelectorAll<HTMLElement>("services-carousel, .services-carousel").forEach((root) => {
+    initCarousel(root)
+  })
+}
+
+document.addEventListener("nav", mountCarousels)
+mountCarousels()
