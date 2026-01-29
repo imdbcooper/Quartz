@@ -199,6 +199,7 @@ function createModal(root: HTMLElement, data: CarouselData) {
     modal.setAttribute("aria-hidden", "true")
     isOpen = false
     unlockScroll()
+    root.dispatchEvent(new CustomEvent("services-carousel:layout", { bubbles: true }))
   }
 
   const openModal = (cardData: CarouselCard) => {
@@ -215,6 +216,7 @@ function createModal(root: HTMLElement, data: CarouselData) {
     modal.setAttribute("aria-hidden", "false")
     isOpen = true
     lockScroll()
+    root.dispatchEvent(new CustomEvent("services-carousel:layout", { bubbles: true }))
     nameField.focus()
   }
 
@@ -608,21 +610,23 @@ async function initCarousel(root: HTMLElement) {
     root.style.setProperty("--sc-card-width", `${cardWidthTarget}px`)
     const firstCard = cardHolders[0]?.firstElementChild as HTMLElement | null
     if (firstCard) {
-      const rect = firstCard.getBoundingClientRect()
-      if (rect.width) {
-        cardWidth = rect.width
+      // IMPORTANT: getBoundingClientRect() on 3D/perspective content can return projected sizes.
+      // That can shrink ringRadius and make cards overlap after scroll/modal.
+      const style = window.getComputedStyle(firstCard)
+      if (style.width) {
+        cardWidth = Number.parseFloat(style.width)
       }
-      if (rect.height) {
-        cardHeight = rect.height
+      if (style.height) {
+        cardHeight = Number.parseFloat(style.height)
       }
     }
-    if (!cardWidth) {
+    if (!Number.isFinite(cardWidth) || cardWidth <= 0) {
       cardWidth = cardWidthTarget
     }
+    // Stage height must account for 3D perspective scaling, otherwise overflow:hidden clips card borders.
+    // We'll set it after computing ringRadius (needs perspective + ringRadius for max scale).
     const rawHeight = readNumber(root.dataset.height ?? data.height, 0)
-    const resolvedHeight =
-      rawHeight > 0 ? rawHeight : cardHeight ? Math.round(cardHeight * 1.2) : DEFAULTS.height
-    root.style.setProperty("--sc-height", `${resolvedHeight}px`)
+    let resolvedHeight = rawHeight > 0 ? rawHeight : 0
 
     const radius = clamp(minRadius, maxRadius, Math.round(width * radiusScale))
     const ringTarget = Math.round(radius * ringScale)
@@ -643,6 +647,24 @@ async function initCarousel(root: HTMLElement) {
     }
     ringRadius = Math.max(ringTarget, minSpacingRadius, fitRadius)
 
+    // Set stage height with minimal safe padding based on the maximum perspective scale.
+    // Front-most card has cardZ ~= ringRadius, so scale = perspective / (perspective - cardZ).
+    if (resolvedHeight <= 0) {
+      const denom = Math.max(1, perspectiveValue - ringRadius)
+      const maxScale = perspectiveValue / denom
+      const pad = window.innerWidth <= 600 ? 6 : 8
+      const projectedH = Math.max(0, cardHeight) * maxScale
+      // Compute minimal safe height, then aggressively reduce vertical slack.
+      resolvedHeight = Math.ceil(projectedH + pad * 2)
+      // Reduce extra whitespace, but keep a bit of breathing room
+      resolvedHeight = Math.max(0, resolvedHeight - 112)
+      // Keep it within reasonable bounds
+      resolvedHeight = clamp(198, 358, resolvedHeight)
+      // Slight extra breathing room (requested +6 total)
+      resolvedHeight = clamp(198, 364, resolvedHeight + 6)
+    }
+    root.style.setProperty("--sc-height", `${resolvedHeight}px`)
+
     cardHolders.forEach((holder) => {
       const angle = Number(holder.dataset.angle ?? 0)
       holder.style.transform = `translate(-50%, -50%) rotateY(${angle}deg) translateZ(${ringRadius}px)`
@@ -662,6 +684,12 @@ async function initCarousel(root: HTMLElement) {
 
   updateRadius()
   scheduleUpdate()
+
+  const onModalLayout = () => {
+    scheduleUpdate()
+    window.requestAnimationFrame(() => scheduleUpdate())
+  }
+  root.addEventListener("services-carousel:layout", onModalLayout)
 
   let rotation = 0
   let lastX = 0
@@ -782,6 +810,7 @@ async function initCarousel(root: HTMLElement) {
     if (resizeRaf) {
       window.cancelAnimationFrame(resizeRaf)
     }
+    root.removeEventListener("services-carousel:layout", onModalLayout)
   })
 }
 
