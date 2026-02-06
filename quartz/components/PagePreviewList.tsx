@@ -89,6 +89,9 @@ export const PagePreviewList: QuartzComponent = ({ cfg, fileData, allFiles, limi
               </div>
             </a>
             <div class="preview-meta">
+              <a href={href} class="internal preview-button">
+                Preview
+              </a>
               {preview.date && (
                 <span class="preview-date">
                   <Date date={preview.date} locale={cfg.locale} />
@@ -158,7 +161,10 @@ PagePreviewList.css = `
   aspect-ratio: 16 / 10;
   overflow: hidden;
   flex-shrink: 0;
-  background-color: var(--lightgray);
+  /* background-color: var(--lightgray); */
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .preview-image {
@@ -252,6 +258,22 @@ PagePreviewList.css = `
 
 .preview-tags .tag-link:hover {
   background-color: var(--tertiary);
+  color: var(--light);
+}
+
+.preview-button {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background-color: var(--lightgray);
+  color: var(--dark);
+  font-size: 0.8rem;
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.preview-button:hover {
+  background-color: var(--secondary);
   color: var(--light);
 }
 
