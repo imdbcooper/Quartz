@@ -1,5 +1,4 @@
-import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
-import { classNames } from "../util/lang"
+import { QuartzComponent, QuartzComponentConstructor } from "./types"
 
 const ArticleTitle: QuartzComponent = () => {
   return null
