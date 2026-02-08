@@ -1,10 +1,10 @@
 ---
 publish: true
-title: "Интеграция NotebookLM в агентские приложения на Python: практический разбор notebooklm-py"
+title: "Интеграция NotebookLM приложения: практический разбор notebooklm-py"
 description: "Разбираю библиотеку notebooklm-py и показываю, как встроить Google NotebookLM в агентские workflow: от базовых сценариев до неочевидных кейсов с экспортом, памятью и оркестрацией."
 created: 2026-02-08 18:33
 modified: 2026-02-08 18:40
-published: 2026-02-08T18:41:24.961+03:00
+published: 2026-02-08T19:05:34.193+03:00
 tags:
   - blog
   - guide
@@ -20,7 +20,7 @@ preview_image: /images/notebooklm-py-agent-apps-card.jpg
 ---
 
 
-# Интеграция NotebookLM в агентские приложения на Python: практический разбор notebooklm-py
+# Интеграция NotebookLM в приложения: практический разбор notebooklm-py
 
 ## Введение
 ![[images/notebooklm-py-agent-apps-card.jpg]]
