@@ -101,7 +101,7 @@ Telegram-боты, Web-приложения, AI-интеграции — раз�
 
 </div>
 <div class="horizontal-card-action">
-<a href="https://t.me/slavx_dev" class="start-button telegram">
+<a href="https://t.me/slavxRu" class="start-button telegram">
 Написать в Telegram →
 </a>
 </div>
