@@ -1,197 +1,134 @@
 ---
-title: "Разработка Telegram, Web и AI-решений под бизнес-задачи"
-description: "Запускаю и развиваю Telegram-ботов, веб-приложения и AI-интеграции: от идеи до рабочего продукта."
+title: "Telegram, Web и AI-решения под бизнес-задачи"
+description: "Помогаю компаниям запускать Telegram-ботов, web-сервисы и AI-сценарии с понятным планом, сроками и коммуникацией."
 publish: true
 ---
 
 <div class="hero-section">
-  <h1>Разрабатываю продукты, которые решают конкретную задачу бизнеса</h1>
-  <p class="hero-subtitle">Создаю Telegram-ботов, Web App и AI-интеграции с фокусом на скорость запуска, стабильность и измеримый результат.</p>
-  <a href="/Кoнтакты" class="hero-cta">Обсудить проект</a>
+  <h1>Автоматизирую бизнес-процессы через Telegram-ботов, Web и AI</h1>
+  <p class="hero-subtitle">20+ проектов • 3 года опыта • От брифа до запуска за 2-6 недель</p>
+  <ul class="hero-services">
+    <li>Telegram-боты и Mini App</li>
+    <li>Web-приложения и кабинеты</li>
+    <li>AI-интеграции и автоматизация</li>
+  </ul>
+  <p class="hero-links">
+    <a href="https://t.me/slavxRu" class="hero-cta">Обсудить задачу</a>
+    <a href="/Кoнтакты" class="hero-link">Все контакты</a>
+  </p>
 </div>
 
 <h2 class="section-title">Кому подхожу</h2>
 
 <div class="services-grid">
   <div class="service-card">
-    <h3>Малый и средний бизнес</h3>
-    <p>Когда нужно автоматизировать процессы, ускорить обработку контента и снизить ручную нагрузку команды.</p>
+    <h3>Теряются заявки и обращения</h3>
+    <p>Собираю Telegram-first сценарий: бот, уведомления, интеграции, чтобы обращения не пропадали.</p>
+    <p class="result-metric">→ Клиенты фиксируют до 95% входящих обращений без ручного контроля</p>
   </div>
   <div class="service-card">
-    <h3>Стартапы и продуктовые команды</h3>
-    <p>Когда важно быстро запустить MVP, проверить гипотезу и подготовить архитектуру для дальнейшего роста.</p>
+    <h3>Рутина перегружает команду</h3>
+    <p>Автоматизирую повторяющиеся шаги: обработку сообщений, отчеты, типовые ответы, работу с контентом.</p>
+    <p class="result-metric">→ Освобождает 5-10 часов в неделю на развитие бизнеса</p>
   </div>
   <div class="service-card">
-    <h3>Компании с Telegram-first каналом</h3>
-    <p>Когда нужна связка бота, веб-интерфейса, биллинга и интеграций в едином пользовательском сценарии.</p>
+    <h3>Нужно быстро проверить гипотезу</h3>
+    <p>Запускаю MVP с минимально необходимым функционалом, чтобы принимать решения на данных, а не догадках.</p>
+    <p class="result-metric">→ От идеи до рабочего прототипа за 2-3 недели</p>
   </div>
   <div class="service-card">
-    <h3>Проекты без четкого ТЗ</h3>
-    <p>Когда нужна техническая экспертиза: формализация требований, проработка решения и сборка под ключ.</p>
+    <h3>Нужна структура и техлид-подход</h3>
+    <p>Фиксирую требования, архитектуру и этапы, чтобы проект двигался предсказуемо по срокам и качеству.</p>
+    <p class="result-metric">→ Прозрачный план с еженедельными демо и контрольными точками</p>
   </div>
 </div>
+
+<p><a href="/Кoнтакты" class="inline-cta-link">Расскажите о своей задаче — подберу решение</a></p>
 
 <h2 class="section-title">Что делаю</h2>
 
 <div class="services-grid">
   <div class="service-card">
     <h3>Telegram-боты и Mini App</h3>
-    <p>Логика сценариев, интеграции, биллинг, роли, админ-инструменты и безопасная авторизация.</p>
+    <p>Сценарии общения, прием заявок, роли, уведомления, интеграции с внутренними процессами.</p>
   </div>
   <div class="service-card">
     <h3>Web-приложения</h3>
-    <p>Интерфейсы и backend для рабочих процессов: от кабинетов до инструментов для команд и клиентов.</p>
+    <p>Кабинеты и внутренние сервисы: интерфейсы для команды и клиентов, backend и логика процессов.</p>
   </div>
   <div class="service-card">
     <h3>AI-интеграции</h3>
-    <p>LLM, транскрибация, анализ текста и медиа, автоматизация рутины и продуктовых операций.</p>
+    <p>Транскрибация, анализ текста, LLM-сценарии и автоматизация типовых операций.</p>
   </div>
   <div class="service-card">
-    <h3>Базы знаний и документация</h3>
-    <p>Структурирование знаний, гайды и техническая документация, чтобы продукт было проще развивать.</p>
+    <h3>База знаний и документация</h3>
+    <p>Структурирую знания и процессы, чтобы снизить зависимость от «контекста в голове».</p>
   </div>
 </div>
 
-<h2 class="section-title">Форматы сотрудничества</h2>
-
-<services-carousel data-source="/static/data/services-carousel.json"></services-carousel>
-
-<h2 class="section-title">Кейсы</h2>
+<h2 id="cases" class="section-title">Кейсы</h2>
 
 <div class="project-showcase">
   <div class="project-card">
     <h3><a href="/Проекты/Audio-Scribe/">Audio-Scribe</a></h3>
-    <p>Задача: ускорить обработку аудио и видео контента. Решение: Telegram-бот + Web App на React с AI-анализом, мультиязычностью и биллингом. Результат: единый контур работы с транскрибацией, summary, цитатами и вопросами по контексту.</p>
-    <div class="project-tags">
-      <span>Telegram</span>
-      <span>React</span>
-      <span>AI</span>
-      <span>Node.js</span>
-    </div>
+    <p><strong>Было:</strong> ручная обработка интервью и созвонов занимала 2–3 часа на материал.</p>
+    <p><strong>Сделали:</strong> Telegram-бот + Web App с AI-транскрибацией, summary, цитатами и поиском.</p>
+    <p><strong>Стало:</strong> подготовка конспекта — 15–25 минут; ручная постобработка заметно снизилась.</p>
+    <p class="result-metric"><strong>Результат:</strong> экономия 2-3 часа ежедневно на расшифровке</p>
   </div>
+
   <div class="project-card">
     <h3><a href="/Проекты/Obsidian/">Obsidian Knowledge Base</a></h3>
-    <p>Задача: собрать и стандартизировать технические знания команды. Решение: структурированная база знаний с практическими гайдами по Quartz 4 и AI-интеграциям. Результат: быстрее онбординг и меньше времени на повторяющиеся вопросы.</p>
-    <div class="project-tags">
-      <span>Obsidian</span>
-      <span>Quartz</span>
-      <span>Документация</span>
-    </div>
+    <p><strong>Было:</strong> разрозненная документация и затянутый онбординг.</p>
+    <p><strong>Сделали:</strong> единая база знаний с шаблонами, связями и рабочими гайдами.</p>
+    <p><strong>Стало:</strong> онбординг сократился с 2 недель до 3 дней. Повторяющиеся вопросы упали на 60%.</p>
   </div>
+
   <div class="project-card">
-    <h3><a href="/Проекты/Promt Gen/Index">PromtGen</a></h3>
-    <p>Задача: ускорить подготовку качественных AI-запросов. Решение: генератор промтов с шаблонами для разных сценариев. Результат: быстрее запуск экспериментов и меньше ручной рутины при работе с LLM.</p>
-    <div class="project-tags">
-      <span>AI</span>
-      <span>Промты</span>
-      <span>LLM</span>
-    </div>
+    <h3><a href="/Проекты/Promt Gen/Index">Prompt Generator</a></h3>
+    <p><strong>Было:</strong> подготовка запросов к LLM занимала много итераций и времени.</p>
+    <p><strong>Сделали:</strong> генератор промптов с шаблонами под роли и задачи.</p>
+    <p><strong>Стало:</strong> сборка рабочих промптов стала быстрее и стабильнее по качеству.</p>
   </div>
 </div>
 
-<h2 class="section-title">Технологии</h2>
+<p><a href="/Кoнтакты" class="inline-cta-link">Расскажите о своей задаче — подберу решение</a></p>
 
-<div class="tech-stack">
-  <div class="tech-grid">
-    <div class="tech-item">
-      <img src="/images/icon/react.svg" alt="React" />
-      <span>React</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/typescript.svg" alt="TypeScript" />
-      <span>TypeScript</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/javascript.svg" alt="JavaScript" />
-      <span>JavaScript</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/nodejs.svg" alt="Node.js" />
-      <span>Node.js</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/express.png" alt="Express" />
-      <span>Express</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/postgres.svg" alt="PostgreSQL" />
-      <span>PostgreSQL</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/python.svg" alt="Python" />
-      <span>Python</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/docker.svg" alt="Docker" />
-      <span>Docker</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/tailwind.svg" alt="Tailwind" />
-      <span>Tailwind</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/css.svg" alt="CSS" />
-      <span>CSS</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/git.svg" alt="Git" />
-      <span>Git</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/linux.svg" alt="Linux" />
-      <span>Linux</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/telegram.svg" alt="Telegram" />
-      <span>Telegram</span>
-    </div>
-    <div class="tech-item">
-      <img src="/images/icon/huggingface.svg" alt="HuggingFace" />
-      <span>HuggingFace</span>
-    </div>
-  </div>
+<h2 class="section-title">FAQ</h2>
+
+<div class="faq-section">
+  <p><strong>С чего начинается работа?</strong><br />
+  С короткого брифа: цель, текущий процесс, ограничения. После этого даю 1–2 варианта реализации.</p>
+
+  <p><strong>Сколько стоит проект?</strong><br />
+  От 50 000 ₽ за MVP до 300 000 ₽ за комплексную систему. Точную оценку даю после брифа — бесплатно.</p>
+
+  <p><strong>Как формируется срок 2–6 недель?</strong><br />
+  Срок зависит от объема, интеграций и доступности данных. Точный план фиксируется после согласования состава работ.</p>
+
+  <p><strong>Как контролируется прогресс?</strong><br />
+  По этапам: план, промежуточные демо, список задач и договоренности по следующему шагу.</p>
+
+  <p><strong>Что если результат не устроит?</strong><br />
+  Работаю по этапам с промежуточными демо. Если на любом этапе понимаем, что не сходится — фиксируем и корректируем без дополнительных затрат.</p>
+
+  <p><strong>Можно начать с малого объема?</strong><br />
+  Да. Часто стартуем с MVP или узкого сценария, чтобы проверить гипотезу и снизить риски.</p>
+
+  <p><strong>Почему вы, а не агентство?</strong><br />
+  Вы работаете напрямую со мной — без менеджеров и передачи контекста. Быстрее коммуникация, меньше потерь в переводе, честнее ценообразование.</p>
+
+  <p><strong>Что по поддержке после запуска?</strong><br />
+  Можно перейти в сопровождение: исправления, доработки, развитие функциональности.</p>
 </div>
-
-<h2 class="section-title">Подход к работе</h2>
-
-<div class="workflow-section">
-  <div class="workflow-steps">
-    <div class="workflow-step">
-      <div class="step-number">1</div>
-      <h4>Погружение в задачу</h4>
-      <p>Фиксирую цель, ограничения и критерии результата</p>
-    </div>
-    <div class="workflow-step">
-      <div class="step-number">2</div>
-      <h4>Проектирование решения</h4>
-      <p>Собираю архитектуру, этапы и прозрачный план реализации</p>
-    </div>
-    <div class="workflow-step">
-      <div class="step-number">3</div>
-      <h4>Разработка и запуск</h4>
-      <p>Реализую функционал, провожу интеграцию и вывожу в продакшн</p>
-    </div>
-    <div class="workflow-step">
-      <div class="step-number">4</div>
-      <h4>Поддержка</h4>
-      <p>Развиваю продукт после релиза и закрываю новые задачи</p>
-    </div>
-  </div>
-</div>
-
-<h2 class="section-title">Публикации и экспертиза</h2>
-
-[[Проекты/Obsidian/index|Гайды и материалы по Quartz, Obsidian и AI]]
-
-[[Blog/Hi Tech News|Публикации в блоге]]
 
 <div class="cta-section">
-  <h2>Обсудим вашу задачу</h2>
-  <p>Опишите цель, текущий контекст и желаемый результат. Предложу следующий шаг и формат работы.</p>
+  <h2>Обсудим вашу задачу и маршрут запуска</h2>
+  <p>Основной канал: <strong>Telegram</strong>. Также можно написать на Email или позвонить.</p>
   <p>
     Telegram: <a href="https://t.me/slavxRu">@slavxRu</a><br />
     Email: <a href="mailto:info@slavx.ru">info@slavx.ru</a><br />
-    Телефон: <a href="tel:+79913302202">+79913302202</a>
+    Телефон: <a href="tel:+79913302202">+7 991 330-22-02</a>
   </p>
-  <a href="/Кoнтакты" class="cta-button">Связаться</a>
+  <a href="/Кoнтакты" class="cta-button">Связаться сейчас</a>
 </div>
