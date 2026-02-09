@@ -4,6 +4,8 @@ description: "Получите план запуска вашего проект
 publish: true
 ---
 
+<div class="contacts-page">
+
 <div class="hero-section">
 
 # Получите план запуска вашего проекта за 24 часа
@@ -182,6 +184,8 @@ Telegram-боты, Web-приложения, AI-интеграции — раз�
 <a href="mailto:info@slavx.ru" class="cta-button secondary">
 ✉️ info@slavx.ru
 </a>
+</div>
+
 </div>
 
 </div>
