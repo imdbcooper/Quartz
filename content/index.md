@@ -188,5 +188,10 @@ publish: true
 <div class="cta-section">
   <h2>Обсудим вашу задачу</h2>
   <p>Опишите цель, текущий контекст и желаемый результат. Предложу следующий шаг и формат работы.</p>
+  <p>
+    Telegram: <a href="https://t.me/slavxRu">@slavxRu</a><br />
+    Email: <a href="mailto:info@slavx.ru">info@slavx.ru</a><br />
+    Телефон: <a href="tel:+79913302202">+79913302202</a>
+  </p>
   <a href="/Кoнтакты" class="cta-button">Связаться</a>
 </div>
