@@ -1,128 +1,192 @@
 ---
-title: "Разработка под задачу, без шума"
-description: "Делаю Telegram-ботов, веб-приложения и AI-интеграции. Четко, по делу, с упором на результат."
+title: "Разработка Telegram, Web и AI-решений под бизнес-задачи"
+description: "Запускаю и развиваю Telegram-ботов, веб-приложения и AI-интеграции: от идеи до рабочего продукта."
 publish: true
 ---
 
-# Сильный продукт для понятной цели
+<div class="hero-section">
+  <h1>Разрабатываю продукты, которые решают конкретную задачу бизнеса</h1>
+  <p class="hero-subtitle">Создаю Telegram-ботов, Web App и AI-интеграции с фокусом на скорость запуска, стабильность и измеримый результат.</p>
+  <a href="/Кoнтакты" class="hero-cta">Обсудить проект</a>
+</div>
 
-Пишу рабочие решения для бизнеса и авторских проектов: Telegram, веб, AI.
-Беру задачу и довожу до понятного результата.
+<h2 class="section-title">Кому подхожу</h2>
 
-[[Кoнтакты|Связаться]]
-
-## Чем занимаюсь
-
-- Разработка Telegram-ботов и веб-приложений
-- Интеграции с AI и автоматизация процессов
-- Реализация Web App и мини-приложений
-- Проектирование и сборка баз знаний
-- Документация и гайды по продукту
-
-## Услуги
-
-<services-carousel data-source="/static/data/services-carousel.json"></services-carousel>
-
-## Ключевые проекты
-
-- [[Проекты/Audio-Scribe/index|Audio‑Scribe]] — Telegram-бот для транскрибации, summary, ключевых мыслей и цитат; 7 языков, 24/7, AI Qwen‑30B. Есть Web App (React Mini App) для больших файлов, история заметок и транзакций, мониторинг нагрузки, синхронизация с ботом и безопасная авторизация через Telegram initData.
-- [[Проекты/Obsidian/index|Obsidian Knowledge Base]] — база знаний с гайдами по Quartz 4 и интеграции AI.
-- [[Проекты/Promt Gen/Index|PromtGen]] — генератор промтов.
-
-## Технологии
-
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px;">
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/react.svg" alt="React" width="48" height="48" />
-    <span>React</span>
+<div class="services-grid">
+  <div class="service-card">
+    <h3>Малый и средний бизнес</h3>
+    <p>Когда нужно автоматизировать процессы, ускорить обработку контента и снизить ручную нагрузку команды.</p>
   </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/typescript.svg" alt="TypeScript" width="48" height="48" />
-    <span>TypeScript</span>
+  <div class="service-card">
+    <h3>Стартапы и продуктовые команды</h3>
+    <p>Когда важно быстро запустить MVP, проверить гипотезу и подготовить архитектуру для дальнейшего роста.</p>
   </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/javascript.svg" alt="JavaScript" width="48" height="48" />
-    <span>JavaScript</span>
+  <div class="service-card">
+    <h3>Компании с Telegram-first каналом</h3>
+    <p>Когда нужна связка бота, веб-интерфейса, биллинга и интеграций в едином пользовательском сценарии.</p>
   </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/nodejs.svg" alt="Node.js" width="48" height="48" />
-    <span>Node.js</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/express.png" alt="Express" width="48" height="48" />
-    <span>Express</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/postgres.svg" alt="PostgreSQL" width="48" height="48" />
-    <span>PostgreSQL</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/python.svg" alt="Python" width="48" height="48" />
-    <span>Python</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/docker.svg" alt="Docker" width="48" height="48" />
-    <span>Docker</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/tailwind.svg" alt="Tailwind" width="48" height="48" />
-    <span>Tailwind</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/css.svg" alt="CSS" width="48" height="48" />
-    <span>CSS</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/git.svg" alt="Git" width="48" height="48" />
-    <span>Git</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/linux.svg" alt="Linux" width="48" height="48" />
-    <span>Linux</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/ubuntu.svg" alt="Ubuntu" width="48" height="48" />
-    <span>Ubuntu</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/telegram.svg" alt="Telegram" width="48" height="48" />
-    <span>Telegram</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/android-studio.svg" alt="Android Studio" width="48" height="48" />
-    <span>Android Studio</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/comfyui.svg" alt="ComfyUI" width="48" height="48" />
-    <span>ComfyUI</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/canva.svg" alt="Canva" width="48" height="48" />
-    <span>Canva</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/cursor.png" alt="Cursor" width="48" height="48" />
-    <span>Cursor</span>
-  </div>
-  <div style="display: flex; flex-direction: column; align-items: center; gap: 6px;">
-    <img src="/images/sql.png" alt="SQL" width="48" height="48" />
-    <span>SQL</span>
+  <div class="service-card">
+    <h3>Проекты без четкого ТЗ</h3>
+    <p>Когда нужна техническая экспертиза: формализация требований, проработка решения и сборка под ключ.</p>
   </div>
 </div>
 
-## Подход к работе
+<h2 class="section-title">Что делаю</h2>
 
-1. Аудит задачи и контекста
-2. Формирование решения и структуры
-3. Разработка и интеграция
-4. Поддержка и развитие
+<div class="services-grid">
+  <div class="service-card">
+    <h3>Telegram-боты и Mini App</h3>
+    <p>Логика сценариев, интеграции, биллинг, роли, админ-инструменты и безопасная авторизация.</p>
+  </div>
+  <div class="service-card">
+    <h3>Web-приложения</h3>
+    <p>Интерфейсы и backend для рабочих процессов: от кабинетов до инструментов для команд и клиентов.</p>
+  </div>
+  <div class="service-card">
+    <h3>AI-интеграции</h3>
+    <p>LLM, транскрибация, анализ текста и медиа, автоматизация рутины и продуктовых операций.</p>
+  </div>
+  <div class="service-card">
+    <h3>Базы знаний и документация</h3>
+    <p>Структурирование знаний, гайды и техническая документация, чтобы продукт было проще развивать.</p>
+  </div>
+</div>
 
-## Заметки и гайды
+<h2 class="section-title">Форматы сотрудничества</h2>
 
-[[Блог/Index|Блог]]
+<services-carousel data-source="/static/data/services-carousel.json"></services-carousel>
 
-## Давайте обсудим задачу
+<h2 class="section-title">Кейсы</h2>
 
-Коротко опишите цель и контекст — отвечу и предложу следующий шаг.
+<div class="project-showcase">
+  <div class="project-card">
+    <h3><a href="/Проекты/Audio-Scribe/">Audio-Scribe</a></h3>
+    <p>Задача: ускорить обработку аудио и видео контента. Решение: Telegram-бот + Web App на React с AI-анализом, мультиязычностью и биллингом. Результат: единый контур работы с транскрибацией, summary, цитатами и вопросами по контексту.</p>
+    <div class="project-tags">
+      <span>Telegram</span>
+      <span>React</span>
+      <span>AI</span>
+      <span>Node.js</span>
+    </div>
+  </div>
+  <div class="project-card">
+    <h3><a href="/Проекты/Obsidian/">Obsidian Knowledge Base</a></h3>
+    <p>Задача: собрать и стандартизировать технические знания команды. Решение: структурированная база знаний с практическими гайдами по Quartz 4 и AI-интеграциям. Результат: быстрее онбординг и меньше времени на повторяющиеся вопросы.</p>
+    <div class="project-tags">
+      <span>Obsidian</span>
+      <span>Quartz</span>
+      <span>Документация</span>
+    </div>
+  </div>
+  <div class="project-card">
+    <h3><a href="/Проекты/Promt Gen/Index">PromtGen</a></h3>
+    <p>Задача: ускорить подготовку качественных AI-запросов. Решение: генератор промтов с шаблонами для разных сценариев. Результат: быстрее запуск экспериментов и меньше ручной рутины при работе с LLM.</p>
+    <div class="project-tags">
+      <span>AI</span>
+      <span>Промты</span>
+      <span>LLM</span>
+    </div>
+  </div>
+</div>
 
-[[Кoнтакты|Контакты]]
+<h2 class="section-title">Технологии</h2>
+
+<div class="tech-stack">
+  <div class="tech-grid">
+    <div class="tech-item">
+      <img src="/images/icon/react.svg" alt="React" />
+      <span>React</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/typescript.svg" alt="TypeScript" />
+      <span>TypeScript</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/javascript.svg" alt="JavaScript" />
+      <span>JavaScript</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/nodejs.svg" alt="Node.js" />
+      <span>Node.js</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/express.png" alt="Express" />
+      <span>Express</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/postgres.svg" alt="PostgreSQL" />
+      <span>PostgreSQL</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/python.svg" alt="Python" />
+      <span>Python</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/docker.svg" alt="Docker" />
+      <span>Docker</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/tailwind.svg" alt="Tailwind" />
+      <span>Tailwind</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/css.svg" alt="CSS" />
+      <span>CSS</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/git.svg" alt="Git" />
+      <span>Git</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/linux.svg" alt="Linux" />
+      <span>Linux</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/telegram.svg" alt="Telegram" />
+      <span>Telegram</span>
+    </div>
+    <div class="tech-item">
+      <img src="/images/icon/huggingface.svg" alt="HuggingFace" />
+      <span>HuggingFace</span>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Подход к работе</h2>
+
+<div class="workflow-section">
+  <div class="workflow-steps">
+    <div class="workflow-step">
+      <div class="step-number">1</div>
+      <h4>Погружение в задачу</h4>
+      <p>Фиксирую цель, ограничения и критерии результата</p>
+    </div>
+    <div class="workflow-step">
+      <div class="step-number">2</div>
+      <h4>Проектирование решения</h4>
+      <p>Собираю архитектуру, этапы и прозрачный план реализации</p>
+    </div>
+    <div class="workflow-step">
+      <div class="step-number">3</div>
+      <h4>Разработка и запуск</h4>
+      <p>Реализую функционал, провожу интеграцию и вывожу в продакшн</p>
+    </div>
+    <div class="workflow-step">
+      <div class="step-number">4</div>
+      <h4>Поддержка</h4>
+      <p>Развиваю продукт после релиза и закрываю новые задачи</p>
+    </div>
+  </div>
+</div>
+
+<h2 class="section-title">Публикации и экспертиза</h2>
+
+[[Проекты/Obsidian/index|Гайды и материалы по Quartz, Obsidian и AI]]
+
+[[Blog/Hi Tech News|Публикации в блоге]]
+
+<div class="cta-section">
+  <h2>Обсудим вашу задачу</h2>
+  <p>Опишите цель, текущий контекст и желаемый результат. Предложу следующий шаг и формат работы.</p>
+  <a href="/Кoнтакты" class="cta-button">Связаться</a>
+</div>
