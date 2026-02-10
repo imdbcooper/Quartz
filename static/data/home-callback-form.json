@@ -1,0 +1,29 @@
+{
+  "title": "",
+  "subtitle": "",
+  "action": "https://app.slavx.ru/api/v1/f/12a7dd50d5c0",
+  "method": "POST",
+  "submitLabel": "Заказать звонок",
+  "privacyNote": "",
+  "fields": [
+    {
+      "type": "tel",
+      "name": "phone",
+      "label": "Телефон",
+      "placeholder": "+7...",
+      "required": true,
+      "autocomplete": "tel"
+    },
+    {
+      "type": "checkbox",
+      "name": "consent",
+      "required": true,
+      "options": [
+        {
+          "label": "Я согласен(а) на обработку персональных данных",
+          "value": "yes"
+        }
+      ]
+    }
+  ]
+}

@@ -6,6 +6,36 @@
       <description>Last 10 notes on Smirnoff</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
+    <title>Hi Tech News</title>
+    <link>https://slavx.ru/Blog/Hi-Tech-News/</link>
+    <guid>https://slavx.ru/Blog/Hi-Tech-News/</guid>
+    <description><![CDATA[ Подборка новостей и разборов о технологиях, ИИ и цифровых продуктах. ]]></description>
+    <pubDate>Tue, 10 Feb 2026 20:47:51 GMT</pubDate>
+  </item><item>
+    <title>Docs</title>
+    <link>https://slavx.ru/docs/</link>
+    <guid>https://slavx.ru/docs/</guid>
+    <description><![CDATA[ Документы и юридическая информация ]]></description>
+    <pubDate>Tue, 10 Feb 2026 20:47:51 GMT</pubDate>
+  </item><item>
+    <title>Политика обработки персональных данных</title>
+    <link>https://slavx.ru/docs/privacy-policy</link>
+    <guid>https://slavx.ru/docs/privacy-policy</guid>
+    <description><![CDATA[ Порядок обработки персональных данных на сайте slavx.ru. ]]></description>
+    <pubDate>Tue, 10 Feb 2026 20:47:51 GMT</pubDate>
+  </item><item>
+    <title>Telegram, Web и AI-решения под бизнес-задачи</title>
+    <link>https://slavx.ru/</link>
+    <guid>https://slavx.ru/</guid>
+    <description><![CDATA[ Помогаю компаниям запускать Telegram-ботов, web-сервисы и AI-сценарии с понятным планом, сроками и коммуникацией. ]]></description>
+    <pubDate>Tue, 10 Feb 2026 20:47:51 GMT</pubDate>
+  </item><item>
+    <title>Контакты</title>
+    <link>https://slavx.ru/%D0%9Ao%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B</link>
+    <guid>https://slavx.ru/%D0%9Ao%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B</guid>
+    <description><![CDATA[ Получите план запуска вашего проекта. Telegram-боты, Web-приложения, AI-интеграции. Быстрый ответ, понятный следующий шаг. ]]></description>
+    <pubDate>Tue, 10 Feb 2026 20:14:40 GMT</pubDate>
+  </item><item>
     <title>Шах и мат: как Google развернула ИИ-гонку и ударила по монополии NVIDIA</title>
     <link>https://slavx.ru/Blog/Hi-Tech-News/2026-02-08-google-ai-checkmate-nvidia</link>
     <guid>https://slavx.ru/Blog/Hi-Tech-News/2026-02-08-google-ai-checkmate-nvidia</guid>
@@ -35,36 +65,6 @@
     <guid>https://slavx.ru/Blog/Hi-Tech-News/2026-02-06-gpt-53-codex-vs-claude-opus-46</guid>
     <description><![CDATA[ Сравнение двух флагманских моделей для разработки и агентных задач по цене, качеству, безопасности, скорости и IDE-интеграциям, с практическими рекомендациями для разных ролей. ]]></description>
     <pubDate>Fri, 06 Feb 2026 20:15:00 GMT</pubDate>
-  </item><item>
-    <title>Anthropic блокирует разработчиков</title>
-    <link>https://slavx.ru/Blog/Hi-Tech-News/2026-01-13-anthropic-blocks-developers</link>
-    <guid>https://slavx.ru/Blog/Hi-Tech-News/2026-01-13-anthropic-blocks-developers</guid>
-    <description><![CDATA[ В январе 2026 года Anthropic реализовала строгие технические защиты против использования её моделей Claude ]]></description>
-    <pubDate>Fri, 06 Feb 2026 15:22:00 GMT</pubDate>
-  </item><item>
-    <title>Нечестная реклама Anthropic против OpenAI: где маркетинг, а где манипуляция</title>
-    <link>https://slavx.ru/Blog/Hi-Tech-News/2026-02-06-anthropic-openai-ads-analysis</link>
-    <guid>https://slavx.ru/Blog/Hi-Tech-News/2026-02-06-anthropic-openai-ads-analysis</guid>
-    <description><![CDATA[ Разбор кампании Anthropic против рекламных интеграций в ChatGPT: что в претензиях по делу, а что выглядит как удобный PR-удар. ]]></description>
-    <pubDate>Fri, 06 Feb 2026 14:56:00 GMT</pubDate>
-  </item><item>
-    <title>Clawdbot: это не магия, а архитектура AI-агента</title>
-    <link>https://slavx.ru/Blog/Hi-Tech-News/2026-02-06-clawdbot-not-magic</link>
-    <guid>https://slavx.ru/Blog/Hi-Tech-News/2026-02-06-clawdbot-not-magic</guid>
-    <description><![CDATA[ Разбираем, почему Clawdbot выглядит как магия, хотя на практике это управляемая архитектура с циклами, триггерами, очередями, хуками, расписаниями и интеграциями. ]]></description>
-    <pubDate>Fri, 06 Feb 2026 01:40:00 GMT</pubDate>
-  </item><item>
-    <title>Проект Google Genie: как world model превращает генерацию в интерактивный опыт</title>
-    <link>https://slavx.ru/Blog/Hi-Tech-News/2026-02-05-google-project-genie</link>
-    <guid>https://slavx.ru/Blog/Hi-Tech-News/2026-02-05-google-project-genie</guid>
-    <description><![CDATA[ Project Genie показывает сдвиг от 'AI делает картинку' к 'AI поддерживает живой мир, который меняется от ваших действий'. Разбираю, что в этом реально нового, где ограничения и почему это важно для рынка генеративного ИИ в ближайшие 6-12 месяцев. ]]></description>
-    <pubDate>Thu, 05 Feb 2026 22:24:00 GMT</pubDate>
-  </item><item>
-    <title>Нейронки учатся слушать и понимать клиентов: зачем бизнесу ИИ-ассистенты в SpeechSense</title>
-    <link>https://slavx.ru/Blog/Hi-Tech-News/2026-02-05-speechsense-ii-assistenty-kontrol-kachestva</link>
-    <guid>https://slavx.ru/Blog/Hi-Tech-News/2026-02-05-speechsense-ii-assistenty-kontrol-kachestva</guid>
-    <description><![CDATA[ Yandex B2B Tech добавила ИИ-ассистентов в SpeechSense для контроля качества контакт-центров. Разбираем, что это меняет в QA, как внедрять без иллюзий и где риски. ]]></description>
-    <pubDate>Thu, 05 Feb 2026 20:00:00 GMT</pubDate>
   </item>
     </channel>
   </rss>
