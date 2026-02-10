@@ -1,0 +1,708 @@
+<!doctype html>
+<html class="dark" lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Smirnoff - Developer Portfolio</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,container-queries"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&amp;display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+      rel="stylesheet"
+    />
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#60a5fa",
+              "background-light": "#f3f4f6",
+              "background-dark": "#111111",
+              "surface-light": "#ffffff",
+              "surface-dark": "#161618",
+              "border-light": "#e5e7eb",
+              "border-dark": "#27272a",
+              "text-main-light": "#1f2937",
+              "text-main-dark": "#e5e7eb",
+              "text-muted-light": "#6b7280",
+              "text-muted-dark": "#9ca3af",
+            },
+            fontFamily: {
+              display: ["Inter", "sans-serif"],
+              body: ["Inter", "sans-serif"],
+            },
+            borderRadius: {
+              DEFAULT: "0.5rem",
+            },
+          },
+        },
+      }
+    </script>
+    <style type="text/tailwindcss">
+      body {
+        font-family: "Inter", sans-serif;
+      }
+      .hero-pattern {
+        background-image: radial-gradient(
+          circle at 2px 2px,
+          rgba(96, 165, 250, 0.05) 1px,
+          transparent 0
+        );
+        background-size: 24px 24px;
+      }
+      .material-symbols-outlined {
+        font-variation-settings:
+          "FILL" 0,
+          "wght" 300,
+          "GRAD" 0,
+          "opsz" 24;
+      }
+      .graph-mesh {
+        background-image: radial-gradient(circle, #3b82f6 1px, transparent 1px);
+        background-size: 30px 30px;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-background-light dark:bg-background-dark text-text-main-light dark:text-text-main-dark min-h-screen transition-colors duration-200"
+  >
+    <div
+      class="max-w-[1600px] mx-auto p-4 md:p-8 grid grid-cols-1 lg:grid-cols-[260px_1fr_300px] gap-8"
+    >
+      <aside class="flex flex-col gap-8">
+        <div class="flex flex-col items-center">
+          <div
+            class="w-32 h-32 rounded-full overflow-hidden mb-4 ring-2 ring-border-dark dark:ring-border-dark"
+          >
+            <img
+              alt="Profile Picture of Smirnoff"
+              class="w-full h-full object-cover"
+              src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFiy1kXqXETn-NMLZvIUPaNfEHUxTefvtrRQg6HfOYO1w73mNIIbYsgnCgtmGZ7rI0RciW7y1jX-g4RcCryRYDidkSRWYjrIcemVFzjf_Sb9UbwNBz4v9-ZL_nmh-1S2cY05dvbtT9yeb3bPWuZPtZXwWeklszAAnqIrpF4mUndidLBkR07DbIT0FxSKJZvMrJHFyPQruIjuoz4-5t-QqJWTOEg-Igtr4olWTNeHtFugNzFWGE9RIfdGYiBlbAhDhZwihQX5Wv"
+            />
+          </div>
+          <h1 class="text-xl font-bold dark:text-white">Smirnoff</h1>
+        </div>
+        <nav class="flex flex-col gap-2">
+          <div
+            class="border border-border-light dark:border-border-dark rounded-lg overflow-hidden"
+          >
+            <a
+              class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors border-b border-border-light dark:border-border-dark last:border-0"
+              href="#"
+            >
+              <span
+                class="material-symbols-outlined text-xl text-text-muted-light dark:text-text-muted-dark"
+                >article</span
+              >
+              <span class="font-medium text-sm">Blog</span>
+            </a>
+            <a
+              class="flex items-center gap-3 px-4 py-3 pl-12 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors text-sm text-text-muted-light dark:text-text-muted-dark"
+              href="#"
+            >
+              Hi Tech News
+            </a>
+          </div>
+          <div
+            class="border border-border-light dark:border-border-dark rounded-lg overflow-hidden mt-2"
+          >
+            <a
+              class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+              href="#"
+            >
+              <span
+                class="material-symbols-outlined text-xl text-text-muted-light dark:text-text-muted-dark"
+                >folder_open</span
+              >
+              <span class="font-medium text-sm">Projects</span>
+            </a>
+          </div>
+          <div
+            class="border border-border-light dark:border-border-dark rounded-lg overflow-hidden mt-2"
+          >
+            <a
+              class="flex items-center gap-3 px-4 py-3 hover:bg-gray-100 dark:hover:bg-zinc-800 transition-colors"
+              href="#"
+            >
+              <span
+                class="material-symbols-outlined text-xl text-text-muted-light dark:text-text-muted-dark"
+                >smartphone</span
+              >
+              <span class="font-medium text-sm">Контакты</span>
+            </a>
+          </div>
+        </nav>
+      </aside>
+      <main class="flex flex-col gap-16">
+        <div
+          class="relative bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-8 md:p-12 text-center shadow-xl overflow-hidden hero-pattern"
+        >
+          <div
+            class="absolute -top-24 -right-24 w-96 h-96 bg-primary/10 rounded-full blur-[100px]"
+          ></div>
+          <div
+            class="absolute -bottom-24 -left-24 w-64 h-64 bg-primary/5 rounded-full blur-[80px]"
+          ></div>
+          <div class="relative z-10 max-w-2xl mx-auto">
+            <h2
+              class="text-xl md:text-3xl font-bold mb-6 leading-[1.2] tracking-tight dark:text-white"
+            >
+              Автоматизирую бизнес-процессы через Telegram, Web и AI
+            </h2>
+            <p class="text-sm text-text-muted-light dark:text-text-muted-dark mb-8 font-medium">
+              20+ проектов • 3 года опыта • От брифа до запуска за 2-6 недель
+            </p>
+            <div class="flex flex-wrap justify-center gap-2 mb-10">
+              <span
+                class="px-4 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800/50 text-xs font-medium text-text-muted-light dark:text-text-muted-dark border border-border-light dark:border-border-dark"
+                >Telegram Mini Apps</span
+              >
+              <span
+                class="px-4 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800/50 text-xs font-medium text-text-muted-light dark:text-text-muted-dark border border-border-light dark:border-border-dark"
+                >Business Automation</span
+              >
+              <span
+                class="px-4 py-1.5 rounded-full bg-gray-100 dark:bg-zinc-800/50 text-xs font-medium text-text-muted-light dark:text-text-muted-dark border border-border-light dark:border-border-dark"
+                >LLM Integrations</span
+              >
+            </div>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+              <a
+                class="bg-primary hover:bg-primary/90 text-white dark:text-slate-900 font-bold px-8 py-3.5 rounded-xl transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
+                href="#"
+              >
+                Обсудить задачу
+                <span class="material-symbols-outlined text-lg">arrow_forward</span>
+              </a>
+              <a
+                class="bg-white dark:bg-zinc-800 border border-border-light dark:border-border-dark hover:bg-gray-50 dark:hover:bg-zinc-700 text-text-main-light dark:text-white font-semibold px-8 py-3.5 rounded-xl transition-all"
+                href="#"
+              >
+                Все контакты
+              </a>
+            </div>
+          </div>
+        </div>
+        <section>
+          <div class="flex items-center gap-3 mb-10">
+            <span class="text-primary font-mono text-sm uppercase tracking-widest">01 / Focus</span>
+            <h3 class="text-3xl font-bold dark:text-white">Кому подхожу</h3>
+            <div class="flex-grow h-px bg-gradient-to-r from-border-dark to-transparent"></div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div
+              class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-8 hover:border-primary/40 transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 bg-blue-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              >
+                <span class="material-symbols-outlined text-primary text-2xl">inbox_customize</span>
+              </div>
+              <h4 class="text-xl font-bold mb-3 dark:text-white">Теряются заявки</h4>
+              <p
+                class="text-sm text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed"
+              >
+                Собираю Telegram-first сценарий: бот, мгновенные уведомления и CRM-интеграции, чтобы
+                ни один лид не пропал.
+              </p>
+              <div class="mt-auto pt-6 border-t border-border-light dark:border-border-dark/50">
+                <div class="flex items-center gap-2 text-xs font-semibold text-primary">
+                  <span class="material-symbols-outlined text-sm">trending_up</span>
+                  ФИКСАЦИЯ ДО 95% ОБРАЩЕНИЙ
+                </div>
+              </div>
+            </div>
+            <div
+              class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-8 hover:border-primary/40 transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 bg-purple-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              >
+                <span class="material-symbols-outlined text-purple-400 text-2xl"
+                  >pending_actions</span
+                >
+              </div>
+              <h4 class="text-xl font-bold mb-3 dark:text-white">Рутина перегружает</h4>
+              <p
+                class="text-sm text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed"
+              >
+                Автоматизирую повторяющиеся шаги: обработку сообщений, отчеты и типовые ответы без
+                участия человека.
+              </p>
+              <div class="mt-auto pt-6 border-t border-border-light dark:border-border-dark/50">
+                <div class="flex items-center gap-2 text-xs font-semibold text-purple-400">
+                  <span class="material-symbols-outlined text-sm">schedule</span>
+                  -10 ЧАСОВ РУТИНЫ В НЕДЕЛЮ
+                </div>
+              </div>
+            </div>
+            <div
+              class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-8 hover:border-primary/40 transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 bg-orange-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              >
+                <span class="material-symbols-outlined text-orange-400 text-2xl"
+                  >rocket_launch</span
+                >
+              </div>
+              <h4 class="text-xl font-bold mb-3 dark:text-white">Проверка гипотез</h4>
+              <p
+                class="text-sm text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed"
+              >
+                Быстрый запуск MVP с ключевым функционалом для тестирования рынка на реальных
+                пользователях.
+              </p>
+              <div class="mt-auto pt-6 border-t border-border-light dark:border-border-dark/50">
+                <div class="flex items-center gap-2 text-xs font-semibold text-orange-400">
+                  <span class="material-symbols-outlined text-sm">speed</span>
+                  ЗАПУСК MVP ЗА 2-3 НЕДЕЛИ
+                </div>
+              </div>
+            </div>
+            <div
+              class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-8 hover:border-primary/40 transition-all duration-300"
+            >
+              <div
+                class="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform"
+              >
+                <span class="material-symbols-outlined text-emerald-400 text-2xl"
+                  >account_tree</span
+                >
+              </div>
+              <h4 class="text-xl font-bold mb-3 dark:text-white">Нужна структура</h4>
+              <p
+                class="text-sm text-text-muted-light dark:text-text-muted-dark mb-8 leading-relaxed"
+              >
+                Разработка архитектуры и прозрачного плана работ. Сопровождаю проект как техлид до
+                полного релиза.
+              </p>
+              <div class="mt-auto pt-6 border-t border-border-light dark:border-border-dark/50">
+                <div class="flex items-center gap-2 text-xs font-semibold text-emerald-400">
+                  <span class="material-symbols-outlined text-sm">fact_check</span>
+                  ЕЖЕНЕДЕЛЬНЫЕ ДЕМО-ОТЧЕТЫ
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="flex items-center gap-3 mb-10">
+            <span class="text-primary font-mono text-sm uppercase tracking-widest"
+              >02 / Services</span
+            >
+            <h3 class="text-3xl font-bold dark:text-white">Что делаю</h3>
+            <div class="flex-grow h-px bg-gradient-to-r from-border-dark to-transparent"></div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div
+              class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border-light dark:border-border-dark flex flex-col items-start gap-4 hover:translate-y-[-4px] transition-transform"
+            >
+              <span class="material-symbols-outlined text-primary p-3 bg-primary/10 rounded-lg"
+                >send</span
+              >
+              <h4 class="font-bold text-sm">Telegram Mini App</h4>
+            </div>
+            <div
+              class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border-light dark:border-border-dark flex flex-col items-start gap-4 hover:translate-y-[-4px] transition-transform"
+            >
+              <span class="material-symbols-outlined text-primary p-3 bg-primary/10 rounded-lg"
+                >web</span
+              >
+              <h4 class="font-bold text-sm">Admin Panels</h4>
+            </div>
+            <div
+              class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border-light dark:border-border-dark flex flex-col items-start gap-4 hover:translate-y-[-4px] transition-transform"
+            >
+              <span class="material-symbols-outlined text-primary p-3 bg-primary/10 rounded-lg"
+                >psychology</span
+              >
+              <h4 class="font-bold text-sm">AI Integrations</h4>
+            </div>
+            <div
+              class="p-6 rounded-2xl bg-zinc-50 dark:bg-zinc-900 border border-border-light dark:border-border-dark flex flex-col items-start gap-4 hover:translate-y-[-4px] transition-transform"
+            >
+              <span class="material-symbols-outlined text-primary p-3 bg-primary/10 rounded-lg"
+                >auto_stories</span
+              >
+              <h4 class="font-bold text-sm">Knowledge Bases</h4>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="flex items-center gap-3 mb-10">
+            <span class="text-primary font-mono text-sm uppercase tracking-widest">03 / Works</span>
+            <h3 class="text-3xl font-bold dark:text-white">Кейсы</h3>
+            <div class="flex-grow h-px bg-gradient-to-r from-border-dark to-transparent"></div>
+          </div>
+          <div class="flex flex-col gap-10">
+            <div
+              class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl overflow-hidden flex flex-col lg:flex-row shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <div class="lg:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+                <div class="flex items-center gap-2 mb-4">
+                  <span
+                    class="px-3 py-1 rounded-md bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 text-xs font-bold uppercase tracking-wider"
+                    >AI Integration</span
+                  >
+                </div>
+                <h4 class="text-2xl font-bold mb-6 dark:text-white">
+                  Audio-Scribe: AI Transcription Bot
+                </h4>
+                <div class="space-y-4 mb-8">
+                  <div class="flex gap-3">
+                    <span class="material-symbols-outlined text-sm mt-1 text-red-400"
+                      >remove_circle_outline</span
+                    >
+                    <p class="text-sm">
+                      <span class="font-bold text-text-main-light dark:text-white">Было:</span>
+                      <span class="text-text-muted-dark"
+                        >2–3 часа на расшифровку одного интервью.</span
+                      >
+                    </p>
+                  </div>
+                  <div class="flex gap-3">
+                    <span class="material-symbols-outlined text-sm mt-1 text-primary"
+                      >add_circle_outline</span
+                    >
+                    <p class="text-sm">
+                      <span class="font-bold text-text-main-light dark:text-white">Сделали:</span>
+                      <span class="text-text-muted-dark"
+                        >Telegram + Web App с Whisper AI и автоматическим summary.</span
+                      >
+                    </p>
+                  </div>
+                </div>
+                <div class="bg-green-500/10 border-l-4 border-green-500 p-4 rounded-r-xl">
+                  <p class="text-sm font-semibold text-green-600 dark:text-green-400">
+                    Результат: экономия 2-3 часа ежедневно
+                  </p>
+                </div>
+              </div>
+              <div
+                class="lg:w-1/2 bg-zinc-100 dark:bg-zinc-800/50 p-6 flex items-center justify-center overflow-hidden"
+              >
+                <div
+                  class="w-full h-full min-h-[300px] rounded-xl border border-border-light dark:border-border-dark shadow-2xl overflow-hidden relative group-hover:scale-[1.02] transition-transform duration-500"
+                >
+                  <div class="absolute inset-0 bg-zinc-900 p-4 flex flex-col gap-3">
+                    <div
+                      class="h-8 w-full bg-zinc-800 rounded flex items-center px-3 justify-between"
+                    >
+                      <div class="flex gap-2">
+                        <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                        <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                      </div>
+                      <div class="h-4 w-24 bg-zinc-700 rounded-sm"></div>
+                    </div>
+                    <div class="flex-grow flex gap-3">
+                      <div class="w-1/3 bg-zinc-800/50 rounded p-3 flex flex-col gap-2">
+                        <div class="h-4 w-full bg-primary/20 rounded"></div>
+                        <div class="h-4 w-2/3 bg-zinc-700 rounded"></div>
+                        <div
+                          class="mt-auto h-16 w-full bg-zinc-700/30 rounded border border-dashed border-zinc-600"
+                        ></div>
+                      </div>
+                      <div class="flex-grow bg-zinc-800/50 rounded p-4 flex flex-col gap-3">
+                        <div class="h-3 w-1/2 bg-zinc-700 rounded"></div>
+                        <div class="space-y-2">
+                          <div class="h-2 w-full bg-zinc-700/50 rounded"></div>
+                          <div class="h-2 w-full bg-zinc-700/50 rounded"></div>
+                          <div class="h-2 w-3/4 bg-zinc-700/50 rounded"></div>
+                        </div>
+                        <div
+                          class="mt-4 h-24 w-full bg-zinc-900 border border-zinc-700 rounded flex flex-col p-2 gap-2"
+                        >
+                          <div class="flex gap-2">
+                            <div class="w-4 h-4 bg-primary/40 rounded"></div>
+                            <div class="h-2 w-20 bg-zinc-700 mt-1"></div>
+                          </div>
+                          <div class="h-2 w-full bg-zinc-800 rounded"></div>
+                          <div class="h-2 w-5/6 bg-zinc-800 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="group bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-3xl overflow-hidden flex flex-col shadow-sm hover:shadow-xl transition-all duration-500"
+            >
+              <div
+                class="h-64 sm:h-80 bg-zinc-100 dark:bg-zinc-800/50 relative overflow-hidden flex items-center justify-center"
+              >
+                <div class="absolute inset-0 opacity-20 graph-mesh"></div>
+                <div class="relative w-full h-full max-w-lg mx-auto">
+                  <svg class="w-full h-full p-12" viewBox="0 0 400 300">
+                    <g class="stroke-zinc-600 dark:stroke-zinc-500" stroke-width="0.5">
+                      <line x1="200" x2="100" y1="150" y2="80"></line>
+                      <line x1="200" x2="300" y1="150" y2="80"></line>
+                      <line x1="200" x2="150" y1="150" y2="230"></line>
+                      <line x1="200" x2="250" y1="150" y2="230"></line>
+                      <line x1="100" x2="60" y1="80" y2="120"></line>
+                      <line x1="100" x2="140" y1="80" y2="40"></line>
+                      <line x1="300" x2="340" y1="80" y2="120"></line>
+                      <line x1="150" x2="100" y1="230" y2="210"></line>
+                      <line x1="250" x2="300" y1="230" y2="250"></line>
+                    </g>
+                    <circle class="fill-primary shadow-lg" cx="200" cy="150" r="6"></circle>
+                    <circle class="fill-zinc-400" cx="100" cy="80" r="4"></circle>
+                    <circle class="fill-zinc-400" cx="300" cy="80" r="4"></circle>
+                    <circle class="fill-zinc-400" cx="150" cy="230" r="4"></circle>
+                    <circle class="fill-zinc-400" cx="250" cy="230" r="4"></circle>
+                    <circle class="fill-zinc-600" cx="60" cy="120" r="2.5"></circle>
+                    <circle class="fill-zinc-600" cx="140" cy="40" r="2.5"></circle>
+                    <circle class="fill-zinc-600" cx="340" cy="120" r="2.5"></circle>
+                    <circle class="fill-zinc-600" cx="100" cy="210" r="2.5"></circle>
+                    <circle class="fill-zinc-600" cx="300" cy="250" r="2.5"></circle>
+                  </svg>
+                  <div
+                    class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-primary/20 rounded-full blur-3xl"
+                  ></div>
+                </div>
+              </div>
+              <div class="p-8 md:p-12 text-center max-w-3xl mx-auto w-full">
+                <div class="flex justify-center items-center gap-2 mb-4">
+                  <span
+                    class="px-3 py-1 rounded-md bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-300 text-xs font-bold uppercase tracking-wider"
+                    >Infrastructure</span
+                  >
+                </div>
+                <h4 class="text-3xl font-bold mb-8 dark:text-white">Obsidian Knowledge Base</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10 text-left">
+                  <div class="space-y-6">
+                    <div
+                      class="flex gap-4 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/30 border border-border-light dark:border-border-dark"
+                    >
+                      <span class="material-symbols-outlined text-red-400 shrink-0"
+                        >remove_circle_outline</span
+                      >
+                      <div>
+                        <p
+                          class="text-xs font-bold uppercase tracking-tighter text-text-muted-dark mb-1"
+                        >
+                          Было
+                        </p>
+                        <p class="text-sm text-text-muted-dark">
+                          затянутый онбординг сотрудников (2 недели).
+                        </p>
+                      </div>
+                    </div>
+                    <div
+                      class="flex gap-4 p-4 rounded-xl bg-zinc-50 dark:bg-zinc-800/30 border border-border-light dark:border-border-dark"
+                    >
+                      <span class="material-symbols-outlined text-primary shrink-0"
+                        >add_circle_outline</span
+                      >
+                      <div>
+                        <p
+                          class="text-xs font-bold uppercase tracking-tighter text-text-muted-dark mb-1"
+                        >
+                          Сделали
+                        </p>
+                        <p class="text-sm text-text-muted-dark">
+                          связанная база знаний с шаблонами и автоматизацией гайдов.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-col justify-center">
+                    <div
+                      class="bg-blue-500/10 border-l-4 border-blue-500 p-6 rounded-r-xl h-full flex flex-col justify-center"
+                    >
+                      <p class="text-xs font-bold uppercase tracking-widest text-blue-500 mb-2">
+                        Результат
+                      </p>
+                      <p class="text-xl font-bold text-blue-600 dark:text-blue-400">
+                        Онбординг сократился до 3 дней
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section>
+          <div class="flex items-center gap-3 mb-10">
+            <span class="text-primary font-mono text-sm uppercase tracking-widest">04 / FAQ</span>
+            <h3 class="text-3xl font-bold dark:text-white">Частые вопросы</h3>
+            <div class="flex-grow h-px bg-gradient-to-r from-border-dark to-transparent"></div>
+          </div>
+          <div class="grid grid-cols-1 gap-4 max-w-4xl">
+            <div
+              class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors cursor-default"
+            >
+              <div class="flex justify-between items-start gap-4">
+                <div>
+                  <h5 class="font-bold text-lg mb-2 text-text-main-light dark:text-white">
+                    С чего начинается работа?
+                  </h5>
+                  <p
+                    class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed"
+                  >
+                    С короткого брифа: цель, текущий процесс и ограничения. После этого я
+                    подготавливаю 1–2 варианта реализации и примерную смету.
+                  </p>
+                </div>
+                <span class="material-symbols-outlined text-text-muted-dark">expand_more</span>
+              </div>
+            </div>
+            <div
+              class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors cursor-default"
+            >
+              <div class="flex justify-between items-start gap-4">
+                <div>
+                  <h5 class="font-bold text-lg mb-2 text-text-main-light dark:text-white">
+                    Сколько стоит разработка?
+                  </h5>
+                  <p
+                    class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed"
+                  >
+                    От 50 000 ₽ за MVP до 300 000 ₽ за комплексную систему с AI. Точную оценку даю
+                    после брифа — это бесплатно и ни к чему не обязывает.
+                  </p>
+                </div>
+                <span class="material-symbols-outlined text-text-muted-dark">expand_more</span>
+              </div>
+            </div>
+            <div
+              class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-2xl p-6 hover:bg-zinc-50 dark:hover:bg-zinc-800/50 transition-colors cursor-default"
+            >
+              <div class="flex justify-between items-start gap-4">
+                <div>
+                  <h5 class="font-bold text-lg mb-2 text-text-main-light dark:text-white">
+                    Почему вы, а не агентство?
+                  </h5>
+                  <p
+                    class="text-sm text-text-muted-light dark:text-text-muted-dark leading-relaxed"
+                  >
+                    Вы работаете напрямую с исполнителем. Это исключает испорченный телефон с
+                    менеджерами, ускоряет правки и делает ценообразование прозрачным.
+                  </p>
+                </div>
+                <span class="material-symbols-outlined text-text-muted-dark">expand_more</span>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section
+          class="relative bg-zinc-900 border border-zinc-800 rounded-3xl p-12 md:p-16 text-center overflow-hidden"
+        >
+          <div class="absolute inset-0 hero-pattern opacity-10"></div>
+          <div class="relative z-10">
+            <h3 class="text-3xl font-bold mb-4 text-white">Обсудим вашу задачу?</h3>
+            <p class="text-zinc-400 mb-10 max-w-lg mx-auto">
+              Обычно я отвечаю в течение пары часов. Подберу оптимальный стек и предложу маршрут
+              запуска.
+            </p>
+            <div class="flex flex-col items-center gap-4 text-sm mb-12">
+              <a
+                class="flex items-center gap-2 text-zinc-300 hover:text-primary transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-sm">alternate_email</span>
+                Telegram: <span class="font-bold">@slavxRu</span>
+              </a>
+              <a
+                class="flex items-center gap-2 text-zinc-300 hover:text-primary transition-colors"
+                href="#"
+              >
+                <span class="material-symbols-outlined text-sm">mail</span>
+                Email: <span class="font-bold">info@slavx.ru</span>
+              </a>
+            </div>
+            <a
+              class="inline-block bg-primary hover:bg-primary/90 text-slate-900 font-bold px-10 py-4 rounded-xl transition-all shadow-xl shadow-primary/20"
+              href="#"
+            >
+              Связаться сейчас
+            </a>
+          </div>
+        </section>
+        <footer
+          class="text-xs text-text-muted-light dark:text-text-muted-dark mb-10 border-t border-border-light dark:border-border-dark pt-8 flex flex-col md:flex-row justify-between items-center gap-4"
+        >
+          <p>© 2026 Smirnoff Portfolio • Built with Quartz v4.5.2</p>
+          <div class="flex gap-6">
+            <a class="hover:text-primary transition-colors" href="#">GitHub</a>
+            <a class="hover:text-primary transition-colors" href="#">Discord Community</a>
+          </div>
+        </footer>
+      </main>
+      <aside class="flex flex-col gap-6">
+        <div
+          class="flex items-center justify-between text-xs text-text-muted-light dark:text-text-muted-dark mb-2"
+        >
+          <span>Feb 09, 2026, 3 min read</span>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="relative flex-grow">
+            <span
+              class="material-symbols-outlined absolute left-3 top-1/2 transform -translate-y-1/2 text-text-muted-light dark:text-text-muted-dark text-lg"
+              >search</span
+            >
+            <input
+              class="w-full bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-md py-1.5 pl-10 pr-3 text-sm focus:outline-none focus:ring-1 focus:ring-primary placeholder-text-muted-light dark:placeholder-text-muted-dark"
+              placeholder="Search"
+              type="text"
+            />
+          </div>
+          <div class="flex items-center gap-2 text-text-muted-light dark:text-text-muted-dark">
+            <button class="hover:text-text-main-light dark:hover:text-white transition-colors">
+              <span class="material-symbols-outlined">dark_mode</span>
+            </button>
+            <button class="hover:text-text-main-light dark:hover:text-white transition-colors">
+              <span class="material-symbols-outlined">menu_book</span>
+            </button>
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold text-sm mb-2">Graph View</h3>
+          <div
+            class="bg-surface-light dark:bg-surface-dark border border-border-light dark:border-border-dark rounded-lg h-64 relative overflow-hidden flex items-center justify-center"
+          >
+            <div
+              class="absolute top-2 right-2 text-text-muted-light dark:text-text-muted-dark cursor-pointer hover:text-white"
+            >
+              <span class="material-symbols-outlined text-lg">hub</span>
+            </div>
+            <div class="relative w-32 h-32 opacity-40">
+              <div
+                class="absolute top-1/2 left-1/2 w-2 h-2 bg-primary rounded-full transform -translate-x-1/2 -translate-y-1/2"
+              ></div>
+              <div class="absolute top-1/4 left-1/4 w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <div class="absolute bottom-1/4 right-1/4 w-1.5 h-1.5 bg-gray-400 rounded-full"></div>
+              <svg class="absolute inset-0 w-full h-full pointer-events-none">
+                <line
+                  class="text-gray-400"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  x1="50%"
+                  x2="25%"
+                  y1="50%"
+                  y2="25%"
+                ></line>
+                <line
+                  class="text-gray-400"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  x1="50%"
+                  x2="75%"
+                  y1="50%"
+                  y2="75%"
+                ></line>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </body>
+</html>

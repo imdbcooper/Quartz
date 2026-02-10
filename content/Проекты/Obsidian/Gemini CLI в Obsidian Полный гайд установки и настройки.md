@@ -10,21 +10,25 @@ cssclasses: ""
 draft: false
 preview_image: /images/A_futuristic_concept_202512282143.jpeg
 ---
+
 ## Часть 1: Установка Gemini CLI
 
 ### Шаг 1: Установите Node.js (если не установлен)
 
 **macOS:**
+
 ```bash
 brew install node
 ```
 
 **Windows:**
+
 - Скачайте LTS версию с https://nodejs.org
 - Установите как обычную программу
 - Перезагрузитесь
 
 **Проверка:**
+
 ```bash
 node --version
 npm --version
@@ -33,6 +37,7 @@ npm --version
 ### Шаг 2: Установите Gemini CLI через npm
 
 **macOS и Windows:**
+
 ```bash
 npm install -g gemini-cli
 ```
@@ -40,11 +45,13 @@ npm install -g gemini-cli
 **Проверка установки:**
 
 macOS/Linux:
+
 ```bash
 which gemini
 ```
 
 Windows (PowerShell):
+
 ```powershell
 Test-Path "$env:APPDATA\Roaming\npm\gemini.cmd"
 ```
@@ -56,6 +63,7 @@ Test-Path "$env:APPDATA\Roaming\npm\gemini.cmd"
 ### Шаг 1: Авторизуйтесь в терминале
 
 **macOS/Linux/Windows:**
+
 ```bash
 gemini auth login
 ```
@@ -69,22 +77,24 @@ gemini auth status
 ```
 
 Должно вывести статус типа:
+
 ```
 ✓ Authenticated as: youremail@gmail.com
 ```
 
 **Файл OAuth будет создан автоматически:**
+
 - **macOS/Linux:** `~/.gemini/oauth_creds.json`
 - **Windows:** `C:\Users\YourName\.gemini\oauth_creds.json`
 
 ### ⭐ Преимущество OAuth авторизации
 
-| Параметр | OAuth (Google Account) | API Key (Free) |
-|----------|----------------------|----------------|
-| **Requests/day** | 1,000 | 100-250 |
-| **Requests/minute** | 60 | 5-15 |
-| **Стоимость** | Бесплатно | Бесплатно |
-| **Изменился ли?** | ❌ Нет (стабилен) | ✅ Да (снизился 50-80%) |
+| Параметр            | OAuth (Google Account) | API Key (Free)          |
+| ------------------- | ---------------------- | ----------------------- |
+| **Requests/day**    | 1,000                  | 100-250                 |
+| **Requests/minute** | 60                     | 5-15                    |
+| **Стоимость**       | Бесплатно              | Бесплатно               |
+| **Изменился ли?**   | ❌ Нет (стабилен)      | ✅ Да (снизился 50-80%) |
 
 **Вывод:** OAuth дает **10x больше запросов** и это бесплатно. Google специально рассчитал эти лимиты для реальной разработки.
 
@@ -118,15 +128,18 @@ BRAT позволит установить Agent Client до его официа
 ### Шаг 1: Найдите полный путь к Gemini CLI
 
 **macOS:**
+
 ```bash
 which gemini
 ```
+
 Пример вывода: `/opt/homebrew/bin/gemini`
 
 **Windows (PowerShell):**
 Путь обычно: `C:\Users\YourName\AppData\Roaming\npm\gemini.cmd`
 
 Проверьте:
+
 ```powershell
 Test-Path "$env:APPDATA\Roaming\npm\gemini.cmd"
 ```
@@ -135,23 +148,25 @@ Test-Path "$env:APPDATA\Roaming\npm\gemini.cmd"
 
 **Settings → Community Plugins → Agent Client**
 
-| Поле | Заполнить |
-|------|-----------|
-| **Path** | Путь к gemini (из шага 1) |
-| **Arguments** | `--experimental-acp` |
-| **API key** | (оставить пусто) |
-| **Environment variables** | (оставить пусто) |
-| **Enable WSL mode** | Только если Gemini в WSL |
+| Поле                      | Заполнить                 |
+| ------------------------- | ------------------------- |
+| **Path**                  | Путь к gemini (из шага 1) |
+| **Arguments**             | `--experimental-acp`      |
+| **API key**               | (оставить пусто)          |
+| **Environment variables** | (оставить пусто)          |
+| **Enable WSL mode**       | Только если Gemini в WSL  |
 
 **Конкретные примеры:**
 
 macOS:
+
 ```
 Path: /opt/homebrew/bin/gemini
 Arguments: --experimental-acp
 ```
 
 Windows:
+
 ```
 Path: C:\Users\SomDev\AppData\Roaming\npm\gemini.cmd
 Arguments: --experimental-acp
@@ -207,24 +222,28 @@ Gemini CLI будет анализировать ваши заметки и да
 ## Troubleshooting
 
 **"Path to gemini not found"**
+
 ```bash
 which gemini        # macOS
 where gemini        # Windows
 ```
 
 **"OAuth credentials not found"**
+
 ```bash
 gemini auth login   # Заново авторизуйтесь
 gemini auth status  # Проверьте статус
 ```
 
 **Windows: gemini не находится**
+
 - Используйте полный путь: `C:\Users\YourName\AppData\Roaming\npm\gemini.cmd`
 - Проверьте что файл существует в этой папке
 
 ---
 
 ## См. также
+
 - [[Подключение моделей от Perplexity к Obsidian через плагин Copilot|Использование Perplexity Copilot]] для поиска в интернете.
 
 ## Итого
@@ -232,6 +251,6 @@ gemini auth status  # Проверьте статус
 ✅ Gemini CLI установлен  
 ✅ OAuth авторизация (1,000 запросов/день)  
 ✅ Agent Client в Obsidian  
-✅ Полный контроль над AI  
+✅ Полный контроль над AI
 
 Теперь ваши заметки — это база знаний для AI, как в Cursor IDE, но для Obsidian. Особенно полезно для хранения конспектов по технологиям и их анализа! 🚀

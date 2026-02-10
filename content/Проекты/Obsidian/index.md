@@ -12,4 +12,5 @@ cssclasses: ""
 draft: false
 preview_image: /images/Obsidian.png
 ---
+
 Добро пожаловать в цифровой сад. Здесь собраны руководства по настройке Quartz 4 и интеграции AI-инструментов.

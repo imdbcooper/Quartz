@@ -14,19 +14,23 @@ Quartz v4 features a from-the-ground rewrite focusing on end-user extensibility 
 This repo includes a services carousel component that can be embedded in Markdown pages.
 
 Usage:
+
 ```
 <services-carousel data-source="/static/data/services-carousel.json"></services-carousel>
 ```
 
 Data file location:
+
 - `quartz/static/data/services-carousel.json`
 
 Per-instance overrides (optional):
+
 - `data-auto-speed`, `data-drag-sensitivity`, `data-height`, `data-radius-scale`
 - `data-min-radius`, `data-max-radius`, `data-min-gap`
 - `data-form-action`, `data-form-method`
 
 Data file shape (example):
+
 ```
 {
   "form": {
@@ -51,11 +55,17 @@ Data file shape (example):
 ```
 
 Notes:
+
 - Multiple carousels are supported on the same page via different JSON files.
 - Form submission is handled via AJAX to avoid redirects.
 - Payload is sent as JSON with flat fields: `name`, `email`, `message`, `service`, `price`.
 - API expects `application/json` (or `application/x-www-form-urlencoded`). This component uses JSON.
 - Server-side redirects are treated as success and not followed to prevent `.../null` requests.
+
+## Project Docs: Home Central + Callback
+
+- Integration audit and architecture notes: `docs/home-central-integration.md`
+- Services carousel audit: `docs/carousel-audit.md`
 
 ## Sponsors
 

@@ -8,7 +8,7 @@ import { i18n } from "../i18n"
 export interface PagePreview {
   title: string
   description?: string
- date?: Date
+  date?: Date
   tags: string[]
   slug: FullSlug
   previewImage?: string
@@ -21,21 +21,21 @@ export function extractPreviewData(page: QuartzPluginData, cfg: GlobalConfigurat
   const tags = page.frontmatter?.tags ?? []
   const slug = page.slug!
   const date = page.dates ? getDate(cfg, page) : undefined
-  
+
   // Извлекаем изображение для превью - сначала ищем в frontmatter
   let previewImage = page.frontmatter?.preview_image as string
-  
+
   // Если в frontmatter нет изображения, можно реализовать логику поиска в контенте
   // Пока оставим как есть, позже можно будет расширить
-  
+
   return {
     title,
     description,
     date,
     tags,
     slug,
-    previewImage
- }
+    previewImage,
+  }
 }
 
 type Props = {
@@ -43,27 +43,35 @@ type Props = {
   sort?: (f1: QuartzPluginData, f2: QuartzPluginData) => number
 } & QuartzComponentProps
 
-export const PagePreviewList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort }: Props) => {
-  const sorter = sort || ((f1, f2) => {
-    // Сортировка по дате (новые первыми) и алфавиту
-    if (f1.dates && f2.dates) {
-      return getDate(cfg, f2)!.getTime() - getDate(cfg, f1)!.getTime()
-    } else if (f1.dates && !f2.dates) {
-      return -1
-    } else if (!f1.dates && f2.dates) {
-      return 1
-    }
-    const f1Title = f1.frontmatter?.title.toLowerCase() ?? ""
-    const f2Title = f2.frontmatter?.title.toLowerCase() ?? ""
-    return f1Title.localeCompare(f2Title)
-  })
+export const PagePreviewList: QuartzComponent = ({
+  cfg,
+  fileData,
+  allFiles,
+  limit,
+  sort,
+}: Props) => {
+  const sorter =
+    sort ||
+    ((f1, f2) => {
+      // Сортировка по дате (новые первыми) и алфавиту
+      if (f1.dates && f2.dates) {
+        return getDate(cfg, f2)!.getTime() - getDate(cfg, f1)!.getTime()
+      } else if (f1.dates && !f2.dates) {
+        return -1
+      } else if (!f1.dates && f2.dates) {
+        return 1
+      }
+      const f1Title = f1.frontmatter?.title.toLowerCase() ?? ""
+      const f2Title = f2.frontmatter?.title.toLowerCase() ?? ""
+      return f1Title.localeCompare(f2Title)
+    })
 
   let list = allFiles.sort(sorter)
   if (limit) {
     list = list.slice(0, limit)
   }
 
- const previewData = list.map(page => extractPreviewData(page, cfg))
+  const previewData = list.map((page) => extractPreviewData(page, cfg))
 
   return (
     <div class="page-preview-list">
@@ -74,18 +82,20 @@ export const PagePreviewList: QuartzComponent = ({ cfg, fileData, allFiles, limi
             <a href={href} class="preview-link">
               <div class="preview-image-container">
                 {preview.previewImage ? (
-                  <img src={resolveRelative(fileData.slug!, preview.previewImage as FullSlug)} alt={preview.title} class="preview-image" />
+                  <img
+                    src={resolveRelative(fileData.slug!, preview.previewImage as FullSlug)}
+                    alt={preview.title}
+                    class="preview-image"
+                  />
                 ) : (
                   <div class="placeholder-image">
-                    <span>{i18n(cfg.locale).components.previewList.noImage}</span>
+                    <span>{i18n(cfg.locale).components.previewList?.noImage ?? "No image"}</span>
                   </div>
                 )}
               </div>
               <div class="preview-content">
                 <h3 class="preview-title">{preview.title}</h3>
-                {preview.description && (
-                  <p class="preview-description">{preview.description}</p>
-                )}
+                {preview.description && <p class="preview-description">{preview.description}</p>}
               </div>
             </a>
             <div class="preview-meta">

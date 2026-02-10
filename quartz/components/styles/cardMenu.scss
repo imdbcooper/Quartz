@@ -1,6 +1,5 @@
 @use "../../styles/variables.scss" as *;
 
-
 // Mobile menu behavior
 @media all and ($mobile) {
   .page > #quartz-body {
@@ -87,7 +86,7 @@ button.mobile-menu {
     overflow-y: auto;
     max-height: calc(100vh - 12rem);
     padding-right: 0.5rem;
-    
+
     // Custom scrollbar styling
     &::-webkit-scrollbar {
       width: 6px;
@@ -272,7 +271,7 @@ button.mobile-menu {
   transition: color 0.2s ease;
   cursor: pointer;
   white-space: nowrap;
-  
+
   &:hover {
     color: var(--secondary);
   }
@@ -292,13 +291,13 @@ button.mobile-menu {
   display: flex;
   align-items: center;
   color: var(--gray);
-  
+
   &[aria-expanded="true"] {
     .card-section-chevron svg {
       transform: rotate(180deg);
     }
   }
-  
+
   &:hover {
     color: var(--darkgray);
   }
@@ -321,7 +320,7 @@ button.mobile-menu {
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.3s ease-out;
-  
+
   &.open {
     max-height: 1000px;
     transition: max-height 0.5s ease-in;
@@ -354,7 +353,7 @@ button.mobile-menu {
   border-radius: 8px;
   text-align: left;
   cursor: pointer;
-  
+
   &:hover {
     background-color: transparent;
   }
@@ -368,7 +367,7 @@ button.mobile-menu {
   transition: color 0.2s ease;
   cursor: pointer;
   white-space: nowrap;
-  
+
   &:hover {
     color: var(--secondary);
   }
@@ -387,7 +386,7 @@ button.mobile-menu {
   padding: 0;
   display: flex;
   align-items: center;
-  
+
   &[aria-expanded="true"] {
     .card-folder-chevron svg {
       transform: rotate(180deg);
@@ -504,7 +503,7 @@ button.mobile-menu {
   text-decoration: none;
   font-size: 1rem;
   font-weight: $normalWeight;
-  
+
   &:hover {
     color: var(--secondary);
   }

@@ -17,7 +17,7 @@ interface TagContentOptions {
 }
 
 const defaultOptions: TagContentOptions = {
- numPages: 10,
+  numPages: 10,
   usePreviewList: false,
 }
 
@@ -103,7 +103,11 @@ export default ((opts?: Partial<TagContentOptions>) => {
                       )}
                     </p>
                     {options.usePreviewList ? (
-                      <PagePreviewList limit={options.numPages} {...listProps} sort={options?.sort} />
+                      <PagePreviewList
+                        limit={options.numPages}
+                        {...listProps}
+                        sort={options?.sort}
+                      />
                     ) : (
                       <PageList limit={options.numPages} {...listProps} sort={options?.sort} />
                     )}

@@ -1,3 +1,5 @@
+import type {} from "./util"
+
 type FeedbackFormOption = {
   label: string
   value: string
@@ -5,16 +7,7 @@ type FeedbackFormOption = {
 }
 
 type FeedbackFormField = {
-  type:
-    | "text"
-    | "email"
-    | "tel"
-    | "textarea"
-    | "select"
-    | "checkbox"
-    | "radio"
-    | "range"
-    | "hidden"
+  type: "text" | "email" | "tel" | "textarea" | "select" | "checkbox" | "radio" | "range" | "hidden"
   name?: string
   label?: string
   placeholder?: string
@@ -23,7 +16,7 @@ type FeedbackFormField = {
   rows?: number
   options?: FeedbackFormOption[]
   multiple?: boolean
-  autocomplete?: string
+  autocomplete?: AutoFill
   help?: string
   min?: number
   max?: number
@@ -52,7 +45,9 @@ type FeedbackFormConfig = {
   actions?: FeedbackFormAction[]
 }
 
-const DEFAULTS: Required<Pick<FeedbackFormConfig, "title" | "subtitle" | "submitLabel" | "privacyNote">> = {
+const DEFAULTS: Required<
+  Pick<FeedbackFormConfig, "title" | "subtitle" | "submitLabel" | "privacyNote">
+> = {
   title: "Форма обратной связи",
   subtitle: "Коротко, по делу. Я свяжусь с вами.",
   submitLabel: "Отправить",
@@ -137,12 +132,15 @@ function readConfig(root: HTMLElement): FeedbackFormConfig {
 function mergeConfig(base: FeedbackFormConfig, override?: FeedbackFormConfig) {
   if (!override) return base
   const next: FeedbackFormConfig = { ...base }
-  ;(Object.entries(override) as Array<[keyof FeedbackFormConfig, FeedbackFormConfig[keyof FeedbackFormConfig]]>)
-    .forEach(([key, value]) => {
-      if (value !== undefined) {
-        next[key] = value
-      }
-    })
+  ;(
+    Object.entries(override) as Array<
+      [keyof FeedbackFormConfig, FeedbackFormConfig[keyof FeedbackFormConfig]]
+    >
+  ).forEach(([key, value]) => {
+    if (value !== undefined) {
+      next[key] = value as never
+    }
+  })
   return next
 }
 
@@ -178,7 +176,7 @@ function cssEscape(value: string) {
   if (typeof window.CSS?.escape === "function") {
     return window.CSS.escape(value)
   }
-  return value.replace(/"/g, "\\\"")
+  return value.replace(/"/g, '\\"')
 }
 
 function normalizeFields(fields?: FeedbackFormField[]) {
@@ -209,7 +207,9 @@ function buildPayload(fields: FeedbackFormField[], form: HTMLFormElement) {
     const selector = cssEscape(name)
 
     if (field.type === "checkbox") {
-      const inputs = Array.from(form.querySelectorAll<HTMLInputElement>(`input[name="${selector}"]`))
+      const inputs = Array.from(
+        form.querySelectorAll<HTMLInputElement>(`input[name="${selector}"]`),
+      )
       if (inputs.length > 1) {
         payload[name] = inputs.filter((input) => input.checked).map((input) => input.value)
       } else {
@@ -221,9 +221,7 @@ function buildPayload(fields: FeedbackFormField[], form: HTMLFormElement) {
     }
 
     if (field.type === "radio") {
-      const input = form.querySelector<HTMLInputElement>(
-        `input[name="${selector}"]:checked`,
-      )
+      const input = form.querySelector<HTMLInputElement>(`input[name="${selector}"]:checked`)
       payload[name] = input?.value ?? ""
       return
     }
@@ -540,7 +538,9 @@ async function mountForm(root: HTMLElement) {
 
     for (const group of requiredGroups) {
       const selector = cssEscape(group.name)
-      const inputs = Array.from(form.querySelectorAll<HTMLInputElement>(`input[name="${selector}"]`))
+      const inputs = Array.from(
+        form.querySelectorAll<HTMLInputElement>(`input[name="${selector}"]`),
+      )
       if (!inputs.some((input) => input.checked)) {
         status.textContent = group.label
           ? `Заполните поле: ${group.label}`
@@ -555,7 +555,7 @@ async function mountForm(root: HTMLElement) {
 
     if (isSubmitting) return
     isSubmitting = true
-    const submitButton = form.querySelector<HTMLButtonElement>("button[type=\"submit\"]")
+    const submitButton = form.querySelector<HTMLButtonElement>('button[type="submit"]')
     if (submitButton) submitButton.disabled = true
     status.textContent = "Отправляем..."
 
@@ -587,9 +587,9 @@ async function mountForm(root: HTMLElement) {
       }
       const responseMessage =
         typeof responseData === "object" && responseData !== null
-          ? (responseData as { message?: string; error?: string }).message ??
+          ? ((responseData as { message?: string; error?: string }).message ??
             (responseData as { message?: string; error?: string }).error ??
-            responseText
+            responseText)
           : responseText
 
       const isRedirect = response.status >= 300 && response.status < 400

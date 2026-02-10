@@ -20,6 +20,7 @@ type FolderState = {
 // Lucide SVG icons
 const icons = {
   blog: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>`,
+  docs: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
   folder: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>`,
   resources: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>`,
   file: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>`,
@@ -29,6 +30,9 @@ const icons = {
 function getIconForFolder(name: string): string {
   const nameLower = name.toLowerCase()
   if (nameLower.includes("блог") || nameLower.includes("blog")) return icons.blog
+  if (nameLower.includes("docs") || nameLower.includes("doc") || nameLower.includes("док")) {
+    return icons.docs
+  }
   if (nameLower.includes("проект") || nameLower.includes("project")) return icons.folder
   if (nameLower.includes("ресурс") || nameLower.includes("resource")) return icons.resources
   return icons.folder
@@ -55,7 +59,7 @@ function toggleMenu(this: HTMLElement) {
   }
 }
 
-function toggleSection(evt: MouseEvent) {
+function toggleSection(evt: Event) {
   const target = evt.target as HTMLElement | null
   if (!target) return
 
@@ -101,13 +105,17 @@ function toggleSection(evt: MouseEvent) {
           siblingBtn.setAttribute("aria-expanded", "false")
           siblingContent.classList.remove("open")
 
-          const siblingTitle = sibling.querySelector(".card-section-title") as HTMLAnchorElement | null
+          const siblingTitle = sibling.querySelector(
+            ".card-section-title",
+          ) as HTMLAnchorElement | null
           if (siblingTitle) {
             const folderPath = siblingTitle.getAttribute("data-for") || siblingTitle.href
             if (folderPath) {
-              const path = (typeof folderPath === "string" && folderPath.startsWith("/")
-                ? folderPath.replace(/\/$/, "")
-                : folderPath) as FullSlug
+              const path = (
+                typeof folderPath === "string" && folderPath.startsWith("/")
+                  ? folderPath.replace(/\/$/, "")
+                  : folderPath
+              ) as FullSlug
               const existingState = currentMenuState.find((item) => item.path === path)
               if (existingState) {
                 existingState.collapsed = true
@@ -127,9 +135,10 @@ function toggleSection(evt: MouseEvent) {
   if (titleLink) {
     const folderPath = titleLink.getAttribute("data-for") || titleLink.href
     if (folderPath) {
-      const path = typeof folderPath === "string" && folderPath.startsWith("/")
-        ? folderPath.replace(/\/$/, "") as FullSlug
-        : folderPath as FullSlug
+      const path =
+        typeof folderPath === "string" && folderPath.startsWith("/")
+          ? (folderPath.replace(/\/$/, "") as FullSlug)
+          : (folderPath as FullSlug)
       const existingState = currentMenuState.find((item) => item.path === path)
       if (existingState) {
         existingState.collapsed = !newExpandedState
@@ -266,12 +275,11 @@ function createSection(
   // Check saved state or if current path is within this folder
   const savedState = currentMenuState.find((item) => item.path === folderPath)
   const simpleFolderPath = simplifySlug(folderPath)
-  const folderIsPrefixOfCurrentSlug = simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
+  const folderIsPrefixOfCurrentSlug =
+    simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
 
   // Only open if saved state says so, OR if current path is within this folder
-  const isOpen = savedState
-    ? !savedState.collapsed
-    : folderIsPrefixOfCurrentSlug
+  const isOpen = savedState ? !savedState.collapsed : folderIsPrefixOfCurrentSlug
 
   toggleButton.setAttribute("aria-expanded", isOpen ? "true" : "false")
   if (isOpen) {
@@ -346,7 +354,7 @@ async function setupCardMenu(currentSlug: FullSlug) {
       }
     }
 
-    const sectionsContainer = menu.querySelector(".card-menu-sections")
+    const sectionsContainer = menu.querySelector<HTMLElement>(".card-menu-sections")
     if (!sectionsContainer) continue
 
     // Clear existing content
@@ -364,13 +372,15 @@ async function setupCardMenu(currentSlug: FullSlug) {
     sectionsContainer.appendChild(fragment)
 
     // Set up toggle button handlers (for mobile menu toggle)
-    const toggleButtons = menu.getElementsByClassName("card-menu-toggle") as HTMLCollectionOf<HTMLElement>
+    const toggleButtons = menu.getElementsByClassName(
+      "card-menu-toggle",
+    ) as HTMLCollectionOf<HTMLElement>
     for (const button of toggleButtons) {
       button.addEventListener("click", toggleMenu)
       window.addCleanup(() => button.removeEventListener("click", toggleMenu))
     }
 
-    const handleMenuClick = (evt: MouseEvent) => {
+    const handleMenuClick = (evt: Event) => {
       toggleSection(evt)
     }
     sectionsContainer.addEventListener("click", handleMenuClick)

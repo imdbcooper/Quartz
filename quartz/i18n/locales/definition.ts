@@ -62,7 +62,7 @@ export interface Translation {
     contentMeta: {
       readingTime: (variables: { minutes: number }) => string
     }
-    previewList: {
+    previewList?: {
       noImage: string
     }
   }

@@ -11,4 +11,5 @@ cssclasses: ""
 draft: false
 preview_image: /images/prmt.jpeg
 ---
+
 # PromtGen (Генератор промтов)
