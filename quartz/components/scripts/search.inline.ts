@@ -222,8 +222,6 @@ async function setupSearch(searchElement: Element, currentSlug: FullSlug, data: 
 
   const setSearchOpenState = (isOpen: boolean) => {
     const isMobile = window.matchMedia("(max-width: 800px)").matches
-    const quartzBody = document.getElementById("quartz-body")
-    quartzBody?.classList.toggle("lock-scroll", isOpen && isMobile)
     document.documentElement.classList.toggle("mobile-no-scroll", isOpen && isMobile)
     document.body.classList.toggle("mobile-no-scroll", isOpen && isMobile)
   }
