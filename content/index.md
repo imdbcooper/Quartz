@@ -4,131 +4,154 @@ description: "Помогаю компаниям запускать Telegram-бо
 publish: true
 ---
 
-<div class="hero-section">
-  <h1>Автоматизирую бизнес-процессы через Telegram-ботов, Web и AI</h1>
-  <p class="hero-subtitle">20+ проектов • 3 года опыта • От брифа до запуска за 2-6 недель</p>
-  <ul class="hero-services">
-    <li>Telegram-боты и Mini App</li>
-    <li>Web-приложения и кабинеты</li>
-    <li>AI-интеграции и автоматизация</li>
-  </ul>
-  <p class="hero-links">
-    <a href="https://t.me/slavxRu" class="hero-cta">Обсудить задачу</a>
-    <a href="/Кoнтакты" class="hero-link">Все контакты</a>
-  </p>
+<div class="home-central">
+<section class="central-hero" aria-labelledby="central-hero-title">
+<div class="central-hero__glow central-hero__glow--right" aria-hidden="true"></div>
+<div class="central-hero__glow central-hero__glow--left" aria-hidden="true"></div>
+<div class="central-hero__content">
+<h1 id="central-hero-title">Автоматизирую бизнес-процессы через Telegram, Web и AI</h1>
+<p class="central-hero__subtitle">20+ проектов • 3 года опыта • От брифа до запуска за 2-6 недель</p>
+<ul class="central-hero__tags" aria-label="Ключевые направления">
+<li>Telegram Mini Apps</li>
+<li>Business Automation</li>
+<li>LLM Integrations</li>
+</ul>
+<div class="central-hero__actions">
+<a class="central-hero__cta" href="/Кoнтакты">Обсудить задачу →</a>
+<a class="central-hero__secondary" href="/Кoнтакты">Все контакты</a>
 </div>
-
-<h2 class="section-title">Кому подхожу</h2>
-
-<div class="services-grid">
-  <div class="service-card">
-    <h3>Теряются заявки и обращения</h3>
-    <p>Собираю Telegram-first сценарий: бот, уведомления, интеграции, чтобы обращения не пропадали.</p>
-    <p class="result-metric">→ Клиенты фиксируют до 95% входящих обращений без ручного контроля</p>
-  </div>
-  <div class="service-card">
-    <h3>Рутина перегружает команду</h3>
-    <p>Автоматизирую повторяющиеся шаги: обработку сообщений, отчеты, типовые ответы, работу с контентом.</p>
-    <p class="result-metric">→ Освобождает 5-10 часов в неделю на развитие бизнеса</p>
-  </div>
-  <div class="service-card">
-    <h3>Нужно быстро проверить гипотезу</h3>
-    <p>Запускаю MVP с минимально необходимым функционалом, чтобы принимать решения на данных, а не догадках.</p>
-    <p class="result-metric">→ От идеи до рабочего прототипа за 2-3 недели</p>
-  </div>
-  <div class="service-card">
-    <h3>Нужна структура и техлид-подход</h3>
-    <p>Фиксирую требования, архитектуру и этапы, чтобы проект двигался предсказуемо по срокам и качеству.</p>
-    <p class="result-metric">→ Прозрачный план с еженедельными демо и контрольными точками</p>
-  </div>
 </div>
+</section>
 
-<p><a href="/Кoнтакты" class="inline-cta-link">Расскажите о своей задаче — подберу решение</a></p>
-
-<h2 class="section-title">Что делаю</h2>
-
-<div class="services-grid">
-  <div class="service-card">
-    <h3>Telegram-боты и Mini App</h3>
-    <p>Сценарии общения, прием заявок, роли, уведомления, интеграции с внутренними процессами.</p>
-  </div>
-  <div class="service-card">
-    <h3>Web-приложения</h3>
-    <p>Кабинеты и внутренние сервисы: интерфейсы для команды и клиентов, backend и логика процессов.</p>
-  </div>
-  <div class="service-card">
-    <h3>AI-интеграции</h3>
-    <p>Транскрибация, анализ текста, LLM-сценарии и автоматизация типовых операций.</p>
-  </div>
-  <div class="service-card">
-    <h3>База знаний и документация</h3>
-    <p>Структурирую знания и процессы, чтобы снизить зависимость от «контекста в голове».</p>
-  </div>
+<section class="home-section" aria-labelledby="focus-title">
+<div class="home-section__head">
+<span class="home-section__index">01 / Focus</span>
+<h2 id="focus-title">Кому подхожу</h2>
+<span class="home-section__line" aria-hidden="true"></span>
 </div>
-
-<h2 id="cases" class="section-title">Кейсы</h2>
-
-<div class="project-showcase">
-  <div class="project-card">
-    <h3><a href="/Проекты/Audio-Scribe/">Audio-Scribe</a></h3>
-    <p><strong>Было:</strong> ручная обработка интервью и созвонов занимала 2–3 часа на материал.</p>
-    <p><strong>Сделали:</strong> Telegram-бот + Web App с AI-транскрибацией, summary, цитатами и поиском.</p>
-    <p><strong>Стало:</strong> подготовка конспекта — 15–25 минут; ручная постобработка заметно снизилась.</p>
-    <p class="result-metric"><strong>Результат:</strong> экономия 2-3 часа ежедневно на расшифровке</p>
-  </div>
-
-  <div class="project-card">
-    <h3><a href="/Проекты/Obsidian/">Obsidian Knowledge Base</a></h3>
-    <p><strong>Было:</strong> разрозненная документация и затянутый онбординг.</p>
-    <p><strong>Сделали:</strong> единая база знаний с шаблонами, связями и рабочими гайдами.</p>
-    <p><strong>Стало:</strong> онбординг сократился с 2 недель до 3 дней. Повторяющиеся вопросы упали на 60%.</p>
-  </div>
-
-  <div class="project-card">
-    <h3><a href="/Проекты/Promt Gen/Index">Prompt Generator</a></h3>
-    <p><strong>Было:</strong> подготовка запросов к LLM занимала много итераций и времени.</p>
-    <p><strong>Сделали:</strong> генератор промптов с шаблонами под роли и задачи.</p>
-    <p><strong>Стало:</strong> сборка рабочих промптов стала быстрее и стабильнее по качеству.</p>
-  </div>
+<div class="home-grid home-grid--focus">
+<article class="focus-card">
+<div class="focus-card__icon focus-card__icon--blue">📥</div>
+<h3>Теряются заявки</h3>
+<p>Собираю Telegram-first сценарий: бот, мгновенные уведомления и CRM-интеграции, чтобы ни один лид не пропал.</p>
+<p class="focus-card__result">↗ ФИКСАЦИЯ ДО 95% ОБРАЩЕНИЙ</p>
+</article>
+<article class="focus-card">
+<div class="focus-card__icon focus-card__icon--purple">🗂️</div>
+<h3>Рутина перегружает</h3>
+<p>Автоматизирую повторяющиеся шаги: обработку сообщений, отчеты и типовые ответы без участия человека.</p>
+<p class="focus-card__result">◷ -10 ЧАСОВ РУТИНЫ В НЕДЕЛЮ</p>
+</article>
+<article class="focus-card">
+<div class="focus-card__icon focus-card__icon--orange">🚀</div>
+<h3>Проверка гипотез</h3>
+<p>Быстрый запуск MVP с ключевым функционалом для тестирования рынка на реальных пользователях.</p>
+<p class="focus-card__result">⚡ ЗАПУСК MVP ЗА 2-3 НЕДЕЛИ</p>
+</article>
+<article class="focus-card">
+<div class="focus-card__icon focus-card__icon--green">🧭</div>
+<h3>Нужна структура</h3>
+<p>Разработка архитектуры и прозрачного плана работ. Сопровождаю проект как техлид до полного релиза.</p>
+<p class="focus-card__result">✓ ЕЖЕНЕДЕЛЬНЫЕ ДЕМО-ОТЧЕТЫ</p>
+</article>
 </div>
+</section>
 
-<p><a href="/Кoнтакты" class="inline-cta-link">Расскажите о своей задаче — подберу решение</a></p>
-
-<h2 class="section-title">FAQ</h2>
-
-<div class="faq-section">
-  <p><strong>С чего начинается работа?</strong><br />
-  С короткого брифа: цель, текущий процесс, ограничения. После этого даю 1–2 варианта реализации.</p>
-
-  <p><strong>Сколько стоит проект?</strong><br />
-  От 50 000 ₽ за MVP до 300 000 ₽ за комплексную систему. Точную оценку даю после брифа — бесплатно.</p>
-
-  <p><strong>Как формируется срок 2–6 недель?</strong><br />
-  Срок зависит от объема, интеграций и доступности данных. Точный план фиксируется после согласования состава работ.</p>
-
-  <p><strong>Как контролируется прогресс?</strong><br />
-  По этапам: план, промежуточные демо, список задач и договоренности по следующему шагу.</p>
-
-  <p><strong>Что если результат не устроит?</strong><br />
-  Работаю по этапам с промежуточными демо. Если на любом этапе понимаем, что не сходится — фиксируем и корректируем без дополнительных затрат.</p>
-
-  <p><strong>Можно начать с малого объема?</strong><br />
-  Да. Часто стартуем с MVP или узкого сценария, чтобы проверить гипотезу и снизить риски.</p>
-
-  <p><strong>Почему вы, а не агентство?</strong><br />
-  Вы работаете напрямую со мной — без менеджеров и передачи контекста. Быстрее коммуникация, меньше потерь в переводе, честнее ценообразование.</p>
-
-  <p><strong>Что по поддержке после запуска?</strong><br />
-  Можно перейти в сопровождение: исправления, доработки, развитие функциональности.</p>
+<section class="home-section" aria-labelledby="services-title">
+<div class="home-section__head">
+<span class="home-section__index">02 / Services</span>
+<h2 id="services-title">Что делаю</h2>
+<span class="home-section__line" aria-hidden="true"></span>
 </div>
+<div class="home-grid home-grid--services">
+<article class="service-chip"><span>✈️</span><h3>Telegram Mini App</h3></article>
+<article class="service-chip"><span>🌐</span><h3>Admin Panels</h3></article>
+<article class="service-chip"><span>🧠</span><h3>AI Integrations</h3></article>
+<article class="service-chip"><span>📚</span><h3>Knowledge Bases</h3></article>
+</div>
+</section>
 
-<div class="cta-section">
-  <h2>Обсудим вашу задачу и маршрут запуска</h2>
-  <p>Основной канал: <strong>Telegram</strong>. Также можно написать на Email или позвонить.</p>
-  <p>
-    Telegram: <a href="https://t.me/slavxRu">@slavxRu</a><br />
-    Email: <a href="mailto:info@slavx.ru">info@slavx.ru</a><br />
-    Телефон: <a href="tel:+79913302202">+7 991 330-22-02</a>
-  </p>
-  <a href="/Кoнтакты" class="cta-button">Связаться сейчас</a>
+<section class="home-section" aria-labelledby="works-title">
+<div class="home-section__head">
+<span class="home-section__index">03 / Works</span>
+<h2 id="works-title">Кейсы</h2>
+<span class="home-section__line" aria-hidden="true"></span>
+</div>
+<div class="works-list">
+<article class="work-card work-card--split">
+<div class="work-card__content">
+<p class="work-card__label">AI Integration</p>
+<h3>Audio-Scribe: AI Transcription Bot</h3>
+<div class="work-card__diff">
+<p><span class="work-mark work-mark--bad">⊖</span><span><strong>Было:</strong> 2–3 часа на расшифровку одного интервью.</span></p>
+<p><span class="work-mark work-mark--good">⊕</span><span><strong>Сделали:</strong> Telegram + Web App с Whisper AI и автоматическим summary.</span></p>
+</div>
+<p class="work-card__result">Результат: экономия 2-3 часа ежедневно</p>
+</div>
+<div class="work-card__visual" aria-hidden="true">
+<div class="mockup-window">
+<div class="mockup-window__top"></div>
+<div class="mockup-window__body">
+<span></span><span></span><span></span><span></span><span></span>
+</div>
+</div>
+</div>
+</article>
+
+<article class="work-card work-card--stacked">
+<div class="work-card__graph" aria-hidden="true"></div>
+<div class="work-card__content work-card__content--center">
+<p class="work-card__label">Infrastructure</p>
+<h3>Obsidian Knowledge Base</h3>
+<div class="work-card__two-cols">
+<div>
+<p><span class="work-mark work-mark--bad">⊖</span><span><strong>Было:</strong> затянутый онбординг сотрудников (2 недели).</span></p>
+<p><span class="work-mark work-mark--good">⊕</span><span><strong>Сделали:</strong> связанная база знаний с шаблонами и автоматизацией гайдов.</span></p>
+</div>
+<p class="work-card__result">Онбординг сократился до 3 дней</p>
+</div>
+</div>
+</article>
+</div>
+</section>
+
+<section class="home-section" aria-labelledby="faq-title">
+<div class="home-section__head">
+<span class="home-section__index">04 / FAQ</span>
+<h2 id="faq-title">Частые вопросы</h2>
+<span class="home-section__line" aria-hidden="true"></span>
+</div>
+<div class="faq-list">
+<article class="faq-item">
+<h3>С чего начинается работа?<span class="faq-chevron">⌄</span></h3>
+<p>С короткого брифа: цель, текущий процесс и ограничения. После этого я подготавливаю 1–2 варианта реализации и примерную смету.</p>
+</article>
+<article class="faq-item">
+<h3>Сколько стоит разработка?<span class="faq-chevron">⌄</span></h3>
+<p>От 50 000 ₽ за MVP до 300 000 ₽ за комплексную систему с AI. Точную оценку даю после брифа — это бесплатно и ни к чему не обязывает.</p>
+</article>
+<article class="faq-item">
+<h3>Почему вы, а не агентство?<span class="faq-chevron">⌄</span></h3>
+<p>Вы работаете напрямую с исполнителем. Это исключает испорченный телефон с менеджерами, ускоряет правки и делает ценообразование прозрачным.</p>
+</article>
+</div>
+</section>
+
+<section class="home-contact-cta" aria-labelledby="contact-cta-title">
+<h2 id="contact-cta-title">Обсудим вашу задачу?</h2>
+<p>Обычно я отвечаю в течение пары часов. Подберу оптимальный стек и предложу маршрут запуска.</p>
+<div class="home-contact-cta__contacts">
+<a href="https://t.me/slavxRu"><span class="contact-ico">@</span>Telegram: <strong>@slavxRu</strong></a>
+<a href="mailto:info@slavx.ru"><span class="contact-ico">✉</span>Email: <strong>info@slavx.ru</strong></a>
+</div>
+<a class="home-contact-cta__button" href="https://t.me/slavxRu">Связаться сейчас</a>
+</section>
+
+<footer class="home-central-footer">
+<p>© 2026 Smirnoff Portfolio • Built with Quartz v4.5.2</p>
+<div>
+<a href="https://github.com">GitHub</a>
+<a href="https://discord.com">Discord Community</a>
+</div>
+</footer>
 </div>
