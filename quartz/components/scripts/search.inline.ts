@@ -220,10 +220,19 @@ async function setupSearch(searchElement: Element, currentSlug: FullSlug, data: 
     appendLayout(preview)
   }
 
+  const setSearchOpenState = (isOpen: boolean) => {
+    const isMobile = window.matchMedia("(max-width: 800px)").matches
+    const quartzBody = document.getElementById("quartz-body")
+    quartzBody?.classList.toggle("lock-scroll", isOpen && isMobile)
+    document.documentElement.classList.toggle("mobile-no-scroll", isOpen && isMobile)
+    document.body.classList.toggle("mobile-no-scroll", isOpen && isMobile)
+  }
+
   function hideSearch() {
     container.classList.remove("active")
     searchBar.value = "" // clear the input when we dismiss the search
     if (sidebar) sidebar.style.zIndex = ""
+    setSearchOpenState(false)
     removeAllChildren(results)
     if (preview) {
       removeAllChildren(preview)
@@ -235,7 +244,8 @@ async function setupSearch(searchElement: Element, currentSlug: FullSlug, data: 
 
   function showSearch(searchTypeNew: SearchType) {
     searchType = searchTypeNew
-    if (sidebar) sidebar.style.zIndex = "1"
+    if (sidebar) sidebar.style.zIndex = "4500"
+    setSearchOpenState(true)
     container.classList.add("active")
     searchBar.focus()
   }
