@@ -40,6 +40,15 @@ function getIconForFolder(name: string): string {
 
 let currentMenuState: Array<FolderState> = []
 
+function setMobileScrollLock(locked: boolean) {
+  const quartzBody = document.getElementById("quartz-body")
+  if (quartzBody) {
+    quartzBody.classList.toggle("lock-scroll", locked)
+  }
+  document.documentElement.classList.toggle("mobile-no-scroll", locked)
+  document.body.classList.toggle("mobile-no-scroll", locked)
+}
+
 function toggleMenu(this: HTMLElement) {
   const nearestMenu = this.closest(".card-menu") as HTMLElement
   if (!nearestMenu) return
@@ -50,13 +59,7 @@ function toggleMenu(this: HTMLElement) {
     nearestMenu.getAttribute("aria-expanded") === "true" ? "false" : "true",
   )
 
-  if (!menuCollapsed) {
-    document.documentElement.classList.add("mobile-no-scroll")
-    document.body.classList.add("mobile-no-scroll")
-  } else {
-    document.documentElement.classList.remove("mobile-no-scroll")
-    document.body.classList.remove("mobile-no-scroll")
-  }
+  setMobileScrollLock(!menuCollapsed)
 }
 
 function toggleSection(evt: Event) {
@@ -410,12 +413,12 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       // Mobile: start collapsed
       menu.classList.add("collapsed")
       menu.setAttribute("aria-expanded", "false")
-      document.documentElement.classList.remove("mobile-no-scroll")
-      document.body.classList.remove("mobile-no-scroll")
+      setMobileScrollLock(false)
     } else {
       // Desktop: always expanded
       menu.classList.remove("collapsed")
       menu.setAttribute("aria-expanded", "true")
+      setMobileScrollLock(false)
     }
 
     mobileToggle.classList.remove("hide-until-loaded")
@@ -442,13 +445,11 @@ window.addEventListener("resize", function () {
     // Switched to mobile - always collapse menu to prevent blocking content
     menu.classList.add("collapsed")
     menu.setAttribute("aria-expanded", "false")
-    document.documentElement.classList.remove("mobile-no-scroll")
-    document.body.classList.remove("mobile-no-scroll")
+    setMobileScrollLock(false)
   } else {
     // Switched to desktop - always show menu, remove scroll locks
     menu.classList.remove("collapsed")
     menu.setAttribute("aria-expanded", "true")
-    document.documentElement.classList.remove("mobile-no-scroll")
-    document.body.classList.remove("mobile-no-scroll")
+    setMobileScrollLock(false)
   }
 })

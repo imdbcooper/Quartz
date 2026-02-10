@@ -14,6 +14,7 @@
     .sidebar.left:has(.card-menu) {
       box-sizing: border-box;
       position: sticky;
+      z-index: 3000;
       background-color: var(--light);
       padding: 1rem 0;
       margin: 0;
@@ -106,7 +107,7 @@ button.mobile-menu {
 
   @media all and ($mobile) {
     box-sizing: border-box;
-    z-index: 100;
+    z-index: 3100;
     position: fixed;
     top: 0;
     left: 0;
@@ -152,7 +153,7 @@ button.mobile-menu {
       left: 0.75rem;
       margin: 0;
       padding: 5px;
-      z-index: 101;
+      z-index: 3101;
       background-color: var(--light);
       border-radius: 4px;
 
