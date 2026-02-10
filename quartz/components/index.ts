@@ -28,6 +28,7 @@ import { PagePreviewList } from "./PagePreviewList"
 import Avatar from "./Avatar"
 import ServicesCarousel from "./ServicesCarousel"
 import FeedbackForm from "./FeedbackForm"
+import HomeCallback from "./HomeCallback"
 
 export {
   ArticleTitle,
@@ -60,4 +61,5 @@ export {
   Avatar,
   ServicesCarousel,
   FeedbackForm,
+  HomeCallback,
 }
