@@ -4,199 +4,187 @@ description: "Получите план запуска вашего проект
 publish: true
 ---
 
-<div class="contacts-page">
-
-<div class="hero-section">
-
-# Получите план запуска вашего проекта за 24 часа
-
-<p class="hero-subtitle">
-Telegram-боты, Web-приложения, AI-интеграции — разберу контекст и предложу рабочий следующий шаг без лишних созвонов
-</p>
-
-<a href="https://t.me/slavxRu" class="hero-cta">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.161c-.18 1.897-.962 6.502-1.359 8.627-.168.9-.5 1.201-.82 1.23-.697.064-1.226-.461-1.901-.903-1.056-.692-1.653-1.123-2.678-1.799-1.185-.781-.417-1.21.258-1.911.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.139-5.062 3.345-.479.329-.913.489-1.302.481-.428-.009-1.252-.242-1.865-.442-.751-.244-1.349-.374-1.297-.789.027-.216.324-.437.893-.663 3.498-1.524 5.831-2.529 6.998-3.015 3.333-1.386 4.025-1.627 4.477-1.635.099-.002.321.023.465.141.121.1.154.232.17.33.015.098.034.32.019.494z"/></svg>
+<div class="contacts-central">
+<section class="contacts-hero" aria-labelledby="contacts-hero-title">
+<div class="contacts-hero__glow contacts-hero__glow--right" aria-hidden="true"></div>
+<div class="contacts-hero__glow contacts-hero__glow--left" aria-hidden="true"></div>
+<div class="contacts-hero__glow contacts-hero__glow--center" aria-hidden="true"></div>
+<div class="contacts-hero__content">
+<h1 id="contacts-hero-title">Получите план запуска проекта за 24 часа</h1>
+<p class="contacts-hero__subtitle">Telegram-боты, Web-приложения, AI-интеграции — разберу ваш контекст и предложу рабочий следующий шаг без лишних созвонов.</p>
+<div class="contacts-hero__tags" aria-label="Форматы сотрудничества">
+<span class="contacts-tag">Быстрый ответ</span>
+<span class="contacts-tag">Понятный план</span>
+<span class="contacts-tag">Прямой контакт с исполнителем</span>
+</div>
+<div class="contacts-hero__actions">
+<a class="contacts-button contacts-button--primary" href="https://t.me/slavxRu">
+<span class="material-symbols-outlined" aria-hidden="true">send</span>
 Написать в Telegram
 </a>
-
-</div>
-
-<div class="section-header">
-
-## Почему выбирают меня
-
-</div>
-
-<div class="services-grid">
-
-<div class="service-card highlighted">
-<div class="card-icon">⚡</div>
-
-### Быстрый ответ
-
-Отвечаю в течение дня. Не теряем время на согласования — сразу к делу.
-
-</div>
-
-<div class="service-card">
-<div class="card-icon">📋</div>
-
-### Понятный план
-
-Получите четкий следующий шаг: что делаем, зачем, в какие сроки.
-
-</div>
-
-<div class="service-card">
-<div class="card-icon">🎯</div>
-
-### Без бюрократии
-
-Работаем напрямую. Минимум формальностей, максимум результата.
-
-</div>
-
-</div>
-
-<div class="section-header">
-
-## Как связаться
-
-</div>
-
-<div class="contact-methods">
-
-<a href="https://t.me/slavxRu" class="contact-card primary">
-<span class="contact-icon">📱</span>
-<div class="contact-info">
-<span class="contact-label">Telegram</span>
-<span class="contact-value">@slavxRu</span>
-</div>
-</a>
-
-<a href="mailto:info@slavx.ru" class="contact-card">
-<span class="contact-icon">✉️</span>
-<div class="contact-info">
-<span class="contact-label">Email</span>
-<span class="contact-value">info@slavx.ru</span>
-</div>
-</a>
-
-<a href="tel:+79913302202" class="contact-card">
-<span class="contact-icon">📞</span>
-<div class="contact-info">
-<span class="contact-label">Телефон</span>
-<span class="contact-value">+79913302202</span>
-</div>
-</a>
-
-</div>
-
-<div class="section-header">
-
-## Два формата старта
-
-</div>
-
-<div class="start-options-stack">
-
-<div class="horizontal-card">
-<div class="horizontal-card-content">
-
-### ⚡ Быстрый старт
-
-Подходит, если нужно быстро сверить идею или уточнить реалистичность задачи. Напишите коротко: цель проекта, что уже есть, желаемый результат и срок.
-
-</div>
-<div class="horizontal-card-action">
-<a href="https://t.me/slavxRu" class="start-button telegram">
-Написать в Telegram →
+<a class="contacts-button contacts-button--secondary" href="mailto:info@slavx.ru">
+<span class="material-symbols-outlined" aria-hidden="true">mail</span>
+Отправить Email
 </a>
 </div>
 </div>
+</section>
 
-<div class="horizontal-card with-expandable">
-<div class="horizontal-card-content">
-
-### 📝 Полный старт
-
-Подходит, если хотите перейти сразу к оценке и плану работ. Заполните бриф с деталями: описание задачи, технические требования, бюджет и сроки.
-
+<section class="contacts-section" aria-labelledby="contacts-fast-title">
+<div class="contacts-section__head">
+<span class="contacts-section__index">01 / Contact</span>
+<h2 id="contacts-fast-title">Быстрые способы связи</h2>
+<span class="contacts-section__line" aria-hidden="true"></span>
 </div>
+<div class="contacts-channels-grid">
+<a href="https://t.me/slavxRu" class="contacts-channel contacts-channel--primary" aria-label="Связаться в Telegram">
+<span class="contacts-channel__icon material-symbols-outlined" aria-hidden="true">send</span>
+<div class="contacts-channel__copy">
+<span class="contacts-channel__label">Telegram</span>
+<strong class="contacts-channel__value">@slavxRu</strong>
+</div>
+<span class="contacts-channel__arrow material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+</a>
+<a href="mailto:info@slavx.ru" class="contacts-channel" aria-label="Написать на Email">
+<span class="contacts-channel__icon material-symbols-outlined" aria-hidden="true">mail</span>
+<div class="contacts-channel__copy">
+<span class="contacts-channel__label">Email</span>
+<strong class="contacts-channel__value">info@slavx.ru</strong>
+</div>
+<span class="contacts-channel__arrow material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+</a>
+<a href="tel:+79913302202" class="contacts-channel" aria-label="Позвонить по телефону">
+<span class="contacts-channel__icon material-symbols-outlined" aria-hidden="true">call</span>
+<div class="contacts-channel__copy">
+<span class="contacts-channel__label">Телефон</span>
+<strong class="contacts-channel__value">+7 991 330-22-02</strong>
+</div>
+<span class="contacts-channel__arrow material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+</a>
+</div>
+</section>
 
-<details class="inline-brief" id="brief-form">
-<summary>Заполнить бриф для полного старта</summary>
+<section class="contacts-section" aria-labelledby="contacts-workflow-title">
+<div class="contacts-section__head">
+<span class="contacts-section__index">02 / Workflow</span>
+<h2 id="contacts-workflow-title">Как начинаем работу</h2>
+<span class="contacts-section__line" aria-hidden="true"></span>
+</div>
+<div class="contacts-steps-grid">
+<article class="contacts-step-card">
+<div class="contacts-step-card__top">
+<span class="contacts-step-card__number">01</span>
+<span class="material-symbols-outlined" aria-hidden="true">chat</span>
+</div>
+<h3>Короткий бриф</h3>
+<p>Вы описываете цель, текущую ситуацию и ограничения по срокам или бюджету.</p>
+</article>
+<article class="contacts-step-card">
+<div class="contacts-step-card__top">
+<span class="contacts-step-card__number">02</span>
+<span class="material-symbols-outlined" aria-hidden="true">schema</span>
+</div>
+<h3>Маршрут решения</h3>
+<p>Я предлагаю реалистичный формат запуска: MVP, интеграции, этапность и риски.</p>
+</article>
+<article class="contacts-step-card">
+<div class="contacts-step-card__top">
+<span class="contacts-step-card__number">03</span>
+<span class="material-symbols-outlined" aria-hidden="true">rocket_launch</span>
+</div>
+<h3>Старт работ</h3>
+<p>Фиксируем ближайший шаг и начинаем выполнение без затянутого онбординга.</p>
+</article>
+</div>
+</section>
 
+<section class="contacts-section" aria-labelledby="contacts-start-title">
+<div class="contacts-section__head">
+<span class="contacts-section__index">03 / Start</span>
+<h2 id="contacts-start-title">Два формата старта</h2>
+<span class="contacts-section__line" aria-hidden="true"></span>
+</div>
+<div class="contacts-start-stack">
+<article class="contacts-start-card">
+<div class="contacts-start-card__content">
+<h3>
+<span class="material-symbols-outlined" aria-hidden="true">flash_on</span>
+Быстрый старт
+</h3>
+<p>Подходит, если нужно быстро сверить идею или уточнить реалистичность задачи. Напишите цель проекта, что уже есть, желаемый результат и срок.</p>
+</div>
+<a href="https://t.me/slavxRu" class="contacts-button contacts-button--primary">
+<span class="material-symbols-outlined" aria-hidden="true">send</span>
+Написать в Telegram
+</a>
+</article>
+
+<article class="contacts-start-card contacts-start-card--full">
+<div class="contacts-start-card__content">
+<h3>
+<span class="material-symbols-outlined" aria-hidden="true">description</span>
+Полный старт
+</h3>
+<p>Подходит, если хотите перейти сразу к оценке и плану работ. Заполните бриф с деталями: описание задачи, технические требования, бюджет и сроки.</p>
+</div>
+<details class="contacts-brief" id="brief-form">
+<summary>
+<span class="material-symbols-outlined" aria-hidden="true">assignment</span>
+Заполнить бриф для полного старта
+</summary>
 <div class="feedback-form" data-source="/static/data/feedback-form.json"></div>
+</details>
+</article>
+</div>
+</section>
 
+<section class="contacts-section" aria-labelledby="contacts-faq-title">
+<div class="contacts-section__head">
+<span class="contacts-section__index">04 / FAQ</span>
+<h2 id="contacts-faq-title">FAQ по контакту</h2>
+<span class="contacts-section__line" aria-hidden="true"></span>
+</div>
+<div class="contacts-faq-list">
+<details class="contacts-faq-item">
+<summary>Можно обратиться без ТЗ?<span class="material-symbols-outlined" aria-hidden="true">expand_more</span></summary>
+<p>Да. Помогу сформулировать требования и собрать структуру задачи. Часто первый разговор — это этап формирования понимания.</p>
+</details>
+<details class="contacts-faq-item">
+<summary>Берёте доработку существующего проекта?<span class="material-symbols-outlined" aria-hidden="true">expand_more</span></summary>
+<p>Да, если есть доступ к текущей системе и понятная цель изменений. Проведу аудит и предложу план развития.</p>
+</details>
+<details class="contacts-faq-item">
+<summary>Можно с небольшой задачей?<span class="material-symbols-outlined" aria-hidden="true">expand_more</span></summary>
+<p>Да. Даже для небольшой задачи фиксируем критерий результата и понятный следующий шаг.</p>
+</details>
+<details class="contacts-faq-item">
+<summary>Как определяется стоимость?<span class="material-symbols-outlined" aria-hidden="true">expand_more</span></summary>
+<p>После уточнения цели, состава работ и ограничений по срокам. Оценку даю до старта работ.</p>
+</details>
+<details class="contacts-faq-item">
+<summary>Какой срок выполнения?<span class="material-symbols-outlined" aria-hidden="true">expand_more</span></summary>
+<p>MVP бота обычно от 1 недели, web-приложение от 2-4 недель. Точный срок определяем после брифа.</p>
 </details>
 </div>
+</section>
 
-</div>
-
-<div class="section-header">
-
-## Частые вопросы
-
-</div>
-
-<div class="faq-section">
-
-<details class="faq-item">
-<summary>Можно обратиться без ТЗ?</summary>
-<div class="faq-answer">
-Да. Помогу сформулировать требования и собрать структуру задачи. Часто первый разговор — это и есть этап формирования понимания.
-</div>
-</details>
-
-<details class="faq-item">
-<summary>Берёте доработку существующего проекта?</summary>
-<div class="faq-answer">
-Да, если есть доступ к текущей системе и понятная цель изменений. Проведу аудит и предложу план развития.
-</div>
-</details>
-
-<details class="faq-item">
-<summary>Можно с небольшой задачей?</summary>
-<div class="faq-answer">
-Да. Для небольших задач тоже фиксируем критерий результата и следующий шаг. Размер проекта — не главное.
-</div>
-</details>
-
-<details class="faq-item">
-<summary>Как определяется стоимость?</summary>
-<div class="faq-answer">
-После уточнения цели, состава работ и ограничений по срокам. Даю оценку до начала работы.
-</div>
-</details>
-
-<details class="faq-item">
-<summary>Какой срок выполнения?</summary>
-<div class="faq-answer">
-Зависит от сложности. MVP бота — от 1 недели. Web-приложение — от 2-4 недель. Точные сроки обсуждаем после понимания задачи.
-</div>
-</details>
-
-</div>
-
-<div class="cta-section">
-
-## Готовы обсудить задачу?
-
-Напишите сейчас — отвечу в течение дня с понятным следующим шагом
-
-<div class="cta-buttons">
-<a href="https://t.me/slavxRu" class="cta-button primary">
-📱 Telegram @slavxRu
+<section class="contacts-cta" aria-labelledby="contacts-cta-title">
+<h2 id="contacts-cta-title">Готовы обсудить задачу?</h2>
+<p>Напишите сейчас — в ответ получите понятный следующий шаг и ориентир по запуску.</p>
+<div class="contacts-cta__actions">
+<a href="https://t.me/slavxRu" class="contacts-button contacts-button--primary">
+<span class="material-symbols-outlined" aria-hidden="true">send</span>
+Telegram @slavxRu
 </a>
-<a href="mailto:info@slavx.ru" class="cta-button secondary">
-✉️ info@slavx.ru
+<a href="mailto:info@slavx.ru" class="contacts-button contacts-button--secondary">
+<span class="material-symbols-outlined" aria-hidden="true">mail</span>
+info@slavx.ru
 </a>
-<a href="tel:+79913302202" class="cta-button secondary">
-📞 +79913302202
+<a href="tel:+79913302202" class="contacts-button contacts-button--secondary">
+<span class="material-symbols-outlined" aria-hidden="true">call</span>
++7 991 330-22-02
 </a>
 </div>
-
-</div>
-
+<p class="contacts-cta__note">Обычно отвечаю с 09:00 до 21:00 (UTC+3), без выходных.</p>
+</section>
 </div>
