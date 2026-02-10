@@ -13,7 +13,6 @@ cssclasses: ""
 draft: false
 ---
 
-
 Ниже — рабочая схема создания компонента на основе FeedbackForm. Вы получите:
 
 - TSX-компонент
@@ -145,9 +144,21 @@ Quartz не всегда корректно обрабатывает касто�
   "submitLabel": "Отправить",
   "privacyNote": "Без спама",
   "fields": [
-    { "type": "text", "name": "name", "placeholder": "Имя / компания", "required": true, "layout": "two-columns" },
+    {
+      "type": "text",
+      "name": "name",
+      "placeholder": "Имя / компания",
+      "required": true,
+      "layout": "two-columns"
+    },
     { "type": "email", "name": "email", "placeholder": "Почта", "required": true },
-    { "type": "textarea", "name": "message", "placeholder": "Сообщение", "required": true, "rows": 5 }
+    {
+      "type": "textarea",
+      "name": "message",
+      "placeholder": "Сообщение",
+      "required": true,
+      "rows": 5
+    }
   ]
 }
 ```
@@ -247,10 +258,36 @@ Quartz не всегда корректно обрабатывает касто�
 ```json
 {
   "fields": [
-    { "type": "text", "name": "name", "label": "Имя", "placeholder": "Как к вам обращаться", "required": true, "layout": "two-columns" },
-    { "type": "text", "name": "company", "label": "Компания", "placeholder": "Название компании", "layout": "two-columns" },
-    { "type": "tel", "name": "phone", "label": "Телефон", "placeholder": "+7...", "layout": "two-columns" },
-    { "type": "email", "name": "email", "label": "Email", "placeholder": "you@example.com", "required": true, "layout": "two-columns" }
+    {
+      "type": "text",
+      "name": "name",
+      "label": "Имя",
+      "placeholder": "Как к вам обращаться",
+      "required": true,
+      "layout": "two-columns"
+    },
+    {
+      "type": "text",
+      "name": "company",
+      "label": "Компания",
+      "placeholder": "Название компании",
+      "layout": "two-columns"
+    },
+    {
+      "type": "tel",
+      "name": "phone",
+      "label": "Телефон",
+      "placeholder": "+7...",
+      "layout": "two-columns"
+    },
+    {
+      "type": "email",
+      "name": "email",
+      "label": "Email",
+      "placeholder": "you@example.com",
+      "required": true,
+      "layout": "two-columns"
+    }
   ]
 }
 ```
@@ -265,7 +302,12 @@ Quartz не всегда корректно обрабатывает касто�
 {
   "actions": [
     { "type": "submit", "label": "Отправить" },
-    { "type": "link", "label": "Написать в Telegram", "href": "https://t.me/your_handle", "variant": "secondary" }
+    {
+      "type": "link",
+      "label": "Написать в Telegram",
+      "href": "https://t.me/your_handle",
+      "variant": "secondary"
+    }
   ]
 }
 ```
@@ -289,4 +331,5 @@ Quartz не всегда корректно обрабатывает касто�
 ## Итог
 
 Так вы получаете компонент, который можно вставить на любую страницу, а его поведение настраивать только через JSON — без изменения кода.
+
 - `layout` — не обязательная подсказка рендереру, `two-columns` помещает поля в двухколоночный контейнер (подходит для контактных данных).

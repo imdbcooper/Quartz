@@ -9,18 +9,24 @@ type AvatarOptions = {
   altText?: string
 }
 
+const DEFAULT_IMAGE_PATH = "images/avatar.png"
+
 const defaultOptions: AvatarOptions = {
-  imagePath: "images/avatar.png",
+  imagePath: DEFAULT_IMAGE_PATH,
   altText: "Profile photo",
 }
 
 export default ((userOpts?: Partial<AvatarOptions>) => {
   const opts = { ...defaultOptions, ...userOpts }
 
-  const AvatarComponent: QuartzComponent = ({ cfg, fileData, displayClass }: QuartzComponentProps) => {
+  const AvatarComponent: QuartzComponent = ({
+    cfg,
+    fileData,
+    displayClass,
+  }: QuartzComponentProps) => {
     const baseDir = pathToRoot(fileData.slug!)
     const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
-    const src = joinSegments(baseDir, opts.imagePath)
+    const src = joinSegments(baseDir, opts.imagePath ?? DEFAULT_IMAGE_PATH)
 
     return (
       <div class={classNames(displayClass, "site-avatar")}>

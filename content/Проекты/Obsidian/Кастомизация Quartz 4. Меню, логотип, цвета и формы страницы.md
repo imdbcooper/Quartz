@@ -14,11 +14,12 @@ preview_image: /images/castom.jpeg
 ---
 
 ![[123.png]]
+
 ## Рекомендуемые размеры изображений для превью
 
 > Подробный гайд по настройке превью: [[Карточки превью для статей Qartz 4|Карточки превью для статей Quartz 4]].
 
-Для корректного отображения изображений в карточках превью без появления полей или искажения пропорций: 
+Для корректного отображения изображений в карточках превью без появления полей или искажения пропорций:
 
 - **Рекомендуемый размер**: 400x300 пикселей (соотношение сторон 4:3)
 - **Минимальный размер**: 300x200 пикселей
@@ -94,13 +95,20 @@ const config: QuartzConfig = {
   },
 
   plugins: {
-    transformers: [/* трансформеры */],
-    filters: [/* фильтры */],
-    emitters: [/* эмиттеры */],
+    transformers: [
+      /* трансформеры */
+    ],
+    filters: [
+      /* фильтры */
+    ],
+    emitters: [
+      /* эмиттеры */
+    ],
   },
 }
 ```
- (актуально для `defaultContentPageLayout`):
+
+(актуально для `defaultContentPageLayout`):
 
 ```typescript
 export const defaultContentPageLayout: PageLayout = {
@@ -151,6 +159,7 @@ title: Главная
 # 🧠 Мой цифровой сад
 
 ## Главное меню
+
 - [[Заметки]]
 - [[Проекты]]
 - [[О сайте]]
@@ -162,8 +171,9 @@ title: Главная
 ## 3. Добавление логотипа
 
 **Вариант 1: Через эмодзи (быстро)**
+
 ```typescript
-pageTitle: "🪴 My Garden"  // Логотип через эмодзи
+pageTitle: "🪴 My Garden" // Логотип через эмодзи
 ```
 
 **Вариант 2: Через логотип-файл (сложнее)**
@@ -208,13 +218,13 @@ export default (() => PageTitle) satisfies QuartzComponentConstructor
 ```scss
 // Общие переменные цветов
 :root {
-  --primary-color: #0a6ed1;      // Голубой
-  --secondary-color: #0f828f;    // Бирюзовый
-  --accent-color: #d08770;       // Оранжевый
-  --bg-light: #faf8f3;           // Светлый фон
-  --bg-dark: #1e1e1e;            // Тёмный фон
-  --text-primary: #2b2b2b;       // Основной текст
-  --text-secondary: #b8b8b8;     // Вторичный текст
+  --primary-color: #0a6ed1; // Голубой
+  --secondary-color: #0f828f; // Бирюзовый
+  --accent-color: #d08770; // Оранжевый
+  --bg-light: #faf8f3; // Светлый фон
+  --bg-dark: #1e1e1e; // Тёмный фон
+  --text-primary: #2b2b2b; // Основной текст
+  --text-secondary: #b8b8b8; // Вторичный текст
 }
 
 // Применение к элементам
@@ -225,7 +235,7 @@ body {
 
 a {
   color: var(--primary-color);
-  
+
   &:hover {
     color: var(--secondary-color);
   }
@@ -252,11 +262,13 @@ a {
 Quartz 4 имеет два основных макета:
 
 **Content Layout** (для статей):
+
 ```
 [Боковая панель] [Основной контент] [Граф связей]
 ```
 
 **List Layout** (для списков/тегов):
+
 ```
 [Хлебные крошки]
 [Заголовок]
@@ -287,9 +299,12 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [Component.Comments()], // <-- сюда добавляются общие секции страницы
-  footer: Component.Footer({ /* ... */ }),
+  footer: Component.Footer({
+    /* ... */
+  }),
 }
 ```
+
 ---
 
 ## 6. Быстрый чек-лист кастомизации
@@ -322,6 +337,7 @@ npx quartz build --bundleInfo -d docs
 ```
 
 **Ключевые файлы для редактирования:**
+
 - `quartz.config.ts` — конфигурация и цвета
 - `quartz.layout.ts` — структура меню и панелей
 - `quartz/styles/custom.scss` — кастомные стили

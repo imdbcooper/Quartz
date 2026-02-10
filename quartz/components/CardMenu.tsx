@@ -6,7 +6,6 @@ import script from "./scripts/cardMenu.inline"
 import { classNames } from "../util/lang"
 import { i18n } from "../i18n"
 import { FileTrieNode } from "../util/fileTrie"
-import { concatenateResources } from "../util/resources"
 
 type OrderEntries = "sort" | "filter" | "map"
 
@@ -60,6 +59,8 @@ const defaultOptions: CardMenuOptions = {
 const icons = {
   // Book icon for Blog
   blog: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>`,
+  // Book-open icon for Docs
+  docs: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>`,
   // Folder icon for Projects
   folder: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-7.9a2 2 0 0 1-1.69-.9L9.6 3.9A2 2 0 0 0 7.93 3H4a2 2 0 0 0-2 2v13a2 2 0 0 0 2 2Z"/></svg>`,
   // Box icon for Resources
@@ -70,15 +71,6 @@ const icons = {
   file: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>`,
   // Chevron down for accordion
   chevronDown: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>`,
-}
-
-// Helper to get icon based on folder name
-function getIconForFolder(name: string): string {
-  const nameLower = name.toLowerCase()
-  if (nameLower.includes("блог") || nameLower.includes("blog")) return icons.blog
-  if (nameLower.includes("проект") || nameLower.includes("project")) return icons.folder
-  if (nameLower.includes("ресурс") || nameLower.includes("resource")) return icons.resources
-  return icons.folder
 }
 
 export type FolderState = {
@@ -92,7 +84,8 @@ export default ((userOpts?: Partial<CardMenuOptions>) => {
 
   const CardMenu: QuartzComponent = ({ cfg, fileData, displayClass }: QuartzComponentProps) => {
     const id = `card-menu-${numMenus++}`
-    const title = opts.title ?? fileData.frontmatter?.title ?? i18n(cfg.locale).components.explorer.title
+    const title =
+      opts.title ?? fileData.frontmatter?.title ?? i18n(cfg.locale).components.explorer.title
 
     return (
       <div
@@ -142,10 +135,12 @@ export default ((userOpts?: Partial<CardMenuOptions>) => {
             <div class="card-menu-meta">
               {fileData.dates && (
                 <span class="card-menu-date">
-                  {new Date(fileData.dates.modified || fileData.dates.created || Date.now()).toLocaleDateString(cfg.locale, {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
+                  {new Date(
+                    fileData.dates.modified || fileData.dates.created || Date.now(),
+                  ).toLocaleDateString(cfg.locale, {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
                   })}
                 </span>
               )}
@@ -159,10 +154,15 @@ export default ((userOpts?: Partial<CardMenuOptions>) => {
           {/* Footer text */}
           {opts.footerText && (
             <p class="card-menu-footer">
-              {opts.footerText.split('Quartz').map((part, i, arr) => 
-                i < arr.length - 1 
-                  ? <>{part}<a href="https://quartz.jzhao.xyz/">Quartz</a></>
-                  : part
+              {opts.footerText.split("Quartz").map((part, i, arr) =>
+                i < arr.length - 1 ? (
+                  <>
+                    {part}
+                    <a href="https://quartz.jzhao.xyz/">Quartz</a>
+                  </>
+                ) : (
+                  part
+                ),
               )}
             </p>
           )}
@@ -182,7 +182,10 @@ export default ((userOpts?: Partial<CardMenuOptions>) => {
               <a href="#" class="card-section-title"></a>
               <div class="card-section-spacer" data-toggle="true"></div>
               <button type="button" class="card-section-toggle" aria-expanded="false">
-                <span class="card-section-chevron" dangerouslySetInnerHTML={{ __html: icons.chevronDown }} />
+                <span
+                  class="card-section-chevron"
+                  dangerouslySetInnerHTML={{ __html: icons.chevronDown }}
+                />
               </button>
             </div>
             <div class="card-section-content">
@@ -197,7 +200,10 @@ export default ((userOpts?: Partial<CardMenuOptions>) => {
               <a href="#" class="card-folder-title"></a>
               <div class="card-folder-spacer" data-toggle="true"></div>
               <button type="button" class="card-folder-toggle" aria-expanded="false">
-                <span class="card-folder-chevron" dangerouslySetInnerHTML={{ __html: icons.chevronDown }} />
+                <span
+                  class="card-folder-chevron"
+                  dangerouslySetInnerHTML={{ __html: icons.chevronDown }}
+                />
               </button>
             </div>
             <div class="card-folder-content">
@@ -222,4 +228,3 @@ export default ((userOpts?: Partial<CardMenuOptions>) => {
   CardMenu.afterDOMLoaded = script
   return CardMenu
 }) satisfies QuartzComponentConstructor
-

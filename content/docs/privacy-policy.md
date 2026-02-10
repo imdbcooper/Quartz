@@ -1,7 +1,10 @@
 ---
 title: "Политика обработки персональных данных"
 description: "Порядок обработки персональных данных на сайте slavx.ru."
+preview_image: /images/privacy-policy-cover.png
 publish: true
+aliases:
+  - /privacy-policy
 ---
 
 ## 1. Общие положения

@@ -1,3 +1,5 @@
+import type {} from "./util"
+
 type CarouselButton = {
   text?: string
   href?: string
@@ -28,13 +30,6 @@ type CarouselData = {
   form?: CarouselForm
   defaultNote?: string
   cards?: CarouselCard[]
-}
-
-type CarouselElements = {
-  root: HTMLElement
-  stageWrap: HTMLElement
-  stage: HTMLElement
-  ring: HTMLElement
 }
 
 type CarouselForm = {
@@ -274,9 +269,9 @@ function createModal(root: HTMLElement, data: CarouselData) {
       }
       const responseMessage =
         typeof responseData === "object" && responseData !== null
-          ? (responseData as { message?: string; error?: string }).message ??
+          ? ((responseData as { message?: string; error?: string }).message ??
             (responseData as { message?: string; error?: string }).error ??
-            responseText
+            responseText)
           : responseText
 
       const isRedirect = response.status >= 300 && response.status < 400
@@ -333,14 +328,14 @@ function buildBaseLayout(root: HTMLElement, data: CarouselData) {
     data.hint === undefined &&
     data.footerHint === undefined
 
-  const titleText = useDefaults ? DEFAULTS.title : data.title ?? ""
+  const titleText = useDefaults ? DEFAULTS.title : (data.title ?? "")
   title.textContent = titleText
-  const subtitleText = useDefaults ? DEFAULTS.subtitle : data.subtitle ?? ""
+  const subtitleText = useDefaults ? DEFAULTS.subtitle : (data.subtitle ?? "")
   if (subtitleText) {
     subtitle.textContent = subtitleText
   }
 
-  const hintText = useDefaults ? DEFAULTS.hint : data.hint ?? ""
+  const hintText = useDefaults ? DEFAULTS.hint : (data.hint ?? "")
   if (hintText) {
     hint.textContent = hintText
   }
@@ -496,10 +491,7 @@ async function initCarousel(root: HTMLElement) {
     root.dataset.dragSensitivity ?? data.dragSensitivity,
     DEFAULTS.dragSensitivity,
   )
-  const radiusScale = readNumber(
-    root.dataset.radiusScale ?? data.radiusScale,
-    DEFAULTS.radiusScale,
-  )
+  const radiusScale = readNumber(root.dataset.radiusScale ?? data.radiusScale, DEFAULTS.radiusScale)
   const minRadius = readNumber(root.dataset.minRadius ?? data.minRadius, DEFAULTS.minRadius)
   const maxRadius = readNumber(root.dataset.maxRadius ?? data.maxRadius, DEFAULTS.maxRadius)
   let minGap = readNumber(root.dataset.minGap ?? data.minGap, DEFAULTS.minGap)
@@ -815,9 +807,11 @@ async function initCarousel(root: HTMLElement) {
 }
 
 const mountCarousels = () => {
-  document.querySelectorAll<HTMLElement>("services-carousel, .services-carousel").forEach((root) => {
-    initCarousel(root)
-  })
+  document
+    .querySelectorAll<HTMLElement>("services-carousel, .services-carousel")
+    .forEach((root) => {
+      initCarousel(root)
+    })
 }
 
 document.addEventListener("nav", mountCarousels)

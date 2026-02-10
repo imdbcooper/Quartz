@@ -10,6 +10,7 @@ cssclasses: ""
 draft: false
 preview_image: /images/Isometric_3d_illustration_202512282149.jpeg
 ---
+
 # Создание карточного меню (Card Menu) в Quartz 4
 
 > Это дополнение к [[Кастомизация Quartz 4. Меню, логотип, цвета и формы страницы|общему гайду по кастомизации]].
@@ -95,18 +96,14 @@ const icons = {
 ```tsx
 <div class="card-menu">
   {/* Мобильная кнопка-гамбургер */}
-  <button class="card-menu-toggle mobile-menu">
-    {/* SVG иконка меню */}
-  </button>
+  <button class="card-menu-toggle mobile-menu">{/* SVG иконка меню */}</button>
 
   {/* Контейнер меню */}
   <div id={id} class="card-menu-content">
     {/* Заголовок */}
     <div class="card-menu-header">
       <h1 class="card-menu-title">{title}</h1>
-      <div class="card-menu-meta">
-        {/* Дата и время чтения */}
-      </div>
+      <div class="card-menu-meta">{/* Дата и время чтения */}</div>
     </div>
 
     {/* Контейнер для секций (заполняется скриптом) */}
@@ -135,7 +132,10 @@ const icons = {
       <a href="#" class="card-section-title"></a>
       <div class="card-section-spacer" data-toggle="true"></div>
       <button type="button" class="card-section-toggle" aria-expanded="false">
-        <span class="card-section-chevron" dangerouslySetInnerHTML={{ __html: icons.chevronDown }} />
+        <span
+          class="card-section-chevron"
+          dangerouslySetInnerHTML={{ __html: icons.chevronDown }}
+        />
       </button>
     </div>
     <div class="card-section-content">
@@ -312,11 +312,15 @@ function toggleSection(evt: MouseEvent) {
   if (!target) return
 
   // Находим контейнер заголовка
-  const container = target.closest(".card-folder-header-container, .card-section-header-container") as MaybeHTMLElement
+  const container = target.closest(
+    ".card-folder-header-container, .card-section-header-container",
+  ) as MaybeHTMLElement
   if (!container) return
 
   // Если кликнули на ссылку, позволяем навигацию
-  const titleLink = container.querySelector(".card-folder-title, .card-section-title") as HTMLAnchorElement
+  const titleLink = container.querySelector(
+    ".card-folder-title, .card-section-title",
+  ) as HTMLAnchorElement
   if (titleLink && target === titleLink) {
     return // Разрешаем навигацию
   }
@@ -325,13 +329,17 @@ function toggleSection(evt: MouseEvent) {
   evt.preventDefault()
   evt.stopPropagation()
 
-  const toggleButton = container.querySelector(".card-folder-toggle, .card-section-toggle") as MaybeHTMLElement
+  const toggleButton = container.querySelector(
+    ".card-folder-toggle, .card-section-toggle",
+  ) as MaybeHTMLElement
   if (!toggleButton) return
 
   const li = container.parentElement as MaybeHTMLElement
   if (!li) return
 
-  const content = li.querySelector(".card-folder-content, .card-section-content") as MaybeHTMLElement
+  const content = li.querySelector(
+    ".card-folder-content, .card-section-content",
+  ) as MaybeHTMLElement
   if (!content) return
 
   // Переключаем состояние
@@ -349,9 +357,10 @@ function toggleSection(evt: MouseEvent) {
   if (titleLink) {
     const folderPath = titleLink.getAttribute("data-for") || titleLink.href
     if (folderPath) {
-      const path = typeof folderPath === "string" && folderPath.startsWith("/")
-        ? folderPath.replace(/\/$/, "") as FullSlug
-        : folderPath as FullSlug
+      const path =
+        typeof folderPath === "string" && folderPath.startsWith("/")
+          ? (folderPath.replace(/\/$/, "") as FullSlug)
+          : (folderPath as FullSlug)
       const existingState = currentMenuState.find((item) => item.path === path)
       if (existingState) {
         existingState.collapsed = !newExpandedState
@@ -372,12 +381,11 @@ function toggleSection(evt: MouseEvent) {
 // Проверяем сохраненное состояние или если текущий путь находится в этой папке
 const savedState = currentMenuState.find((item) => item.path === folderPath)
 const simpleFolderPath = simplifySlug(folderPath)
-const folderIsPrefixOfCurrentSlug = simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
+const folderIsPrefixOfCurrentSlug =
+  simpleFolderPath === currentSlug.slice(0, simpleFolderPath.length)
 
 // Открываем только если сохраненное состояние говорит об этом, ИЛИ если текущий путь в этой папке
-const isOpen = savedState
-  ? !savedState.collapsed
-  : folderIsPrefixOfCurrentSlug // НЕ используем folderDefaultState === "open"!
+const isOpen = savedState ? !savedState.collapsed : folderIsPrefixOfCurrentSlug // НЕ используем folderDefaultState === "open"!
 ```
 
 ### 4.4. Делегирование событий
@@ -409,21 +417,14 @@ export * from "./CardMenu"
 
 ```typescript
 const defaultContentPageLayout = {
-  beforeBody: [
-    Component.PageTitle(),
-    Component.ContentMeta(),
-    Component.ArticleTitle(),
-  ],
+  beforeBody: [Component.PageTitle(), Component.ContentMeta(), Component.ArticleTitle()],
   left: [
     Component.PageTitle(),
     Component.MobileOnly(Component.Spacer()),
     Component.CardMenu(), // Заменяем Explorer
     Component.DesktopOnly(Component.TableOfContents()),
   ],
-  right: [
-    Component.Graph(),
-    Component.BackLinks(),
-  ],
+  right: [Component.Graph(), Component.BackLinks()],
 }
 ```
 
@@ -445,7 +446,8 @@ publish: true
 
 Компонент `ArticleTitle` извлекает значение `title` из `fileData.frontmatter?.title` и отображает его как `<h1>` заголовок страницы.
 
-**Важно**: 
+**Важно**:
+
 - Если вы хотите изменить заголовок на главной странице, отредактируйте поле `title` в frontmatter файла `content/index.md`
 - Если вы хотите убрать отображение тегов на странице, убедитесь, что компонент `TagList()` не используется в layout (он должен быть удален из `beforeBody`)
 - **Навигационные кнопки (Контакты, About, RSS, Архив) были удалены из меню** - теперь меню начинается сразу с заголовка, метаданных и секций
@@ -478,6 +480,7 @@ const defaultOptions: CardMenuOptions = {
 ### Проблема 1: Меню не сворачивается/разворачивается
 
 **Решение**:
+
 - Убедитесь, что используется делегирование событий
 - Проверьте, что spacer элемент присутствует в шаблоне
 - Убедитесь, что функция `toggleSection` правильно определяет целевой элемент
@@ -485,18 +488,21 @@ const defaultOptions: CardMenuOptions = {
 ### Проблема 2: Все папки открыты при загрузке
 
 **Решение**:
+
 - Убедитесь, что в логике инициализации НЕ используется `opts.folderDefaultState === "open"`
 - Используйте только проверку `folderIsPrefixOfCurrentSlug`
 
 ### Проблема 3: Клик по тексту не работает как ссылка
 
 **Решение**:
+
 - Убедитесь, что в функции `toggleSection` есть проверка `target === titleLink` и возврат без preventDefault
 - Проверьте, что ссылка имеет правильные атрибуты `href` и `data-for`
 
 ### Проблема 4: Мобильное меню не открывается
 
 **Решение**:
+
 - Проверьте, что мобильная кнопка имеет `position: fixed` и правильный z-index
 - Убедитесь, что обработчик `toggleMenu` правильно привязан
 - Проверьте, что класс `collapsed` правильно добавляется/удаляется
@@ -504,6 +510,7 @@ const defaultOptions: CardMenuOptions = {
 ### Проблема 5: Меню не скроллится на десктопе
 
 **Решение**:
+
 - Добавьте `overflow-y: auto` и `max-height` к `.card-menu-content` для десктопа
 - Убедитесь, что `max-height` достаточно большой, но не превышает высоту экрана
 
@@ -565,10 +572,10 @@ title: Добро пожаловать
 Создание кастомного меню в Quartz требует понимания структуры компонентов, правильной обработки событий и адаптивного дизайна. Следуя этому руководству, вы сможете создать функциональное и красивое меню, которое автоматически строится из структуры файлов вашего проекта.
 
 **Ключевые моменты для запоминания**:
+
 - Заголовок страницы берется из frontmatter (`title: Главное меню` в `content/index.md`)
 - Меню автоматически строится из файловой структуры проекта
 - Используйте делегирование событий для обработки кликов
 - Меню открывается только для папок, содержащих текущую страницу
 - Теги можно отключить, удалив `Component.TagList()` из layout
 - Навигационные кнопки (navButtons) удалены из компонента - меню содержит только заголовок, метаданные и секции файловой структуры
-

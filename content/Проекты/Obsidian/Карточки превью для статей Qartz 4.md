@@ -13,6 +13,7 @@ cssclasses: ""
 draft: false
 preview_image: /images/cart1.jpeg
 ---
+
 # Реализация компонента PagePreviewList в Quartz 4
 
 > Часть серии по [[Кастомизация Quartz 4. Меню, логотип, цвета и формы страницы|кастомизации Quartz 4]].
@@ -56,17 +57,17 @@ export function extractPreviewData(page: QuartzPluginData, cfg: GlobalConfigurat
   const tags = page.frontmatter?.tags ?? []
   const slug = page.slug!
   const date = page.dates ? getDate(cfg, page) : undefined
-  
+
   // Извлекаем изображение для превью из frontmatter
   let previewImage = page.frontmatter?.preview_image as string
-  
+
   return {
     title,
     description,
     date,
     tags,
     slug,
-    previewImage
+    previewImage,
   }
 }
 ```
@@ -79,7 +80,7 @@ export function extractPreviewData(page: QuartzPluginData, cfg: GlobalConfigurat
 export const PagePreviewList: QuartzComponent = ({ cfg, fileData, allFiles, limit, sort }: Props) => {
   // Логика сортировки и фильтрации
   // ...
-  
+
   const previewData = list.map(page => extractPreviewData(page, cfg))
 
   return (

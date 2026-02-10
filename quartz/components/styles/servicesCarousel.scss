@@ -192,7 +192,9 @@
   font-size: 0.9rem;
   border: none;
   text-decoration: none;
-  transition: transform 160ms ease, opacity 160ms ease;
+  transition:
+    transform 160ms ease,
+    opacity 160ms ease;
 }
 
 .services-carousel__button:hover {
@@ -210,7 +212,6 @@
   color: var(--sc-muted);
   white-space: nowrap;
 }
-
 
 .services-carousel__footer-hint {
   margin-top: 1rem;

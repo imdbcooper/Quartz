@@ -12,6 +12,7 @@ cssclasses: ""
 draft: false
 preview_image: /images/setupquartz.jpeg
 ---
+
 # Установка и настройка сайта на Quartz и настройка Obsidian
 
 Quartz + Obsidian позволяют превратить локальные заметки в полноценный статический сайт, который автоматически публикуется на GitHub Pages. Ниже — пошаговое руководство, основанное на реальных проблемах и их решениях.
@@ -206,8 +207,9 @@ D:\lopolama\content\
    - добавить/убрать пробел;
 
    ```markdown
-   _Last updated: 2025-12-16_   ← изменить на актуальную
+   _Last updated: 2025-12-16_ ← изменить на актуальную
    ```
+
 4. Сохранить файл (Ctrl+S).
 5. В Publication Center нажать **Publish** для `index.md`.
 6. Подождать 2–3 минуты, пока GitHub Actions пересоберёт сайт.
@@ -251,6 +253,7 @@ D:\lopolama\content\
 
    _Last updated: 2025-12-16_
    ```
+
 3. Сохранить файл.
 4. Опубликовать `index.md` через Publication Center.
 5. Подождать 2–3 минуты, обновить сайт.
@@ -317,12 +320,12 @@ D:\lopolama\content\
 
 ```markdown
 ---
-title: {{title}}
-description: {{description}}
+title: { { title } }
+description: { { description } }
 tags:
   - note
 publish: false
-date: {{date}}
+date: { { date } }
 ---
 
 # {{title}}
@@ -438,7 +441,7 @@ date: 2025-12-16
 1. Перейти **Settings → Pages**.
 2. В разделе **Build and deployment** выбрать:
    - источник: `GitHub Actions` (если всё через workflow)
-   или
+     или
    - branch: `gh-pages` / `main` и директория `/ (root)` или `/docs` (в зависимости от настройки Quartz).
 3. Сохранить.
 

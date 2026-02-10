@@ -16,7 +16,7 @@ interface FolderContentOptions {
    * Whether to display number of folders
    */
   showFolderCount: boolean
- showSubfolders: boolean
+  showSubfolders: boolean
   sort?: SortFn
   usePreviewList: boolean
 }
@@ -24,7 +24,7 @@ interface FolderContentOptions {
 const defaultOptions: FolderContentOptions = {
   showFolderCount: true,
   showSubfolders: true,
- usePreviewList: false,
+  usePreviewList: false,
 }
 
 export default ((opts?: Partial<FolderContentOptions>) => {

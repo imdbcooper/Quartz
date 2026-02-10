@@ -20,10 +20,10 @@ draft: false
 preview_image: /images/google-ai-checkmate-nvidia-card.jpg
 ---
 
-
 # Шах и мат: как Google развернула ИИ-гонку и ударила по монополии NVIDIA
 
 ## Введение
+
 ![[images/google-ai-checkmate-nvidia-card.jpg]]
 
 В начале 2023 года Google выглядела компанией, которая первой придумала фундамент современной LLM-эры, но отдала инициативу более быстрым игрокам. Снаружи это выглядело как парадокс: именно Google Research опубликовала архитектуру трансформеров, но публичный импульс рынка захватили OpenAI и Microsoft.
