@@ -259,6 +259,12 @@ function buildPayload(fields: FeedbackFormField[], form: HTMLFormElement) {
     }
   })
 
+  const callbackHours = payload.callback_hours
+  const callbackMinutes = payload.callback_minutes
+  if (typeof callbackHours === "string" && typeof callbackMinutes === "string") {
+    payload.callback_after = `${callbackHours}:${callbackMinutes}`
+  }
+
   return payload
 }
 
@@ -446,6 +452,9 @@ async function mountForm(root: HTMLElement) {
 
   const fields = normalizeFields(sourceConfig?.fields ?? config.fields)
   const actionsConfig = buildActions(config)
+  const hasCallbackTimerFields =
+    fields.some((field) => field.name === "callback_hours") &&
+    fields.some((field) => field.name === "callback_minutes")
 
   const rawAction = config.action ?? ""
   const rawMethod = config.method ?? "POST"
@@ -524,7 +533,13 @@ async function mountForm(root: HTMLElement) {
     actions.append(privacyNote)
   }
 
-  form.append(actions, status)
+  if (hasCallbackTimerFields && hasTwoColumn) {
+    const ctaRow = createEl("div", "feedback-form__cta-row")
+    ctaRow.append(twoColumnWrapper, actions)
+    form.append(ctaRow, status)
+  } else {
+    form.append(actions, status)
+  }
   card.append(title, subtitle, form)
   root.append(card)
 

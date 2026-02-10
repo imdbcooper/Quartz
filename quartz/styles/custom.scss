@@ -1,56 +1,7 @@
 @use "./base.scss";
+@use "./custom-mobile-critical.scss";
 
 // put your custom CSS here!
-@media (max-width: 800px) {
-  .page > #quartz-body .sidebar.left {
-    padding-top: 0.6rem;
-    padding-bottom: 3px;
-    align-items: flex-start;
-    gap: 0.6rem;
-  }
-
-  .page > #quartz-body .sidebar.left:has(.card-menu) {
-    padding-top: 0.6rem;
-    padding-bottom: 3px;
-  }
-
-  .page > #quartz-body .sidebar.left .card-menu {
-    margin-top: 0;
-    margin-bottom: 0;
-    align-self: flex-start;
-  }
-
-  .page > #quartz-body .sidebar.left .flex-component.mobile-only {
-    transform: none;
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  .page > #quartz-body .sidebar.left .search {
-    max-width: 11rem;
-    flex: 0 0 auto;
-  }
-
-  .page > #quartz-body .sidebar.left .search .search-button {
-    height: 1.7rem;
-    padding-right: 0.6rem;
-    font-size: 0.85rem;
-  }
-
-  .page > #quartz-body .sidebar.left .search .search-button svg {
-    width: 16px;
-    min-width: 16px;
-    margin: 0 0.4rem;
-  }
-
-  .site-avatar {
-    margin-top: -0.35rem;
-  }
-
-  .readermode {
-    display: none;
-  }
-}
 
 // Decrease padding for menu blocks
 // Custom overrides for menu border radius
@@ -1089,25 +1040,37 @@
 
 .home-callback-modal__close {
   position: absolute;
-  top: 0.7rem;
-  right: 0.7rem;
-  width: 2.75rem;
-  height: 2.75rem;
-  border: 1px solid #3f3f46;
-  border-radius: 10px;
-  background: rgb(24 24 27 / 0.75);
-  color: #e4e4e7;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: #a1a1aa;
   display: inline-grid;
   place-items: center;
   cursor: pointer;
+  padding: 0.25rem;
+  line-height: 1;
+  appearance: none;
+  -webkit-appearance: none;
+  box-shadow: none;
+  outline: none;
 
   .material-symbols-outlined {
-    font-size: 1.35rem;
+    font-size: 1.1rem;
   }
+}
+
+.home-callback-modal__close:hover {
+  color: #f4f4f5;
 }
 
 .home-callback-modal__form.feedback-form {
   margin: 0;
+  width: 100%;
+  min-width: 0;
 }
 
 .home-callback-modal__form .feedback-form__card {
@@ -1134,6 +1097,8 @@
 .home-callback-modal__form .feedback-form__form {
   margin-top: 0;
   gap: 0.7rem;
+  width: 100%;
+  min-width: 0;
 }
 
 .home-callback-modal__form .feedback-form__label,
@@ -1148,6 +1113,75 @@
   color: #f4f4f5;
   min-height: 3.2rem;
   border-radius: 14px;
+}
+
+.home-callback-modal__form .feedback-form__label[for^="feedback-callback_hours"],
+.home-callback-modal__form .feedback-form__label[for^="feedback-callback_minutes"] {
+  font-size: 0.72rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: #a1a1aa;
+  text-align: center;
+}
+
+.home-callback-modal__form .feedback-form__two-column {
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 0.45rem 0.65rem;
+  align-items: end;
+  margin-top: 0;
+}
+
+.home-callback-modal__form .feedback-form__two-column::before {
+  content: "Перезвонить через";
+  grid-column: 1 / -1;
+  margin: 0.1rem 0 0.05rem;
+  color: #a1a1aa;
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.home-callback-modal__form .feedback-form__field-row.two-columns {
+  gap: 0.28rem;
+}
+
+.home-callback-modal__form .feedback-form__cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 0.8rem;
+  margin-top: 0.25rem;
+  width: 100%;
+  min-width: 0;
+}
+
+.home-callback-modal__form .feedback-form__cta-row .feedback-form__two-column {
+  flex: 1 1 220px;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.home-callback-modal__form .feedback-form__cta-row .feedback-form__actions {
+  flex: 0 1 auto;
+  margin-top: 0;
+  width: auto;
+  min-width: 0;
+  max-width: 100%;
+  justify-content: flex-start;
+}
+
+.home-callback-modal__form select.feedback-form__field[name="callback_hours"],
+.home-callback-modal__form select.feedback-form__field[name="callback_minutes"] {
+  text-align: center;
+  text-align-last: center;
+  font-family: var(--codeFont);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.98rem;
+  min-height: 2.9rem;
+  padding-right: 2.2rem;
 }
 
 .home-callback-modal__form .feedback-form__options {
@@ -1190,7 +1224,7 @@
 }
 
 .home-callback-modal__form .feedback-form__actions {
-  margin-top: 0.35rem;
+  margin-top: 0.2rem;
   justify-content: center;
   width: 100%;
 }
@@ -1238,6 +1272,24 @@
 
 .home-callback-modal__form .feedback-form__submit:hover {
   filter: saturate(1.06) brightness(1.03);
+}
+
+@media (max-width: 520px) {
+  .home-callback-modal__form .feedback-form__cta-row {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.55rem;
+  }
+
+  .home-callback-modal__form .feedback-form__cta-row .feedback-form__two-column {
+    width: 100%;
+    flex: 1 1 auto;
+  }
+
+  .home-callback-modal__form .feedback-form__cta-row .feedback-form__actions {
+    width: auto;
+    justify-content: center;
+  }
 }
 
 .home-callback-modal-open {
@@ -1629,8 +1681,8 @@
   }
 
   #quartz-body .home-central .home-callback-modal__close {
-    border-color: #cbd5e1;
-    background: #f8fafc;
+    border-color: transparent;
+    background: transparent;
     color: #334155;
   }
 
