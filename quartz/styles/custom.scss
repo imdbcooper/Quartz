@@ -160,13 +160,11 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(
-    120deg,
-    #ffcc7a 0%,
-    #ff9f43 38%,
-    #ff8a1f 65%,
-    #ffbf6b 100%
-  ) !important;
+  background: linear-gradient(120deg,
+      #ffcc7a 0%,
+      #ff9f43 38%,
+      #ff8a1f 65%,
+      #ffbf6b 100%) !important;
   background-size: 220% 220%;
   animation: callback-gradient-shift 3.2s ease-in-out infinite;
   color: #2a1202 !important;
@@ -200,13 +198,11 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(
-    120deg,
-    #7cc1ff 0%,
-    #5ca8ff 35%,
-    #6d9bff 68%,
-    #88d5ff 100%
-  ) !important;
+  background: linear-gradient(120deg,
+      #7cc1ff 0%,
+      #5ca8ff 35%,
+      #6d9bff 68%,
+      #88d5ff 100%) !important;
   background-size: 220% 220%;
   animation: callback-gradient-shift 3.2s ease-in-out infinite;
   color: #08152c !important;
@@ -305,11 +301,9 @@
 .home-section__line {
   height: 1px;
   flex: 1;
-  background: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--lightgray) 80%, var(--darkgray)),
-    transparent
-  );
+  background: linear-gradient(to right,
+      color-mix(in srgb, var(--lightgray) 80%, var(--darkgray)),
+      transparent);
 }
 
 .home-grid--focus {
@@ -527,200 +521,20 @@
     gap: 32px !important;
   }
 
-  &.work-card--stacked {
-    grid-template-columns: 1fr !important;
-    text-align: center !important;
-
-    .work-card__content {
-      align-items: center !important;
-    }
-
-    .work-card__two-cols {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      gap: 32px !important;
-      text-align: left !important;
-      width: 100% !important;
-      margin-top: 24px !important;
-
-      @media (max-width: 640px) {
-        grid-template-columns: 1fr !important;
-      }
-    }
+  /* OKB card uses its own inline styles — neutralize parent overrides */
+  &.okb-case {
+    display: block !important;
+    grid-template-columns: none !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    align-items: stretch !important;
   }
 
-  .work-card__content {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: flex-start !important;
-    gap: 20px !important;
-  }
+  /* Specific styles for Graphite-like visualization — removed, OKB uses inline styles */
 
-  .work-card__label {
-    margin: 0 !important;
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.05em !important;
-    text-transform: uppercase !important;
-    color: #60a5fa !important;
-    background: rgba(96, 165, 250, 0.1) !important;
-    padding: 6px 12px !important;
-    border-radius: 6px !important;
-  }
-
-  h3 {
-    margin: 0 !important;
-    font-size: 24px !important;
-    font-weight: 700 !important;
-    line-height: 1.3 !important;
-    color: #ffffff !important;
-    letter-spacing: -0.01em !important;
-  }
-
-  .work-card__diff {
-    p {
-      display: flex !important;
-      gap: 12px !important;
-      margin: 8px 0 !important;
-      font-size: 14px !important;
-      line-height: 1.5 !important;
-      color: #a1a1aa !important;
-
-      strong {
-        color: #e4e4e7 !important;
-      }
-    }
-
-    .work-mark {
-      font-size: 14px !important;
-      font-weight: 700 !important;
-
-      &--bad {
-        color: #f87171 !important;
-      }
-
-      &--good {
-        color: #60a5fa !important;
-      }
-    }
-  }
-
-  .work-card__result {
-    margin: 12px 0 0 0 !important;
-    padding: 16px 20px !important;
-    background: rgba(34, 197, 94, 0.08) !important;
-    border-left: 3px solid #22c55e !important;
-    border-radius: 0 12px 12px 0 !important;
-    font-size: 14px !important;
-    font-weight: 600 !important;
-    color: #4ade80 !important;
-    line-height: 1.4 !important;
-  }
-
-  /* Mockup Window */
-  .mockup-window {
-    background: #18181b !important;
-    border: 1px solid #27272a !important;
-    border-radius: 12px !important;
-    overflow: hidden !important;
-    aspect-ratio: 4/3 !important;
-    display: flex !important;
-    flex-direction: column !important;
-
-    &__top {
-      height: 32px !important;
-      padding: 0 16px !important;
-      display: flex !important;
-      align-items: center !important;
-      gap: 8px !important;
-      background: #1e1e20 !important;
-      border-bottom: 1px solid #27272a !important;
-
-      span {
-        width: 12px !important;
-        height: 12px !important;
-        border-radius: 50% !important;
-
-        &:nth-child(1) {
-          background: #ff5f57 !important;
-        }
-
-        &:nth-child(2) {
-          background: #ffbd2e !important;
-        }
-
-        &:nth-child(3) {
-          background: #27c93f !important;
-        }
-      }
-    }
-
-    &__body {
-      padding: 24px !important;
-      display: flex !important;
-      flex-direction: column !important;
-      gap: 12px !important;
-
-      span {
-        height: 12px !important;
-        background: #27272a !important;
-        border-radius: 4px !important;
-
-        &:nth-child(1) {
-          width: 80% !important;
-          height: 20px !important;
-          margin-bottom: 8px !important;
-        }
-
-        &:nth-child(2) {
-          width: 100% !important;
-        }
-
-        &:nth-child(3) {
-          width: 90% !important;
-        }
-
-        &:nth-child(4) {
-          width: 40% !important;
-          height: 40px !important;
-          margin-top: 12px !important;
-          border: 1px dashed #3f3f46 !important;
-          background: transparent !important;
-        }
-      }
-    }
-  }
-
-  /* Specific styles for Graphite-like visualization */
-  .work-card__graph {
-    height: 160px !important;
-    margin-bottom: 24px !important;
-    background: radial-gradient(
-      circle at center,
-      rgba(96, 165, 250, 0.1) 0%,
-      transparent 70%
-    ) !important;
-    position: relative !important;
-
-    &::after {
-      content: "Graph View Placeholder" !important;
-      position: absolute !important;
-      top: 50% !important;
-      left: 50% !important;
-      transform: translate(-50%, -50%) !important;
-      color: #3f3f46 !important;
-      font-size: 12px !important;
-      text-transform: uppercase !important;
-      letter-spacing: 0.1em !important;
-    }
-  }
 }
 
-#quartz-body
-  .home-central
-  .home-section[aria-labelledby="faq-title"]
-  .home-section__head
-  h2#faq-title {
+#quartz-body .home-central .home-section[aria-labelledby="faq-title"] .home-section__head h2#faq-title {
   margin: 0 !important;
   color: var(--dark) !important;
   font-size: 1.875rem !important;
@@ -766,7 +580,7 @@
   letter-spacing: normal !important;
 }
 
-#quartz-body .home-central .faq-item h3 > a[role="anchor"] {
+#quartz-body .home-central .faq-item h3>a[role="anchor"] {
   display: none !important;
 }
 
@@ -1212,10 +1026,10 @@
   transform: none;
 }
 
-#quartz-body .home-central h2 > a[role="anchor"],
-#quartz-body .home-central h3 > a[role="anchor"],
-#quartz-body .home-central h2 > a[href^="#"],
-#quartz-body .home-central h3 > a[href^="#"] {
+#quartz-body .home-central h2>a[role="anchor"],
+#quartz-body .home-central h3>a[role="anchor"],
+#quartz-body .home-central h2>a[href^="#"],
+#quartz-body .home-central h3>a[href^="#"] {
   display: none !important;
 }
 
@@ -1304,6 +1118,7 @@
 }
 
 @keyframes phone-ring {
+
   0%,
   52%,
   100% {
@@ -1373,6 +1188,7 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   .home-contact-cta__callback-icon,
   .home-contact-cta__callback-icon-wrap::after,
   .central-hero__cta,
@@ -1929,11 +1745,9 @@
 .contacts-section__line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--lightgray) 80%, var(--darkgray)),
-    transparent
-  );
+  background: linear-gradient(to right,
+      color-mix(in srgb, var(--lightgray) 80%, var(--darkgray)),
+      transparent);
 }
 
 #quartz-body .contacts-central .contacts-section__head h2 {
@@ -2264,16 +2078,17 @@
   font-size: 0.8rem !important;
 }
 
-#quartz-body .contacts-central h2 > a[role="anchor"],
-#quartz-body .contacts-central h3 > a[role="anchor"],
-#quartz-body .contacts-central h1 > a[role="anchor"],
-#quartz-body .contacts-central h2 > a[href^="#"],
-#quartz-body .contacts-central h3 > a[href^="#"],
-#quartz-body .contacts-central h1 > a[href^="#"] {
+#quartz-body .contacts-central h2>a[role="anchor"],
+#quartz-body .contacts-central h3>a[role="anchor"],
+#quartz-body .contacts-central h1>a[role="anchor"],
+#quartz-body .contacts-central h2>a[href^="#"],
+#quartz-body .contacts-central h3>a[href^="#"],
+#quartz-body .contacts-central h1>a[href^="#"] {
   display: none !important;
 }
 
 @media (max-width: 1024px) {
+
   .contacts-channels-grid,
   .contacts-steps-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
