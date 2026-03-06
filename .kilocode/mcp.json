@@ -1,17 +1,1 @@
-{
-  "mcpServers": {
-    "stitch": {
-      "type": "streamable-http",
-      "url": "https://stitch.googleapis.com/mcp",
-      "headers": {
-        "X-Goog-Api-Key": "AQ.Ab8RN6LIJ45c2rjjOoRVcX7wmlcBoVO2GODKAsxNtmngndwARg"
-      },
-      "disabled": false
-    },
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp@latest"],
-      "disabled": false
-    }
-  }
-}
+{"mcpServers":{"stitch":{"type":"streamable-http","url":"https://stitch.googleapis.com/mcp","headers":{"X-Goog-Api-Key":"AQ.Ab8RN6LIJ45c2rjjOoRVcX7wmlcBoVO2GODKAsxNtmngndwARg"},"disabled":true,"alwaysAllow":[]},"context7":{"command":"npx","args":["-y","@upstash/context7-mcp@latest"],"disabled":false,"alwaysAllow":[]}}}

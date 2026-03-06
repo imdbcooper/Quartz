@@ -1,0 +1,121 @@
+{
+  "hero": {
+    "title": "Автоматизирую бизнес-процессы через Telegram, Web и AI",
+    "subtitle": "20+ проектов • 3 года опыта • От брифа до запуска за 2-6 недель",
+    "tags": [
+      "Telegram Mini Apps",
+      "Business Automation",
+      "LLM Integrations"
+    ],
+    "primaryAction": "Обсудить задачу",
+    "secondaryAction": "Все контакты"
+  },
+  "focus": {
+    "index": "01 / Focus",
+    "title": "Кому подхожу",
+    "cards": [
+      {
+        "icon": "inbox_customize",
+        "iconVariant": "blue",
+        "title": "Теряются заявки",
+        "desc": "Собираю Telegram-first сценарий: бот, мгновенные уведомления и CRM-интеграции, чтобы ни один лид не пропал.",
+        "resultIcon": "trending_up",
+        "resultText": "ФИКСАЦИЯ ДО 95% ОБРАЩЕНИЙ"
+      },
+      {
+        "icon": "pending_actions",
+        "iconVariant": "purple",
+        "title": "Рутина перегружает",
+        "desc": "Автоматизирую повторяющиеся шаги: обработку сообщений, отчеты и типовые ответы без участия человека.",
+        "resultIcon": "schedule",
+        "resultText": "-10 ЧАСОВ РУТИНЫ В НЕДЕЛЮ"
+      },
+      {
+        "icon": "rocket_launch",
+        "iconVariant": "orange",
+        "title": "Проверка гипотез",
+        "desc": "Быстрый запуск MVP с ключевым функционалом для тестирования рынка на реальных пользователях.",
+        "resultIcon": "speed",
+        "resultText": "ЗАПУСК MVP ЗА 2-3 НЕДЕЛИ"
+      },
+      {
+        "icon": "account_tree",
+        "iconVariant": "green",
+        "title": "Нужна структура",
+        "desc": "Разработка архитектуры и прозрачного плана работ. Сопровождаю проект как техлид до полного релиза.",
+        "resultIcon": "fact_check",
+        "resultText": "ЕЖЕНЕДЕЛЬНЫЕ ДЕМО-ОТЧЕТЫ"
+      }
+    ]
+  },
+  "services": {
+    "index": "02 / Services",
+    "title": "Что делаю",
+    "items": [
+      {
+        "icon": "send",
+        "title": "Telegram Mini App"
+      },
+      {
+        "icon": "web",
+        "title": "Admin Panels"
+      },
+      {
+        "icon": "psychology",
+        "title": "AI Integrations"
+      },
+      {
+        "icon": "menu_book",
+        "title": "Knowledge Bases"
+      }
+    ]
+  },
+  "works": {
+    "index": "03 / Works",
+    "title": "Кейсы"
+  },
+  "faq": {
+    "index": "04 / FAQ",
+    "title": "Частые вопросы",
+    "items": [
+      {
+        "question": "С чего начинается работа?",
+        "answer": "С короткого брифа: цель, текущий процесс и ограничения. После этого я подготавливаю 1–2 варианта реализации и примерную смету."
+      },
+      {
+        "question": "Сколько стоит разработка?",
+        "answer": "От 50 000 ₽ за MVP до 300 000 ₽ за комплексную систему с AI. Точную оценку даю после брифа — это бесплатно и ни к чему не обязывает."
+      },
+      {
+        "question": "Почему вы, а не агентство?",
+        "answer": "Вы работаете напрямую с исполнителем. Это исключает испорченный телефон с менеджерами, ускоряет правки и делает ценообразование прозрачным."
+      }
+    ]
+  },
+  "contact": {
+    "title": "Обсудим вашу задачу?",
+    "subtitle": "Обычно я отвечаю в течение пары часов. Подберу оптимальный стек и предложу маршрут запуска.",
+    "callbackAria": "Заказ обратного звонка",
+    "callbackTitle": "Обратный звонок за 15 минут",
+    "callbackDesc": "Оставьте номер, и я перезвоню в ближайшее окно.",
+    "callbackButton": "Заказать звонок",
+    "modalTitle": "Заказать обратный звонок",
+    "modalSubtitle": "Оставьте контактный номер. Обычно отвечаю в течение дня.",
+    "legalPrefix": "Для отправки заявки отметьте согласие и ознакомьтесь с",
+    "legalLinkText": "Политикой обработки персональных данных",
+    "note": "Обычно отвечаю с 09:00 до 21:00 (UTC+3), без выходных."
+  },
+  "footer": {
+    "copyright": "© 2026 Smirnoff Portfolio • Built with Quartz v4.5.2",
+    "links": [
+      {
+        "href": "https://github.com",
+        "text": "GitHub"
+      },
+      {
+        "href": "https://discord.com",
+        "text": "Discord Community"
+      }
+    ]
+  }
+}
