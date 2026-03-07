@@ -219,11 +219,5 @@ loadHomeContent();
 <p class="home-contact-cta__note" data-home-text="contact.note">Обычно отвечаю с 09:00 до 21:00 (UTC+3), без выходных.</p>
 </section>
 
-<footer class="home-central-footer">
-<p data-home-text="footer.copyright">© 2026 Smirnoff Portfolio • Built with Quartz v4.5.2</p>
-<div data-home-footer-links>
-<a href="https://github.com">GitHub</a>
-<a href="https://discord.com">Discord Community</a>
-</div>
-</footer>
+
 </div>
