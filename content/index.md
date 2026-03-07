@@ -198,8 +198,11 @@ publish: true
 <button class="home-callback-modal__close" type="button" aria-label="Закрыть окно" data-home-faq-close>
 <span class="material-symbols-outlined" aria-hidden="true">close</span>
 </button>
-<h3 id="home-faq-modal-title">Частые вопросы</h3>
-<div class="faq-list" data-faq-modal-list style="margin-top: 16px; display: flex; flex-direction: column; gap: 0; max-height: 60vh; overflow-y: auto;">
+<div class="home-section__head" style="margin-bottom: 20px; padding-right: 32px;">
+<h2 id="home-faq-modal-title" style="margin: 0 !important; font-size: 24px !important;">Частые вопросы</h2>
+<div class="home-section__line" aria-hidden="true"></div>
+</div>
+<div class="faq-list" data-faq-modal-list style="display: flex; flex-direction: column; gap: 0; max-height: 50vh; overflow-y: auto; margin: -8px;">
 </div>
 </div>
 </div>
