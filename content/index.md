@@ -199,7 +199,7 @@ publish: true
 <span class="material-symbols-outlined" aria-hidden="true">close</span>
 </button>
 <h3 id="home-faq-modal-title">Частые вопросы</h3>
-<div class="faq-list" data-faq-modal-list style="margin-top: 24px; display: flex; flex-direction: column; gap: 12px; max-height: 60vh; overflow-y: auto;">
+<div class="faq-list" data-faq-modal-list style="margin-top: 16px; display: flex; flex-direction: column; gap: 0; max-height: 60vh; overflow-y: auto;">
 </div>
 </div>
 </div>

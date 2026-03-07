@@ -103,12 +103,9 @@ function initHome() {
       modalList.innerHTML = '';
       items.forEach(item => {
         const btn = document.createElement('article');
-        btn.className = 'faq-item';
-        btn.style.cursor = 'pointer';
-        btn.style.transition = 'border-color 0.2s';
+        btn.className = 'faq-modal-item';
         const h3 = document.createElement('h3');
         h3.textContent = item.question;
-        h3.style.margin = '0';
         btn.appendChild(h3);
         btn.addEventListener('click', (e) => {
           e.preventDefault();
