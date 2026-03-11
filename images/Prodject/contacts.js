@@ -25,6 +25,48 @@ function initContacts() {
     });
   }
 
+  function createSvgIcon(kind, className) {
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('class', className);
+    svg.setAttribute('viewBox', '0 0 24 24');
+    svg.setAttribute('fill', 'none');
+    svg.setAttribute('aria-hidden', 'true');
+
+    const addPath = (d, extra = {}) => {
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', 'currentColor');
+      path.setAttribute('stroke-width', '1.8');
+      path.setAttribute('stroke-linecap', 'round');
+      path.setAttribute('stroke-linejoin', 'round');
+      Object.entries(extra).forEach(([key, value]) => path.setAttribute(key, value));
+      svg.appendChild(path);
+    };
+
+    switch (kind) {
+      case 'send':
+        addPath('M21 4L3 11.53L10.2 13.93L12.6 21L21 4Z');
+        addPath('M10.2 13.93L21 4');
+        break;
+      case 'mail':
+        addPath('M4 6H20V18H4Z');
+        addPath('M4 8L12 13L20 8');
+        break;
+      case 'call':
+        addPath('M15.8 14.8C14.7 15.9 13.5 17.1 11.9 16.8C10.3 16.4 8.8 15.1 7.5 13.8C6.2 12.5 4.9 11 4.5 9.4C4.2 7.8 5.4 6.6 6.5 5.5L7.2 4.8C7.6 4.4 8.3 4.4 8.7 4.8L11.1 7.2C11.5 7.6 11.5 8.3 11.1 8.7L9.9 9.9C10.3 10.8 11 11.7 11.9 12.6C12.8 13.5 13.7 14.2 14.6 14.6L15.8 13.4C16.2 13 16.9 13 17.3 13.4L19.7 15.8C20.1 16.2 20.1 16.9 19.7 17.3L19 18C17.9 19.1 16.7 20.3 15.1 20');
+        break;
+      case 'arrow_forward':
+        addPath('M5 12H19', { 'stroke-linejoin': 'miter' });
+        addPath('M12 5L19 12L12 19');
+        break;
+      default:
+        return document.createTextNode('');
+    }
+
+    return svg;
+  }
+
   async function loadContactsContent() {
     try {
       const res = await fetch('/images/Prodject/contacts.json');
@@ -54,8 +96,9 @@ function initContacts() {
           a.setAttribute('aria-label', 'Связаться в ' + ch.label);
           
           const icon = document.createElement('span');
-          icon.className = 'contacts-channel__icon material-symbols-outlined';
-          icon.textContent = ch.icon;
+          icon.className = 'contacts-channel__icon';
+          icon.setAttribute('aria-hidden', 'true');
+          icon.appendChild(createSvgIcon(ch.icon, 'contacts-channel__icon-svg'));
           
           const copy = document.createElement('div');
           copy.className = 'contacts-channel__copy';
@@ -69,8 +112,9 @@ function initContacts() {
           copy.appendChild(value);
           
           const arrow = document.createElement('span');
-          arrow.className = 'contacts-channel__arrow material-symbols-outlined';
-          arrow.textContent = 'arrow_forward';
+          arrow.className = 'contacts-channel__arrow';
+          arrow.setAttribute('aria-hidden', 'true');
+          arrow.appendChild(createSvgIcon('arrow_forward', 'contacts-channel__arrow-svg'));
           
           a.appendChild(icon);
           a.appendChild(copy);
