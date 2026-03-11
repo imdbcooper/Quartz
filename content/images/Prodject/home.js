@@ -85,6 +85,31 @@ function initHome() {
       }
     });
   }
+
+  function bindServiceChipFlip(root = document) {
+    const isTouchLike = window.matchMedia('(hover: none), (pointer: coarse)').matches;
+    const chips = root.querySelectorAll('.service-chip--flippable');
+    chips.forEach(card => {
+      if (card.dataset.flipBound === 'true') return;
+      card.dataset.flipBound = 'true';
+
+      if (!isTouchLike) return;
+
+      card.addEventListener('click', () => {
+        const next = !card.classList.contains('is-open');
+        chips.forEach(other => {
+          if (other !== card) other.classList.remove('is-open');
+        });
+        card.classList.toggle('is-open', next);
+      });
+
+      card.addEventListener('keydown', (event) => {
+        if (event.key !== 'Enter' && event.key !== ' ') return;
+        event.preventDefault();
+        card.click();
+      });
+    });
+  }
   
   function renderFaq(data) {
     if (!data.faq || !Array.isArray(data.faq.items) || data.faq.items.length === 0) return;
@@ -174,9 +199,25 @@ function initHome() {
       
       if (dynamicServicesList && data.services && Array.isArray(data.services.items)) {
         dynamicServicesList.innerHTML = '';
-        data.services.items.forEach(item => {
+        const serviceVariants = ['blue', 'purple', 'orange', 'green'];
+        data.services.items.forEach((item, index) => {
+          const variant = typeof item.iconVariant === 'string'
+            ? item.iconVariant
+            : serviceVariants[index % serviceVariants.length];
           const article = document.createElement('article');
-          article.className = 'service-chip';
+          article.className = 'service-chip service-chip--flippable service-chip--' + variant;
+          article.tabIndex = 0;
+          article.setAttribute('role', 'button');
+          article.setAttribute(
+            'aria-label',
+            'Показать описание сервиса ' + (typeof item.title === 'string' ? item.title : ''),
+          );
+          const inner = document.createElement('div');
+          inner.className = 'service-chip__inner';
+          const front = document.createElement('div');
+          front.className = 'service-chip__face service-chip__face--front';
+          const back = document.createElement('div');
+          back.className = 'service-chip__face service-chip__face--back';
           const wrap = document.createElement('span');
           const icon = document.createElement('span');
           icon.className = 'material-symbols-outlined';
@@ -184,10 +225,17 @@ function initHome() {
           wrap.appendChild(icon);
           const h3 = document.createElement('h3');
           h3.textContent = typeof item.title === 'string' ? item.title : '';
-          article.appendChild(wrap);
-          article.appendChild(h3);
+          const p = document.createElement('p');
+          p.textContent = typeof item.backText === 'string' ? item.backText : '';
+          front.appendChild(wrap);
+          front.appendChild(h3);
+          back.appendChild(p);
+          inner.appendChild(front);
+          inner.appendChild(back);
+          article.appendChild(inner);
           dynamicServicesList.appendChild(article);
         });
+        bindServiceChipFlip(dynamicServicesList);
       }
       
       renderFaq(data);
@@ -316,6 +364,7 @@ function initHome() {
   } else {
     startSlider();
   }
+  bindServiceChipFlip();
   loadHomeContent();
 }
 

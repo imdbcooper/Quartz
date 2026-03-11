@@ -57,7 +57,17 @@ publish: true
 <span class="home-section__line" aria-hidden="true"></span>
 </div>
 <div class="home-grid home-grid--services" data-home-services-list>
-<article class="service-chip"><span><span class="material-symbols-outlined">send</span></span><h3>Telegram Mini App</h3></article>
+<article class="service-chip service-chip--flippable service-chip--blue" tabindex="0" role="button" aria-label="Показать описание сервиса Telegram Mini App">
+<div class="service-chip__inner">
+<div class="service-chip__face service-chip__face--front">
+<span><span class="material-symbols-outlined">send</span></span>
+<h3>Telegram Mini App</h3>
+</div>
+<div class="service-chip__face service-chip__face--back">
+<p>Запускаю интерфейсы внутри Telegram: каталоги, кабинеты, оформление заявок и внутренние сервисы без лишнего шага в веб.</p>
+</div>
+</div>
+</article>
 </div>
 </section>
 
