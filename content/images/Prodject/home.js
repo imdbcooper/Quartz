@@ -143,6 +143,8 @@ function initHome() {
         data.focus.cards.forEach(card => {
           const article = document.createElement('article');
           article.className = 'focus-card';
+          const header = document.createElement('div');
+          header.className = 'focus-card__header';
           const iconWrap = document.createElement('div');
           const variant = typeof card.iconVariant === 'string' ? card.iconVariant : 'blue';
           iconWrap.className = 'focus-card__icon focus-card__icon--' + variant;
@@ -161,8 +163,9 @@ function initHome() {
           resultIcon.textContent = typeof card.resultIcon === 'string' ? card.resultIcon : 'trending_up';
           result.appendChild(resultIcon);
           result.append(' ' + (typeof card.resultText === 'string' ? card.resultText : ''));
-          article.appendChild(iconWrap);
-          article.appendChild(title);
+          header.appendChild(iconWrap);
+          header.appendChild(title);
+          article.appendChild(header);
           article.appendChild(desc);
           article.appendChild(result);
           dynamicFocusList.appendChild(article);

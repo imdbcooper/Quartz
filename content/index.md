@@ -35,10 +35,12 @@ publish: true
 </div>
 <div class="home-grid home-grid--focus" data-home-focus-list>
 <article class="focus-card">
+<div class="focus-card__header">
 <div class="focus-card__icon focus-card__icon--blue">
     <span class="material-symbols-outlined">inbox_customize</span>
 </div>
 <h3>Теряются заявки</h3>
+</div>
 <p>Собираю Telegram-first сценарий: бот, мгновенные уведомления и CRM-интеграции, чтобы ни один лид не пропал.</p>
 <div class="focus-card__result">
     <span class="material-symbols-outlined">trending_up</span>
