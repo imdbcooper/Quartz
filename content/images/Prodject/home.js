@@ -310,14 +310,20 @@ function initHome() {
       const didCard = document.querySelector('.okb-card--did');
       const resultCard = document.querySelector('.okb-card--result');
       if (wasCard) {
+        const wasLabel = wasCard.querySelector('.okb-card__label p');
+        if (wasLabel && typeof data.was.label === 'string') wasLabel.textContent = data.was.label;
         wasCard.querySelector('h4').textContent = data.was.title;
         wasCard.querySelector('.okb-card__sub').textContent = data.was.desc;
       }
       if (didCard) {
+        const didLabel = didCard.querySelector('.okb-card__label p');
+        if (didLabel && typeof data.did.label === 'string') didLabel.textContent = data.did.label;
         didCard.querySelector('h4').textContent = data.did.title;
         didCard.querySelector('.okb-card__sub').textContent = data.did.desc;
       }
       if (resultCard) {
+        const resultLabel = resultCard.querySelector('.okb-card__label p');
+        if (resultLabel && typeof data.result.label === 'string') resultLabel.textContent = data.result.label;
         resultCard.querySelector('h4').textContent = data.result.title;
         resultCard.querySelector('.okb-card__sub').textContent = data.result.desc;
       }

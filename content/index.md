@@ -125,10 +125,10 @@ publish: true
     <div class="okb-card okb-card--was">
       <div class="okb-card__corner" aria-hidden="true"><span class="material-symbols-outlined">unfold_more</span></div>
       <div class="okb-card__top">
-        <div class="okb-card__label"><span class="material-symbols-outlined">remove_circle_outline</span><p>Было</p></div>
-        <h4>Затянутый онбординг (2 недели)</h4>
+        <div class="okb-card__label"><span class="material-symbols-outlined">remove_circle_outline</span><p>Web панель</p></div>
+        <h4>Полноценная web-панель с AI функциями обработки транскрибации</h4>
       </div>
-      <p class="okb-card__sub">Разрозненные документы, отсутствие структуры и долгий поиск информации новыми сотрудниками.</p>
+      <p class="okb-card__sub">Возможность настройки популярных AI провайдеров</p>
     </div>
     <div class="okb-card okb-card--did">
       <div class="okb-card__corner" aria-hidden="true"><span class="material-symbols-outlined">unfold_more</span></div>
