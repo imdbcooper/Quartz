@@ -22,8 +22,8 @@ publish: true
     <span data-home-text="hero.primaryAction">Обсудить задачу</span>
     <span class="material-symbols-outlined">arrow_forward</span>
 </button>
-<a class="central-hero__secondary" href="/Кoнтакты" data-home-text="hero.secondaryAction">Все контакты</a>
 </div>
+<a class="central-hero__secondary" href="/Кoнтакты" data-home-text="hero.secondaryAction">Все контакты</a>
 </div>
 </section>
 

@@ -4,7 +4,7 @@ description: "Получите план запуска вашего проект
 publish: true
 ---
 
-<div class="contacts-central">
+<div class="contacts-central" data-home-callback-root>
 <section class="contacts-hero" aria-labelledby="contacts-hero-title">
 <div class="contacts-hero__glow contacts-hero__glow--right" aria-hidden="true"></div>
 <div class="contacts-hero__glow contacts-hero__glow--left" aria-hidden="true"></div>
@@ -22,10 +22,10 @@ publish: true
 <span class="material-symbols-outlined" aria-hidden="true">send</span>
 Написать в Telegram
 </a>
-<a class="contacts-button contacts-button--secondary" href="mailto:info@slavx.ru" data-contacts-link-email>
-<span class="material-symbols-outlined" aria-hidden="true">mail</span>
-Отправить Email
-</a>
+<button class="contacts-button contacts-button--secondary" type="button" data-home-callback-open>
+<span class="material-symbols-outlined" aria-hidden="true">call</span>
+Обратный звонок
+</button>
 </div>
 </div>
 </section>
@@ -38,12 +38,22 @@ publish: true
 </div>
 <div class="contacts-channels-grid" data-contacts-channels-grid>
 <a href="https://t.me/slavxRu" class="contacts-channel contacts-channel--primary" aria-label="Связаться в Telegram">
-<span class="contacts-channel__icon material-symbols-outlined" aria-hidden="true">send</span>
+<span class="contacts-channel__icon" aria-hidden="true">
+<svg class="contacts-channel__icon-svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+<path d="M21 4L3 11.53L10.2 13.93L12.6 21L21 4Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+<path d="M10.2 13.93L21 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</span>
 <div class="contacts-channel__copy">
 <span class="contacts-channel__label">Telegram</span>
 <strong class="contacts-channel__value">@slavxRu</strong>
 </div>
-<span class="contacts-channel__arrow material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+<span class="contacts-channel__arrow" aria-hidden="true">
+<svg class="contacts-channel__arrow-svg" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+<path d="M5 12H19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+<path d="M12 5L19 12L12 19" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</span>
 </a>
 </div>
 </section>
@@ -141,6 +151,24 @@ publish: true
 </div>
 <p class="contacts-cta__note" data-contacts-text="cta.note">Обычно отвечаю с 09:00 до 21:00 (UTC+3), без выходных.</p>
 </section>
+
+<div class="home-callback-modal" data-home-callback-modal aria-hidden="true" hidden>
+<div class="home-callback-modal__backdrop" data-home-callback-close></div>
+<div class="home-callback-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="home-callback-title" data-home-callback-dialog>
+<button class="home-callback-modal__close" type="button" aria-label="Закрыть окно" data-home-callback-close>
+<span class="material-symbols-outlined" aria-hidden="true">close</span>
+</button>
+<h3 id="home-callback-title">Заказать обратный звонок</h3>
+<p class="home-callback-modal__subtitle">Оставьте контактный номер. Обычно отвечаю в течение дня.</p>
+<div class="feedback-form home-callback-modal__form" data-source="/static/data/home-callback-form.json"></div>
+<p class="home-callback-modal__legal">
+Для отправки заявки отметьте согласие и ознакомьтесь с
+<a href="/docs/privacy-policy">Политикой обработки персональных данных</a>
+и
+<a href="/docs/personal-data-consent">согласием на обработку персональных данных</a>.
+</p>
+</div>
+</div>
 
 <script src="/images/Prodject/contacts.js"></script>
 </div>
