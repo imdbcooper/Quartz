@@ -185,7 +185,9 @@ publish: true
 <div class="feedback-form home-callback-modal__form" data-source="/static/data/home-callback-form.json"></div>
 <p class="home-callback-modal__legal">
 <span data-home-text="contact.legalPrefix">Для отправки заявки отметьте согласие и ознакомьтесь с</span>
-<a href="/docs/privacy-policy" data-home-text="contact.legalLinkText">Политикой обработки персональных данных</a>.
+<a href="/docs/privacy-policy" data-home-text="contact.legalLinkText">Политикой обработки персональных данных</a>
+и
+<a href="/docs/personal-data-consent">согласием на обработку персональных данных</a>.
 </p>
 </div>
 </div>

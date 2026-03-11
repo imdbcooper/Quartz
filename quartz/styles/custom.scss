@@ -160,11 +160,13 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(120deg,
-      #ffcc7a 0%,
-      #ff9f43 38%,
-      #ff8a1f 65%,
-      #ffbf6b 100%) !important;
+  background: linear-gradient(
+    120deg,
+    #ffcc7a 0%,
+    #ff9f43 38%,
+    #ff8a1f 65%,
+    #ffbf6b 100%
+  ) !important;
   background-size: 220% 220%;
   animation: callback-gradient-shift 3.2s ease-in-out infinite;
   color: #2a1202 !important;
@@ -198,11 +200,13 @@
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(120deg,
-      #7cc1ff 0%,
-      #5ca8ff 35%,
-      #6d9bff 68%,
-      #88d5ff 100%) !important;
+  background: linear-gradient(
+    120deg,
+    #7cc1ff 0%,
+    #5ca8ff 35%,
+    #6d9bff 68%,
+    #88d5ff 100%
+  ) !important;
   background-size: 220% 220%;
   animation: callback-gradient-shift 3.2s ease-in-out infinite;
   color: #08152c !important;
@@ -301,9 +305,11 @@
 .home-section__line {
   height: 1px;
   flex: 1;
-  background: linear-gradient(to right,
-      color-mix(in srgb, var(--lightgray) 80%, var(--darkgray)),
-      transparent);
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--lightgray) 80%, var(--darkgray)),
+    transparent
+  );
 }
 
 .home-grid--focus {
@@ -531,10 +537,13 @@
   }
 
   /* Specific styles for Graphite-like visualization — removed, OKB uses inline styles */
-
 }
 
-#quartz-body .home-central .home-section[aria-labelledby="faq-title"] .home-section__head h2#faq-title {
+#quartz-body
+  .home-central
+  .home-section[aria-labelledby="faq-title"]
+  .home-section__head
+  h2#faq-title {
   margin: 0 !important;
   color: var(--dark) !important;
   font-size: 1.875rem !important;
@@ -580,7 +589,7 @@
   letter-spacing: normal !important;
 }
 
-#quartz-body .home-central .faq-item h3>a[role="anchor"] {
+#quartz-body .home-central .faq-item h3 > a[role="anchor"] {
   display: none !important;
 }
 
@@ -664,7 +673,7 @@
 :root[saved-theme="light"] {
   #quartz-body .home-central .faq-modal-item {
     border-bottom-color: #e2e8f0 !important;
-    
+
     &:hover {
       background: rgba(0, 0, 0, 0.03) !important;
     }
@@ -1102,10 +1111,10 @@
   transform: none;
 }
 
-#quartz-body .home-central h2>a[role="anchor"],
-#quartz-body .home-central h3>a[role="anchor"],
-#quartz-body .home-central h2>a[href^="#"],
-#quartz-body .home-central h3>a[href^="#"] {
+#quartz-body .home-central h2 > a[role="anchor"],
+#quartz-body .home-central h3 > a[role="anchor"],
+#quartz-body .home-central h2 > a[href^="#"],
+#quartz-body .home-central h3 > a[href^="#"] {
   display: none !important;
 }
 
@@ -1194,7 +1203,6 @@
 }
 
 @keyframes phone-ring {
-
   0%,
   52%,
   100% {
@@ -1264,7 +1272,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-
   .home-contact-cta__callback-icon,
   .home-contact-cta__callback-icon-wrap::after,
   .central-hero__cta,
@@ -1821,9 +1828,11 @@
 .contacts-section__line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(to right,
-      color-mix(in srgb, var(--lightgray) 80%, var(--darkgray)),
-      transparent);
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--lightgray) 80%, var(--darkgray)),
+    transparent
+  );
 }
 
 #quartz-body .contacts-central .contacts-section__head h2 {
@@ -2069,6 +2078,19 @@
   flex-wrap: wrap;
 }
 
+.contacts-brief__legal {
+  margin: 0.9rem 0 0;
+  color: #a1a1aa;
+  font-size: 0.8rem;
+  line-height: 1.5;
+
+  a {
+    color: #93c5fd;
+    text-decoration: underline;
+    text-underline-offset: 0.16rem;
+  }
+}
+
 .contacts-faq-list {
   display: grid;
   gap: 0.85rem;
@@ -2154,17 +2176,16 @@
   font-size: 0.8rem !important;
 }
 
-#quartz-body .contacts-central h2>a[role="anchor"],
-#quartz-body .contacts-central h3>a[role="anchor"],
-#quartz-body .contacts-central h1>a[role="anchor"],
-#quartz-body .contacts-central h2>a[href^="#"],
-#quartz-body .contacts-central h3>a[href^="#"],
-#quartz-body .contacts-central h1>a[href^="#"] {
+#quartz-body .contacts-central h2 > a[role="anchor"],
+#quartz-body .contacts-central h3 > a[role="anchor"],
+#quartz-body .contacts-central h1 > a[role="anchor"],
+#quartz-body .contacts-central h2 > a[href^="#"],
+#quartz-body .contacts-central h3 > a[href^="#"],
+#quartz-body .contacts-central h1 > a[href^="#"] {
   display: none !important;
 }
 
 @media (max-width: 1024px) {
-
   .contacts-channels-grid,
   .contacts-steps-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2357,29 +2378,29 @@
   border-radius: 24px;
   background: rgb(22 22 24);
   overflow: hidden;
-  box-shadow: 0 25px 50px -12px rgb(0 0 0 / .25);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
 }
 
 .okb-head {
   padding: 2rem 2.5rem 0;
   display: flex;
   align-items: center;
-  gap: .5rem;
+  gap: 0.5rem;
 }
 
 .okb-badge {
-  padding: .25rem .75rem;
+  padding: 0.25rem 0.75rem;
   border-radius: 6px;
-  background: rgb(88 28 135 / .3);
+  background: rgb(88 28 135 / 0.3);
   color: rgb(216 180 254);
-  font-size: .68rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: .07em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
 }
 
 .okb-head h3 {
-  margin: 0 0 0 .5rem !important;
+  margin: 0 0 0 0.5rem !important;
   font-size: 1.5rem !important;
   font-weight: 700 !important;
   color: #fff !important;
@@ -2419,7 +2440,7 @@
   width: 100%;
   height: 100%;
   opacity: 0;
-  transition: opacity .8s ease-in-out;
+  transition: opacity 0.8s ease-in-out;
   border-radius: 24px;
   overflow: hidden;
 }
@@ -2441,11 +2462,11 @@
   display: none;
 }
 
-:root[saved-theme=light] .okb-slide-img--dark {
+:root[saved-theme="light"] .okb-slide-img--dark {
   display: none;
 }
 
-:root[saved-theme=light] .okb-slide-img--light {
+:root[saved-theme="light"] .okb-slide-img--light {
   display: block;
 }
 
@@ -2460,37 +2481,37 @@
   z-index: 2;
   display: flex;
   justify-content: center;
-  gap: .5rem;
-  padding: 1.5rem 0 .75rem;
+  gap: 0.5rem;
+  padding: 1.5rem 0 0.75rem;
   background: transparent;
 }
 
 .okb-slider__dot {
-  width: .5rem;
-  height: .5rem;
+  width: 0.5rem;
+  height: 0.5rem;
   border-radius: 50%;
   background: rgb(63 63 70);
   cursor: pointer;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .okb-slider__dot--active {
   background: rgb(96 165 250);
-  box-shadow: 0 0 0 3px rgb(96 165 250 / .2);
+  box-shadow: 0 0 0 3px rgb(96 165 250 / 0.2);
 }
 
 .okb-slider__dot:hover {
-  background: rgb(96 165 250 / .6);
+  background: rgb(96 165 250 / 0.6);
 }
 
 .okb-sidebar {
   width: 4rem;
   display: flex;
   flex-direction: column;
-  gap: .75rem;
+  gap: 0.75rem;
   align-items: center;
   justify-content: center;
-  padding: .5rem 0;
+  padding: 0.5rem 0;
 }
 
 .okb-icon-btn {
@@ -2505,7 +2526,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all .18s ease;
+  transition: all 0.18s ease;
 }
 
 .okb-icon-btn:hover {
@@ -2515,10 +2536,10 @@
 }
 
 .okb-icon-btn--active {
-  background: rgb(96 165 250 / .2);
+  background: rgb(96 165 250 / 0.2);
   border-color: rgb(96 165 250);
   color: rgb(96 165 250);
-  box-shadow: 0 8px 16px -4px rgb(96 165 250 / .1);
+  box-shadow: 0 8px 16px -4px rgb(96 165 250 / 0.1);
 }
 
 .okb-icon-btn .material-symbols-outlined {
@@ -2531,7 +2552,7 @@
   gap: 1rem;
   padding: 0 2.5rem 2rem;
   border-top: 1px solid rgb(39 39 42);
-  background: rgb(24 24 27 / .5);
+  background: rgb(24 24 27 / 0.5);
   padding-top: 2rem;
 }
 
@@ -2546,11 +2567,11 @@
   position: relative;
   overflow: hidden;
   cursor: pointer;
-  transition: all .2s ease;
+  transition: all 0.2s ease;
 }
 
 .okb-card:hover {
-  box-shadow: 0 8px 24px -4px rgb(0 0 0 / .3);
+  box-shadow: 0 8px 24px -4px rgb(0 0 0 / 0.3);
 }
 
 .okb-card__corner {
@@ -2558,8 +2579,8 @@
   top: 0;
   right: 0;
   padding: 1rem;
-  opacity: .5;
-  transition: opacity .2s ease;
+  opacity: 0.5;
+  transition: opacity 0.2s ease;
 }
 
 .okb-card:hover .okb-card__corner {
@@ -2569,7 +2590,7 @@
 .okb-card__corner .material-symbols-outlined {
   color: rgb(161 161 170);
   transform: rotate(45deg);
-  transition: all .3s ease;
+  transition: all 0.3s ease;
 }
 
 .okb-card:hover .okb-card__corner .material-symbols-outlined {
@@ -2577,7 +2598,7 @@
 }
 
 .okb-card--was:hover {
-  border-color: rgb(248 113 113 / .5);
+  border-color: rgb(248 113 113 / 0.5);
 }
 
 .okb-card--was .okb-card__corner .material-symbols-outlined {
@@ -2589,7 +2610,7 @@
 }
 
 .okb-card--did:hover {
-  border-color: rgb(96 165 250 / .5);
+  border-color: rgb(96 165 250 / 0.5);
 }
 
 .okb-card--did:hover .okb-card__corner .material-symbols-outlined {
@@ -2597,12 +2618,12 @@
 }
 
 .okb-card--result {
-  background: rgb(30 58 138 / .1);
+  background: rgb(30 58 138 / 0.1);
   border-color: rgb(30 64 175);
 }
 
 .okb-card--result:hover {
-  background: rgb(30 58 138 / .2);
+  background: rgb(30 58 138 / 0.2);
 }
 
 .okb-card--result .okb-card__corner {
@@ -2625,8 +2646,8 @@
 .okb-card__label {
   display: flex;
   align-items: center;
-  gap: .5rem;
-  margin-bottom: .5rem;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .okb-card__label .material-symbols-outlined {
@@ -2647,9 +2668,9 @@
 
 .okb-card__label p {
   margin: 0;
-  font-size: .68rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: .07em;
+  letter-spacing: 0.07em;
   text-transform: uppercase;
   color: rgb(161 161 170);
 }
@@ -2673,8 +2694,8 @@
 }
 
 .okb-card__sub {
-  margin: .5rem 0 0;
-  font-size: .75rem;
+  margin: 0.5rem 0 0;
+  font-size: 0.75rem;
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -2689,85 +2710,85 @@
 }
 
 .okb-card--result .okb-card__sub {
-  color: rgb(147 197 253 / .6);
+  color: rgb(147 197 253 / 0.6);
 }
 
-:root[saved-theme=light] .okb-case {
+:root[saved-theme="light"] .okb-case {
   border-color: rgb(229 231 235);
   background: rgb(255 255 255);
-  box-shadow: 0 25px 50px -12px rgb(0 0 0 / .1);
+  box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.1);
 }
 
-:root[saved-theme=light] .okb-badge {
+:root[saved-theme="light"] .okb-badge {
   background: rgb(243 232 255);
   color: rgb(126 34 206);
 }
 
-:root[saved-theme=light] .okb-head h3 {
+:root[saved-theme="light"] .okb-head h3 {
   color: rgb(31 41 55) !important;
 }
 
-:root[saved-theme=light] .okb-slider__dot {
+:root[saved-theme="light"] .okb-slider__dot {
   background: rgb(209 213 219);
 }
 
-:root[saved-theme=light] .okb-slider__dot--active {
+:root[saved-theme="light"] .okb-slider__dot--active {
   background: rgb(59 130 246);
 }
 
-:root[saved-theme=light] .okb-icon-btn {
+:root[saved-theme="light"] .okb-icon-btn {
   border-color: rgb(229 231 235);
   background: rgb(244 244 245);
   color: rgb(107 114 128);
 }
 
-:root[saved-theme=light] .okb-icon-btn:hover {
+:root[saved-theme="light"] .okb-icon-btn:hover {
   background: rgb(229 231 235);
   color: rgb(96 165 250);
 }
 
-:root[saved-theme=light] .okb-icon-btn--active {
+:root[saved-theme="light"] .okb-icon-btn--active {
   background: rgb(219 234 254);
   border-color: rgb(96 165 250);
   color: rgb(37 99 235);
 }
 
-:root[saved-theme=light] .okb-cards {
+:root[saved-theme="light"] .okb-cards {
   border-top-color: rgb(229 231 235);
   background: rgb(249 250 251);
 }
 
-:root[saved-theme=light] .okb-card {
+:root[saved-theme="light"] .okb-card {
   border-color: rgb(229 231 235);
   background: rgb(255 255 255);
 }
 
-:root[saved-theme=light] .okb-card__top h4 {
+:root[saved-theme="light"] .okb-card__top h4 {
   color: rgb(31 41 55) !important;
 }
 
-:root[saved-theme=light] .okb-card__sub {
+:root[saved-theme="light"] .okb-card__sub {
   color: rgb(107 114 128);
 }
 
-:root[saved-theme=light] .okb-card--result {
+:root[saved-theme="light"] .okb-card--result {
   background: rgb(239 246 255);
   border-color: rgb(191 219 254);
 }
 
-:root[saved-theme=light] .okb-card--result .okb-card__top h4 {
+:root[saved-theme="light"] .okb-card--result .okb-card__top h4 {
   color: rgb(29 78 216) !important;
 }
 
-:root[saved-theme=light] .okb-card--result .okb-card__label p {
+:root[saved-theme="light"] .okb-card--result .okb-card__label p {
   color: rgb(37 99 235);
 }
 
-:root[saved-theme=light] .okb-card--result .okb-card__sub {
-  color: rgb(37 99 235 / .7);
+:root[saved-theme="light"] .okb-card--result .okb-card__sub {
+  color: rgb(37 99 235 / 0.7);
 }
 
-@media(max-width:1024px) {
+@media (max-width: 1024px) {
   .okb-body {
     flex-direction: column;
   }
@@ -2778,7 +2799,7 @@
   }
 }
 
-@media(max-width:768px) {
+@media (max-width: 768px) {
   .okb-cards {
     grid-template-columns: 1fr;
   }

@@ -5,7 +5,12 @@ import * as Component from "./quartz/components"
 export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
-  afterBody: [Component.ServicesCarousel(), Component.FeedbackForm(), Component.HomeCallback()],
+  afterBody: [
+    Component.ServicesCarousel(),
+    Component.FeedbackForm(),
+    Component.HomeCallback(),
+    Component.CookieConsent(),
+  ],
   footer: Component.Footer({
     links: {
       GitHub: "https://github.com/jackyzha0/quartz",

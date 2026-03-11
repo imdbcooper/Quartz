@@ -101,6 +101,12 @@ publish: true
 <span data-contacts-text="formats.full.summary">Заполнить бриф для полного старта</span>
 </summary>
 <div class="feedback-form" data-source="/static/data/feedback-form.json"></div>
+<p class="contacts-brief__legal">
+Для отправки брифа отметьте согласие и ознакомьтесь с
+<a href="/docs/privacy-policy">Политикой обработки персональных данных</a>
+и
+<a href="/docs/personal-data-consent">согласием на обработку персональных данных</a>.
+</p>
 </details>
 </article>
 </div>

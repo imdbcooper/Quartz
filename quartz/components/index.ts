@@ -29,6 +29,7 @@ import Avatar from "./Avatar"
 import ServicesCarousel from "./ServicesCarousel"
 import FeedbackForm from "./FeedbackForm"
 import HomeCallback from "./HomeCallback"
+import CookieConsent from "./CookieConsent"
 
 export {
   ArticleTitle,
@@ -62,4 +63,5 @@ export {
   ServicesCarousel,
   FeedbackForm,
   HomeCallback,
+  CookieConsent,
 }

@@ -109,19 +109,43 @@ function addGlobalPageResources(ctx: BuildCtx, componentResources: ComponentReso
   } else if (cfg.analytics?.provider === "plausible") {
     const plausibleHost = cfg.analytics.host ?? "https://plausible.io"
     componentResources.afterDOMLoaded.push(`
-      const plausibleScript = document.createElement('script');
-      plausibleScript.src = '${plausibleHost}/js/script.manual.js';
-      plausibleScript.setAttribute('data-domain', location.hostname);
-      plausibleScript.defer = true;
-      plausibleScript.onload = () => {
-        window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
-        plausible('pageview');
-        document.addEventListener('nav', () => {
-          plausible('pageview');
-        });
+      const consentKey = 'slavx-cookie-consent';
+      const acceptedValue = 'accepted';
+      const acceptEvent = 'slavx:cookie-consent-accepted';
+      let plausibleLoaded = false;
+
+      const readConsent = () => {
+        try {
+          return window.localStorage.getItem(consentKey);
+        } catch {
+          return null;
+        }
       };
 
-      document.head.appendChild(plausibleScript);
+      const loadPlausible = () => {
+        if (plausibleLoaded) return;
+        plausibleLoaded = true;
+
+        const plausibleScript = document.createElement('script');
+        plausibleScript.src = '${plausibleHost}/js/script.manual.js';
+        plausibleScript.setAttribute('data-domain', location.hostname);
+        plausibleScript.defer = true;
+        plausibleScript.onload = () => {
+          window.plausible = window.plausible || function () { (window.plausible.q = window.plausible.q || []).push(arguments); };
+          plausible('pageview');
+          document.addEventListener('nav', () => {
+            plausible('pageview');
+          });
+        };
+
+        document.head.appendChild(plausibleScript);
+      };
+
+      if (readConsent() === acceptedValue) {
+        loadPlausible();
+      }
+
+      document.addEventListener(acceptEvent, loadPlausible);
     `)
   } else if (cfg.analytics?.provider === "umami") {
     componentResources.afterDOMLoaded.push(`
