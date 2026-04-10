@@ -5,27 +5,7 @@ publish: true
 ---
 
 <div class="home-central" data-home-callback-root>
-<section class="central-hero" aria-labelledby="central-hero-title">
-<div class="central-hero__glow central-hero__glow--right" aria-hidden="true"></div>
-<div class="central-hero__glow central-hero__glow--left" aria-hidden="true"></div>
-<div class="central-hero__glow central-hero__glow--center" aria-hidden="true"></div>
-<div class="central-hero__content">
-<h2 id="central-hero-title" data-home-text="hero.title">Автоматизирую бизнес-процессы через Telegram, Web и AI</h2>
-<p class="central-hero__subtitle" data-home-text="hero.subtitle">20+ проектов • 3 года опыта • От брифа до запуска за 2-6 недель</p>
-<div class="central-hero__tags" aria-label="Ключевые направления" data-home-hero-tags>
-<span class="tag-capsule">Telegram Mini Apps</span>
-<span class="tag-capsule">Business Automation</span>
-<span class="tag-capsule">LLM Integrations</span>
-</div>
-<div class="central-hero__actions">
-<button class="central-hero__cta" type="button" data-home-callback-open>
-    <span data-home-text="hero.primaryAction">Обсудить задачу</span>
-    <span class="material-symbols-outlined">arrow_forward</span>
-</button>
-</div>
-<a class="central-hero__secondary" href="/Кoнтакты" data-home-text="hero.secondaryAction">Все контакты</a>
-</div>
-</section>
+
 
 <section class="home-section" aria-labelledby="focus-title">
 <div class="home-section__head">

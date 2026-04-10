@@ -1,5 +1,7 @@
 import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
+import homeData from "./quartz/static/data/home.json"
+import contactsData from "./quartz/static/data/contacts.json"
 
 // components shared across all pages
 export const sharedPageComponents: SharedLayout = {
@@ -23,11 +25,46 @@ export const sharedPageComponents: SharedLayout = {
 export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index",
+      component: Component.LandingContainer({
+        type: "home",
+        components: [
+          Component.LandingHero({
+            title: homeData.hero.title,
+            subtitle: homeData.hero.subtitle,
+            tags: homeData.hero.tags,
+            primaryAction: { text: homeData.hero.primaryAction, type: "callback" },
+            secondaryAction: { text: homeData.hero.secondaryAction, href: "/Кoнтакты" },
+          }),
+        ],
+      }),
+      condition: (page) => page.fileData.slug === "index",
     }),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
+    Component.ConditionalRender({
+      component: Component.LandingContainer({
+        type: "contacts",
+        components: [
+          Component.LandingHero({
+            title: contactsData.hero.title,
+            subtitle: contactsData.hero.subtitle,
+            tags: contactsData.hero.tags,
+            primaryAction: { text: "Написать в Telegram", type: "link", href: contactsData.hero.tgLink, icon: "send" },
+          }),
+        ],
+      }),
+      condition: (page) => page.fileData.slug === "Кoнтакты",
+    }),
+    Component.ConditionalRender({
+      component: Component.Breadcrumbs(),
+      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "Кoнтакты",
+    }),
+    Component.ConditionalRender({
+      component: Component.ArticleTitle(),
+      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "Кoнтакты",
+    }),
+    Component.ConditionalRender({
+      component: Component.ContentMeta(),
+      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "Кoнтакты",
+    }),
   ],
   left: [
     Component.Avatar(),
