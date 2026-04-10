@@ -20,16 +20,16 @@
     },
     "slides": [
         {
-            "dark": "1d.png",
-            "light": "1l.png"
+            "dark": "1d.webp",
+            "light": "1l.webp"
         },
         {
-            "dark": "2d.png",
-            "light": "2l.png"
+            "dark": "2d.webp",
+            "light": "2l.webp"
         },
         {
-            "dark": "3d.png",
-            "light": "3l.png"
+            "dark": "3d.webp",
+            "light": "3l.webp"
         }
     ]
 }

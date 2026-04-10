@@ -88,16 +88,16 @@ publish: true
     <div class="okb-graph okb-slider" data-okb-slider>
       <div class="okb-slider__track" data-okb-track>
         <div class="okb-slider__slide okb-slider__slide--active">
-          <img class="okb-slide-img okb-slide-img--dark" src="/images/Prodject/Audio-Scribe/1d.png" alt="Интерфейс проекта 1 (Dark)">
-          <img class="okb-slide-img okb-slide-img--light" src="/images/Prodject/Audio-Scribe/1l.png" alt="Интерфейс проекта 1 (Light)">
+          <img class="okb-slide-img okb-slide-img--dark" src="/images/Prodject/Audio-Scribe/1d.webp" alt="Интерфейс проекта 1 (Dark)" loading="lazy" width="800" height="450">
+          <img class="okb-slide-img okb-slide-img--light" src="/images/Prodject/Audio-Scribe/1l.webp" alt="Интерфейс проекта 1 (Light)" loading="lazy" width="800" height="450">
         </div>
         <div class="okb-slider__slide">
-          <img class="okb-slide-img okb-slide-img--dark" src="/images/Prodject/Audio-Scribe/2d.png" alt="Интерфейс проекта 2 (Dark)">
-          <img class="okb-slide-img okb-slide-img--light" src="/images/Prodject/Audio-Scribe/2l.png" alt="Интерфейс проекта 2 (Light)">
+          <img class="okb-slide-img okb-slide-img--dark" src="/images/Prodject/Audio-Scribe/2d.webp" alt="Интерфейс проекта 2 (Dark)" loading="lazy" width="800" height="450">
+          <img class="okb-slide-img okb-slide-img--light" src="/images/Prodject/Audio-Scribe/2l.webp" alt="Интерфейс проекта 2 (Light)" loading="lazy" width="800" height="450">
         </div>
         <div class="okb-slider__slide">
-          <img class="okb-slide-img okb-slide-img--dark" src="/images/Prodject/Audio-Scribe/3d.png" alt="Интерфейс проекта 3 (Dark)">
-          <img class="okb-slide-img okb-slide-img--light" src="/images/Prodject/Audio-Scribe/3l.png" alt="Интерфейс проекта 3 (Light)">
+          <img class="okb-slide-img okb-slide-img--dark" src="/images/Prodject/Audio-Scribe/3d.webp" alt="Интерфейс проекта 3 (Dark)" loading="lazy" width="800" height="450">
+          <img class="okb-slide-img okb-slide-img--light" src="/images/Prodject/Audio-Scribe/3l.webp" alt="Интерфейс проекта 3 (Light)" loading="lazy" width="800" height="450">
         </div>
       </div>
       <div class="okb-slider__dots" data-okb-dots>

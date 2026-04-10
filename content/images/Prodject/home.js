@@ -339,9 +339,11 @@ function initHome() {
           const imgD = document.createElement('img');
           imgD.className = 'okb-slide-img okb-slide-img--dark';
           imgD.src = '/images/Prodject/' + projectName + '/' + slide.dark;
+          imgD.loading = 'lazy';
           const imgL = document.createElement('img');
           imgL.className = 'okb-slide-img okb-slide-img--light';
           imgL.src = '/images/Prodject/' + projectName + '/' + slide.light;
+          imgL.loading = 'lazy';
           slideDiv.appendChild(imgD);
           slideDiv.appendChild(imgL);
           sliderTrack.appendChild(slideDiv);
