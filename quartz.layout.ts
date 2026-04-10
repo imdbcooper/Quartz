@@ -45,6 +45,7 @@ export const defaultContentPageLayout: PageLayout = {
             title: homeData.services.title,
             items: homeData.services.items,
           }),
+          Component.WorksSlider(),
           Component.FaqSection({
             index: homeData.faq.index,
             title: homeData.faq.title,
