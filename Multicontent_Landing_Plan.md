@@ -19,48 +19,54 @@
 ## Текущая архитектура (ветка refactor/landing-components)
 
 ### Источники данных
+
 - `quartz/static/data/home.json` — импортируется на этапе SSG в `quartz.layout.ts`
 - `content/images/Prodject/data.json` — загружается клиентски через `content/images/Prodject/home.js`
 
 ### Ключевые компоненты
-| Компонент | Файл | data-* атрибуты |
-|---|---|---|
-| LandingHero | `quartz/components/LandingHero.tsx` | — (нет, нужно добавить) |
-| FocusGrid | `quartz/components/FocusGrid.tsx` | — (нет, нужно добавить) |
-| ServicesGrid | `quartz/components/ServicesGrid.tsx` | `data-home-services-list` ✅ |
-| FaqSection | `quartz/components/FaqSection.tsx` | `data-home-faq-list`, `data-faq-title`, `data-faq-answer` ✅ |
-| ContactCta | `quartz/components/ContactCta.tsx` | — (нет, нужно добавить) |
+
+| Компонент    | Файл                                 | data-\* атрибуты                                             |
+| ------------ | ------------------------------------ | ------------------------------------------------------------ |
+| LandingHero  | `quartz/components/LandingHero.tsx`  | — (нет, нужно добавить)                                      |
+| FocusGrid    | `quartz/components/FocusGrid.tsx`    | — (нет, нужно добавить)                                      |
+| ServicesGrid | `quartz/components/ServicesGrid.tsx` | `data-home-services-list` ✅                                 |
+| FaqSection   | `quartz/components/FaqSection.tsx`   | `data-home-faq-list`, `data-faq-title`, `data-faq-answer` ✅ |
+| ContactCta   | `quartz/components/ContactCta.tsx`   | — (нет, нужно добавить)                                      |
 
 ### Условный рендеринг
+
 `ConditionalRender.tsx` + `LandingContainer.tsx` — лендинг показывается только для slug `index`.
 
 ---
 
 ## Как определяется источник трафика
 
-| Метод | Что определяет | Пример |
-|---|---|---|
-| UTM-метки (`?utm_source=...`) | Рекламные кампании, партнёрки | `?utm_source=telegram&utm_medium=post` |
-| `document.referrer` | Откуда пришёл пользователь | `google.com`, `t.me`, `vk.com` |
-| `localStorage` | Запомнить первый источник (First Touch) | — |
+| Метод                         | Что определяет                          | Пример                                 |
+| ----------------------------- | --------------------------------------- | -------------------------------------- |
+| UTM-метки (`?utm_source=...`) | Рекламные кампании, партнёрки           | `?utm_source=telegram&utm_medium=post` |
+| `document.referrer`           | Откуда пришёл пользователь              | `google.com`, `t.me`, `vk.com`         |
+| `localStorage`                | Запомнить первый источник (First Touch) | —                                      |
 
 ---
 
 ## Выбранный вариант: A — Клиентский
 
 ### Почему именно A
+
 - **Quartz = статический генератор** — нет сервера, нельзя делать серверный редирект без Edge Worker
 - **`home.js` уже существует** — клиентская загрузка данных из JSON уже реализована (`loadHomeContent()`)
 - **Часть `data-*` атрибутов уже есть** — подмена DOM через ServicesGrid и FaqSection уже работает
 - **Минимум изменений** — расширяем то, что есть, вместо создания новой инфраструктуры
 
 ### Как это работает
+
 1. SSG генерирует **одну** HTML-страницу с дефолтным контентом (SEO-контент)
 2. Клиентский скрипт при загрузке определяет источник трафика
 3. Если источник ≠ default → подгружает **альтернативный JSON** и заменяет контент через DOM API
 4. Источник сохраняется в `localStorage` (First Touch Attribution)
 
 ### Что безопасно менять клиентски (без вреда для SEO)
+
 - ✅ Заголовок Hero (H2)
 - ✅ Подзаголовок и описательный текст
 - ✅ Теги-капсулы
@@ -70,6 +76,7 @@
 - ✅ CTA-текст
 
 ### Что НЕ менять клиентски (cloaking risk)
+
 - ❌ `<title>` и `<meta description>`
 - ❌ `<h1>` (если есть)
 - ❌ Структурные данные (Schema.org)
@@ -79,6 +86,7 @@
 ## Структура файлов
 
 ### Новые JSON-варианты
+
 ```
 quartz/static/data/
   home.json              ← дефолтный (для прямого захода + SEO-краулеры)
@@ -91,6 +99,7 @@ quartz/static/data/
 Каждый JSON имеет **ту же структуру**, что и `home.json`, но с другими текстами.
 
 Допустимы частичные переопределения, но они работают по явным правилам:
+
 - базовый источник для всех категорий по умолчанию: `default`
 - каждая категория может иметь `extends`
 - отсутствующие поля берутся из базовой категории
@@ -100,6 +109,7 @@ quartz/static/data/
 Это важно зафиксировать заранее, чтобы поведение редактора и рантайма совпадало.
 
 ### Пример структуры варианта
+
 ```json
 {
   "schemaVersion": 1,
@@ -129,28 +139,27 @@ quartz/static/data/
 ```javascript
 function detectTrafficSource() {
   // 1. Проверяем localStorage (First Touch)
-  const saved = localStorage.getItem('traffic_source')
+  const saved = localStorage.getItem("traffic_source")
   if (saved) return saved
 
   const params = new URLSearchParams(location.search)
-  const utm = params.get('utm_source')
+  const utm = params.get("utm_source")
   const ref = document.referrer
-  let source = 'default'
+  let source = "default"
 
   // 2. UTM-метки (приоритет)
-  if (utm === 'telegram') source = 'telegram'
-  else if (utm === 'vk') source = 'vk'
-  else if (utm === 'google_ads' || utm === 'yandex_ads') source = 'ad'
-
+  if (utm === "telegram") source = "telegram"
+  else if (utm === "vk") source = "vk"
+  else if (utm === "google_ads" || utm === "yandex_ads") source = "ad"
   // 3. Referrer
-  else if (ref.includes('t.me') || ref.includes('telegram')) source = 'telegram'
-  else if (ref.includes('google.')) source = 'google'
-  else if (ref.includes('vk.com')) source = 'vk'
-  else if (ref.includes('yandex.')) source = 'google'  // yandex → тот же вариант
+  else if (ref.includes("t.me") || ref.includes("telegram")) source = "telegram"
+  else if (ref.includes("google.")) source = "google"
+  else if (ref.includes("vk.com")) source = "vk"
+  else if (ref.includes("yandex.")) source = "google" // yandex → тот же вариант
 
   // 4. Сохраняем First Touch
-  if (source !== 'default') {
-    localStorage.setItem('traffic_source', source)
+  if (source !== "default") {
+    localStorage.setItem("traffic_source", source)
   }
 
   return source
@@ -161,16 +170,16 @@ function detectTrafficSource() {
 
 ## Файлы для изменения
 
-| Файл | Действие | Что делать |
-|---|---|---|
-| `quartz/static/data/home.telegram.json` | **NEW** | Вариант для Telegram-трафика |
-| `quartz/static/data/home.google.json` | **NEW** | Вариант для поискового трафика |
-| `quartz/static/data/home.vk.json` | **NEW** | Вариант для VK-трафика |
-| `quartz/static/data/home.ad.json` | **NEW** | Вариант для рекламного трафика |
-| `content/images/Prodject/home.js` | **MODIFY** | Добавить `detectTrafficSource()` + загрузку альтернативного JSON |
-| `quartz/components/LandingHero.tsx` | **MODIFY** | Добавить `data-*` атрибуты для динамической подмены заголовка, подзаголовка, тегов |
-| `quartz/components/FocusGrid.tsx` | **MODIFY** | Добавить `data-home-focus-list` для замены карточек |
-| `quartz/components/ContactCta.tsx` | **MODIFY** | Добавить `data-*` для замены текста CTA |
+| Файл                                    | Действие   | Что делать                                                                         |
+| --------------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
+| `quartz/static/data/home.telegram.json` | **NEW**    | Вариант для Telegram-трафика                                                       |
+| `quartz/static/data/home.google.json`   | **NEW**    | Вариант для поискового трафика                                                     |
+| `quartz/static/data/home.vk.json`       | **NEW**    | Вариант для VK-трафика                                                             |
+| `quartz/static/data/home.ad.json`       | **NEW**    | Вариант для рекламного трафика                                                     |
+| `content/images/Prodject/home.js`       | **MODIFY** | Добавить `detectTrafficSource()` + загрузку альтернативного JSON                   |
+| `quartz/components/LandingHero.tsx`     | **MODIFY** | Добавить `data-*` атрибуты для динамической подмены заголовка, подзаголовка, тегов |
+| `quartz/components/FocusGrid.tsx`       | **MODIFY** | Добавить `data-home-focus-list` для замены карточек                                |
+| `quartz/components/ContactCta.tsx`      | **MODIFY** | Добавить `data-*` для замены текста CTA                                            |
 
 ---
 
@@ -179,16 +188,17 @@ function detectTrafficSource() {
 ```javascript
 // Plausible custom event для отслеживания эффективности вариантов
 if (window.plausible) {
-  plausible('multicontent-variant', {
+  plausible("multicontent-variant", {
     props: {
       source: detectedSource,
-      variant: variantFile
-    }
+      variant: variantFile,
+    },
   })
 }
 ```
 
 Позволит увидеть в Plausible:
+
 - Какой вариант показывается чаще
 - Конверсии (клик по CTA) по вариантам
 - Bounce rate по источникам
@@ -202,11 +212,13 @@ if (window.plausible) {
 Отдельная **локальная** страница-панель для управления контентом главной страницы, страницы контактов и вариантами мультиконтента.
 
 Панель **не публикуется в прод** и используется только на локальной машине. Она работает через небольшой Node helper, который:
+
 - читает JSON-файлы из репозитория
 - валидирует изменения
 - записывает JSON обратно на диск
 
 После локального редактирования workflow остаётся обычным:
+
 1. Изменить контент через админку
 2. Проверить локально через Quartz
 3. Закоммитить и запушить изменения
@@ -223,6 +235,7 @@ if (window.plausible) {
    Это правило, которое говорит какой источник трафика маппится на какую категорию.
 
 Пример:
+
 - категория `instagram` может существовать без активных правил
 - несколько разных правил могут вести в одну категорию `ad`
 - создание категории не обязано автоматически создавать правило
@@ -250,13 +263,14 @@ tools/multicontent-admin/
 
 Панель редактирует только JSON-контент, который уже используется компонентами:
 
-| Страница | Файл |
-|---|---|
-| Главная | `quartz/static/data/home.json` |
-| Контакты | `quartz/static/data/contacts.json` |
+| Страница                | Файл                                                                                        |
+| ----------------------- | ------------------------------------------------------------------------------------------- |
+| Главная                 | `quartz/static/data/home.json`                                                              |
+| Контакты                | `quartz/static/data/contacts.json`                                                          |
 | Варианты мультиконтента | `quartz/static/data/home.telegram.json`, `home.google.json`, `home.vk.json`, `home.ad.json` |
 
 UI панели должен быть разделён минимум на вкладки:
+
 - `Главная`
 - `Контакты`
 - `Категории`
@@ -266,14 +280,15 @@ UI панели должен быть разделён минимум на вк�
 
 #### 2. Управление категориями трафика
 
-| Действие | Описание |
-|---|---|
-| **Список категорий** | Таблица всех активных категорий: `telegram`, `google`, `vk`, `ad`, `default` |
-| **Создать категорию** | Ввести имя (например `instagram`), создаётся новый JSON-вариант на основе дефолтного |
-| **Удалить категорию** | Удаление JSON-варианта (с подтверждением) |
-| **Дублировать категорию** | Копирование существующего варианта как основу для нового |
+| Действие                  | Описание                                                                             |
+| ------------------------- | ------------------------------------------------------------------------------------ |
+| **Список категорий**      | Таблица всех активных категорий: `telegram`, `google`, `vk`, `ad`, `default`         |
+| **Создать категорию**     | Ввести имя (например `instagram`), создаётся новый JSON-вариант на основе дефолтного |
+| **Удалить категорию**     | Удаление JSON-варианта (с подтверждением)                                            |
+| **Дублировать категорию** | Копирование существующего варианта как основу для нового                             |
 
 Правила для категорий:
+
 - `default` нельзя удалить
 - `default` нельзя переименовать
 - имя категории хранится как `slug`
@@ -304,6 +319,7 @@ UI панели должен быть разделён минимум на вк�
 ```
 
 Правила сохраняются в отдельный JSON:
+
 ```
 quartz/static/data/multicontent-rules.json
 ```
@@ -311,9 +327,21 @@ quartz/static/data/multicontent-rules.json
 ```json
 {
   "rules": [
-    { "priority": 1, "type": "utm", "param": "utm_source", "match": "telegram", "category": "telegram" },
+    {
+      "priority": 1,
+      "type": "utm",
+      "param": "utm_source",
+      "match": "telegram",
+      "category": "telegram"
+    },
     { "priority": 2, "type": "utm", "param": "utm_source", "match": "vk", "category": "vk" },
-    { "priority": 3, "type": "utm", "param": "utm_source", "match": "google_ads", "category": "ad" },
+    {
+      "priority": 3,
+      "type": "utm",
+      "param": "utm_source",
+      "match": "google_ads",
+      "category": "ad"
+    },
     { "priority": 4, "type": "referrer", "match": "t.me|telegram", "category": "telegram" },
     { "priority": 5, "type": "referrer", "match": "google\\.", "category": "google" },
     { "priority": 6, "type": "referrer", "match": "vk\\.com", "category": "vk" },
@@ -324,6 +352,7 @@ quartz/static/data/multicontent-rules.json
 ```
 
 Важно:
+
 - правило и категория не одно и то же
 - одна категория может использоваться несколькими правилами
 - удаление категории должно быть запрещено, если на неё всё ещё ссылаются правила
@@ -364,6 +393,7 @@ quartz/static/data/multicontent-rules.json
 ```
 
 Дополнительно:
+
 - редактор должен показывать, какая категория является базовой (`extends`)
 - для массивов должно быть явно видно, что они заменяются целиком
 - перед сохранением запускается локальная валидация структуры
@@ -380,6 +410,7 @@ slavx.ru/?_mc_preview=telegram
 Параметр `_mc_preview` обходит `localStorage` и `referrer` — всегда показывает указанный вариант. Работает только для предпросмотра, не сохраняет First Touch.
 
 Дополнительные правила preview:
+
 - preview не должен менять `localStorage`
 - preview не должен отправлять события аналитики
 - preview должен быть явно помечен в UI панели как тестовый режим
@@ -387,6 +418,7 @@ slavx.ru/?_mc_preview=telegram
 #### 6. Статистика (если Plausible API доступен)
 
 Мини-дашборд с данными из Plausible:
+
 - Сколько показов каждого варианта
 - CTR по вариантам (клик на CTA)
 - Топ источников трафика
@@ -400,6 +432,7 @@ slavx.ru/?_mc_preview=telegram
 Браузерная админка сама по себе не может надёжно перезаписывать JSON-файлы репозитория. Поэтому сохранение делает локальный Node helper.
 
 Его задачи:
+
 - `GET` читать текущие JSON-файлы
 - `POST` сохранять изменения в нужный файл
 - проверять допустимые пути записи
@@ -407,6 +440,7 @@ slavx.ru/?_mc_preview=telegram
 - при желании прогонять форматирование после записи
 
 Минимальная валидация на сохранении:
+
 - `schemaVersion` обязателен
 - `extends` должен ссылаться на существующую категорию
 - обязательные секции страницы должны существовать
@@ -441,34 +475,61 @@ quartz/static/data/
 ```
 
 `multicontent-meta.json`:
+
 ```json
 {
   "categories": {
-    "default": { "created": "2026-04-13", "modified": "2026-04-13", "label": "Дефолтный контент", "system": true },
-    "telegram": { "created": "2026-04-13", "modified": "2026-04-13", "label": "Трафик из Telegram", "extends": "default" },
-    "google": { "created": "2026-04-13", "modified": "2026-04-13", "label": "Поисковый трафик", "extends": "default" },
-    "vk": { "created": "2026-04-13", "modified": "2026-04-13", "label": "Трафик из VK", "extends": "default" },
-    "ad": { "created": "2026-04-13", "modified": "2026-04-13", "label": "Рекламный трафик", "extends": "default" }
+    "default": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Дефолтный контент",
+      "system": true
+    },
+    "telegram": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Трафик из Telegram",
+      "extends": "default"
+    },
+    "google": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Поисковый трафик",
+      "extends": "default"
+    },
+    "vk": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Трафик из VK",
+      "extends": "default"
+    },
+    "ad": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Рекламный трафик",
+      "extends": "default"
+    }
   }
 }
 ```
 
 ### Файлы для панели управления
 
-| Файл | Действие | Описание |
-|---|---|---|
-| `tools/multicontent-admin/server.ts` | **NEW** | Локальный Node helper для чтения/записи JSON |
-| `tools/multicontent-admin/client/index.html` | **NEW** | HTML локальной админки |
-| `tools/multicontent-admin/client/multicontent-admin.js` | **NEW** | Логика панели: CRUD категорий, редактор, предпросмотр |
-| `tools/multicontent-admin/client/multicontent-admin.css` | **NEW** | Стили панели |
-| `quartz/static/data/multicontent-rules.json` | **NEW** | Правила маппинга источник → категория |
-| `quartz/static/data/multicontent-meta.json` | **NEW** | Метаданные категорий |
+| Файл                                                     | Действие | Описание                                              |
+| -------------------------------------------------------- | -------- | ----------------------------------------------------- |
+| `tools/multicontent-admin/server.ts`                     | **NEW**  | Локальный Node helper для чтения/записи JSON          |
+| `tools/multicontent-admin/client/index.html`             | **NEW**  | HTML локальной админки                                |
+| `tools/multicontent-admin/client/multicontent-admin.js`  | **NEW**  | Логика панели: CRUD категорий, редактор, предпросмотр |
+| `tools/multicontent-admin/client/multicontent-admin.css` | **NEW**  | Стили панели                                          |
+| `quartz/static/data/multicontent-rules.json`             | **NEW**  | Правила маппинга источник → категория                 |
+| `quartz/static/data/multicontent-meta.json`              | **NEW**  | Метаданные категорий                                  |
 
 ---
 
 ## Порядок реализации
 
 ### Этап 1: Ядро мультиконтента
+
 1. Создать JSON-варианты (`home.telegram.json`, `home.google.json`, `home.vk.json`, `home.ad.json`)
 2. Создать `multicontent-rules.json` с правилами маппинга
 3. Зафиксировать merge-правила для `extends` и partial override
@@ -480,6 +541,7 @@ quartz/static/data/
 9. Добавить Plausible tracking event
 
 ### Этап 2: Панель управления
+
 10. Создать локальный Node helper `tools/multicontent-admin/server.ts`
 11. Реализовать API чтения/записи JSON для `home`, `contacts`, вариантов и правил
 12. Добавить серверную валидацию и защиту допустимых путей записи
@@ -491,6 +553,7 @@ quartz/static/data/
 18. Реализовать предпросмотр (ссылка с `?_mc_preview=`)
 
 ### Этап 3: Тестирование и аналитика
+
 19. Протестировать с `?utm_source=telegram`, `?utm_source=vk` и т.д.
 20. Проверить preview: не пишет `localStorage`, не шлёт аналитику
 21. Проверить блокировки: нельзя удалить `default`, нельзя сохранить битые rules

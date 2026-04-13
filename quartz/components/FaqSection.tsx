@@ -11,8 +11,12 @@ export default ((config: FaqConfig) => {
     return (
       <section class="home-section" aria-labelledby="faq-title">
         <div class="home-section__head">
-          <span class="home-section__index">{config.index}</span>
-          <h2 id="faq-title">{config.title}</h2>
+          <span class="home-section__index" data-home-text="faq.index">
+            {config.index}
+          </span>
+          <h2 id="faq-title" data-home-text="faq.title">
+            {config.title}
+          </h2>
           <span class="home-section__line" aria-hidden="true" />
         </div>
         <div class="faq-list" data-home-faq-list>

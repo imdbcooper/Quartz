@@ -11,8 +11,12 @@ export default ((config: ServicesConfig) => {
     return (
       <section class="home-section" aria-labelledby="services-title">
         <div class="home-section__head">
-          <span class="home-section__index">{config.index}</span>
-          <h2 id="services-title">{config.title}</h2>
+          <span class="home-section__index" data-home-text="services.index">
+            {config.index}
+          </span>
+          <h2 id="services-title" data-home-text="services.title">
+            {config.title}
+          </h2>
           <span class="home-section__line" aria-hidden="true" />
         </div>
         <div class="home-grid home-grid--services" data-home-services-list>

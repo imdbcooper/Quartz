@@ -1,0 +1,34 @@
+{
+  "categories": {
+    "default": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Дефолтный контент",
+      "system": true
+    },
+    "telegram": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Трафик из Telegram",
+      "extends": "default"
+    },
+    "google": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Поисковый трафик",
+      "extends": "default"
+    },
+    "vk": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Трафик из VK",
+      "extends": "default"
+    },
+    "ad": {
+      "created": "2026-04-13",
+      "modified": "2026-04-13",
+      "label": "Рекламный трафик",
+      "extends": "default"
+    }
+  }
+}
