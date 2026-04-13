@@ -43,6 +43,37 @@ function notifyNav(url: FullSlug) {
 const cleanupFns: Set<(...args: any[]) => void> = new Set()
 window.addCleanup = (fn) => cleanupFns.add(fn)
 
+function getBodyScriptKey(script: HTMLScriptElement) {
+  return script.src || `inline:${script.textContent ?? ""}`
+}
+
+const executedBodyScripts = new Set(
+  Array.from(document.body.querySelectorAll("script")).map((script) =>
+    getBodyScriptKey(script as HTMLScriptElement),
+  ),
+)
+
+function executeBodyScripts(root: ParentNode = document.body) {
+  const scripts = Array.from(root.querySelectorAll("script")) as HTMLScriptElement[]
+
+  for (const script of scripts) {
+    const key = getBodyScriptKey(script)
+    if (!key || executedBodyScripts.has(key)) continue
+
+    const replacement = document.createElement("script")
+    for (const { name, value } of Array.from(script.attributes)) {
+      replacement.setAttribute(name, value)
+    }
+
+    if (!script.src) {
+      replacement.textContent = script.textContent
+    }
+
+    executedBodyScripts.add(key)
+    script.replaceWith(replacement)
+  }
+}
+
 function startLoading() {
   const loadingBar = document.createElement("div")
   loadingBar.className = "navigation-progress"
@@ -103,6 +134,7 @@ async function _navigate(url: URL, isBack: boolean = false) {
 
   // morph body
   micromorph(document.body, html.body)
+  executeBodyScripts()
 
   // scroll into place and add history
   if (!isBack) {

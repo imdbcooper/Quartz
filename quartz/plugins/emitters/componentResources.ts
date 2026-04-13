@@ -65,8 +65,12 @@ function getComponentResources(ctx: BuildCtx): ComponentResources {
 }
 
 async function joinScripts(scripts: string[]): Promise<string> {
+  const bootstrap = `
+    window.addCleanup = typeof window.addCleanup === "function" ? window.addCleanup : () => {}
+  `
+
   // wrap with iife to prevent scope collision
-  const script = scripts.map((script) => `(function () {${script}})();`).join("\n")
+  const script = [bootstrap, ...scripts].map((script) => `(function () {${script}})();`).join("\n")
 
   // minify with esbuild
   const res = await transpile(script, {

@@ -17,9 +17,16 @@ export interface HeroConfig {
   }
 }
 
+export interface ContactsHeroConfig {
+  title: string
+  subtitle: string
+  tags: string[]
+  tgLink: string
+}
+
 export interface FocusCard {
   icon: string
-  iconVariant: "blue" | "purple" | "orange" | "green"
+  iconVariant: string
   title: string
   desc: string
   resultIcon: string
@@ -34,7 +41,7 @@ export interface FocusConfig {
 
 export interface ServiceItem {
   icon: string
-  iconVariant?: "blue" | "purple" | "orange" | "green"
+  iconVariant?: string
   title: string
   backText: string
 }
@@ -98,10 +105,23 @@ export interface StartFormatConfig {
   fast: {
     title: string
     desc: string
+    href?: string
   }
   full: {
     title: string
     desc: string
     summary: string
   }
+}
+
+export interface ContactsPageCtaConfig {
+  title: string
+  subtitle: string
+  tgText: string
+  tgHref: string
+  email: string
+  emailHref: string
+  tel: string
+  telHref: string
+  note?: string
 }

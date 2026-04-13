@@ -15,13 +15,20 @@ export default ((config: StartFormatConfig) => {
           <article class="contacts-start-card">
             <div class="contacts-start-card__content">
               <h3>
-                <span class="material-symbols-outlined" aria-hidden="true">flash_on</span>
+                <span class="material-symbols-outlined" aria-hidden="true">
+                  flash_on
+                </span>
                 {config.fast.title}
               </h3>
               <p>{config.fast.desc}</p>
             </div>
-            <a href="https://t.me/slavxRu" class="contacts-button contacts-button--primary">
-              <span class="material-symbols-outlined" aria-hidden="true">send</span>
+            <a
+              href={config.fast.href ?? "https://t.me/slavxRu"}
+              class="contacts-button contacts-button--primary"
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">
+                send
+              </span>
               Написать в Telegram
             </a>
           </article>
@@ -29,22 +36,26 @@ export default ((config: StartFormatConfig) => {
           <article class="contacts-start-card contacts-start-card--full">
             <div class="contacts-start-card__content">
               <h3>
-                <span class="material-symbols-outlined" aria-hidden="true">description</span>
+                <span class="material-symbols-outlined" aria-hidden="true">
+                  description
+                </span>
                 {config.full.title}
               </h3>
               <p>{config.full.desc}</p>
             </div>
             <details class="contacts-brief" id="brief-form">
               <summary>
-                <span class="material-symbols-outlined" aria-hidden="true">assignment</span>
+                <span class="material-symbols-outlined" aria-hidden="true">
+                  assignment
+                </span>
                 <span>{config.full.summary}</span>
               </summary>
               <div class="feedback-form" data-source="/static/data/feedback-form.json" />
               <p class="contacts-brief__legal">
                 Для отправки брифа отметьте согласие и ознакомьтесь с{" "}
-                <a href="/docs/privacy-policy">Политикой обработки персональных данных</a>
-                {" "}и{" "}
-                <a href="/docs/personal-data-consent">согласием на обработку персональных данных</a>.
+                <a href="/docs/privacy-policy">Политикой обработки персональных данных</a> и{" "}
+                <a href="/docs/personal-data-consent">согласием на обработку персональных данных</a>
+                .
               </p>
             </details>
           </article>

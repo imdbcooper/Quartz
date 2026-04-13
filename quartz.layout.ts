@@ -67,11 +67,43 @@ export const defaultContentPageLayout: PageLayout = {
       component: Component.LandingContainer({
         type: "contacts",
         components: [
-          Component.LandingHero({
+          Component.ContactsHero({
             title: contactsData.hero.title,
             subtitle: contactsData.hero.subtitle,
             tags: contactsData.hero.tags,
-            primaryAction: { text: "Написать в Telegram", type: "link", href: contactsData.hero.tgLink, icon: "send" },
+            tgLink: contactsData.hero.tgLink,
+          }),
+          Component.ContactChannels({
+            index: contactsData.fastContact.index,
+            title: contactsData.fastContact.title,
+            channels: contactsData.fastContact.channels,
+          }),
+          Component.WorkflowSteps({
+            index: contactsData.workflow.index,
+            title: contactsData.workflow.title,
+            steps: contactsData.workflow.steps,
+          }),
+          Component.StartFormats({
+            index: contactsData.formats.index,
+            title: contactsData.formats.title,
+            fast: contactsData.formats.fast,
+            full: contactsData.formats.full,
+          }),
+          Component.ContactsFaq({
+            index: contactsData.faq.index,
+            title: contactsData.faq.title,
+            items: contactsData.faq.items,
+          }),
+          Component.ContactsCta({
+            title: contactsData.cta.title,
+            subtitle: contactsData.cta.subtitle,
+            tgText: contactsData.cta.tgText,
+            tgHref: contactsData.hero.tgLink,
+            email: contactsData.cta.email,
+            emailHref: contactsData.hero.emailLink,
+            tel: contactsData.cta.tel,
+            telHref: `tel:${contactsData.cta.tel.replace(/[^\d+]/g, "")}`,
+            note: contactsData.cta.note,
           }),
         ],
       }),

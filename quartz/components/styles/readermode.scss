@@ -21,14 +21,13 @@
   }
 }
 
-:root[reader-mode="on"] {
-  & .sidebar.left,
-  & .sidebar.right {
-    opacity: 0;
-    transition: opacity 0.2s ease;
+:root[reader-mode="on"] .sidebar.left,
+:root[reader-mode="on"] .sidebar.right {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
 
-    &:hover {
-      opacity: 1;
-    }
-  }
+:root[reader-mode="on"] .sidebar.left:hover,
+:root[reader-mode="on"] .sidebar.right:hover {
+  opacity: 1;
 }

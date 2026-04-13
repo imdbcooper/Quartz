@@ -40,6 +40,9 @@ import ContactChannels from "./ContactChannels"
 import WorkflowSteps from "./WorkflowSteps"
 import StartFormats from "./StartFormats"
 import WorksSlider from "./WorksSlider"
+import ContactsHero from "./ContactsHero"
+import ContactsFaq from "./ContactsFaq"
+import ContactsCta from "./ContactsCta"
 
 export {
   ArticleTitle,
@@ -84,4 +87,7 @@ export {
   WorkflowSteps,
   StartFormats,
   WorksSlider,
+  ContactsHero,
+  ContactsFaq,
+  ContactsCta,
 }

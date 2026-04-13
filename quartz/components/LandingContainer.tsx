@@ -21,9 +21,18 @@ export default ((opts?: LandingContainerOptions) => {
     )
   }
 
-  LandingContainer.css = opts.components.map(c => c.css).filter(Boolean).join("\n")
-  LandingContainer.beforeDOMLoaded = opts.components.map(c => c.beforeDOMLoaded).filter(Boolean).join("\n")
-  LandingContainer.afterDOMLoaded = opts.components.map(c => c.afterDOMLoaded).filter(Boolean).join("\n")
+  LandingContainer.css = opts.components
+    .map((c) => c.css)
+    .filter(Boolean)
+    .join("\n")
+  LandingContainer.beforeDOMLoaded = opts.components
+    .map((c) => c.beforeDOMLoaded)
+    .filter(Boolean)
+    .join("\n")
+  LandingContainer.afterDOMLoaded = opts.components
+    .map((c) => c.afterDOMLoaded)
+    .filter(Boolean)
+    .join("\n")
 
   return LandingContainer
 }) satisfies QuartzComponentConstructor

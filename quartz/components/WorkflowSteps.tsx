@@ -13,7 +13,7 @@ export default ((config: WorkflowConfig) => {
         </div>
         <div class="contacts-steps-grid">
           {config.steps.map((step) => (
-            <article class="contacts-step-card">
+            <article class="contacts-step-card" key={step.num}>
               <div class="contacts-step-card__top">
                 <span class="contacts-step-card__number">{step.num}</span>
                 <span class="material-symbols-outlined" aria-hidden="true">

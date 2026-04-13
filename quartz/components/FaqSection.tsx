@@ -81,7 +81,11 @@ export default ((config: FaqConfig) => {
               style="display: flex; flex-direction: column; gap: 0; max-height: 50vh; overflow-y: auto; margin: -8px;"
             >
               {config.items.map((item) => (
-                <article class="faq-modal-item" data-faq-question={item.question} data-faq-answer-text={item.answer}>
+                <article
+                  class="faq-modal-item"
+                  data-faq-question={item.question}
+                  data-faq-answer-text={item.answer}
+                >
                   <h3>{item.question}</h3>
                 </article>
               ))}

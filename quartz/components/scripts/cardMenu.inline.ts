@@ -62,95 +62,101 @@ function toggleMenu(this: HTMLElement) {
   setMobileScrollLock(!menuCollapsed)
 }
 
-function toggleSection(evt: Event) {
-  const target = evt.target as HTMLElement | null
-  if (!target) return
+function getStatePath(link: HTMLAnchorElement | null): FullSlug | null {
+  if (!link) return null
 
-  const container = target.closest(".card-section-header-container") as HTMLElement | null
-  if (!container) return
+  const folderPath = link.getAttribute("data-for") || link.href
+  if (!folderPath) return null
 
-  // Allow navigation when clicking directly on the title link.
-  const titleLink = container.querySelector(".card-section-title") as HTMLAnchorElement | null
-  if (titleLink && (target === titleLink || target.closest("a.card-section-title") === titleLink)) {
-    if (target === titleLink) {
-      return
-    }
+  return (
+    typeof folderPath === "string" && folderPath.startsWith("/")
+      ? folderPath.replace(/\/$/, "")
+      : folderPath
+  ) as FullSlug
+}
+
+function setSectionState(path: FullSlug, collapsed: boolean) {
+  const existingState = currentMenuState.find((item) => item.path === path)
+  if (existingState) {
+    existingState.collapsed = collapsed
+  } else {
+    currentMenuState.push({ path, collapsed })
   }
+}
 
-  evt.preventDefault()
-  evt.stopPropagation()
-
-  const toggleButton = container.querySelector(".card-section-toggle") as HTMLElement | null
-  if (!toggleButton) return
-
+function toggleCardContainer(container: HTMLElement, evt?: Event) {
   const li = container.parentElement as HTMLElement | null
   if (!li) return
 
-  const content = li.querySelector(".card-section-content") as HTMLElement | null
-  if (!content) return
+  const isTopLevelSection = li.classList.contains("card-section")
+  const toggleButton = container.querySelector(
+    ".card-section-toggle, .card-folder-toggle",
+  ) as HTMLElement | null
+  const content = li.querySelector(
+    ":scope > .card-section-content, :scope > .card-folder-content",
+  ) as HTMLElement | null
+  const titleLink = container.querySelector(
+    ".card-section-title, .card-folder-title",
+  ) as HTMLAnchorElement | null
+
+  if (!toggleButton || !content || !titleLink) return
+
+  evt?.preventDefault()
+  evt?.stopPropagation()
 
   const isExpanded = toggleButton.getAttribute("aria-expanded") === "true"
   const newExpandedState = !isExpanded
 
   toggleButton.setAttribute("aria-expanded", newExpandedState ? "true" : "false")
-  if (newExpandedState) {
-    content.classList.add("open")
+  content.classList.toggle("open", newExpandedState)
 
-    if (li.parentElement) {
-      const siblings = Array.from(li.parentElement.children) as HTMLElement[]
-      for (const sibling of siblings) {
-        if (sibling === li) continue
-
-        const siblingBtn = sibling.querySelector(".card-section-toggle")
-        const siblingContent = sibling.querySelector(".card-section-content")
-
-        if (siblingBtn && siblingContent) {
-          siblingBtn.setAttribute("aria-expanded", "false")
-          siblingContent.classList.remove("open")
-
-          const siblingTitle = sibling.querySelector(
-            ".card-section-title",
-          ) as HTMLAnchorElement | null
-          if (siblingTitle) {
-            const folderPath = siblingTitle.getAttribute("data-for") || siblingTitle.href
-            if (folderPath) {
-              const path = (
-                typeof folderPath === "string" && folderPath.startsWith("/")
-                  ? folderPath.replace(/\/$/, "")
-                  : folderPath
-              ) as FullSlug
-              const existingState = currentMenuState.find((item) => item.path === path)
-              if (existingState) {
-                existingState.collapsed = true
-              } else {
-                currentMenuState.push({ path, collapsed: true })
-              }
-            }
-          }
-        }
-      }
-      localStorage.setItem("cardMenuState", JSON.stringify(currentMenuState))
-    }
-  } else {
-    content.classList.remove("open")
+  const statePath = getStatePath(titleLink)
+  if (statePath) {
+    setSectionState(statePath, !newExpandedState)
   }
 
-  if (titleLink) {
-    const folderPath = titleLink.getAttribute("data-for") || titleLink.href
-    if (folderPath) {
-      const path =
-        typeof folderPath === "string" && folderPath.startsWith("/")
-          ? (folderPath.replace(/\/$/, "") as FullSlug)
-          : (folderPath as FullSlug)
-      const existingState = currentMenuState.find((item) => item.path === path)
-      if (existingState) {
-        existingState.collapsed = !newExpandedState
-      } else {
-        currentMenuState.push({ path: path, collapsed: !newExpandedState })
+  if (newExpandedState && isTopLevelSection && li.parentElement) {
+    const siblings = Array.from(li.parentElement.children) as HTMLElement[]
+    for (const sibling of siblings) {
+      if (sibling === li || !sibling.classList.contains("card-section")) continue
+
+      const siblingBtn = sibling.querySelector(
+        ":scope > .card-section-header-container .card-section-toggle",
+      )
+      const siblingContent = sibling.querySelector(":scope > .card-section-content")
+      const siblingTitle = sibling.querySelector(
+        ":scope > .card-section-header-container .card-section-title",
+      ) as HTMLAnchorElement | null
+
+      if (siblingBtn && siblingContent) {
+        siblingBtn.setAttribute("aria-expanded", "false")
+        siblingContent.classList.remove("open")
       }
-      localStorage.setItem("cardMenuState", JSON.stringify(currentMenuState))
+
+      const siblingPath = getStatePath(siblingTitle)
+      if (siblingPath) {
+        setSectionState(siblingPath, true)
+      }
     }
   }
+
+  localStorage.setItem("cardMenuState", JSON.stringify(currentMenuState))
+}
+
+function toggleSection(evt: Event) {
+  const target = evt.target as HTMLElement | null
+  if (!target) return
+
+  if (target.closest("a.card-section-title, a.card-folder-title, a.card-link, a.card-item-link")) {
+    return
+  }
+
+  const container = target.closest(
+    ".card-section-header-container, .card-folder-header-container",
+  ) as HTMLElement | null
+  if (!container) return
+
+  toggleCardContainer(container, evt)
 }
 
 function createFileLink(currentSlug: FullSlug, node: FileTrieNode): HTMLLIElement {
@@ -388,6 +394,27 @@ async function setupCardMenu(currentSlug: FullSlug) {
     }
     sectionsContainer.addEventListener("click", handleMenuClick)
     window.addCleanup(() => sectionsContainer.removeEventListener("click", handleMenuClick))
+
+    const headerContainers = sectionsContainer.querySelectorAll<HTMLElement>(
+      ".card-section-header-container, .card-folder-header-container",
+    )
+    for (const headerContainer of headerContainers) {
+      const onHeaderClick = (evt: Event) => {
+        const target = evt.target as HTMLElement | null
+        if (
+          target?.closest(
+            "a.card-section-title, a.card-folder-title, a.card-link, a.card-item-link",
+          )
+        ) {
+          return
+        }
+
+        toggleCardContainer(headerContainer, evt)
+      }
+
+      headerContainer.addEventListener("click", onHeaderClick)
+      window.addCleanup(() => headerContainer.removeEventListener("click", onHeaderClick))
+    }
   }
 }
 
@@ -429,6 +456,30 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const menuContent = document.querySelector(".card-menu-content")
   if (scrollTop && menuContent) {
     menuContent.scrollTop = parseInt(scrollTop)
+  }
+})
+
+// Initial load handling
+const initialSlug = (document.body.dataset.slug as FullSlug) || ("index" as FullSlug)
+setupCardMenu(initialSlug).then(() => {
+  // Same mobile/desktop logic as in 'nav' listener
+  for (const menu of document.getElementsByClassName("card-menu")) {
+    const mobileToggle = menu.querySelector(".mobile-menu")
+    if (!mobileToggle) continue
+
+    const isMobile = (mobileToggle as any).checkVisibility()
+
+    if (isMobile) {
+      menu.classList.add("collapsed")
+      menu.setAttribute("aria-expanded", "false")
+      setMobileScrollLock(false)
+    } else {
+      menu.classList.remove("collapsed")
+      menu.setAttribute("aria-expanded", "true")
+      setMobileScrollLock(false)
+    }
+
+    mobileToggle.classList.remove("hide-until-loaded")
   }
 })
 
