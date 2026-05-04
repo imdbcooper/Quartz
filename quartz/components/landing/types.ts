@@ -76,6 +76,10 @@ export interface ContactCtaConfig {
   callbackTitle?: string
   callbackDesc?: string
   callbackButton?: string
+  modalTitle?: string
+  modalSubtitle?: string
+  legalPrefix?: string
+  legalLinkText?: string
   note?: string
 }
 

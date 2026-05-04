@@ -54,6 +54,10 @@ function buildHomeLandingComponents() {
         callbackTitle: homeData.contact.callbackTitle,
         callbackDesc: homeData.contact.callbackDesc,
         callbackButton: homeData.contact.callbackButton,
+        modalTitle: homeData.contact.modalTitle,
+        modalSubtitle: homeData.contact.modalSubtitle,
+        legalPrefix: homeData.contact.legalPrefix,
+        legalLinkText: homeData.contact.legalLinkText,
         note: homeData.contact.note,
       }),
   } satisfies Record<

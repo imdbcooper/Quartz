@@ -4,6 +4,11 @@ import { ContactCtaConfig } from "./landing/types"
 
 export default ((config: ContactCtaConfig) => {
   const ContactCta: QuartzComponent = (_props: QuartzComponentProps) => {
+    const modalTitle = config.modalTitle ?? "Заказать обратный звонок"
+    const modalSubtitle = config.modalSubtitle ?? "Оставьте номер, и я перезвоню в ближайшее окно."
+    const legalPrefix = config.legalPrefix ?? "Для отправки заявки отметьте согласие."
+    const legalLinkText = config.legalLinkText ?? "Политикой обработки персональных данных"
+
     return (
       <section class="home-contact-cta" aria-labelledby="contact-cta-title">
         <h2 id="contact-cta-title" data-home-text="contact.title">
@@ -35,7 +40,44 @@ export default ((config: ContactCtaConfig) => {
             </span>
           </button>
         </div>
-        {/* Callback modal is provided by HomeCallback component */}
+        <div class="home-callback-modal" data-home-callback-modal aria-hidden="true" hidden>
+          <div class="home-callback-modal__backdrop" data-home-callback-close />
+          <div
+            class="home-callback-modal__dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="home-callback-modal-title"
+            data-home-callback-dialog
+          >
+            <button
+              class="home-callback-modal__close"
+              type="button"
+              aria-label="Закрыть окно"
+              data-home-callback-close
+            >
+              <span class="material-symbols-outlined" aria-hidden="true">
+                close
+              </span>
+            </button>
+            <h3 id="home-callback-modal-title" data-home-text="contact.modalTitle">
+              {modalTitle}
+            </h3>
+            <p class="home-callback-modal__subtitle" data-home-text="contact.modalSubtitle">
+              {modalSubtitle}
+            </p>
+            <div
+              class="feedback-form home-callback-modal__form"
+              data-source="/static/data/home-callback-form.json"
+            />
+            <p class="home-callback-modal__legal">
+              <span data-home-text="contact.legalPrefix">{legalPrefix}</span>{" "}
+              <a href="/privacy-policy" data-home-text="contact.legalLinkText">
+                {legalLinkText}
+              </a>
+              .
+            </p>
+          </div>
+        </div>
         {config.note && (
           <p class="home-contact-cta__note" data-home-text="contact.note">
             {config.note}
