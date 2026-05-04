@@ -40,6 +40,7 @@ function buildHomeLandingComponents() {
       Component.WorksSlider({
         index: homeData.works.index,
         title: homeData.works.title,
+        items: homeData.works.items,
       }),
     faq: () =>
       Component.FaqSection({

@@ -79,7 +79,70 @@
   },
   "works": {
     "index": "03 / Кейсы",
-    "title": ""
+    "title": "",
+    "items": [
+      {
+        "id": "okb-case",
+        "badge": "Infrastructure",
+        "title": "Obsidian Knowledge Base",
+        "active": true,
+        "slides": [
+          {
+            "dark": "/images/Prodject/Audio-Scribe/1d.webp",
+            "light": "/images/Prodject/Audio-Scribe/1l.webp",
+            "alt": "Интерфейс проекта 1",
+            "width": 800,
+            "height": 450
+          },
+          {
+            "dark": "/images/Prodject/Audio-Scribe/2d.webp",
+            "light": "/images/Prodject/Audio-Scribe/2l.webp",
+            "alt": "Интерфейс проекта 2",
+            "width": 800,
+            "height": 450
+          },
+          {
+            "dark": "/images/Prodject/Audio-Scribe/3d.webp",
+            "light": "/images/Prodject/Audio-Scribe/3l.webp",
+            "alt": "Интерфейс проекта 3",
+            "width": 800,
+            "height": 450
+          }
+        ],
+        "nav": [
+          { "icon": "hub", "label": "Audio-Scribe" },
+          { "icon": "folder_open", "label": "folder" },
+          { "icon": "edit_note", "label": "edit" },
+          { "icon": "swap_horiz", "label": "swap" }
+        ],
+        "cards": [
+          {
+            "variant": "was",
+            "cornerIcon": "unfold_more",
+            "labelIcon": "remove_circle_outline",
+            "label": "Web панель",
+            "title": "Полноценная web-панель с AI функциями обработки транскрибации",
+            "description": "Возможность настройки популярных AI провайдеров"
+          },
+          {
+            "variant": "did",
+            "cornerIcon": "unfold_more",
+            "labelIcon": "add_circle_outline",
+            "label": "Сделали",
+            "title": "Связанная база знаний Obsidian",
+            "description": "Внедрение графовой структуры, шаблонов заметок и автоматизации для быстрого создания гайдов."
+          },
+          {
+            "variant": "result",
+            "cornerIcon": "arrow_forward",
+            "labelIcon": "verified",
+            "label": "Результат",
+            "title": "Онбординг 3 дня",
+            "description": "Сокращение времени адаптации сотрудников в 4.5 раза."
+          }
+        ]
+      }
+    ]
   },
   "faq": {
     "index": "04 / Частые вопросы",

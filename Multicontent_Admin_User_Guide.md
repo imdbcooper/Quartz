@@ -138,6 +138,7 @@ quartz/static/data/home.<slug>.json
 - Hero
 - Focus
 - Services
+- Works / Кейсы
 - FAQ
 - Contact CTA
 
@@ -152,10 +153,59 @@ quartz/static/data/home.<slug>.json
 ### Что делать
 
 1. Открой вкладку `Главная`
-2. Выбери нужную субвкладку: `Hero`, `Focus`, `Services`, `FAQ` или `Contact CTA`
+2. Выбери нужную субвкладку: `Hero`, `Focus`, `Services`, `Works`, `FAQ` или `Contact CTA`
 3. Измени нужные поля
 4. Нажми `Сохранить`
 5. Нажми `Открыть preview`, чтобы проверить текущую категорию
+
+### Works / Кейсы
+
+В субвкладке `Works` редактируется блок `03 / Кейсы` из `home.json` или текущего `home.<slug>.json`.
+
+Что можно менять:
+
+- заголовок и индекс секции
+- список кейсов `works.items`
+- у каждого кейса: `id`, `badge`, `title`, `active`
+- изображения слайдера: `dark`, `light`, `alt`, `width`, `height`
+- кнопки nav: Material-иконка `icon` и `label`
+- карточки: `variant`, `cornerIcon`, `labelIcon`, `label`, `title`, `description`
+
+Для тёмной и светлой темы у слайда заполняются отдельные поля `dark` и `light`.
+
+У каждого поля изображения есть:
+
+- текстовое поле для ручного ввода URL или пути, например:
+
+  ```text
+  /images/Prodject/Audio-Scribe/1d.webp
+  ```
+
+- кнопка `Выбрать файл`, которая открывает проводник файлов
+- preview текущего изображения прямо в админке
+
+Как загрузить изображение через проводник:
+
+1. Открой `Главная` → `Works`
+2. Найди нужный кейс и нужный слайд
+3. В поле `Dark image` или `Light image` нажми `Выбрать файл`
+4. Выбери PNG, JPEG, WebP или GIF до 10 MB
+5. После загрузки админка автоматически подставит путь вида:
+
+   ```text
+   /images/Prodject/uploads/works/<safe-name>.<ext>
+   ```
+
+6. Preview обновится сразу после загрузки
+7. Нажми `Сохранить`, чтобы путь попал в `quartz/static/data/home.json` или текущий `home.<slug>.json`
+
+Файлы сохраняются в проекте в папку:
+
+```text
+content/images/Prodject/uploads/works/
+```
+
+Preview также обновляется при ручном изменении URL в поле `dark` или `light`, поэтому можно по-прежнему вставлять готовые пути без загрузки файла.
 
 ---
 
@@ -230,7 +280,34 @@ Picker используется там, где на сайте рендерят�
 
 ---
 
-## 3. Правила
+## 3. Формы
+
+Во вкладке `Формы` редактируются endpoint и метод отправки:
+
+```text
+quartz/static/data/home-callback-form.json
+quartz/static/data/feedback-form.json
+```
+
+Доступны две субвкладки:
+
+- `Home callback` — форма обратного звонка
+- `Feedback / бриф` — большая форма брифа
+
+Что можно менять:
+
+- `Action / endpoint`
+- `Method` (`POST` или `GET`)
+- `Submit label`
+- `Privacy note`
+- `Title`
+- `Subtitle`
+
+Поля формы (`fields`) в этой версии админки сохраняются без изменений.
+
+---
+
+## 4. Правила
 
 Во вкладке `Правила` редактируется:
 
@@ -342,6 +419,8 @@ quartz/static/data/
 - `home.json`
 - `contacts.json`
 - `home.<slug>.json`
+- `home-callback-form.json`
+- `feedback-form.json`
 - `multicontent-rules.json`
 - `multicontent-meta.json`
 
@@ -408,7 +487,8 @@ http://localhost:8080/
 ## Ограничения
 
 - Админка локальная, не продовая
-- Контакты редактируются, но не маршрутизируются по источнику трафика
+- Контакты и формы редактируются, но не маршрутизируются по источнику трафика
+- В Works изображения можно задавать как URL/пути и загружать через локальную админку
 - Если категория используется в rules, удалить её нельзя
 - `default` удалять нельзя
 

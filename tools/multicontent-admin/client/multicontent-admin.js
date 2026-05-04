@@ -43,6 +43,7 @@ const state = {
     homeSubtab: "layout",
     contactsSubtab: "layout",
     selectedCategory: "default",
+    formsSubtab: "homeCallback",
   },
 }
 
@@ -189,6 +190,98 @@ function textInput(labelText, value, onInput, options = {}) {
     oninput: (event) => onInput(event.target.value),
   })
   return field(labelText, input)
+}
+
+function resolvePreviewUrl(value) {
+  const trimmed = typeof value === "string" ? value.trim() : ""
+  if (!trimmed) return ""
+  if (/^(?:https?:)?\/\//i.test(trimmed) || trimmed.startsWith("data:")) return trimmed
+  if (trimmed.startsWith("/")) return trimmed
+  return `/${trimmed.replace(/^\/+/, "")}`
+}
+
+async function uploadWorksImage(file) {
+  if (!file) return null
+
+  return request("/api/uploads/works-image", {
+    method: "POST",
+    headers: {
+      "Content-Type": file.type || "application/octet-stream",
+      "X-File-Name": encodeURIComponent(file.name || "works-image"),
+    },
+    body: file,
+  })
+}
+
+function worksImageInput(labelText, value, onInput) {
+  const preview = el("div", { className: "admin-image-field__preview" })
+  const input = el("input", {
+    className: "admin-input admin-image-field__url",
+    type: "text",
+    value: value ?? "",
+    placeholder: "/images/Prodject/uploads/works/example.webp",
+  })
+  const fileInput = el("input", {
+    className: "admin-image-field__file",
+    type: "file",
+    accept: "image/png,image/jpeg,image/webp,image/gif",
+  })
+  const status = el("span", { className: "admin-meta-note admin-image-field__status" })
+
+  function syncPreview(nextValue) {
+    preview.innerHTML = ""
+    const src = resolvePreviewUrl(nextValue)
+
+    if (!src) {
+      preview.appendChild(
+        el("span", { className: "admin-image-field__empty", text: "Нет изображения" }),
+      )
+      return
+    }
+
+    preview.appendChild(el("img", { src, alt: labelText, loading: "lazy" }))
+  }
+
+  input.addEventListener("input", (event) => {
+    onInput(event.target.value)
+    syncPreview(event.target.value)
+  })
+
+  fileInput.addEventListener("change", async (event) => {
+    const file = event.target.files?.[0]
+    if (!file) return
+
+    status.textContent = "Загрузка..."
+    status.className = "admin-meta-note admin-image-field__status"
+
+    try {
+      const result = await uploadWorksImage(file)
+      input.value = result.url
+      onInput(result.url)
+      syncPreview(result.url)
+      status.textContent = `Загружено: ${result.fileName}`
+      status.className = "admin-meta-note admin-image-field__status is-success"
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : "Не удалось загрузить файл"
+      status.className = "admin-meta-note admin-image-field__status is-error"
+    } finally {
+      fileInput.value = ""
+    }
+  })
+
+  syncPreview(value)
+
+  return el("div", { className: "admin-field admin-image-field" }, [
+    el("label", { text: labelText }),
+    preview,
+    input,
+    el("label", { className: "admin-image-field__upload" }, [
+      el("span", { className: "material-symbols-outlined", text: "folder_open" }),
+      el("span", { text: "Выбрать файл" }),
+      fileInput,
+    ]),
+    status,
+  ])
 }
 
 function textArea(labelText, value, onInput, options = {}) {
@@ -509,6 +602,7 @@ function buildDrafts(data) {
   const drafts = {
     home: deepClone(data.home),
     contacts: deepClone(data.contacts),
+    forms: deepClone(data.forms),
     rules: deepClone(data.rules),
     variants: {},
     categoryMeta: {},
@@ -596,6 +690,19 @@ async function saveContacts() {
     })
     await loadState(state.ui.selectedCategory)
     setStatus("success", "Контакты сохранены.")
+  } catch (error) {
+    setStatus("error", error.message)
+  }
+}
+
+async function saveForms() {
+  try {
+    await request("/api/forms/save", {
+      method: "POST",
+      body: JSON.stringify({ content: state.drafts.forms }),
+    })
+    await loadState(state.ui.selectedCategory)
+    setStatus("success", "Формы сохранены.")
   } catch (error) {
     setStatus("error", error.message)
   }
@@ -932,6 +1039,15 @@ function renderObjectArrayEditor(config) {
         return
       }
 
+      if (fieldConfig.type === "worksImage") {
+        body.appendChild(
+          worksImageInput(fieldConfig.label, target[fieldConfig.key], (value) => {
+            target[fieldConfig.key] = value
+          }),
+        )
+        return
+      }
+
       if (fieldConfig.type === "number") {
         body.appendChild(
           textInput(
@@ -979,6 +1095,58 @@ function renderObjectArrayEditor(config) {
       },
     }),
   ])
+}
+
+function checkboxInput(labelText, checked, onInput) {
+  const input = el("input", {
+    type: "checkbox",
+    checked,
+    onchange: (event) => onInput(event.target.checked),
+  })
+  return el("label", { className: "admin-check" }, [input, el("span", { text: labelText })])
+}
+
+function ensureWorksData(data) {
+  data.works ||= { index: "03 / Кейсы", title: "", items: [] }
+  data.works.items ||= []
+  return data.works
+}
+
+function createWorkSlide() {
+  return {
+    dark: "/images/Prodject/Audio-Scribe/1d.webp",
+    light: "/images/Prodject/Audio-Scribe/1l.webp",
+    alt: "Интерфейс проекта",
+    width: 800,
+    height: 450,
+  }
+}
+
+function createWorkNavItem() {
+  return { icon: "hub", label: "Audio-Scribe" }
+}
+
+function createWorkCard() {
+  return {
+    variant: "was",
+    cornerIcon: "unfold_more",
+    labelIcon: "verified",
+    label: "Лейбл",
+    title: "Заголовок",
+    description: "Описание",
+  }
+}
+
+function createWorkItem() {
+  return {
+    id: `work-${Date.now()}`,
+    badge: "Infrastructure",
+    title: "Название кейса",
+    active: true,
+    slides: [createWorkSlide()],
+    nav: [createWorkNavItem()],
+    cards: [createWorkCard()],
+  }
 }
 
 function section(title, content, description = "") {
@@ -1102,6 +1270,85 @@ function renderSubtabs(activeId, tabs, onChange) {
   )
 }
 
+function renderWorksEditor(data) {
+  const works = ensureWorksData(data)
+
+  return sectionBody([
+    el("div", { className: "admin-grid admin-grid--two" }, [
+      textInput("Индекс", works.index || "", (value) => {
+        works.index = value
+      }),
+      textInput("Заголовок секции", works.title || "", (value) => {
+        works.title = value
+      }),
+    ]),
+    renderObjectArrayEditor({
+      title: "Кейс",
+      items: works.items,
+      createItem: createWorkItem,
+      fields: [
+        { key: "id", label: "ID", type: "text" },
+        { key: "badge", label: "Badge", type: "text" },
+        { key: "title", label: "Title", type: "text" },
+      ],
+      itemTitle: (item, index) => item.title || `Кейс ${index + 1}`,
+    }),
+    ...works.items.map((item, index) =>
+      section(`Кейс ${index + 1}: ${item.title || item.id || "без названия"}`, [
+        checkboxInput("Активный кейс", item.active !== false, (value) => {
+          item.active = value
+        }),
+        el("div", { className: "admin-nested" }, [
+          el("div", { className: "admin-section__label", text: "Slides / изображения" }),
+          renderObjectArrayEditor({
+            title: "Слайд",
+            items: (item.slides ||= []),
+            createItem: createWorkSlide,
+            fields: [
+              { key: "dark", label: "Dark image", type: "worksImage" },
+              { key: "light", label: "Light image", type: "worksImage" },
+              { key: "alt", label: "Alt", type: "text" },
+              { key: "width", label: "Width", type: "number" },
+              { key: "height", label: "Height", type: "number" },
+            ],
+            itemTitle: (slide, slideIndex) => slide.alt || `Слайд ${slideIndex + 1}`,
+          }),
+        ]),
+        el("div", { className: "admin-nested" }, [
+          el("div", { className: "admin-section__label", text: "Nav" }),
+          renderObjectArrayEditor({
+            title: "Кнопка nav",
+            items: (item.nav ||= []),
+            createItem: createWorkNavItem,
+            fields: [
+              { key: "icon", label: "Иконка", type: "icon" },
+              { key: "label", label: "Label / data-project", type: "text" },
+            ],
+            itemTitle: (navItem, navIndex) => navItem.label || `Nav ${navIndex + 1}`,
+          }),
+        ]),
+        el("div", { className: "admin-nested" }, [
+          el("div", { className: "admin-section__label", text: "Cards" }),
+          renderObjectArrayEditor({
+            title: "Карточка",
+            items: (item.cards ||= []),
+            createItem: createWorkCard,
+            fields: [
+              { key: "variant", label: "Variant", type: "text" },
+              { key: "cornerIcon", label: "Corner icon", type: "icon" },
+              { key: "labelIcon", label: "Label icon", type: "icon" },
+              { key: "label", label: "Label", type: "text" },
+              { key: "title", label: "Title", type: "text" },
+              { key: "description", label: "Description", type: "textarea" },
+            ],
+            itemTitle: (card, cardIndex) => card.label || `Карточка ${cardIndex + 1}`,
+          }),
+        ]),
+      ]),
+    ),
+  ])
+}
+
 function buildHomeSections(data, options = {}) {
   const includeLayout = options.includeLayout !== false
   const sections = [
@@ -1219,22 +1466,7 @@ function buildHomeSections(data, options = {}) {
     {
       id: "works",
       label: "Works",
-      content: sectionBody([
-        el("div", { className: "admin-grid admin-grid--two" }, [
-          textInput("Индекс", data.works?.index || "", (value) => {
-            data.works ||= {}
-            data.works.index = value
-          }),
-          textInput("Заголовок секции", data.works?.title || "", (value) => {
-            data.works ||= {}
-            data.works.title = value
-          }),
-        ]),
-        el("div", {
-          className: "admin-empty",
-          text: "Контент кейсов пока статический. Здесь можно управлять только заголовком и порядком блока.",
-        }),
-      ]),
+      content: renderWorksEditor(data),
     },
     {
       id: "faq",
@@ -1601,6 +1833,85 @@ function renderContactsTab() {
   )
 }
 
+function renderFormConfigEditor(formKey, title, description) {
+  const form = state.drafts.forms[formKey]
+  return {
+    id: formKey,
+    label: title,
+    content: sectionBody([
+      el("div", { className: "admin-meta-note", text: description }),
+      el("div", { className: "admin-grid admin-grid--two" }, [
+        textInput("Action / endpoint", form.action || "", (value) => {
+          form.action = value
+        }),
+        selectInput(
+          "Method",
+          form.method || "POST",
+          [
+            { value: "POST", label: "POST" },
+            { value: "GET", label: "GET" },
+          ],
+          (value) => {
+            form.method = value
+          },
+        ),
+        textInput("Submit label", form.submitLabel || "", (value) => {
+          form.submitLabel = value
+        }),
+        textInput("Privacy note", form.privacyNote || "", (value) => {
+          form.privacyNote = value
+        }),
+      ]),
+      el("div", { className: "admin-grid admin-grid--two" }, [
+        textInput("Title", form.title || "", (value) => {
+          form.title = value
+        }),
+        textInput("Subtitle", form.subtitle || "", (value) => {
+          form.subtitle = value
+        }),
+      ]),
+      el("div", {
+        className: "admin-empty",
+        text: "Поля формы сохраняются без изменений. В этой версии редактируются endpoint, method и основные тексты.",
+      }),
+    ]),
+  }
+}
+
+function renderFormsTab() {
+  const sections = [
+    renderFormConfigEditor(
+      "homeCallback",
+      "Home callback",
+      "Редактируется quartz/static/data/home-callback-form.json.",
+    ),
+    renderFormConfigEditor(
+      "feedback",
+      "Feedback / бриф",
+      "Редактируется quartz/static/data/feedback-form.json.",
+    ),
+  ]
+  const actions = el("div", { className: "admin-actions" }, [
+    el("button", {
+      className: "admin-button",
+      type: "button",
+      text: "Сохранить формы",
+      onclick: saveForms,
+    }),
+  ])
+
+  return panel("Формы", "Endpoint и метод отправки форм сайта.", [
+    renderTabbedEditor(
+      state.ui.formsSubtab,
+      sections,
+      (id) => {
+        state.ui.formsSubtab = id
+      },
+      actions,
+    ),
+  ])
+}
+
 function renderRulesTab() {
   const rules = state.drafts.rules.rules
   const categoryOptions = state.data.categories.map((category) => ({
@@ -1612,6 +1923,44 @@ function renderRulesTab() {
     "Правила маршрутизации",
     "Редактируется quartz/static/data/multicontent-rules.json.",
     [
+      el("details", { className: "admin-info-block admin-info-block--rules" }, [
+        el("summary", {}, [
+          el("span", { className: "material-symbols-outlined", text: "info" }),
+          el("span", { text: "Как работают правила маршрутизации" }),
+          el("span", { className: "admin-info-block__hint", text: "краткая справка" }),
+        ]),
+        el("div", { className: "admin-info-block__body" }, [
+          el("p", {
+            text: "Правила выбирают, какую контент-категорию показать посетителю по UTM-меткам или referrer. Правило с более высоким priority проверяется раньше; если ни одно правило не подошло, используется fallback category.",
+          }),
+          el("dl", { className: "admin-info-block__list" }, [
+            el("div", {}, [
+              el("dt", { text: "type" }),
+              el("dd", { text: "utm — сравнивает UTM-параметр; referrer — источник перехода." }),
+            ]),
+            el("div", {}, [
+              el("dt", { text: "match" }),
+              el("dd", {
+                text: "Значение для совпадения: например имя кампании, source или домен referrer.",
+              }),
+            ]),
+            el("div", {}, [
+              el("dt", { text: "category" }),
+              el("dd", { text: "Категория контента, которая будет показана при совпадении." }),
+            ]),
+            el("div", {}, [
+              el("dt", { text: "fallback" }),
+              el("dd", {
+                text: "Категория по умолчанию, когда правил нет или совпадений не найдено.",
+              }),
+            ]),
+          ]),
+          el("p", {
+            className: "admin-info-block__note",
+            text: "Preview-режим правила не использует и не пишет аналитику — он нужен только для ручной проверки выбранной категории.",
+          }),
+        ]),
+      ]),
       el("div", { className: "admin-actions" }, [
         el("button", {
           className: "admin-button",
@@ -1645,8 +1994,8 @@ function renderRulesTab() {
           },
         ),
         el("div", {
-          className: "admin-meta-note",
-          text: "Preview-режим не использует эти правила и не пишет аналитику.",
+          className: "admin-meta-note admin-meta-note--inline",
+          text: "Если ни одно правило не совпало, посетитель увидит эту категорию. Preview-режим обходит правила.",
         }),
       ]),
       renderObjectArrayEditor({
@@ -1696,6 +2045,7 @@ function renderActiveTab() {
   if (!state.drafts) return null
   if (state.ui.tab === "home") return renderHomeTab()
   if (state.ui.tab === "contacts") return renderContactsTab()
+  if (state.ui.tab === "forms") return renderFormsTab()
   return renderRulesTab()
 }
 
@@ -1844,6 +2194,7 @@ function render() {
   const tabs = [
     { id: "home", label: "Главная" },
     { id: "contacts", label: "Контакты" },
+    { id: "forms", label: "Формы" },
     { id: "rules", label: "Правила" },
   ]
 

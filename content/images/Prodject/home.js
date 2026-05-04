@@ -475,6 +475,156 @@ function initHome() {
     })
   }
 
+  function createMaterialIcon(iconName) {
+    const icon = document.createElement("span")
+    icon.className = "material-symbols-outlined"
+    icon.textContent = typeof iconName === "string" && iconName ? iconName : "verified"
+    return icon
+  }
+
+  function appendWorkSlide(track, dots, slide, index) {
+    const slideDiv = document.createElement("div")
+    slideDiv.className = "okb-slider__slide" + (index === 0 ? " okb-slider__slide--active" : "")
+
+    const picture = document.createElement("picture")
+    const width = Number.isFinite(slide.width) ? slide.width : 800
+    const height = Number.isFinite(slide.height) ? slide.height : 450
+    const baseAlt =
+      typeof slide.alt === "string" && slide.alt ? slide.alt : `Интерфейс проекта ${index + 1}`
+
+    const imgDark = document.createElement("img")
+    imgDark.className = "okb-slide-img okb-slide-img--dark"
+    imgDark.src = typeof slide.dark === "string" ? slide.dark : ""
+    imgDark.alt = `${baseAlt} (Dark)`
+    imgDark.loading = "lazy"
+    imgDark.width = width
+    imgDark.height = height
+
+    const imgLight = document.createElement("img")
+    imgLight.className = "okb-slide-img okb-slide-img--light"
+    imgLight.src = typeof slide.light === "string" ? slide.light : ""
+    imgLight.alt = `${baseAlt} (Light)`
+    imgLight.loading = "lazy"
+    imgLight.width = width
+    imgLight.height = height
+
+    picture.appendChild(imgDark)
+    picture.appendChild(imgLight)
+    slideDiv.appendChild(picture)
+    track.appendChild(slideDiv)
+
+    const dot = document.createElement("span")
+    dot.className = "okb-slider__dot" + (index === 0 ? " okb-slider__dot--active" : "")
+    dot.dataset.dot = String(index)
+    dots.appendChild(dot)
+  }
+
+  function renderWorkCard(card) {
+    const node = document.createElement("div")
+    node.className =
+      "okb-card okb-card--" + (typeof card.variant === "string" ? card.variant : "was")
+
+    const corner = document.createElement("div")
+    corner.className = "okb-card__corner"
+    corner.setAttribute("aria-hidden", "true")
+    corner.appendChild(createMaterialIcon(card.cornerIcon || "unfold_more"))
+
+    const top = document.createElement("div")
+    top.className = "okb-card__top"
+
+    const label = document.createElement("div")
+    label.className = "okb-card__label"
+    label.appendChild(createMaterialIcon(card.labelIcon || "verified"))
+    const labelText = document.createElement("p")
+    labelText.textContent = typeof card.label === "string" ? card.label : ""
+    label.appendChild(labelText)
+
+    const title = document.createElement("h4")
+    title.textContent = typeof card.title === "string" ? card.title : ""
+    top.appendChild(label)
+    top.appendChild(title)
+
+    const description = document.createElement("p")
+    description.className = "okb-card__sub"
+    description.textContent = typeof card.description === "string" ? card.description : ""
+
+    node.appendChild(corner)
+    node.appendChild(top)
+    node.appendChild(description)
+    return node
+  }
+
+  function renderWorkItem(item, index) {
+    const article = document.createElement("article")
+    article.className = "work-card okb-case"
+    article.id = typeof item.id === "string" && item.id ? item.id : `work-case-${index + 1}`
+
+    const head = document.createElement("div")
+    head.className = "okb-head"
+    const badge = document.createElement("span")
+    badge.className = "okb-badge"
+    badge.textContent = typeof item.badge === "string" ? item.badge : ""
+    const title = document.createElement("h3")
+    title.textContent = typeof item.title === "string" ? item.title : ""
+    head.appendChild(badge)
+    head.appendChild(title)
+
+    const body = document.createElement("div")
+    body.className = "okb-body"
+
+    const slider = document.createElement("div")
+    slider.className = "okb-graph okb-slider"
+    slider.dataset.okbSlider = ""
+    const track = document.createElement("div")
+    track.className = "okb-slider__track"
+    track.dataset.okbTrack = ""
+    const dots = document.createElement("div")
+    dots.className = "okb-slider__dots"
+    dots.dataset.okbDots = ""
+    const slides = Array.isArray(item.slides) ? item.slides : []
+    slides.forEach((slide, slideIndex) => appendWorkSlide(track, dots, slide, slideIndex))
+    slider.appendChild(track)
+    slider.appendChild(dots)
+
+    const sidebar = document.createElement("div")
+    sidebar.className = "okb-sidebar"
+    const nav = Array.isArray(item.nav) ? item.nav : []
+    nav.forEach((navItem, navIndex) => {
+      const button = document.createElement("button")
+      button.className = "okb-icon-btn" + (navIndex === 0 ? " okb-icon-btn--active" : "")
+      button.type = "button"
+      button.dataset.project = typeof navItem.label === "string" ? navItem.label : ""
+      button.setAttribute("aria-label", typeof navItem.label === "string" ? navItem.label : "Кейс")
+      button.appendChild(createMaterialIcon(navItem.icon || "hub"))
+      sidebar.appendChild(button)
+    })
+
+    body.appendChild(slider)
+    body.appendChild(sidebar)
+
+    const cards = document.createElement("div")
+    cards.className = "okb-cards"
+    ;(Array.isArray(item.cards) ? item.cards : []).forEach((card) => {
+      cards.appendChild(renderWorkCard(card))
+    })
+
+    article.appendChild(head)
+    article.appendChild(body)
+    article.appendChild(cards)
+    return article
+  }
+
+  function renderWorks(data) {
+    const list = document.querySelector("[data-home-works-list]")
+    if (!list || !Array.isArray(data.works?.items) || data.works.items.length === 0) return
+
+    list.innerHTML = ""
+    data.works.items.forEach((item, index) => {
+      list.appendChild(renderWorkItem(item, index))
+    })
+    startSlider()
+  }
+
   function applyHomeContent(data) {
     setTextByMap(data)
     renderFocusCards(data)
@@ -482,6 +632,7 @@ function initHome() {
     renderFaq(data)
     renderHeroTags(data)
     renderFooterLinks(data)
+    renderWorks(data)
 
     const callbackAria = document.querySelector("[data-home-contact-callback-aria]")
     if (callbackAria && typeof data.contact?.callbackAria === "string") {
@@ -517,6 +668,7 @@ function initHome() {
         rule: selection.rule,
       }
 
+      window.__homeWorksItems = Array.isArray(content.works?.items) ? content.works.items : []
       applyHomeContent(content)
       trackVariant(selection)
     } catch (error) {
@@ -552,6 +704,14 @@ function initHome() {
   }
 
   async function loadProject(projectName) {
+    if (
+      Array.isArray(window.__homeWorksItems) &&
+      window.__homeWorksItems.length > 0 &&
+      document.querySelector("[data-home-works-list]")
+    ) {
+      return
+    }
+
     try {
       const res = await fetch("/images/Prodject/" + projectName + "/data.json")
       if (!res.ok) throw new Error("Failed to load project")
@@ -632,15 +792,15 @@ function initHome() {
     }
   }
 
-  document.querySelectorAll(".okb-icon-btn[data-project]").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      document
-        .querySelectorAll(".okb-icon-btn[data-project]")
-        .forEach((button) => button.classList.remove("okb-icon-btn--active"))
+  document.addEventListener("click", (event) => {
+    const btn = event.target.closest(".okb-icon-btn[data-project]")
+    if (!btn) return
+    document
+      .querySelectorAll(".okb-icon-btn[data-project]")
+      .forEach((button) => button.classList.remove("okb-icon-btn--active"))
 
-      btn.classList.add("okb-icon-btn--active")
-      loadProject(btn.dataset.project)
-    })
+    btn.classList.add("okb-icon-btn--active")
+    loadProject(btn.dataset.project)
   })
 
   const activeBtn = document.querySelector(".okb-icon-btn.okb-icon-btn--active[data-project]")

@@ -10,11 +10,22 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT_DIR = path.resolve(__dirname, "../..")
 const CLIENT_DIR = path.join(__dirname, "client")
 const DATA_DIR = path.join(ROOT_DIR, "quartz", "static", "data")
+const WORKS_UPLOAD_DIR = path.join(ROOT_DIR, "content", "images", "Prodject", "uploads", "works")
+const WORKS_UPLOAD_URL_PREFIX = "/images/Prodject/uploads/works"
+const WORKS_UPLOAD_MAX_BYTES = 10 * 1024 * 1024
+const WORKS_UPLOAD_TYPES = new Map([
+  ["image/png", ".png"],
+  ["image/jpeg", ".jpg"],
+  ["image/webp", ".webp"],
+  ["image/gif", ".gif"],
+])
 
 const HOME_PATH = path.join(DATA_DIR, "home.json")
 const CONTACTS_PATH = path.join(DATA_DIR, "contacts.json")
 const RULES_PATH = path.join(DATA_DIR, "multicontent-rules.json")
 const META_PATH = path.join(DATA_DIR, "multicontent-meta.json")
+const HOME_CALLBACK_FORM_PATH = path.join(DATA_DIR, "home-callback-form.json")
+const FEEDBACK_FORM_PATH = path.join(DATA_DIR, "feedback-form.json")
 
 const PORT = Number(process.env.MULTICONTENT_ADMIN_PORT || 3100)
 const PREVIEW_BASE_URL = process.env.MULTICONTENT_PREVIEW_BASE_URL || "http://localhost:8080"
@@ -86,6 +97,16 @@ function ensureObjectArray(value: unknown, fieldName: string) {
 function optionalString(value: unknown, fieldName: string) {
   if (value === undefined) return
   ensureString(value, fieldName)
+}
+
+function optionalNumber(value: unknown, fieldName: string) {
+  if (value === undefined) return
+  ensure(typeof value === "number", `${fieldName} must be a number`)
+}
+
+function optionalBoolean(value: unknown, fieldName: string) {
+  if (value === undefined) return
+  ensure(typeof value === "boolean", `${fieldName} must be a boolean`)
 }
 
 function optionalHexColor(value: unknown, fieldName: string) {
@@ -203,6 +224,46 @@ function validateHomeContent(
       ensureString(data.works.index, "home.works.index")
     if (!partial || data.works.title !== undefined)
       ensureString(data.works.title, "home.works.title")
+    if (data.works.items !== undefined) {
+      ensureObjectArray(data.works.items, "home.works.items")
+      data.works.items.forEach((item: JsonObject, index: number) => {
+        ensureString(item.id, `home.works.items[${index}].id`)
+        ensureString(item.badge, `home.works.items[${index}].badge`)
+        ensureString(item.title, `home.works.items[${index}].title`)
+        optionalBoolean(item.active, `home.works.items[${index}].active`)
+
+        ensureObjectArray(item.slides, `home.works.items[${index}].slides`)
+        item.slides.forEach((slide: JsonObject, slideIndex: number) => {
+          ensureString(slide.dark, `home.works.items[${index}].slides[${slideIndex}].dark`)
+          ensureString(slide.light, `home.works.items[${index}].slides[${slideIndex}].light`)
+          optionalString(slide.alt, `home.works.items[${index}].slides[${slideIndex}].alt`)
+          optionalNumber(slide.width, `home.works.items[${index}].slides[${slideIndex}].width`)
+          optionalNumber(slide.height, `home.works.items[${index}].slides[${slideIndex}].height`)
+        })
+
+        ensureObjectArray(item.nav, `home.works.items[${index}].nav`)
+        item.nav.forEach((navItem: JsonObject, navIndex: number) => {
+          ensureString(navItem.icon, `home.works.items[${index}].nav[${navIndex}].icon`)
+          ensureString(navItem.label, `home.works.items[${index}].nav[${navIndex}].label`)
+        })
+
+        ensureObjectArray(item.cards, `home.works.items[${index}].cards`)
+        item.cards.forEach((card: JsonObject, cardIndex: number) => {
+          ensureString(card.variant, `home.works.items[${index}].cards[${cardIndex}].variant`)
+          optionalString(
+            card.cornerIcon,
+            `home.works.items[${index}].cards[${cardIndex}].cornerIcon`,
+          )
+          optionalString(card.labelIcon, `home.works.items[${index}].cards[${cardIndex}].labelIcon`)
+          ensureString(card.label, `home.works.items[${index}].cards[${cardIndex}].label`)
+          ensureString(card.title, `home.works.items[${index}].cards[${cardIndex}].title`)
+          ensureString(
+            card.description,
+            `home.works.items[${index}].cards[${cardIndex}].description`,
+          )
+        })
+      })
+    }
   }
 
   if (!partial || data.faq !== undefined) {
@@ -302,6 +363,29 @@ function validateContactsContent(data: unknown) {
   optionalString(data.cta.note, "contacts.cta.note")
 }
 
+function validateFormConfig(data: unknown, fieldName: string) {
+  ensure(isPlainObject(data), `${fieldName} must be an object`)
+  ensureString(data.action, `${fieldName}.action`)
+  ensure(data.action.trim().length > 0, `${fieldName}.action is required`)
+  ensureString(data.method, `${fieldName}.method`)
+  ensure(
+    ["GET", "POST"].includes(data.method.toUpperCase()),
+    `${fieldName}.method must be GET or POST`,
+  )
+  optionalString(data.title, `${fieldName}.title`)
+  optionalString(data.subtitle, `${fieldName}.subtitle`)
+  optionalString(data.submitLabel, `${fieldName}.submitLabel`)
+  optionalString(data.privacyNote, `${fieldName}.privacyNote`)
+  if (data.fields !== undefined)
+    ensure(Array.isArray(data.fields), `${fieldName}.fields must be an array`)
+}
+
+function validateFormsPayload(data: unknown) {
+  ensure(isPlainObject(data), "forms payload must be an object")
+  validateFormConfig(data.homeCallback, "forms.homeCallback")
+  validateFormConfig(data.feedback, "forms.feedback")
+}
+
 function validateMeta(data: unknown) {
   ensure(isPlainObject(data), "meta must be an object")
   ensure(isPlainObject(data.categories), "meta.categories must be an object")
@@ -393,9 +477,14 @@ async function readState() {
   const contacts = await readJson(CONTACTS_PATH)
   const meta = await readMetaAndSync()
   const rules = await readJson(RULES_PATH)
+  const forms = {
+    homeCallback: await readJson(HOME_CALLBACK_FORM_PATH),
+    feedback: await readJson(FEEDBACK_FORM_PATH),
+  }
 
   validateHomeContent(home)
   validateContactsContent(contacts)
+  validateFormsPayload(forms)
 
   const categorySlugs = new Set<string>([
     "default",
@@ -439,6 +528,7 @@ async function readState() {
     home,
     contacts,
     rules,
+    forms,
     meta,
     categories,
     variants,
@@ -453,6 +543,77 @@ async function readBody(req: http.IncomingMessage) {
 
   if (chunks.length === 0) return {}
   return JSON.parse(Buffer.concat(chunks).toString("utf8"))
+}
+
+async function readLimitedBody(req: http.IncomingMessage, maxBytes: number) {
+  const chunks: Buffer[] = []
+  let total = 0
+
+  for await (const chunk of req) {
+    const buffer = Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk)
+    total += buffer.byteLength
+    ensure(
+      total <= maxBytes,
+      `Request body is larger than ${Math.floor(maxBytes / 1024 / 1024)} MB`,
+    )
+    chunks.push(buffer)
+  }
+
+  return Buffer.concat(chunks)
+}
+
+function sanitizeUploadFileName(originalName: string, fallbackExt: string) {
+  const parsed = path.parse(originalName || "")
+  const base = parsed.name
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80)
+  const ext = fallbackExt.toLowerCase()
+  const stamp = new Date()
+    .toISOString()
+    .replace(/[^0-9]/g, "")
+    .slice(0, 14)
+  const random = Math.random().toString(36).slice(2, 8)
+
+  return `${base || "works-image"}-${stamp}-${random}${ext}`
+}
+
+async function saveWorksImageUpload(req: http.IncomingMessage) {
+  const typeHeader = req.headers["content-type"] || ""
+  const mime = typeHeader.split(";")[0].trim().toLowerCase()
+  const ext = WORKS_UPLOAD_TYPES.get(mime)
+  ensure(ext !== undefined, "Only PNG, JPEG, WebP and GIF images are accepted")
+
+  const declaredLength = Number(req.headers["content-length"] || 0)
+  ensure(
+    !Number.isFinite(declaredLength) || declaredLength <= WORKS_UPLOAD_MAX_BYTES,
+    `Image is larger than ${Math.floor(WORKS_UPLOAD_MAX_BYTES / 1024 / 1024)} MB`,
+  )
+
+  const originalNameHeader = req.headers["x-file-name"]
+  const originalName = Array.isArray(originalNameHeader)
+    ? originalNameHeader[0] || ""
+    : originalNameHeader || ""
+  const content = await readLimitedBody(req, WORKS_UPLOAD_MAX_BYTES)
+  ensure(content.length > 0, "Image file is empty")
+
+  const safeName = sanitizeUploadFileName(decodeURIComponent(originalName), ext)
+  const target = path.resolve(WORKS_UPLOAD_DIR, safeName)
+  const uploadRoot = path.resolve(WORKS_UPLOAD_DIR)
+  ensure(target.startsWith(uploadRoot + path.sep), "Invalid upload path")
+
+  await fs.mkdir(uploadRoot, { recursive: true })
+  await fs.writeFile(target, content, { flag: "wx" })
+
+  return {
+    ok: true,
+    url: `${WORKS_UPLOAD_URL_PREFIX}/${safeName}`,
+    fileName: safeName,
+    size: content.length,
+  }
 }
 
 function sendJson(res: http.ServerResponse, statusCode: number, payload: unknown) {
@@ -498,6 +659,12 @@ async function saveHome(payload: JsonObject) {
 async function saveContacts(payload: JsonObject) {
   validateContactsContent(payload.content)
   await writeJson(CONTACTS_PATH, payload.content)
+}
+
+async function saveForms(payload: JsonObject) {
+  validateFormsPayload(payload.content)
+  await writeJson(HOME_CALLBACK_FORM_PATH, payload.content.homeCallback)
+  await writeJson(FEEDBACK_FORM_PATH, payload.content.feedback)
 }
 
 async function saveRules(payload: JsonObject) {
@@ -628,6 +795,15 @@ const server = http.createServer(async (req, res) => {
     if (req.method === "POST" && url.pathname === "/api/rules/save") {
       await saveRules(await readBody(req))
       return sendJson(res, 200, { ok: true })
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/forms/save") {
+      await saveForms(await readBody(req))
+      return sendJson(res, 200, { ok: true })
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/uploads/works-image") {
+      return sendJson(res, 200, await saveWorksImageUpload(req))
     }
 
     if (req.method === "POST" && url.pathname === "/api/categories/create") {

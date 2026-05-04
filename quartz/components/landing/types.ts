@@ -54,9 +54,42 @@ export interface ServicesConfig {
   items: ServiceItem[]
 }
 
+export interface WorkSlide {
+  dark: string
+  light: string
+  alt?: string
+  width?: number
+  height?: number
+}
+
+export interface WorkNavItem {
+  icon: string
+  label: string
+}
+
+export interface WorkCard {
+  variant: string
+  cornerIcon?: string
+  labelIcon?: string
+  label: string
+  title: string
+  description: string
+}
+
+export interface WorkItem {
+  id: string
+  badge: string
+  title: string
+  active?: boolean
+  slides: WorkSlide[]
+  nav: WorkNavItem[]
+  cards: WorkCard[]
+}
+
 export interface WorksConfig {
   index: string
   title: string
+  items?: WorkItem[]
 }
 
 export interface FaqItem {
