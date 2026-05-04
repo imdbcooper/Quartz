@@ -1,12 +1,20 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
+import { WorksConfig } from "./landing/types"
 
-export default (() => {
+export default ((config?: WorksConfig) => {
+  const indexText = config?.index || "03 / Works"
+  const titleText = config?.title || "Кейсы"
+
   const WorksSlider: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
       <section class="home-section" aria-labelledby="works-title">
         <div class="home-section__head">
-          <span class="home-section__index">03 / Works</span>
-          <h2 id="works-title">Кейсы</h2>
+          <span class="home-section__index" data-home-text="works.index">
+            {indexText}
+          </span>
+          <h2 id="works-title" data-home-text="works.title">
+            {titleText}
+          </h2>
           <span class="home-section__line" aria-hidden="true"></span>
         </div>
         <div class="works-list">
@@ -149,4 +157,4 @@ export default (() => {
   }
 
   return WorksSlider
-}) satisfies QuartzComponentConstructor
+}) satisfies QuartzComponentConstructor<WorksConfig | undefined>

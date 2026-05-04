@@ -1,18 +1,150 @@
+const ADMIN_THEME_KEY = "mc_admin_theme_mode"
+const THEME_MODES = ["auto", "light", "dark"]
+
+function readThemeMode() {
+  try {
+    const saved = window.localStorage?.getItem(ADMIN_THEME_KEY)
+    return THEME_MODES.includes(saved) ? saved : "auto"
+  } catch {
+    return "auto"
+  }
+}
+
+function persistThemeMode(mode) {
+  try {
+    if (mode === "auto") {
+      window.localStorage?.removeItem(ADMIN_THEME_KEY)
+      return
+    }
+    window.localStorage?.setItem(ADMIN_THEME_KEY, mode)
+  } catch {}
+}
+
+function resolveTheme(mode) {
+  if (mode === "light" || mode === "dark") return mode
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+}
+
+function applyTheme(mode) {
+  const resolved = resolveTheme(mode)
+  document.documentElement.dataset.adminTheme = resolved
+  document.documentElement.dataset.adminThemeMode = mode
+  document.documentElement.style.colorScheme = resolved
+}
+
 const state = {
   loading: true,
   data: null,
   drafts: null,
   status: null,
   ui: {
+    themeMode: readThemeMode(),
     tab: "home",
-    selectedCategory: null,
-    createSlug: "",
-    createLabel: "",
-    createFrom: "default",
+    homeSubtab: "layout",
+    contactsSubtab: "layout",
+    selectedCategory: "default",
   },
 }
 
 const root = document.getElementById("app")
+
+const themeMedia = window.matchMedia?.("(prefers-color-scheme: dark)")
+themeMedia?.addEventListener("change", () => {
+  if (state.ui.themeMode === "auto") {
+    render()
+  }
+})
+
+const COLOR_VARIANTS = [
+  { value: "blue", label: "Blue", color: "#4f8cff", soft: "rgba(79, 140, 255, 0.16)" },
+  { value: "purple", label: "Purple", color: "#8b5cf6", soft: "rgba(139, 92, 246, 0.16)" },
+  { value: "orange", label: "Orange", color: "#f97316", soft: "rgba(249, 115, 22, 0.16)" },
+  { value: "green", label: "Green", color: "#22c55e", soft: "rgba(34, 197, 94, 0.16)" },
+]
+
+const HOME_LAYOUT_BLOCKS = [
+  { value: "hero", label: "Hero", description: "Первый экран и CTA" },
+  { value: "focus", label: "Focus", description: "Карточки задач и результатов" },
+  { value: "services", label: "Services", description: "Список услуг" },
+  { value: "works", label: "Works", description: "Кейсы и слайдер", single: true },
+  { value: "faq", label: "FAQ", description: "Частые вопросы" },
+  { value: "contact", label: "Contact CTA", description: "Финальный call to action" },
+]
+
+const CONTACTS_LAYOUT_BLOCKS = [
+  { value: "hero", label: "Hero", description: "Первый экран контактов" },
+  { value: "channels", label: "Быстрые контакты", description: "Каналы связи" },
+  { value: "workflow", label: "Workflow", description: "Как начинаем работу" },
+  { value: "formats", label: "Formats", description: "Форматы старта" },
+  { value: "faq", label: "FAQ", description: "Частые вопросы" },
+  { value: "cta", label: "CTA", description: "Финальный контактный блок" },
+]
+
+const MATERIAL_ICON_OPTIONS = [
+  "send",
+  "mail",
+  "call",
+  "arrow_forward",
+  "inbox_customize",
+  "pending_actions",
+  "rocket_launch",
+  "account_tree",
+  "trending_up",
+  "schedule",
+  "speed",
+  "fact_check",
+  "storefront",
+  "hub",
+  "sync_alt",
+  "smartphone",
+  "phone_iphone",
+  "support_agent",
+  "rule",
+  "check_circle",
+  "event",
+  "paid",
+  "monitoring",
+  "auto_awesome",
+  "schema",
+  "forum",
+  "design_services",
+  "psychology",
+  "web",
+  "menu_book",
+  "chat",
+  "assignment",
+  "flash_on",
+  "description",
+  "edit_note",
+  "swap_horiz",
+  "verified",
+  "folder_open",
+  "add_circle",
+  "remove_circle_outline",
+  "search",
+  "smart_toy",
+  "dashboard",
+  "data_object",
+  "terminal",
+  "receipt_long",
+  "integration_instructions",
+  "settings",
+  "analytics",
+  "groups",
+  "inventory_2",
+  "inventory",
+  "shopping_bag",
+  "payments",
+  "person",
+  "group",
+  "campaign",
+  "bolt",
+  "target",
+  "lightbulb",
+  "explore",
+  "build",
+  "token",
+]
 
 function deepClone(value) {
   if (typeof structuredClone === "function") return structuredClone(value)
@@ -82,6 +214,285 @@ function selectInput(labelText, value, options, onInput) {
   return field(labelText, select)
 }
 
+function materialIconPreview(iconName) {
+  return el("span", { className: "admin-icon-preview material-symbols-outlined", text: iconName })
+}
+
+function normalizeHexColor(value) {
+  if (typeof value !== "string") return "#4f8cff"
+  const trimmed = value.trim().toLowerCase()
+  if (/^#[0-9a-f]{6}$/i.test(trimmed)) return trimmed
+  if (/^#[0-9a-f]{3}$/i.test(trimmed)) {
+    return (
+      "#" +
+      trimmed
+        .slice(1)
+        .split("")
+        .map((char) => char + char)
+        .join("")
+    )
+  }
+  return "#4f8cff"
+}
+
+function openIconPickerModal({ labelText, value, options, onSelect }) {
+  const overlay = el("div", { className: "admin-modal admin-modal--icon-picker" })
+  const searchInput = el("input", {
+    className: "admin-input",
+    type: "search",
+    placeholder: "Поиск иконки",
+  })
+  const grid = el("div", { className: "admin-icon-grid" })
+
+  function close() {
+    document.removeEventListener("keydown", onKeydown)
+    overlay.remove()
+  }
+
+  function onKeydown(event) {
+    if (event.key === "Escape") close()
+  }
+
+  function renderGrid(filter = "") {
+    grid.innerHTML = ""
+    const query = filter.trim().toLowerCase()
+    const filtered = options.filter((iconName) => iconName.toLowerCase().includes(query))
+
+    filtered.forEach((iconName) => {
+      grid.appendChild(
+        el(
+          "button",
+          {
+            className: `admin-icon-grid__item${iconName === value ? " is-active" : ""}`,
+            type: "button",
+            title: iconName,
+            onclick: () => {
+              onSelect(iconName)
+              close()
+            },
+          },
+          [materialIconPreview(iconName), el("span", { text: iconName })],
+        ),
+      )
+    })
+
+    if (filtered.length === 0) {
+      grid.appendChild(el("div", { className: "admin-empty", text: "Ничего не найдено." }))
+    }
+  }
+
+  searchInput.addEventListener("input", (event) => {
+    renderGrid(event.target.value)
+  })
+
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) close()
+  })
+
+  overlay.appendChild(
+    el("div", { className: "admin-modal__dialog", role: "dialog", "aria-modal": "true" }, [
+      el("div", { className: "admin-modal__head" }, [
+        el("div", { className: "admin-stack" }, [
+          el("strong", { className: "admin-modal__title", text: labelText }),
+          el("div", { className: "admin-icon-picker__current" }, [
+            materialIconPreview(value || "help"),
+            el("span", { text: value || "Иконка не выбрана" }),
+          ]),
+        ]),
+        el("button", {
+          className: "admin-button--ghost",
+          type: "button",
+          text: "Закрыть",
+          onclick: close,
+        }),
+      ]),
+      el("div", { className: "admin-modal__body" }, [searchInput, grid]),
+    ]),
+  )
+
+  document.addEventListener("keydown", onKeydown)
+  document.body.appendChild(overlay)
+  renderGrid()
+  window.requestAnimationFrame(() => searchInput.focus())
+}
+
+function openColorPickerModal({ labelText, value, onSelect }) {
+  const overlay = el("div", { className: "admin-modal admin-modal--color-picker" })
+  const colorInput = el("input", {
+    className: "admin-color-modal__input",
+    type: "color",
+    value: normalizeHexColor(value),
+  })
+  const hexInput = el("input", {
+    className: "admin-input",
+    type: "text",
+    value: normalizeHexColor(value),
+    placeholder: "#4f8cff",
+  })
+  const preview = el("div", {
+    className: "admin-color-modal__preview",
+    style: `--preview-color:${normalizeHexColor(value)};`,
+  })
+
+  function close() {
+    document.removeEventListener("keydown", onKeydown)
+    overlay.remove()
+  }
+
+  function onKeydown(event) {
+    if (event.key === "Escape") close()
+  }
+
+  function sync(nextValue) {
+    const normalized = normalizeHexColor(nextValue)
+    colorInput.value = normalized
+    hexInput.value = normalized
+    preview.style.setProperty("--preview-color", normalized)
+  }
+
+  colorInput.addEventListener("input", (event) => {
+    sync(event.target.value)
+  })
+
+  hexInput.addEventListener("input", (event) => {
+    const nextValue = event.target.value.trim()
+    if (/^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(nextValue)) {
+      sync(nextValue)
+    }
+  })
+
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) close()
+  })
+
+  overlay.appendChild(
+    el("div", { className: "admin-modal__dialog", role: "dialog", "aria-modal": "true" }, [
+      el("div", { className: "admin-modal__head" }, [
+        el("div", { className: "admin-stack" }, [
+          el("strong", { className: "admin-modal__title", text: labelText }),
+          el("span", { className: "admin-meta-note", text: "Выберите цвет или вставьте hex." }),
+        ]),
+        el("button", {
+          className: "admin-button--ghost",
+          type: "button",
+          text: "Закрыть",
+          onclick: close,
+        }),
+      ]),
+      el("div", { className: "admin-modal__body" }, [
+        el("div", { className: "admin-color-modal" }, [
+          preview,
+          el("div", { className: "admin-stack" }, [
+            field("Системная палитра", colorInput),
+            field("Hex", hexInput),
+          ]),
+        ]),
+        el("div", { className: "admin-actions" }, [
+          el("button", {
+            className: "admin-button",
+            type: "button",
+            text: "Применить",
+            onclick: () => {
+              onSelect(colorInput.value)
+              close()
+            },
+          }),
+        ]),
+      ]),
+    ]),
+  )
+
+  document.addEventListener("keydown", onKeydown)
+  document.body.appendChild(overlay)
+  window.requestAnimationFrame(() => colorInput.focus())
+}
+
+function paletteInput(labelText, value, options, onInput, customValue = "") {
+  return el("div", { className: "admin-field" }, [
+    el("label", { text: labelText }),
+    el("div", { className: "admin-palette" }, [
+      ...options.map((option) =>
+        el(
+          "button",
+          {
+            className: `admin-palette__swatch${option.value === value ? " is-active" : ""}`,
+            type: "button",
+            title: option.label,
+            "aria-label": option.label,
+            onclick: () => {
+              onInput({ variant: option.value, color: "" })
+              render()
+            },
+            style: `--swatch-color:${option.color}; --swatch-soft:${option.soft};`,
+          },
+          [
+            el("span", { className: "admin-palette__dot" }),
+            el("span", { className: "admin-palette__label", text: option.label }),
+          ],
+        ),
+      ),
+      el(
+        "button",
+        {
+          className: `admin-palette__swatch admin-palette__swatch--custom${value === "custom" ? " is-active" : ""}`,
+          type: "button",
+          title: "Custom",
+          "aria-label": "Custom",
+          onclick: () =>
+            openColorPickerModal({
+              labelText,
+              value: customValue || "#4f8cff",
+              onSelect: (nextColor) => {
+                onInput({ variant: "custom", color: nextColor })
+                render()
+              },
+            }),
+          style:
+            value === "custom"
+              ? `--swatch-color:${customValue || "#4f8cff"}; --swatch-soft:${customValue || "#4f8cff"}22;`
+              : "--swatch-color:#1f2937; --swatch-soft:rgba(17,24,39,0.08);",
+        },
+        [
+          el("span", { className: "admin-palette__dot admin-palette__dot--custom" }),
+          el("span", {
+            className: "admin-palette__label",
+            text: value === "custom" ? `Custom ${customValue}` : "Custom",
+          }),
+        ],
+      ),
+    ]),
+  ])
+}
+
+function iconPickerInput(labelText, value, onInput, options = MATERIAL_ICON_OPTIONS) {
+  const trigger = el(
+    "button",
+    {
+      className: "admin-icon-picker",
+      type: "button",
+      onclick: () =>
+        openIconPickerModal({
+          labelText,
+          value,
+          options,
+          onSelect: (iconName) => {
+            onInput(iconName)
+            render()
+          },
+        }),
+    },
+    [
+      el("span", { className: "admin-icon-picker__value" }, [
+        materialIconPreview(value || "help"),
+        el("span", { text: value || "Выбрать иконку" }),
+      ]),
+      el("span", { className: "admin-meta-note", text: "Открыть picker" }),
+    ],
+  )
+
+  return el("div", { className: "admin-field" }, [el("label", { text: labelText }), trigger])
+}
+
 async function request(url, options = {}) {
   const response = await fetch(url, {
     headers: { "Content-Type": "application/json" },
@@ -125,13 +536,10 @@ async function loadState(preferredCategory = null) {
     state.data = data
     state.drafts = buildDrafts(data)
 
-    const categorySlugs = data.categories
-      .filter((item) => item.slug !== "default")
-      .map((item) => item.slug)
+    const categorySlugs = data.categories.map((item) => item.slug)
     state.ui.selectedCategory = categorySlugs.includes(preferredCategory)
       ? preferredCategory
-      : categorySlugs[0] || null
-    state.ui.createFrom = state.ui.selectedCategory || "default"
+      : "default"
     state.status = null
   } catch (error) {
     state.status = {
@@ -150,13 +558,31 @@ function setStatus(type, message) {
 }
 
 async function saveHome() {
+  const selectedSlug = getSelectedCategorySlug()
+
   try {
-    await request("/api/home/save", {
+    if (selectedSlug === "default") {
+      await request("/api/home/save", {
+        method: "POST",
+        body: JSON.stringify({ content: state.drafts.home }),
+      })
+      await loadState("default")
+      setStatus("success", "Главная страница сохранена.")
+      return
+    }
+
+    const meta = state.drafts.categoryMeta[selectedSlug]
+    await request("/api/categories/save", {
       method: "POST",
-      body: JSON.stringify({ content: state.drafts.home }),
+      body: JSON.stringify({
+        slug: selectedSlug,
+        label: meta?.label || selectedSlug,
+        extends: meta?.extends || "default",
+        content: state.drafts.variants[selectedSlug],
+      }),
     })
-    await loadState(state.ui.selectedCategory)
-    setStatus("success", "Главная страница сохранена.")
+    await loadState(selectedSlug)
+    setStatus("success", `Категория ${selectedSlug} сохранена.`)
   } catch (error) {
     setStatus("error", error.message)
   }
@@ -188,54 +614,9 @@ async function saveRules() {
   }
 }
 
-async function saveCategory() {
-  const slug = state.ui.selectedCategory
-  if (!slug) return
-
-  const meta = state.drafts.categoryMeta[slug]
-  const content = state.drafts.variants[slug]
-
-  try {
-    await request("/api/categories/save", {
-      method: "POST",
-      body: JSON.stringify({
-        slug,
-        label: meta.label,
-        extends: meta.extends,
-        content,
-      }),
-    })
-    await loadState(slug)
-    setStatus("success", `Категория ${slug} сохранена.`)
-  } catch (error) {
-    setStatus("error", error.message)
-  }
-}
-
-async function createCategory() {
-  const createdSlug = state.ui.createSlug.trim()
-
-  try {
-    await request("/api/categories/create", {
-      method: "POST",
-      body: JSON.stringify({
-        slug: createdSlug,
-        label: state.ui.createLabel.trim(),
-        fromSlug: state.ui.createFrom || "default",
-      }),
-    })
-    state.ui.createSlug = ""
-    state.ui.createLabel = ""
-    await loadState(createdSlug)
-    setStatus("success", "Категория создана.")
-  } catch (error) {
-    setStatus("error", error.message)
-  }
-}
-
 async function deleteCategory() {
-  const slug = state.ui.selectedCategory
-  if (!slug) return
+  const slug = getSelectedCategorySlug()
+  if (slug === "default") return
 
   if (!window.confirm(`Удалить категорию ${slug}?`)) return
 
@@ -244,10 +625,27 @@ async function deleteCategory() {
       method: "POST",
       body: JSON.stringify({ slug }),
     })
-    await loadState()
+    await loadState("default")
     setStatus("success", `Категория ${slug} удалена.`)
   } catch (error) {
     setStatus("error", error.message)
+  }
+}
+
+async function createCategoryFromValues({ slug, label, fromSlug }) {
+  try {
+    await request("/api/categories/create", {
+      method: "POST",
+      body: JSON.stringify({
+        slug: slug.trim(),
+        label: label.trim(),
+        fromSlug: fromSlug || "default",
+      }),
+    })
+    await loadState(slug.trim())
+    setStatus("success", "Категория создана.")
+  } catch (error) {
+    throw error
   }
 }
 
@@ -262,6 +660,147 @@ function openCategoryPreview(slug) {
   const url = new URL("/", state.data.previewBaseUrl)
   url.searchParams.set("_mc_preview", slug)
   window.open(url.toString(), "_blank", "noopener")
+}
+
+function getCategories() {
+  return state.data?.categories || []
+}
+
+function getSelectedCategorySlug() {
+  const categories = getCategories().map((category) => category.slug)
+  return categories.includes(state.ui.selectedCategory) ? state.ui.selectedCategory : "default"
+}
+
+function getSelectedCategory() {
+  return (
+    getCategories().find((category) => category.slug === getSelectedCategorySlug()) || {
+      slug: "default",
+      label: "Основная",
+      extends: "default",
+    }
+  )
+}
+
+function getCategoryDisplayLabel(category) {
+  if (!category) return "Основная"
+  return category.slug === "default" ? "Основная" : category.label
+}
+
+function getSelectedHomeDraft() {
+  const slug = getSelectedCategorySlug()
+  return slug === "default" ? state.drafts.home : state.drafts.variants[slug]
+}
+
+function openCreateCategoryModal() {
+  const overlay = el("div", { className: "admin-modal admin-modal--category-create" })
+  let slug = ""
+  let label = ""
+  let fromSlug = getSelectedCategorySlug()
+
+  const slugInput = el("input", {
+    className: "admin-input",
+    type: "text",
+    placeholder: "instagram",
+    oninput: (event) => {
+      slug = event.target.value.toLowerCase().replace(/[^a-z0-9-]/g, "")
+      event.target.value = slug
+    },
+  })
+  const labelInput = el("input", {
+    className: "admin-input",
+    type: "text",
+    placeholder: "Instagram Ads",
+    oninput: (event) => {
+      label = event.target.value
+    },
+  })
+  const fromSelect = el("select", {
+    className: "admin-select",
+    onchange: (event) => {
+      fromSlug = event.target.value
+    },
+  })
+  getCategories().forEach((category) => {
+    const option = el("option", {
+      value: category.slug,
+      text: `${getCategoryDisplayLabel(category)} (${category.slug})`,
+    })
+    if (category.slug === fromSlug) option.selected = true
+    fromSelect.appendChild(option)
+  })
+
+  const status = el("div", { className: "admin-meta-note", text: "Slug: только a-z, 0-9 и дефис." })
+
+  function close() {
+    document.removeEventListener("keydown", onKeydown)
+    overlay.remove()
+  }
+
+  function onKeydown(event) {
+    if (event.key === "Escape") close()
+  }
+
+  async function submit() {
+    try {
+      await createCategoryFromValues({ slug, label, fromSlug })
+      close()
+    } catch (error) {
+      status.textContent = error instanceof Error ? error.message : "Не удалось создать категорию."
+      status.className = "admin-status is-error"
+    }
+  }
+
+  overlay.addEventListener("click", (event) => {
+    if (event.target === overlay) close()
+  })
+
+  overlay.appendChild(
+    el(
+      "div",
+      {
+        className: "admin-modal__dialog admin-modal__dialog--compact",
+        role: "dialog",
+        "aria-modal": "true",
+      },
+      [
+        el("div", { className: "admin-modal__head" }, [
+          el("div", { className: "admin-stack" }, [
+            el("strong", { className: "admin-modal__title", text: "Новая категория" }),
+            el("span", {
+              className: "admin-meta-note",
+              text: "Создаёт новый вариант контента главной страницы и сразу переключает редактор на него.",
+            }),
+          ]),
+          el("button", {
+            className: "admin-button--ghost",
+            type: "button",
+            text: "Закрыть",
+            onclick: close,
+          }),
+        ]),
+        el("div", { className: "admin-modal__body" }, [
+          el("div", { className: "admin-grid admin-grid--two" }, [
+            field("Slug", slugInput),
+            field("Название", labelInput),
+          ]),
+          field("Создать на основе", fromSelect),
+          status,
+          el("div", { className: "admin-actions" }, [
+            el("button", {
+              className: "admin-button",
+              type: "button",
+              text: "Создать и переключить",
+              onclick: submit,
+            }),
+          ]),
+        ]),
+      ],
+    ),
+  )
+
+  document.addEventListener("keydown", onKeydown)
+  document.body.appendChild(overlay)
+  window.requestAnimationFrame(() => slugInput.focus())
 }
 
 function renderStringArrayEditor(title, items, createLabel = "Добавить") {
@@ -357,6 +896,42 @@ function renderObjectArrayEditor(config) {
         return
       }
 
+      if (fieldConfig.type === "palette") {
+        body.appendChild(
+          paletteInput(
+            fieldConfig.label,
+            target[fieldConfig.key],
+            fieldConfig.options,
+            (nextValue) => {
+              target[fieldConfig.key] = nextValue.variant
+              if (fieldConfig.customKey) {
+                if (nextValue.variant === "custom") {
+                  target[fieldConfig.customKey] = nextValue.color
+                } else {
+                  delete target[fieldConfig.customKey]
+                }
+              }
+            },
+            fieldConfig.customKey ? target[fieldConfig.customKey] : "",
+          ),
+        )
+        return
+      }
+
+      if (fieldConfig.type === "icon") {
+        body.appendChild(
+          iconPickerInput(
+            fieldConfig.label,
+            target[fieldConfig.key],
+            (value) => {
+              target[fieldConfig.key] = value
+            },
+            fieldConfig.options || MATERIAL_ICON_OPTIONS,
+          ),
+        )
+        return
+      }
+
       if (fieldConfig.type === "number") {
         body.appendChild(
           textInput(
@@ -416,423 +991,614 @@ function section(title, content, description = "") {
   ])
 }
 
-function renderHomeEditor(data) {
-  const iconVariantOptions = [
-    { value: "blue", label: "blue" },
-    { value: "purple", label: "purple" },
-    { value: "orange", label: "orange" },
-    { value: "green", label: "green" },
-  ]
-
-  return el("div", { className: "admin-stack" }, [
-    section("Hero", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Заголовок", data.hero.title, (value) => (data.hero.title = value)),
-        textInput("Подзаголовок", data.hero.subtitle, (value) => (data.hero.subtitle = value)),
-        textInput(
-          "Текст primary CTA",
-          data.hero.primaryAction,
-          (value) => (data.hero.primaryAction = value),
-        ),
-        textInput(
-          "Текст secondary CTA",
-          data.hero.secondaryAction,
-          (value) => (data.hero.secondaryAction = value),
-        ),
-      ]),
-      renderStringArrayEditor("Тег", data.hero.tags),
-    ]),
-    section("Focus", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Индекс", data.focus.index, (value) => (data.focus.index = value)),
-        textInput("Заголовок секции", data.focus.title, (value) => (data.focus.title = value)),
-      ]),
-      renderObjectArrayEditor({
-        title: "Карточка",
-        items: data.focus.cards,
-        createItem: () => ({
-          icon: "inbox_customize",
-          iconVariant: "blue",
-          title: "",
-          desc: "",
-          resultIcon: "trending_up",
-          resultText: "",
-        }),
-        fields: [
-          { key: "icon", label: "Иконка", type: "text" },
-          { key: "iconVariant", label: "Цвет", type: "select", options: iconVariantOptions },
-          { key: "title", label: "Заголовок", type: "text" },
-          { key: "resultIcon", label: "Иконка результата", type: "text" },
-          { key: "desc", label: "Описание", type: "textarea" },
-          { key: "resultText", label: "Результат", type: "text" },
-        ],
-        itemTitle: (item, index) => item.title || `Карточка ${index + 1}`,
-      }),
-    ]),
-    section("Services", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Индекс", data.services.index, (value) => (data.services.index = value)),
-        textInput(
-          "Заголовок секции",
-          data.services.title,
-          (value) => (data.services.title = value),
-        ),
-      ]),
-      renderObjectArrayEditor({
-        title: "Сервис",
-        items: data.services.items,
-        createItem: () => ({
-          icon: "send",
-          iconVariant: "blue",
-          title: "",
-          backText: "",
-        }),
-        fields: [
-          { key: "icon", label: "Иконка", type: "text" },
-          { key: "iconVariant", label: "Цвет", type: "select", options: iconVariantOptions },
-          { key: "title", label: "Заголовок", type: "text" },
-          { key: "backText", label: "Описание", type: "textarea" },
-        ],
-        itemTitle: (item, index) => item.title || `Сервис ${index + 1}`,
-      }),
-    ]),
-    section("FAQ", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Индекс", data.faq.index, (value) => (data.faq.index = value)),
-        textInput("Заголовок секции", data.faq.title, (value) => (data.faq.title = value)),
-      ]),
-      renderObjectArrayEditor({
-        title: "Вопрос",
-        items: data.faq.items,
-        createItem: () => ({ question: "", answer: "" }),
-        fields: [
-          { key: "question", label: "Вопрос", type: "text" },
-          { key: "answer", label: "Ответ", type: "textarea" },
-        ],
-        itemTitle: (item, index) => item.question || `Вопрос ${index + 1}`,
-      }),
-    ]),
-    section("Contact CTA", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Заголовок", data.contact.title, (value) => (data.contact.title = value)),
-        textInput(
-          "Подзаголовок",
-          data.contact.subtitle,
-          (value) => (data.contact.subtitle = value),
-        ),
-        textInput(
-          "ARIA лейбл",
-          data.contact.callbackAria || "",
-          (value) => (data.contact.callbackAria = value),
-        ),
-        textInput(
-          "Заголовок колбэка",
-          data.contact.callbackTitle || "",
-          (value) => (data.contact.callbackTitle = value),
-        ),
-        textInput(
-          "Кнопка колбэка",
-          data.contact.callbackButton || "",
-          (value) => (data.contact.callbackButton = value),
-        ),
-        textInput(
-          "Заголовок модалки",
-          data.contact.modalTitle || "",
-          (value) => (data.contact.modalTitle = value),
-        ),
-        textInput(
-          "Подзаголовок модалки",
-          data.contact.modalSubtitle || "",
-          (value) => (data.contact.modalSubtitle = value),
-        ),
-        textInput(
-          "Текст legal prefix",
-          data.contact.legalPrefix || "",
-          (value) => (data.contact.legalPrefix = value),
-        ),
-        textInput(
-          "Текст legal link",
-          data.contact.legalLinkText || "",
-          (value) => (data.contact.legalLinkText = value),
-        ),
-        textInput("Примечание", data.contact.note || "", (value) => (data.contact.note = value)),
-      ]),
-      textArea(
-        "Описание колбэка",
-        data.contact.callbackDesc || "",
-        (value) => (data.contact.callbackDesc = value),
-      ),
-    ]),
-  ])
+function sectionBody(content) {
+  return el("div", { className: "admin-stack" }, content)
 }
 
-function renderContactsEditor(data) {
-  return el("div", { className: "admin-stack" }, [
-    section("Hero", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Заголовок", data.hero.title, (value) => (data.hero.title = value)),
-        textInput("Подзаголовок", data.hero.subtitle, (value) => (data.hero.subtitle = value)),
-        textInput("Telegram link", data.hero.tgLink, (value) => (data.hero.tgLink = value)),
-        textInput("Email link", data.hero.emailLink, (value) => (data.hero.emailLink = value)),
+function renderLayoutEditor(layout, blocks) {
+  const blockMap = new Map(blocks.map((block) => [block.value, block]))
+  const wrap = el("div", { className: "admin-stack" })
+  const list = el("div", { className: "admin-array" })
+
+  layout.forEach((blockId, index) => {
+    const block = blockMap.get(blockId) || { label: blockId, description: "Пользовательский блок" }
+    list.appendChild(
+      el("div", { className: "admin-array__item" }, [
+        el("div", { className: "admin-array__head" }, [
+          el("div", { className: "admin-stack" }, [
+            el("div", { className: "admin-array__title", text: `${index + 1}. ${block.label}` }),
+            el("div", { className: "admin-meta-note", text: `${blockId} · ${block.description}` }),
+          ]),
+          el("div", { className: "admin-mini-actions" }, [
+            el("button", {
+              className: "admin-mini-button",
+              type: "button",
+              text: "Up",
+              onclick: () => {
+                if (index === 0) return
+                ;[layout[index - 1], layout[index]] = [layout[index], layout[index - 1]]
+                render()
+              },
+            }),
+            el("button", {
+              className: "admin-mini-button",
+              type: "button",
+              text: "Down",
+              onclick: () => {
+                if (index === layout.length - 1) return
+                ;[layout[index + 1], layout[index]] = [layout[index], layout[index + 1]]
+                render()
+              },
+            }),
+            el("button", {
+              className: "admin-mini-button",
+              type: "button",
+              text: "Duplicate",
+              disabled: block.single ? "true" : null,
+              onclick: () => {
+                if (block.single) return
+                layout.splice(index + 1, 0, blockId)
+                render()
+              },
+            }),
+            el("button", {
+              className: "admin-mini-button",
+              type: "button",
+              text: "Delete",
+              onclick: () => {
+                if (layout.length === 1) return
+                layout.splice(index, 1)
+                render()
+              },
+            }),
+          ]),
+        ]),
       ]),
-      renderStringArrayEditor("Тег", data.hero.tags),
-    ]),
-    section("Быстрые контакты", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Индекс", data.fastContact.index, (value) => (data.fastContact.index = value)),
-        textInput("Заголовок", data.fastContact.title, (value) => (data.fastContact.title = value)),
-      ]),
-      renderObjectArrayEditor({
-        title: "Канал",
-        items: data.fastContact.channels,
-        createItem: () => ({ type: "telegram", label: "", value: "", href: "", icon: "send" }),
-        fields: [
-          { key: "type", label: "Тип", type: "text" },
-          { key: "label", label: "Лейбл", type: "text" },
-          { key: "value", label: "Значение", type: "text" },
-          { key: "href", label: "Ссылка", type: "text" },
-          { key: "icon", label: "Иконка", type: "text" },
-        ],
-        itemTitle: (item, index) => item.label || `Канал ${index + 1}`,
-      }),
-    ]),
-    section("Workflow", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Индекс", data.workflow.index, (value) => (data.workflow.index = value)),
-        textInput("Заголовок", data.workflow.title, (value) => (data.workflow.title = value)),
-      ]),
-      renderObjectArrayEditor({
-        title: "Шаг",
-        items: data.workflow.steps,
-        createItem: () => ({ num: "01", icon: "chat", title: "", desc: "" }),
-        fields: [
-          { key: "num", label: "Номер", type: "text" },
-          { key: "icon", label: "Иконка", type: "text" },
-          { key: "title", label: "Заголовок", type: "text" },
-          { key: "desc", label: "Описание", type: "textarea" },
-        ],
-        itemTitle: (item, index) => item.title || `Шаг ${index + 1}`,
-      }),
-    ]),
-    section("Formats", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Индекс", data.formats.index, (value) => (data.formats.index = value)),
-        textInput("Заголовок", data.formats.title, (value) => (data.formats.title = value)),
-      ]),
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput(
-          "Fast title",
-          data.formats.fast.title,
-          (value) => (data.formats.fast.title = value),
+    )
+  })
+
+  wrap.appendChild(list)
+  wrap.appendChild(
+    el("div", { className: "admin-stack" }, [
+      el("div", { className: "admin-section__label", text: "Добавить блок" }),
+      el(
+        "div",
+        { className: "admin-actions" },
+        blocks.map((block) =>
+          el("button", {
+            className: "admin-button--ghost",
+            type: "button",
+            text: block.label,
+            disabled: block.single && layout.includes(block.value) ? "true" : null,
+            onclick: () => {
+              if (block.single && layout.includes(block.value)) return
+              layout.push(block.value)
+              render()
+            },
+          }),
         ),
-        textInput("Fast href", data.formats.fast.href, (value) => (data.formats.fast.href = value)),
-      ]),
-      textArea(
-        "Fast description",
-        data.formats.fast.desc,
-        (value) => (data.formats.fast.desc = value),
       ),
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput(
-          "Full title",
-          data.formats.full.title,
-          (value) => (data.formats.full.title = value),
-        ),
-        textInput(
-          "Full summary",
-          data.formats.full.summary,
-          (value) => (data.formats.full.summary = value),
-        ),
-      ]),
-      textArea(
-        "Full description",
-        data.formats.full.desc,
-        (value) => (data.formats.full.desc = value),
-      ),
     ]),
-    section("FAQ", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Индекс", data.faq.index, (value) => (data.faq.index = value)),
-        textInput("Заголовок", data.faq.title, (value) => (data.faq.title = value)),
-      ]),
-      renderObjectArrayEditor({
-        title: "Вопрос",
-        items: data.faq.items,
-        createItem: () => ({ question: "", answer: "" }),
-        fields: [
-          { key: "question", label: "Вопрос", type: "text" },
-          { key: "answer", label: "Ответ", type: "textarea" },
-        ],
-        itemTitle: (item, index) => item.question || `Вопрос ${index + 1}`,
+  )
+
+  return wrap
+}
+
+function renderSubtabs(activeId, tabs, onChange) {
+  return el(
+    "div",
+    { className: "admin-subtabs" },
+    tabs.map((tab) =>
+      el("button", {
+        className: `admin-subtab${activeId === tab.id ? " is-active" : ""}`,
+        type: "button",
+        text: tab.label,
+        onclick: () => {
+          onChange(tab.id)
+          render()
+        },
       }),
-    ]),
-    section("CTA", [
-      el("div", { className: "admin-grid admin-grid--two" }, [
-        textInput("Заголовок", data.cta.title, (value) => (data.cta.title = value)),
-        textInput("Подзаголовок", data.cta.subtitle, (value) => (data.cta.subtitle = value)),
-        textInput("TG text", data.cta.tgText, (value) => (data.cta.tgText = value)),
-        textInput("Email", data.cta.email, (value) => (data.cta.email = value)),
-        textInput("Телефон", data.cta.tel, (value) => (data.cta.tel = value)),
-        textInput("Примечание", data.cta.note || "", (value) => (data.cta.note = value)),
+    ),
+  )
+}
+
+function buildHomeSections(data, options = {}) {
+  const includeLayout = options.includeLayout !== false
+  const sections = [
+    ...(includeLayout
+      ? [
+          {
+            id: "layout",
+            label: "Layout",
+            content: sectionBody([
+              renderLayoutEditor(
+                (data.pageLayout ||= HOME_LAYOUT_BLOCKS.map((block) => block.value)),
+                HOME_LAYOUT_BLOCKS,
+              ),
+            ]),
+          },
+        ]
+      : []),
+    {
+      id: "hero",
+      label: "Hero",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Заголовок", data.hero.title, (value) => (data.hero.title = value)),
+          textInput("Подзаголовок", data.hero.subtitle, (value) => (data.hero.subtitle = value)),
+          textInput(
+            "Текст primary CTA",
+            data.hero.primaryAction,
+            (value) => (data.hero.primaryAction = value),
+          ),
+          textInput(
+            "Текст secondary CTA",
+            data.hero.secondaryAction,
+            (value) => (data.hero.secondaryAction = value),
+          ),
+        ]),
+        renderStringArrayEditor("Тег", data.hero.tags),
       ]),
+    },
+    {
+      id: "focus",
+      label: "Focus",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Индекс", data.focus.index, (value) => (data.focus.index = value)),
+          textInput("Заголовок секции", data.focus.title, (value) => (data.focus.title = value)),
+        ]),
+        renderObjectArrayEditor({
+          title: "Карточка",
+          items: data.focus.cards,
+          createItem: () => ({
+            icon: "inbox_customize",
+            iconVariant: "blue",
+            iconColor: "",
+            title: "",
+            desc: "",
+            resultIcon: "trending_up",
+            resultText: "",
+          }),
+          fields: [
+            { key: "icon", label: "Иконка", type: "icon" },
+            {
+              key: "iconVariant",
+              customKey: "iconColor",
+              label: "Цвет",
+              type: "palette",
+              options: COLOR_VARIANTS,
+            },
+            { key: "title", label: "Заголовок", type: "text" },
+            { key: "resultIcon", label: "Иконка результата", type: "icon" },
+            { key: "desc", label: "Описание", type: "textarea" },
+            { key: "resultText", label: "Результат", type: "text" },
+          ],
+          itemTitle: (item, index) => item.title || `Карточка ${index + 1}`,
+        }),
+      ]),
+    },
+    {
+      id: "services",
+      label: "Services",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Индекс", data.services.index, (value) => (data.services.index = value)),
+          textInput(
+            "Заголовок секции",
+            data.services.title,
+            (value) => (data.services.title = value),
+          ),
+        ]),
+        renderObjectArrayEditor({
+          title: "Сервис",
+          items: data.services.items,
+          createItem: () => ({
+            icon: "send",
+            iconVariant: "blue",
+            iconColor: "",
+            title: "",
+            backText: "",
+          }),
+          fields: [
+            { key: "icon", label: "Иконка", type: "icon" },
+            {
+              key: "iconVariant",
+              customKey: "iconColor",
+              label: "Цвет",
+              type: "palette",
+              options: COLOR_VARIANTS,
+            },
+            { key: "title", label: "Заголовок", type: "text" },
+            { key: "backText", label: "Описание", type: "textarea" },
+          ],
+          itemTitle: (item, index) => item.title || `Сервис ${index + 1}`,
+        }),
+      ]),
+    },
+    {
+      id: "works",
+      label: "Works",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Индекс", data.works?.index || "", (value) => {
+            data.works ||= {}
+            data.works.index = value
+          }),
+          textInput("Заголовок секции", data.works?.title || "", (value) => {
+            data.works ||= {}
+            data.works.title = value
+          }),
+        ]),
+        el("div", {
+          className: "admin-empty",
+          text: "Контент кейсов пока статический. Здесь можно управлять только заголовком и порядком блока.",
+        }),
+      ]),
+    },
+    {
+      id: "faq",
+      label: "FAQ",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Индекс", data.faq.index, (value) => (data.faq.index = value)),
+          textInput("Заголовок секции", data.faq.title, (value) => (data.faq.title = value)),
+        ]),
+        renderObjectArrayEditor({
+          title: "Вопрос",
+          items: data.faq.items,
+          createItem: () => ({ question: "", answer: "" }),
+          fields: [
+            { key: "question", label: "Вопрос", type: "text" },
+            { key: "answer", label: "Ответ", type: "textarea" },
+          ],
+          itemTitle: (item, index) => item.question || `Вопрос ${index + 1}`,
+        }),
+      ]),
+    },
+    {
+      id: "contact",
+      label: "Contact CTA",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Заголовок", data.contact.title, (value) => (data.contact.title = value)),
+          textInput(
+            "Подзаголовок",
+            data.contact.subtitle,
+            (value) => (data.contact.subtitle = value),
+          ),
+          textInput(
+            "ARIA лейбл",
+            data.contact.callbackAria || "",
+            (value) => (data.contact.callbackAria = value),
+          ),
+          textInput(
+            "Заголовок колбэка",
+            data.contact.callbackTitle || "",
+            (value) => (data.contact.callbackTitle = value),
+          ),
+          textInput(
+            "Кнопка колбэка",
+            data.contact.callbackButton || "",
+            (value) => (data.contact.callbackButton = value),
+          ),
+          textInput(
+            "Заголовок модалки",
+            data.contact.modalTitle || "",
+            (value) => (data.contact.modalTitle = value),
+          ),
+          textInput(
+            "Подзаголовок модалки",
+            data.contact.modalSubtitle || "",
+            (value) => (data.contact.modalSubtitle = value),
+          ),
+          textInput(
+            "Текст legal prefix",
+            data.contact.legalPrefix || "",
+            (value) => (data.contact.legalPrefix = value),
+          ),
+          textInput(
+            "Текст legal link",
+            data.contact.legalLinkText || "",
+            (value) => (data.contact.legalLinkText = value),
+          ),
+          textInput("Примечание", data.contact.note || "", (value) => (data.contact.note = value)),
+        ]),
+        textArea(
+          "Описание колбэка",
+          data.contact.callbackDesc || "",
+          (value) => (data.contact.callbackDesc = value),
+        ),
+      ]),
+    },
+  ]
+
+  return sections
+}
+
+function renderHomeEditor(data, activeSectionId = null, options = {}) {
+  const sections = buildHomeSections(data, options)
+  if (!activeSectionId) {
+    return el(
+      "div",
+      { className: "admin-stack" },
+      sections.map((item) => section(item.label, [item.content])),
+    )
+  }
+
+  return sections.find((item) => item.id === activeSectionId)?.content || sections[0].content
+}
+
+function buildContactsSections(data, options = {}) {
+  const includeLayout = options.includeLayout !== false
+  const sections = [
+    ...(includeLayout
+      ? [
+          {
+            id: "layout",
+            label: "Layout",
+            content: sectionBody([
+              renderLayoutEditor(
+                (data.pageLayout ||= CONTACTS_LAYOUT_BLOCKS.map((block) => block.value)),
+                CONTACTS_LAYOUT_BLOCKS,
+              ),
+            ]),
+          },
+        ]
+      : []),
+    {
+      id: "hero",
+      label: "Hero",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Заголовок", data.hero.title, (value) => (data.hero.title = value)),
+          textInput("Подзаголовок", data.hero.subtitle, (value) => (data.hero.subtitle = value)),
+          textInput("Telegram link", data.hero.tgLink, (value) => (data.hero.tgLink = value)),
+          textInput("Email link", data.hero.emailLink, (value) => (data.hero.emailLink = value)),
+        ]),
+        renderStringArrayEditor("Тег", data.hero.tags),
+      ]),
+    },
+    {
+      id: "channels",
+      label: "Быстрые контакты",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Индекс", data.fastContact.index, (value) => (data.fastContact.index = value)),
+          textInput(
+            "Заголовок",
+            data.fastContact.title,
+            (value) => (data.fastContact.title = value),
+          ),
+        ]),
+        renderObjectArrayEditor({
+          title: "Канал",
+          items: data.fastContact.channels,
+          createItem: () => ({ type: "telegram", label: "", value: "", href: "", icon: "send" }),
+          fields: [
+            { key: "type", label: "Тип", type: "text" },
+            { key: "label", label: "Лейбл", type: "text" },
+            { key: "value", label: "Значение", type: "text" },
+            { key: "href", label: "Ссылка", type: "text" },
+            {
+              key: "icon",
+              label: "Иконка",
+              type: "icon",
+              options: ["send", "mail", "call"],
+            },
+          ],
+          itemTitle: (item, index) => item.label || `Канал ${index + 1}`,
+        }),
+      ]),
+    },
+    {
+      id: "workflow",
+      label: "Workflow",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Индекс", data.workflow.index, (value) => (data.workflow.index = value)),
+          textInput("Заголовок", data.workflow.title, (value) => (data.workflow.title = value)),
+        ]),
+        renderObjectArrayEditor({
+          title: "Шаг",
+          items: data.workflow.steps,
+          createItem: () => ({ num: "01", icon: "chat", title: "", desc: "" }),
+          fields: [
+            { key: "num", label: "Номер", type: "text" },
+            { key: "icon", label: "Иконка", type: "icon" },
+            { key: "title", label: "Заголовок", type: "text" },
+            { key: "desc", label: "Описание", type: "textarea" },
+          ],
+          itemTitle: (item, index) => item.title || `Шаг ${index + 1}`,
+        }),
+      ]),
+    },
+    {
+      id: "formats",
+      label: "Formats",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Индекс", data.formats.index, (value) => (data.formats.index = value)),
+          textInput("Заголовок", data.formats.title, (value) => (data.formats.title = value)),
+        ]),
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput(
+            "Fast title",
+            data.formats.fast.title,
+            (value) => (data.formats.fast.title = value),
+          ),
+          textInput(
+            "Fast href",
+            data.formats.fast.href,
+            (value) => (data.formats.fast.href = value),
+          ),
+        ]),
+        textArea(
+          "Fast description",
+          data.formats.fast.desc,
+          (value) => (data.formats.fast.desc = value),
+        ),
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput(
+            "Full title",
+            data.formats.full.title,
+            (value) => (data.formats.full.title = value),
+          ),
+          textInput(
+            "Full summary",
+            data.formats.full.summary,
+            (value) => (data.formats.full.summary = value),
+          ),
+        ]),
+        textArea(
+          "Full description",
+          data.formats.full.desc,
+          (value) => (data.formats.full.desc = value),
+        ),
+      ]),
+    },
+    {
+      id: "faq",
+      label: "FAQ",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Индекс", data.faq.index, (value) => (data.faq.index = value)),
+          textInput("Заголовок", data.faq.title, (value) => (data.faq.title = value)),
+        ]),
+        renderObjectArrayEditor({
+          title: "Вопрос",
+          items: data.faq.items,
+          createItem: () => ({ question: "", answer: "" }),
+          fields: [
+            { key: "question", label: "Вопрос", type: "text" },
+            { key: "answer", label: "Ответ", type: "textarea" },
+          ],
+          itemTitle: (item, index) => item.question || `Вопрос ${index + 1}`,
+        }),
+      ]),
+    },
+    {
+      id: "cta",
+      label: "CTA",
+      content: sectionBody([
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Заголовок", data.cta.title, (value) => (data.cta.title = value)),
+          textInput("Подзаголовок", data.cta.subtitle, (value) => (data.cta.subtitle = value)),
+          textInput("TG text", data.cta.tgText, (value) => (data.cta.tgText = value)),
+          textInput("Email", data.cta.email, (value) => (data.cta.email = value)),
+          textInput("Телефон", data.cta.tel, (value) => (data.cta.tel = value)),
+          textInput("Примечание", data.cta.note || "", (value) => (data.cta.note = value)),
+        ]),
+      ]),
+    },
+  ]
+
+  return sections
+}
+
+function renderContactsEditor(data, activeSectionId = null, options = {}) {
+  const sections = buildContactsSections(data, options)
+  if (!activeSectionId) {
+    return el(
+      "div",
+      { className: "admin-stack" },
+      sections.map((item) => section(item.label, [item.content])),
+    )
+  }
+
+  return sections.find((item) => item.id === activeSectionId)?.content || sections[0].content
+}
+
+function renderTabbedEditor(activeId, sections, onChange, topBar = null) {
+  const activeSection = sections.find((item) => item.id === activeId) || sections[0]
+
+  return el("div", { className: "admin-editor" }, [
+    topBar ? el("div", { className: "admin-editor__top" }, [topBar]) : null,
+    el("div", { className: "admin-editor__nav" }, [renderSubtabs(activeId, sections, onChange)]),
+    el("div", { className: "admin-editor__body" }, [
+      el("div", { className: "admin-editor__section-head" }, [
+        el("h3", { className: "admin-editor__section-title", text: activeSection.label }),
+      ]),
+      activeSection.content,
     ]),
   ])
 }
 
 function renderHomeTab() {
+  const selectedCategory = getSelectedCategory()
+  const selectedSlug = selectedCategory.slug
+  const selectedLabel = getCategoryDisplayLabel(selectedCategory)
+  const sections = buildHomeSections(getSelectedHomeDraft())
+  const actions = el("div", { className: "admin-actions" }, [
+    el("button", {
+      className: "admin-button",
+      type: "button",
+      text: "Сохранить",
+      onclick: saveHome,
+    }),
+    el("button", {
+      className: "admin-button--ghost",
+      type: "button",
+      text: "Открыть preview",
+      onclick: () => {
+        if (selectedSlug === "default") {
+          openPreview("/")
+          return
+        }
+        openCategoryPreview(selectedSlug)
+      },
+    }),
+  ])
+
   return panel(
     "Главная страница",
-    "Редактируется quartz/static/data/home.json. После сохранения Quartz может пересобрать страницу автоматически в watch-режиме.",
+    selectedSlug === "default"
+      ? "Редактируется quartz/static/data/home.json. После сохранения Quartz может пересобрать страницу автоматически в watch-режиме."
+      : `Сейчас редактируется категория ${selectedLabel} (${selectedSlug}). Сохраняется вариант quartz/static/data/home.${selectedSlug}.json.`,
     [
-      el("div", { className: "admin-actions" }, [
-        el("button", {
-          className: "admin-button",
-          type: "button",
-          text: "Сохранить",
-          onclick: saveHome,
-        }),
-        el("button", {
-          className: "admin-button--ghost",
-          type: "button",
-          text: "Открыть preview",
-          onclick: () => openPreview("/"),
-        }),
-      ]),
-      renderHomeEditor(state.drafts.home),
+      renderTabbedEditor(
+        state.ui.homeSubtab,
+        sections,
+        (id) => {
+          state.ui.homeSubtab = id
+        },
+        actions,
+      ),
     ],
   )
 }
 
 function renderContactsTab() {
-  return panel("Страница контактов", "Редактируется quartz/static/data/contacts.json.", [
-    el("div", { className: "admin-actions" }, [
-      el("button", {
-        className: "admin-button",
-        type: "button",
-        text: "Сохранить",
-        onclick: saveContacts,
-      }),
-      el("button", {
-        className: "admin-button--ghost",
-        type: "button",
-        text: "Открыть страницу",
-        onclick: () => openPreview(encodeURI("/Кoнтакты")),
-      }),
-    ]),
-    renderContactsEditor(state.drafts.contacts),
+  const sections = buildContactsSections(state.drafts.contacts)
+  const actions = el("div", { className: "admin-actions" }, [
+    el("button", {
+      className: "admin-button",
+      type: "button",
+      text: "Сохранить",
+      onclick: saveContacts,
+    }),
+    el("button", {
+      className: "admin-button--ghost",
+      type: "button",
+      text: "Открыть страницу",
+      onclick: () => openPreview(encodeURI("/Кoнтакты")),
+    }),
   ])
-}
 
-function renderCategoryTab() {
-  const categories = state.data.categories.filter((category) => category.slug !== "default")
-  const selectedSlug = state.ui.selectedCategory
-  const selectedMeta = selectedSlug ? state.drafts.categoryMeta[selectedSlug] : null
-  const selectedContent = selectedSlug ? state.drafts.variants[selectedSlug] : null
-
-  const sidebar = el("aside", { className: "admin-sidebar" }, [
-    el("div", { className: "admin-stack" }, [
-      el("h3", { text: "Новая категория" }),
-      textInput(
-        "Slug",
-        state.ui.createSlug,
-        (value) => (state.ui.createSlug = value.toLowerCase()),
-        {
-          placeholder: "instagram",
+  return panel(
+    "Страница контактов",
+    "Редактируется quartz/static/data/contacts.json. Этот раздел общий для всех категорий и не зависит от выбранного варианта главной.",
+    [
+      renderTabbedEditor(
+        state.ui.contactsSubtab,
+        sections,
+        (id) => {
+          state.ui.contactsSubtab = id
         },
+        actions,
       ),
-      textInput("Label", state.ui.createLabel, (value) => (state.ui.createLabel = value), {
-        placeholder: "Трафик из Instagram",
-      }),
-      selectInput(
-        "Скопировать из",
-        state.ui.createFrom,
-        state.data.categories.map((category) => ({ value: category.slug, label: category.label })),
-        (value) => (state.ui.createFrom = value),
-      ),
-      el("button", {
-        className: "admin-button",
-        type: "button",
-        text: "Создать категорию",
-        onclick: createCategory,
-      }),
-      el("p", {
-        className: "admin-meta-note",
-        text: "Slug допускает только a-z, 0-9 и дефис.",
-      }),
-    ]),
-    el("div", { className: "admin-category-list" }, [
-      ...categories.map((category) =>
-        el(
-          "button",
-          {
-            className: `admin-category-card${category.slug === selectedSlug ? " is-active" : ""}`,
-            type: "button",
-            onclick: () => {
-              state.ui.selectedCategory = category.slug
-              render()
-            },
-          },
-          [
-            el("strong", { text: category.label }),
-            el("div", { className: "admin-code", text: category.slug }),
-          ],
-        ),
-      ),
-    ]),
-  ])
-
-  const main = selectedSlug
-    ? panel(
-        `Категория: ${selectedSlug}`,
-        "Редактируется отдельный вариант home.<slug>.json. Preview открывается с параметром _mc_preview.",
-        [
-          el("div", { className: "admin-actions" }, [
-            el("button", {
-              className: "admin-button",
-              type: "button",
-              text: "Сохранить категорию",
-              onclick: saveCategory,
-            }),
-            el("button", {
-              className: "admin-button--ghost",
-              type: "button",
-              text: "Открыть preview",
-              onclick: () => openCategoryPreview(selectedSlug),
-            }),
-            el("button", {
-              className: "admin-button--danger",
-              type: "button",
-              text: "Удалить категорию",
-              onclick: deleteCategory,
-            }),
-          ]),
-          section("Метаданные категории", [
-            el("div", { className: "admin-grid admin-grid--three" }, [
-              textInput("Slug", selectedSlug, () => {}, { type: "text", readOnly: true }),
-              textInput("Label", selectedMeta.label, (value) => (selectedMeta.label = value)),
-              selectInput(
-                "Extends",
-                selectedMeta.extends,
-                state.data.categories
-                  .filter(
-                    (category) => category.slug === "default" || category.slug !== selectedSlug,
-                  )
-                  .map((category) => ({ value: category.slug, label: category.label })),
-                (value) => {
-                  selectedMeta.extends = value
-                  selectedContent.extends = value
-                },
-              ),
-            ]),
-          ]),
-          renderHomeEditor(selectedContent),
-        ],
-      )
-    : panel("Категории", "Создайте первую категорию, чтобы редактировать вариант контента.", [
-        el("div", { className: "admin-empty", text: "Категории пока не созданы." }),
-      ])
-
-  return el("div", { className: "admin-split" }, [sidebar, main])
+    ],
+  )
 }
 
 function renderRulesTab() {
@@ -930,11 +1696,11 @@ function renderActiveTab() {
   if (!state.drafts) return null
   if (state.ui.tab === "home") return renderHomeTab()
   if (state.ui.tab === "contacts") return renderContactsTab()
-  if (state.ui.tab === "categories") return renderCategoryTab()
   return renderRulesTab()
 }
 
 function render() {
+  applyTheme(state.ui.themeMode)
   root.innerHTML = ""
 
   if (state.loading) {
@@ -951,6 +1717,30 @@ function render() {
   }
 
   const shell = el("div", { className: "admin-shell" })
+  const resolvedTheme = resolveTheme(state.ui.themeMode)
+  const isAutoTheme = state.ui.themeMode === "auto"
+  const nextMode = resolvedTheme === "dark" ? "light" : "dark"
+  const themeIcon = resolvedTheme === "dark" ? "dark_mode" : "light_mode"
+  const themeLabel = isAutoTheme
+    ? `Theme follows system. Current ${resolvedTheme}. Click to set ${nextMode}.`
+    : `Theme is ${resolvedTheme}. Click to switch to ${nextMode}.`
+  const selectedCategory = getSelectedCategory()
+  const selectedSlug = selectedCategory.slug
+  const categorySummaryTitle =
+    selectedSlug === "default" ? "Основная категория" : getCategoryDisplayLabel(selectedCategory)
+  const categorySummaryText =
+    selectedSlug === "default"
+      ? "Базовый контент главной страницы. Все рекламные варианты могут наследоваться от него."
+      : `Вариант для отдельного источника трафика. Формы ниже редактируют только ${selectedSlug}.`
+  const categoryFileLabel =
+    selectedSlug === "default"
+      ? "quartz/static/data/home.json"
+      : `quartz/static/data/home.${selectedSlug}.json`
+  const categoryMetaLabel =
+    selectedSlug === "default"
+      ? "Base content"
+      : `Slug: ${selectedSlug}${selectedCategory.extends ? ` · Extends: ${selectedCategory.extends}` : ""}`
+
   shell.appendChild(
     el("section", { className: "admin-hero" }, [
       el("div", { className: "admin-hero__top" }, [
@@ -966,6 +1756,86 @@ function render() {
             text: `Preview: ${state.data?.previewBaseUrl || "n/a"}`,
           }),
           el("div", { className: "admin-chip", text: "Редактируются только quartz/static/data/*" }),
+          el(
+            "button",
+            {
+              className: `admin-theme-icon-button admin-theme-icon-button--${resolvedTheme}${isAutoTheme ? " is-auto" : ""}`,
+              type: "button",
+              title: themeLabel,
+              "aria-label": themeLabel,
+              onclick: () => {
+                state.ui.themeMode = nextMode
+                persistThemeMode(nextMode)
+                render()
+              },
+            },
+            [
+              el("span", {
+                className: "admin-theme-icon-button__icon material-symbols-outlined",
+                text: themeIcon,
+              }),
+            ],
+          ),
+        ]),
+      ]),
+      el("div", { className: "admin-category-toolbar" }, [
+        el("div", { className: "admin-category-toolbar__controls" }, [
+          el("div", {
+            className: "admin-category-toolbar__eyebrow",
+            text: "Категория для редактирования",
+          }),
+          el("div", { className: "admin-category-select-wrap" }, [
+            el(
+              "select",
+              {
+                className: "admin-category-select",
+                value: selectedSlug,
+                onchange: (event) => {
+                  state.ui.selectedCategory = event.target.value
+                  render()
+                },
+              },
+              getCategories().map((category) => {
+                const option = el("option", {
+                  value: category.slug,
+                  text:
+                    category.slug === "default"
+                      ? "Основная"
+                      : `${getCategoryDisplayLabel(category)} · ${category.slug}`,
+                })
+                if (category.slug === selectedSlug) option.selected = true
+                return option
+              }),
+            ),
+            el("span", {
+              className: "admin-category-select-wrap__icon material-symbols-outlined",
+              text: "expand_more",
+            }),
+          ]),
+          el("div", { className: "admin-category-toolbar__actions" }, [
+            el("button", {
+              className: "admin-button--ghost admin-button--toolbar",
+              type: "button",
+              text: "Создать категорию",
+              onclick: openCreateCategoryModal,
+            }),
+            selectedSlug !== "default"
+              ? el("button", {
+                  className: "admin-button--ghost admin-button--toolbar-danger",
+                  type: "button",
+                  text: "Удалить категорию",
+                  onclick: deleteCategory,
+                })
+              : null,
+          ]),
+        ]),
+        el("div", { className: "admin-category-summary" }, [
+          el("div", { className: "admin-category-summary__meta" }, [
+            el("span", { className: "admin-category-summary__pill", text: categoryMetaLabel }),
+            el("code", { className: "admin-category-summary__file", text: categoryFileLabel }),
+          ]),
+          el("h2", { className: "admin-category-summary__title", text: categorySummaryTitle }),
+          el("p", { className: "admin-category-summary__text", text: categorySummaryText }),
         ]),
       ]),
     ]),
@@ -974,7 +1844,6 @@ function render() {
   const tabs = [
     { id: "home", label: "Главная" },
     { id: "contacts", label: "Контакты" },
-    { id: "categories", label: "Категории" },
     { id: "rules", label: "Правила" },
   ]
 
@@ -1007,4 +1876,5 @@ function render() {
   root.appendChild(shell)
 }
 
+applyTheme(state.ui.themeMode)
 loadState()

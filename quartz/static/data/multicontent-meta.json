@@ -29,6 +29,12 @@
       "modified": "2026-04-13",
       "label": "Рекламный трафик",
       "extends": "default"
+    },
+    "webdev": {
+      "created": "2026-05-04",
+      "modified": "2026-05-04",
+      "label": "SiteDev",
+      "extends": "default"
     }
   }
 }

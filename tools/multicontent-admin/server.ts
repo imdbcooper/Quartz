@@ -18,6 +18,8 @@ const META_PATH = path.join(DATA_DIR, "multicontent-meta.json")
 
 const PORT = Number(process.env.MULTICONTENT_ADMIN_PORT || 3100)
 const PREVIEW_BASE_URL = process.env.MULTICONTENT_PREVIEW_BASE_URL || "http://localhost:8080"
+const HOME_LAYOUT_BLOCKS = new Set(["hero", "focus", "services", "works", "faq", "contact"])
+const CONTACTS_LAYOUT_BLOCKS = new Set(["hero", "channels", "workflow", "formats", "faq", "cta"])
 
 function fail(message: string): never {
   throw new Error(message)
@@ -86,6 +88,25 @@ function optionalString(value: unknown, fieldName: string) {
   ensureString(value, fieldName)
 }
 
+function optionalHexColor(value: unknown, fieldName: string) {
+  if (value === undefined) return
+  ensure(typeof value === "string", `${fieldName} must be a string`)
+  ensure(/^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/.test(value), `${fieldName} must be a hex color`)
+}
+
+function optionalLayoutArray(value: unknown, fieldName: string, allowed: Set<string>) {
+  if (value === undefined) return
+  ensure(Array.isArray(value), `${fieldName} must be an array`)
+  ensure(value.length > 0, `${fieldName} must contain at least one block`)
+  value.forEach((entry, index) => {
+    ensure(typeof entry === "string", `${fieldName}[${index}] must be a string`)
+    ensure(
+      allowed.has(entry),
+      `${fieldName}[${index}] must be one of: ${Array.from(allowed).join(", ")}`,
+    )
+  })
+}
+
 function homeVariantPath(slug: string) {
   return path.join(DATA_DIR, `home.${slug}.json`)
 }
@@ -109,6 +130,7 @@ function validateHomeContent(
   ensure(isPlainObject(data), "home content must be an object")
   ensure(typeof data.schemaVersion === "number", "home.schemaVersion must be a number")
   const partial = Boolean(options?.partial)
+  optionalLayoutArray(data.pageLayout, "home.pageLayout", HOME_LAYOUT_BLOCKS)
 
   if (options?.requireExtends) {
     ensureString(data.extends, "home.extends")
@@ -146,6 +168,7 @@ function validateHomeContent(
       data.focus.cards.forEach((card: JsonObject, index: number) => {
         ensureString(card.icon, `home.focus.cards[${index}].icon`)
         ensureString(card.iconVariant, `home.focus.cards[${index}].iconVariant`)
+        optionalHexColor(card.iconColor, `home.focus.cards[${index}].iconColor`)
         ensureString(card.title, `home.focus.cards[${index}].title`)
         ensureString(card.desc, `home.focus.cards[${index}].desc`)
         ensureString(card.resultIcon, `home.focus.cards[${index}].resultIcon`)
@@ -169,8 +192,17 @@ function validateHomeContent(
         ensureString(item.title, `home.services.items[${index}].title`)
         ensureString(item.backText, `home.services.items[${index}].backText`)
         optionalString(item.iconVariant, `home.services.items[${index}].iconVariant`)
+        optionalHexColor(item.iconColor, `home.services.items[${index}].iconColor`)
       })
     }
+  }
+
+  if (!partial || data.works !== undefined) {
+    ensure(isPlainObject(data.works), "home.works must be an object")
+    if (!partial || data.works.index !== undefined)
+      ensureString(data.works.index, "home.works.index")
+    if (!partial || data.works.title !== undefined)
+      ensureString(data.works.title, "home.works.title")
   }
 
   if (!partial || data.faq !== undefined) {
@@ -208,6 +240,7 @@ function validateHomeContent(
 
 function validateContactsContent(data: unknown) {
   ensure(isPlainObject(data), "contacts content must be an object")
+  optionalLayoutArray(data.pageLayout, "contacts.pageLayout", CONTACTS_LAYOUT_BLOCKS)
 
   ensure(isPlainObject(data.hero), "contacts.hero must be an object")
   ensureString(data.hero.title, "contacts.hero.title")

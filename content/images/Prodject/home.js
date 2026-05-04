@@ -3,6 +3,10 @@ const FIRST_TOUCH_KEY = "mc_first_touch"
 const PREVIEW_PARAM = "_mc_preview"
 const SERVICE_VARIANTS = ["blue", "purple", "orange", "green"]
 
+function isHexColor(value) {
+  return typeof value === "string" && /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(value)
+}
+
 function initHome() {
   const sliderRoot = document.querySelector("[data-okb-slider]")
   if (sliderRoot && !sliderRoot.dataset.ready) {
@@ -310,7 +314,13 @@ function initHome() {
 
       const iconWrap = document.createElement("div")
       const variant = typeof card.iconVariant === "string" ? card.iconVariant : "blue"
-      iconWrap.className = "focus-card__icon focus-card__icon--" + variant
+      const isCustomFocus = variant === "custom" && isHexColor(card.iconColor)
+      iconWrap.className =
+        "focus-card__icon " +
+        (isCustomFocus ? "focus-card__icon--custom" : "focus-card__icon--" + variant)
+      if (isCustomFocus) {
+        iconWrap.style.setProperty("--focus-accent", card.iconColor)
+      }
 
       const icon = document.createElement("span")
       icon.className = "material-symbols-outlined"
@@ -351,9 +361,15 @@ function initHome() {
         typeof item.iconVariant === "string"
           ? item.iconVariant
           : SERVICE_VARIANTS[index % SERVICE_VARIANTS.length]
+      const isCustomService = variant === "custom" && isHexColor(item.iconColor)
 
       const article = document.createElement("article")
-      article.className = "service-chip service-chip--flippable service-chip--" + variant
+      article.className =
+        "service-chip service-chip--flippable " +
+        (isCustomService ? "service-chip--custom" : "service-chip--" + variant)
+      if (isCustomService) {
+        article.style.setProperty("--chip-accent", item.iconColor)
+      }
       article.tabIndex = 0
       article.setAttribute("role", "button")
       article.setAttribute(

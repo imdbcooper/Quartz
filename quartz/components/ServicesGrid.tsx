@@ -6,6 +6,22 @@ import { ServicesConfig } from "./landing/types"
 
 const SERVICE_VARIANTS = ["blue", "purple", "orange", "green"] as const
 
+function isHexColor(value?: string) {
+  return typeof value === "string" && /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(value)
+}
+
+function serviceChipClass(iconVariant: string, iconColor?: string) {
+  if (iconVariant === "custom" && isHexColor(iconColor)) {
+    return "service-chip service-chip--flippable service-chip--custom"
+  }
+  return `service-chip service-chip--flippable service-chip--${iconVariant}`
+}
+
+function serviceChipStyle(iconVariant: string, iconColor?: string) {
+  if (iconVariant === "custom" && isHexColor(iconColor)) return `--chip-accent:${iconColor};`
+  return undefined
+}
+
 export default ((config: ServicesConfig) => {
   const ServicesGrid: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
@@ -24,7 +40,8 @@ export default ((config: ServicesConfig) => {
             const variant = item.iconVariant ?? SERVICE_VARIANTS[i % SERVICE_VARIANTS.length]
             return (
               <article
-                class={`service-chip service-chip--flippable service-chip--${variant}`}
+                class={serviceChipClass(variant, item.iconColor)}
+                style={serviceChipStyle(variant, item.iconColor)}
                 tabindex={0}
                 role="button"
                 aria-label={`Показать описание сервиса ${item.title}`}

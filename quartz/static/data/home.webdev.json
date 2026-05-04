@@ -1,10 +1,21 @@
 {
   "schemaVersion": 1,
-  "pageLayout": ["hero", "focus", "services", "works", "faq", "contact"],
+  "pageLayout": [
+    "hero",
+    "focus",
+    "services",
+    "works",
+    "faq",
+    "contact"
+  ],
   "hero": {
     "title": "Автоматизирую продажи, заявки и внутренние процессы с помощью Telegram, web и AI",
     "subtitle": "20+ реализованных проектов • 3 года практики • От брифа до запуска за 2–6 недель",
-    "tags": ["Telegram Mini Apps", "Автоматизация процессов", "AI-интеграции"],
+    "tags": [
+      "Telegram Mini Apps",
+      "Автоматизация процессов",
+      "AI-интеграции"
+    ],
     "primaryAction": "Обсудить проект",
     "secondaryAction": "Все контакты"
   },
@@ -155,5 +166,6 @@
     "legalPrefix": "Для отправки заявки отметьте согласие и ознакомьтесь с",
     "legalLinkText": "Политикой обработки персональных данных",
     "note": "Обычно отвечаю с 09:00 до 21:00 (UTC+3), без выходных."
-  }
+  },
+  "extends": "default"
 }

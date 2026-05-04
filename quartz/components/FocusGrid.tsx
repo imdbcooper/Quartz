@@ -2,6 +2,21 @@ import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } fro
 import style from "./styles/focusGrid.scss"
 import { FocusConfig } from "./landing/types"
 
+function isHexColor(value?: string) {
+  return typeof value === "string" && /^#(?:[0-9a-f]{3}|[0-9a-f]{6})$/i.test(value)
+}
+
+function focusIconClass(iconVariant: string, iconColor?: string) {
+  if (iconVariant === "custom" && isHexColor(iconColor))
+    return "focus-card__icon focus-card__icon--custom"
+  return `focus-card__icon focus-card__icon--${iconVariant}`
+}
+
+function focusIconStyle(iconVariant: string, iconColor?: string) {
+  if (iconVariant === "custom" && isHexColor(iconColor)) return `--focus-accent:${iconColor};`
+  return undefined
+}
+
 export default ((config: FocusConfig) => {
   const FocusGrid: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
@@ -19,7 +34,10 @@ export default ((config: FocusConfig) => {
           {config.cards.map((card) => (
             <article class="focus-card">
               <div class="focus-card__header">
-                <div class={`focus-card__icon focus-card__icon--${card.iconVariant}`}>
+                <div
+                  class={focusIconClass(card.iconVariant, card.iconColor)}
+                  style={focusIconStyle(card.iconVariant, card.iconColor)}
+                >
                   <span class="material-symbols-outlined">{card.icon}</span>
                 </div>
                 <h3>{card.title}</h3>

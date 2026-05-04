@@ -407,6 +407,11 @@
   color: #34d399;
 }
 
+.focus-card__icon--custom {
+  background: color-mix(in srgb, var(--focus-accent) 16%, transparent);
+  color: var(--focus-accent);
+}
+
 .focus-card__icon .material-symbols-outlined {
   font-variation-settings:
     "FILL" 0,
@@ -581,6 +586,11 @@
   color: #34d399 !important;
 }
 
+.service-chip--custom .service-chip__face span:first-child {
+  background: color-mix(in srgb, var(--chip-accent) 16%, transparent) !important;
+  color: var(--chip-accent) !important;
+}
+
 .service-chip--blue .service-chip__face--back {
   background: linear-gradient(180deg, rgb(10 18 34 / 0.96), rgb(15 23 42 / 0.98));
   box-shadow: inset 0 0 0 1px rgb(96 165 250 / 0.35);
@@ -599,6 +609,15 @@
 .service-chip--green .service-chip__face--back {
   background: linear-gradient(180deg, rgb(9 33 27 / 0.96), rgb(8 26 22 / 0.98));
   box-shadow: inset 0 0 0 1px rgb(52 211 153 / 0.28);
+}
+
+.service-chip--custom .service-chip__face--back {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--chip-accent) 18%, rgb(10 18 34 / 0.96)),
+    color-mix(in srgb, var(--chip-accent) 12%, rgb(15 23 42 / 0.98))
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--chip-accent) 32%, transparent);
 }
 
 :root[saved-theme="light"] .service-chip--blue .service-chip__face span:first-child {
@@ -621,6 +640,11 @@
   color: rgb(5 150 105) !important;
 }
 
+:root[saved-theme="light"] .service-chip--custom .service-chip__face span:first-child {
+  background: color-mix(in srgb, var(--chip-accent) 14%, white) !important;
+  color: var(--chip-accent) !important;
+}
+
 :root[saved-theme="light"] .service-chip--blue .service-chip__face--back {
   background: linear-gradient(180deg, rgb(239 246 255 / 0.98), rgb(219 234 254 / 0.98));
   box-shadow: inset 0 0 0 1px rgb(96 165 250 / 0.4);
@@ -639,6 +663,15 @@
 :root[saved-theme="light"] .service-chip--green .service-chip__face--back {
   background: linear-gradient(180deg, rgb(236 253 245 / 0.98), rgb(209 250 229 / 0.98));
   box-shadow: inset 0 0 0 1px rgb(52 211 153 / 0.34);
+}
+
+:root[saved-theme="light"] .service-chip--custom .service-chip__face--back {
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--chip-accent) 10%, rgb(255 255 255 / 0.98)),
+    color-mix(in srgb, var(--chip-accent) 18%, rgb(248 250 252 / 0.98))
+  );
+  box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--chip-accent) 28%, transparent);
 }
 
 :root[saved-theme="light"] #quartz-body .home-central .service-chip__face--back p {

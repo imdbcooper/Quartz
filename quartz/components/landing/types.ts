@@ -27,6 +27,7 @@ export interface ContactsHeroConfig {
 export interface FocusCard {
   icon: string
   iconVariant: string
+  iconColor?: string
   title: string
   desc: string
   resultIcon: string
@@ -42,6 +43,7 @@ export interface FocusConfig {
 export interface ServiceItem {
   icon: string
   iconVariant?: string
+  iconColor?: string
   title: string
   backText: string
 }
@@ -50,6 +52,11 @@ export interface ServicesConfig {
   index: string
   title: string
   items: ServiceItem[]
+}
+
+export interface WorksConfig {
+  index: string
+  title: string
 }
 
 export interface FaqItem {
