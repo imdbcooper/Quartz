@@ -218,6 +218,14 @@ function initHome() {
         : await loadHomeVariant(parentCategory, cache, stack)
     const merged = mergeContent(base, variant)
 
+    if (
+      typeof variant.hero?.title === "string" &&
+      !Object.prototype.hasOwnProperty.call(variant.hero, "titleParts") &&
+      isPlainObject(merged.hero)
+    ) {
+      delete merged.hero.titleParts
+    }
+
     cache.set(category, merged)
     stack.delete(category)
     return merged
