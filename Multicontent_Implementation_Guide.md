@@ -198,9 +198,13 @@ mc_first_touch
 
 Runtime меняет:
 
-- Hero title
+- Hero badge
+- Hero title, включая `titleParts` и `accent`
 - Hero subtitle
 - Hero tags
+- Hero benefits
+- Hero SLA
+- Hero dashboard visual: tabs, metrics, integrations, automations, sideCards
 - Hero CTA texts
 - Focus index/title/cards
 - Services index/title/items
@@ -210,7 +214,15 @@ Runtime меняет:
 Подмена идёт через:
 
 - `data-home-text`
+- `data-home-hero-title`
 - `data-home-hero-tags`
+- `data-home-hero-benefits`
+- `data-home-hero-visual`
+- `data-home-hero-visual-tabs`
+- `data-home-hero-visual-metrics`
+- `data-home-hero-visual-integrations`
+- `data-home-hero-visual-automations`
+- `data-home-hero-side-cards`
 - `data-home-focus-list`
 - `data-home-services-list`
 - `data-home-faq-list`
@@ -321,9 +333,10 @@ Runtime меняет:
 
 Можно менять:
 
-- Hero
+- Hero: badge, titleParts/accent, subtitle, tags, benefits, SLA, dashboard visual и CTA
 - Focus
 - Services
+- Works / Кейсы
 - FAQ
 - Contact CTA
 

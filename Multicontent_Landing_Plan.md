@@ -1,8 +1,9 @@
 # Мультиконтент главной страницы по источнику трафика
 
-> **Статус:** План утверждён, реализация не начата
+> **Статус:** Реализовано и актуализировано после hero dashboard / runtime multicontent
 > **Ветка:** `refactor/landing-components`
 > **Дата:** 2026-04-13
+> **Актуализация:** 2026-05-05
 
 ---
 
@@ -25,13 +26,13 @@
 
 ### Ключевые компоненты
 
-| Компонент    | Файл                                 | data-\* атрибуты                                             |
-| ------------ | ------------------------------------ | ------------------------------------------------------------ |
-| LandingHero  | `quartz/components/LandingHero.tsx`  | — (нет, нужно добавить)                                      |
-| FocusGrid    | `quartz/components/FocusGrid.tsx`    | — (нет, нужно добавить)                                      |
-| ServicesGrid | `quartz/components/ServicesGrid.tsx` | `data-home-services-list` ✅                                 |
-| FaqSection   | `quartz/components/FaqSection.tsx`   | `data-home-faq-list`, `data-faq-title`, `data-faq-answer` ✅ |
-| ContactCta   | `quartz/components/ContactCta.tsx`   | — (нет, нужно добавить)                                      |
+| Компонент    | Файл                                 | data-\* атрибуты                                                                                                        |
+| ------------ | ------------------------------------ | ----------------------------------------------------------------------------------------------------------------------- |
+| LandingHero  | `quartz/components/LandingHero.tsx`  | `data-home-text`, `data-home-hero-title`, `data-home-hero-tags`, `data-home-hero-benefits`, `data-home-hero-visual*` ✅ |
+| FocusGrid    | `quartz/components/FocusGrid.tsx`    | `data-home-focus-list` ✅                                                                                               |
+| ServicesGrid | `quartz/components/ServicesGrid.tsx` | `data-home-services-list` ✅                                                                                            |
+| FaqSection   | `quartz/components/FaqSection.tsx`   | `data-home-faq-list`, `data-faq-title`, `data-faq-answer` ✅                                                            |
+| ContactCta   | `quartz/components/ContactCta.tsx`   | `data-home-text`, `data-home-contact-callback-aria` ✅                                                                  |
 
 ### Условный рендеринг
 
@@ -67,9 +68,11 @@
 
 ### Что безопасно менять клиентски (без вреда для SEO)
 
-- ✅ Заголовок Hero (H2)
-- ✅ Подзаголовок и описательный текст
-- ✅ Теги-капсулы
+- ✅ Заголовок Hero (H2), включая `titleParts` и `accent`
+- ✅ Badge, подзаголовок и описательный текст
+- ✅ Теги-капсулы и benefits
+- ✅ SLA-строку
+- ✅ Hero dashboard visual: tabs, metrics, integrations, automations, sideCards
 - ✅ Focus Cards (набор и содержание)
 - ✅ Services Chips
 - ✅ FAQ вопросы/ответы
@@ -116,8 +119,24 @@ quartz/static/data/
   "extends": "default",
   "hero": {
     "title": "Telegram Mini Apps и боты под задачи вашего бизнеса",
+    "badge": "Telegram-продукты для продаж",
+    "titleParts": [
+      { "text": "Запускаю Telegram Mini Apps, которые " },
+      { "text": "принимают заявки", "accent": true },
+      { "text": " и автоматизируют продажи" }
+    ],
     "subtitle": "Каталоги, кабинеты, заявки — всё внутри Telegram",
-    "tags": ["Mini Apps", "Telegram-боты", "Автоматизация в TG"]
+    "tags": ["Mini Apps", "Telegram-боты", "Автоматизация в TG"],
+    "benefits": [{ "icon": "send", "text": "Заявки внутри Telegram" }],
+    "sla": "Ответ в течение дня",
+    "visual": {
+      "title": "Панель Telegram-продаж",
+      "tabs": ["Leads", "Orders", "CRM"],
+      "metrics": [{ "label": "Заявки", "value": "+24%", "tone": "green" }],
+      "integrations": [{ "label": "Telegram", "icon": "send" }],
+      "automations": [{ "label": "Заявка → CRM", "value": "Live", "status": "Активно" }],
+      "sideCards": [{ "title": "Быстрый старт", "text": "MVP без лишних экранов" }]
+    }
   },
   "focus": {
     "index": "01 / Какие задачи решаю в Telegram",
@@ -170,16 +189,16 @@ function detectTrafficSource() {
 
 ## Файлы для изменения
 
-| Файл                                    | Действие   | Что делать                                                                         |
-| --------------------------------------- | ---------- | ---------------------------------------------------------------------------------- |
-| `quartz/static/data/home.telegram.json` | **NEW**    | Вариант для Telegram-трафика                                                       |
-| `quartz/static/data/home.google.json`   | **NEW**    | Вариант для поискового трафика                                                     |
-| `quartz/static/data/home.vk.json`       | **NEW**    | Вариант для VK-трафика                                                             |
-| `quartz/static/data/home.ad.json`       | **NEW**    | Вариант для рекламного трафика                                                     |
-| `content/images/Prodject/home.js`       | **MODIFY** | Добавить `detectTrafficSource()` + загрузку альтернативного JSON                   |
-| `quartz/components/LandingHero.tsx`     | **MODIFY** | Добавить `data-*` атрибуты для динамической подмены заголовка, подзаголовка, тегов |
-| `quartz/components/FocusGrid.tsx`       | **MODIFY** | Добавить `data-home-focus-list` для замены карточек                                |
-| `quartz/components/ContactCta.tsx`      | **MODIFY** | Добавить `data-*` для замены текста CTA                                            |
+| Файл                                    | Действие | Что делать                                                                 |
+| --------------------------------------- | -------- | -------------------------------------------------------------------------- |
+| `quartz/static/data/home.telegram.json` | **NEW**  | Вариант для Telegram-трафика                                               |
+| `quartz/static/data/home.google.json`   | **NEW**  | Вариант для поискового трафика                                             |
+| `quartz/static/data/home.vk.json`       | **NEW**  | Вариант для VK-трафика                                                     |
+| `quartz/static/data/home.ad.json`       | **NEW**  | Вариант для рекламного трафика                                             |
+| `content/images/Prodject/home.js`       | **DONE** | Определение категории, preview, inheritance/merge и runtime-подмена блоков |
+| `quartz/components/LandingHero.tsx`     | **DONE** | `data-*` атрибуты для titleParts, tags, benefits, CTA и dashboard visual   |
+| `quartz/components/FocusGrid.tsx`       | **DONE** | `data-home-focus-list` для замены карточек                                 |
+| `quartz/components/ContactCta.tsx`      | **DONE** | `data-*` для замены текста CTA                                             |
 
 ---
 
@@ -273,8 +292,9 @@ UI панели должен быть разделён минимум на вк�
 
 - `Главная`
 - `Контакты`
-- `Категории`
 - `Правила`
+
+Отдельная вкладка `Категории` в текущей реализации заменена выбором категории в шапке админки: там же создаются, переключаются и удаляются варианты.
 
 Это удобнее, чем один общий экран, потому что `home.json` и `contacts.json` относятся к разным страницам и не должны смешиваться в одном редакторе.
 
@@ -369,9 +389,10 @@ quartz/static/data/multicontent-rules.json
 │                                                         │
 │  ▼ Hero                                                 │
 │  ┌───────────────────────────────────────────────┐      │
-│  │ Заголовок: [Telegram Mini Apps и боты под...] │      │
-│  │ Подзаголовок: [Каталоги, кабинеты, заявки...] │     │
-│  │ Теги: [Mini Apps] [Telegram-боты] [+]         │      │
+│  │ Badge: [Telegram-продукты для продаж]          │      │
+│  │ Title parts: [Запускаю...] [принимают заявки] │      │
+│  │ Подзаголовок: [Каталоги, кабинеты, заявки...] │      │
+│  │ Tags / Benefits / SLA / Dashboard visual      │      │
 │  └───────────────────────────────────────────────┘      │
 │                                                         │
 │  ▼ Focus Cards                                          │
@@ -515,14 +536,14 @@ quartz/static/data/
 
 ### Файлы для панели управления
 
-| Файл                                                     | Действие | Описание                                              |
-| -------------------------------------------------------- | -------- | ----------------------------------------------------- |
-| `tools/multicontent-admin/server.ts`                     | **NEW**  | Локальный Node helper для чтения/записи JSON          |
-| `tools/multicontent-admin/client/index.html`             | **NEW**  | HTML локальной админки                                |
-| `tools/multicontent-admin/client/multicontent-admin.js`  | **NEW**  | Логика панели: CRUD категорий, редактор, предпросмотр |
-| `tools/multicontent-admin/client/multicontent-admin.css` | **NEW**  | Стили панели                                          |
-| `quartz/static/data/multicontent-rules.json`             | **NEW**  | Правила маппинга источник → категория                 |
-| `quartz/static/data/multicontent-meta.json`              | **NEW**  | Метаданные категорий                                  |
+| Файл                                                     | Действие | Описание                                                 |
+| -------------------------------------------------------- | -------- | -------------------------------------------------------- |
+| `tools/multicontent-admin/server.ts`                     | **DONE** | Локальный Node helper для чтения/записи JSON             |
+| `tools/multicontent-admin/client/index.html`             | **DONE** | HTML локальной админки                                   |
+| `tools/multicontent-admin/client/multicontent-admin.js`  | **DONE** | Логика панели: категории в шапке, редактор, предпросмотр |
+| `tools/multicontent-admin/client/multicontent-admin.css` | **DONE** | Стили панели                                             |
+| `quartz/static/data/multicontent-rules.json`             | **DONE** | Правила маппинга источник → категория                    |
+| `quartz/static/data/multicontent-meta.json`              | **DONE** | Метаданные категорий                                     |
 
 ---
 
@@ -546,7 +567,7 @@ quartz/static/data/
 11. Реализовать API чтения/записи JSON для `home`, `contacts`, вариантов и правил
 12. Добавить серверную валидацию и защиту допустимых путей записи
 13. Создать локальную админку `tools/multicontent-admin/client/*`
-14. Реализовать вкладки `Главная`, `Контакты`, `Категории`, `Правила`
+14. Реализовать вкладки `Главная`, `Контакты`, `Правила` и управление категориями в шапке
 15. Реализовать список категорий + CRUD с защитой `default`
 16. Реализовать редактор правил маппинга
 17. Реализовать посекционный редактор контента для главной и контактов

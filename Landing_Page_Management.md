@@ -7,7 +7,7 @@
 Все переиспользуемые блоки хранятся в папке:
 `quartz/components/`
 
-- **LandingHero.tsx** — Верхний блок («Автоматизирую продажи...»)
+- **LandingHero.tsx** — Верхний блок с badge, составным заголовком, chips, benefits, CTA и dashboard-визуалом
 - **FocusGrid.tsx** — Секция «Какие задачи решаю» (карточки с иконками)
 - **ServicesGrid.tsx** — Секция «Что делаю» (переворачивающиеся плитки)
 - **WorksSlider.tsx** — Секция «Кейсы» (Слайдер проекта OKB)
@@ -18,10 +18,10 @@
 
 Управление контентом полностью отделено от верстки компонентов. Чтобы заменить тексты, иконки или ссылки, вам **не нужно менять код TypeScript**.
 
-Все текстовые данные вытянуты в удобный JSON-файл:
-👉 `quartz/static/data/home.json`
+Все текстовые данные вынесены в JSON-файлы:
+👉 `quartz/static/data/home.json` для дефолтной главной и `quartz/static/data/home.<category>.json` для вариантов мультиконтента.
 
-Внутри вы найдете ключи для каждого блока (например `hero`, `focus`, `services`, `faq`, `contact`). Любые изменения в этом файле автоматически отобразятся на главной странице после сборки сайта (команда `npm run dev` или `npm run build`).
+Внутри вы найдете ключи для каждого блока (например `hero`, `focus`, `services`, `works`, `faq`, `contact`). Hero теперь поддерживает расширенную структуру: `badge`, `titleParts` с `accent`, `subtitle`, `tags`, `benefits`, `sla` и `visual` dashboard (`tabs`, `metrics`, `integrations`, `automations`, `sideCards`). Любые изменения автоматически отобразятся на главной странице после сборки или в локальном preview.
 
 ## ⚙️ Как работает сборка (quartz.layout.ts)?
 
@@ -40,6 +40,7 @@
 - Запуск сайта в watch-режиме: `npm run site:dev`
 - Запуск админки: `npm run multicontent-admin`
 - Админка открывается локально на `http://localhost:3100`
+- Переключение категории в шапке админки меняет редактируемый `home.<category>.json`, а preview открывает главную с `_mc_preview=<category>`
 
 Админка редактирует только файлы в `quartz/static/data/`:
 
