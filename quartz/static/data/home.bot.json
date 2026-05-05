@@ -3,11 +3,137 @@
   "extends": "default",
   "pageLayout": ["hero", "focus", "services", "works", "faq", "contact"],
   "hero": {
-    "title": "Боты, которые продают, отвечают и автоматизируют",
-    "subtitle": "Разрабатываю Telegram-ботов, Mini Apps и автоматизации для заявок, поддержки, продаж, записи, AI-сценариев, CRM, оплат и внутренних процессов",
-    "tags": ["Telegram-боты", "AI-ассистенты", "CRM • оплаты • WebApp"],
-    "primaryAction": "Обсудить бота",
-    "secondaryAction": "Все контакты"
+    "title": "Боты и AI-автоматизации для продаж, поддержки и процессов",
+    "subtitle": "Разрабатываю Telegram-ботов, Mini Apps и AI-сценарии для заявок, поддержки, продаж, записи, CRM, оплат, уведомлений и внутренних операций без ручной рутины.",
+    "tags": ["Telegram-боты", "AI-ассистенты", "CRM / оплаты / WebApp", "Автоматизация процессов"],
+    "primaryAction": "Обсудить бота →",
+    "secondaryAction": "Смотреть кейсы",
+    "badge": "Автоматизации, которые разгружают команду",
+    "titleParts": [
+      {
+        "text": "Запускаю Telegram-ботов и AI-сценарии, которые "
+      },
+      {
+        "text": "принимают заявки",
+        "accent": true
+      },
+      {
+        "text": ", отвечают клиентам и ведут процессы"
+      }
+    ],
+    "benefits": [
+      {
+        "icon": "rocket_launch",
+        "text": "Быстрый запуск бота или Mini App"
+      },
+      {
+        "icon": "hub",
+        "text": "CRM, оплаты, таблицы и внутренние API"
+      },
+      {
+        "icon": "psychology",
+        "text": "AI-ответы и классификация обращений"
+      },
+      {
+        "icon": "dashboard_customize",
+        "text": "Админка и статусы для команды"
+      }
+    ],
+    "sla": "Ответ в течение дня",
+    "visual": {
+      "title": "Панель автоматизаций и лидов",
+      "tabs": ["Bot", "Leads", "AI flows"],
+      "metrics": [
+        {
+          "label": "Заявки",
+          "value": "+57%",
+          "delta": "из чата",
+          "tone": "blue",
+          "points": [9, 13, 19, 18, 26, 31, 39]
+        },
+        {
+          "label": "Ответы",
+          "value": "24/7",
+          "delta": "без пауз",
+          "tone": "green",
+          "points": [16, 18, 18, 22, 24, 28, 34]
+        },
+        {
+          "label": "Экономия",
+          "value": "10 ч",
+          "delta": "в неделю",
+          "tone": "purple",
+          "points": [8, 9, 14, 16, 19, 24, 30]
+        }
+      ],
+      "integrations": [
+        {
+          "label": "Telegram",
+          "icon": "send"
+        },
+        {
+          "label": "OpenAI",
+          "icon": "auto_awesome"
+        },
+        {
+          "label": "CRM",
+          "icon": "hub"
+        },
+        {
+          "label": "Node.js",
+          "icon": "terminal"
+        },
+        {
+          "label": "PostgreSQL",
+          "icon": "database"
+        },
+        {
+          "label": "Stripe",
+          "icon": "payments"
+        },
+        {
+          "label": "Ещё",
+          "icon": "add_circle"
+        }
+      ],
+      "automations": [
+        {
+          "label": "Сообщение → квалификация",
+          "value": "AI",
+          "status": "Активно",
+          "icon": "psychology"
+        },
+        {
+          "label": "Лид → CRM и менеджеру",
+          "value": "2 сек",
+          "status": "Активно",
+          "icon": "hub"
+        },
+        {
+          "label": "Оплата → доступ в Mini App",
+          "value": "Live",
+          "status": "Активно",
+          "icon": "payments"
+        }
+      ],
+      "sideCards": [
+        {
+          "icon": "rocket_launch",
+          "title": "Быстрый запуск",
+          "text": "MVP бота с ключевым сценарием без лишнего"
+        },
+        {
+          "icon": "shield",
+          "title": "Контроль",
+          "text": "Логи, статусы, роли и понятная передача данных"
+        },
+        {
+          "icon": "trending_up",
+          "title": "Больше заявок",
+          "text": "Квизы, прогрев и быстрый ответ в Telegram"
+        }
+      ]
+    }
   },
   "focus": {
     "index": "01 / Какие bot-задачи закрываю",

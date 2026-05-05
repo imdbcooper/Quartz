@@ -4,10 +4,136 @@
   "pageLayout": ["hero", "focus", "services", "works", "faq", "contact"],
   "hero": {
     "title": "Сайты и web-системы для заявок, продаж и роста",
-    "subtitle": "Сайт-визитка, лендинг, интернет-магазин на Medusa, админки и React + Node приложения — от структуры до запуска, CRM, платежей, Telegram, аналитики и API",
-    "tags": ["Сайты под ключ", "React + Node", "CRM • платежи • API"],
-    "primaryAction": "Обсудить сайт",
-    "secondaryAction": "Все контакты"
+    "subtitle": "Лендинги, корпоративные сайты, интернет-магазины на Medusa, админки и React + Node приложения — от структуры и дизайна до запуска, CRM, платежей, Telegram, аналитики и API.",
+    "tags": ["Сайт под ключ", "React + Node", "CRM / оплаты / API", "Аналитика и SEO"],
+    "primaryAction": "Обсудить проект →",
+    "secondaryAction": "Смотреть кейсы",
+    "badge": "Разработка, которая работает на бизнес",
+    "titleParts": [
+      {
+        "text": "Создаю сайты и web-системы, которые "
+      },
+      {
+        "text": "продают",
+        "accent": true
+      },
+      {
+        "text": ", автоматизируют заявки и помогают бизнесу расти"
+      }
+    ],
+    "benefits": [
+      {
+        "icon": "rocket_launch",
+        "text": "Быстрый запуск лендинга или MVP"
+      },
+      {
+        "icon": "hub",
+        "text": "CRM, оплаты, Telegram и внешние API"
+      },
+      {
+        "icon": "schema",
+        "text": "Структура под трафик и SEO"
+      },
+      {
+        "icon": "dashboard_customize",
+        "text": "Админка для контента и заказов"
+      }
+    ],
+    "sla": "Ответ в течение дня",
+    "visual": {
+      "title": "Панель управления бизнесом",
+      "tabs": ["Storefront", "Orders", "Analytics"],
+      "metrics": [
+        {
+          "label": "Выручка",
+          "value": "+42%",
+          "delta": "после запуска",
+          "tone": "blue",
+          "points": [8, 14, 16, 22, 25, 31, 38]
+        },
+        {
+          "label": "Заказы",
+          "value": "1 248",
+          "delta": "+18% / мес",
+          "tone": "green",
+          "points": [10, 12, 18, 17, 24, 26, 32]
+        },
+        {
+          "label": "Конверсия",
+          "value": "9.4%",
+          "delta": "+2.6 п.п.",
+          "tone": "orange",
+          "points": [7, 11, 10, 16, 21, 20, 29]
+        }
+      ],
+      "integrations": [
+        {
+          "label": "Medusa",
+          "icon": "shopping_bag"
+        },
+        {
+          "label": "React",
+          "icon": "data_object"
+        },
+        {
+          "label": "Node.js",
+          "icon": "terminal"
+        },
+        {
+          "label": "PostgreSQL",
+          "icon": "database"
+        },
+        {
+          "label": "Stripe",
+          "icon": "payments"
+        },
+        {
+          "label": "Telegram",
+          "icon": "send"
+        },
+        {
+          "label": "Ещё",
+          "icon": "add_circle"
+        }
+      ],
+      "automations": [
+        {
+          "label": "Заказ → CRM и Telegram",
+          "value": "2 сек",
+          "status": "Активно",
+          "icon": "hub"
+        },
+        {
+          "label": "Оплата → чек и статус",
+          "value": "Live",
+          "status": "Активно",
+          "icon": "receipt_long"
+        },
+        {
+          "label": "UTM → аналитика и отчёт",
+          "value": "24/7",
+          "status": "Активно",
+          "icon": "monitoring"
+        }
+      ],
+      "sideCards": [
+        {
+          "icon": "rocket_launch",
+          "title": "Быстрый запуск",
+          "text": "Лендинг, сайт или MVP за понятные этапы"
+        },
+        {
+          "icon": "shield",
+          "title": "Надёжность",
+          "text": "React + Node архитектура без коробочных ограничений"
+        },
+        {
+          "icon": "trending_up",
+          "title": "Рост конверсии",
+          "text": "Оффер, структура и аналитика под заявки"
+        }
+      ]
+    }
   },
   "focus": {
     "index": "01 / Какие web-задачи закрываю",

@@ -1048,6 +1048,15 @@ function renderObjectArrayEditor(config) {
         return
       }
 
+      if (fieldConfig.type === "checkbox") {
+        body.appendChild(
+          checkboxInput(fieldConfig.label, Boolean(target[fieldConfig.key]), (value) => {
+            target[fieldConfig.key] = value
+          }),
+        )
+        return
+      }
+
       if (fieldConfig.type === "number") {
         body.appendChild(
           textInput(
@@ -1058,6 +1067,18 @@ function renderObjectArrayEditor(config) {
             },
             { type: "number" },
           ),
+        )
+        return
+      }
+
+      if (fieldConfig.type === "numberArray") {
+        body.appendChild(
+          textInput(fieldConfig.label, (target[fieldConfig.key] || []).join(", "), (value) => {
+            target[fieldConfig.key] = value
+              .split(",")
+              .map((entry) => Number(entry.trim()))
+              .filter((entry) => Number.isFinite(entry))
+          }),
         )
         return
       }
@@ -1104,6 +1125,159 @@ function checkboxInput(labelText, checked, onInput) {
     onchange: (event) => onInput(event.target.checked),
   })
   return el("label", { className: "admin-check" }, [input, el("span", { text: labelText })])
+}
+
+function createHeroTitlePart() {
+  return { text: "Новая часть заголовка", accent: false }
+}
+
+function createHeroBenefit() {
+  return { icon: "check_circle", text: "Преимущество" }
+}
+
+function createHeroMetric() {
+  return {
+    label: "Метрика",
+    value: "+24%",
+    delta: "за месяц",
+    tone: "blue",
+    points: [8, 14, 12, 20, 18, 28],
+  }
+}
+
+function createHeroIntegration() {
+  return { label: "Интеграция", icon: "extension" }
+}
+
+function createHeroAutomation() {
+  return { label: "Событие → действие", value: "Live", status: "Активно", icon: "rule" }
+}
+
+function createHeroSideCard() {
+  return { icon: "verified", title: "Преимущество", text: "Короткое описание" }
+}
+
+function renderHeroEditor(data) {
+  data.hero ||= { title: "", subtitle: "", tags: [], primaryAction: "", secondaryAction: "" }
+  data.hero.titleParts ||= [{ text: data.hero.title || "", accent: false }]
+  data.hero.benefits ||= []
+  data.hero.visual ||= {
+    title: "",
+    tabs: [],
+    metrics: [],
+    integrations: [],
+    automations: [],
+    sideCards: [],
+  }
+  data.hero.visual.tabs ||= []
+  data.hero.visual.metrics ||= []
+  data.hero.visual.integrations ||= []
+  data.hero.visual.automations ||= []
+  data.hero.visual.sideCards ||= []
+
+  return sectionBody([
+    el("div", { className: "admin-grid admin-grid--two" }, [
+      textInput("Fallback title", data.hero.title, (value) => (data.hero.title = value)),
+      textInput("Badge / pill", data.hero.badge || "", (value) => (data.hero.badge = value)),
+      textInput("Подзаголовок", data.hero.subtitle, (value) => (data.hero.subtitle = value)),
+      textInput("SLA строка", data.hero.sla || "", (value) => (data.hero.sla = value)),
+      textInput(
+        "Текст primary CTA",
+        data.hero.primaryAction,
+        (value) => (data.hero.primaryAction = value),
+      ),
+      textInput(
+        "Текст secondary CTA",
+        data.hero.secondaryAction,
+        (value) => (data.hero.secondaryAction = value),
+      ),
+    ]),
+    el("div", { className: "admin-nested" }, [
+      el("div", { className: "admin-section__label", text: "Title parts / акценты" }),
+      renderObjectArrayEditor({
+        title: "Часть заголовка",
+        items: data.hero.titleParts,
+        createItem: createHeroTitlePart,
+        fields: [
+          { key: "text", label: "Текст", type: "textarea" },
+          { key: "accent", label: "Синий accent", type: "checkbox" },
+        ],
+        itemTitle: (item, index) => item.text || `Часть ${index + 1}`,
+      }),
+    ]),
+    el("div", { className: "admin-nested" }, [
+      el("div", { className: "admin-section__label", text: "Chips" }),
+      renderStringArrayEditor("Чип", data.hero.tags),
+    ]),
+    el("div", { className: "admin-nested" }, [
+      el("div", { className: "admin-section__label", text: "Benefits" }),
+      renderObjectArrayEditor({
+        title: "Benefit",
+        items: data.hero.benefits,
+        createItem: createHeroBenefit,
+        fields: [
+          { key: "icon", label: "Иконка", type: "icon" },
+          { key: "text", label: "Текст", type: "text" },
+        ],
+        itemTitle: (item, index) => item.text || `Benefit ${index + 1}`,
+      }),
+    ]),
+    el("div", { className: "admin-nested admin-hero-visual-editor" }, [
+      el("div", { className: "admin-section__label", text: "Dashboard visual" }),
+      textInput(
+        "Visual title",
+        data.hero.visual.title || "",
+        (value) => (data.hero.visual.title = value),
+      ),
+      renderStringArrayEditor("Tab", data.hero.visual.tabs),
+      renderObjectArrayEditor({
+        title: "Metric",
+        items: data.hero.visual.metrics,
+        createItem: createHeroMetric,
+        fields: [
+          { key: "label", label: "Label", type: "text" },
+          { key: "value", label: "Value", type: "text" },
+          { key: "delta", label: "Delta", type: "text" },
+          { key: "tone", label: "Tone blue/green/orange/purple", type: "text" },
+          { key: "points", label: "Sparkline points", type: "numberArray" },
+        ],
+        itemTitle: (item, index) => item.label || `Metric ${index + 1}`,
+      }),
+      renderObjectArrayEditor({
+        title: "Integration",
+        items: data.hero.visual.integrations,
+        createItem: createHeroIntegration,
+        fields: [
+          { key: "icon", label: "Иконка", type: "icon" },
+          { key: "label", label: "Label", type: "text" },
+        ],
+        itemTitle: (item, index) => item.label || `Integration ${index + 1}`,
+      }),
+      renderObjectArrayEditor({
+        title: "Automation",
+        items: data.hero.visual.automations,
+        createItem: createHeroAutomation,
+        fields: [
+          { key: "icon", label: "Иконка", type: "icon" },
+          { key: "label", label: "Label", type: "text" },
+          { key: "value", label: "Value", type: "text" },
+          { key: "status", label: "Status", type: "text" },
+        ],
+        itemTitle: (item, index) => item.label || `Automation ${index + 1}`,
+      }),
+      renderObjectArrayEditor({
+        title: "Side card",
+        items: data.hero.visual.sideCards,
+        createItem: createHeroSideCard,
+        fields: [
+          { key: "icon", label: "Иконка", type: "icon" },
+          { key: "title", label: "Title", type: "text" },
+          { key: "text", label: "Text", type: "textarea" },
+        ],
+        itemTitle: (item, index) => item.title || `Side card ${index + 1}`,
+      }),
+    ]),
+  ])
 }
 
 function ensureWorksData(data) {
@@ -1369,23 +1543,7 @@ function buildHomeSections(data, options = {}) {
     {
       id: "hero",
       label: "Hero",
-      content: sectionBody([
-        el("div", { className: "admin-grid admin-grid--two" }, [
-          textInput("Заголовок", data.hero.title, (value) => (data.hero.title = value)),
-          textInput("Подзаголовок", data.hero.subtitle, (value) => (data.hero.subtitle = value)),
-          textInput(
-            "Текст primary CTA",
-            data.hero.primaryAction,
-            (value) => (data.hero.primaryAction = value),
-          ),
-          textInput(
-            "Текст secondary CTA",
-            data.hero.secondaryAction,
-            (value) => (data.hero.secondaryAction = value),
-          ),
-        ]),
-        renderStringArrayEditor("Тег", data.hero.tags),
-      ]),
+      content: renderHeroEditor(data),
     },
     {
       id: "focus",

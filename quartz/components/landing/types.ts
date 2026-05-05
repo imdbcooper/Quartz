@@ -1,10 +1,60 @@
 // Shared types for all landing page components.
 // Edit the JSON files in quartz/static/data/ to change content.
 
+export interface HeroTitlePart {
+  text: string
+  accent?: boolean
+}
+
+export interface HeroBenefit {
+  icon?: string
+  text: string
+}
+
+export interface HeroVisualMetric {
+  label: string
+  value: string
+  delta?: string
+  tone?: string
+  points?: number[]
+}
+
+export interface HeroVisualIntegration {
+  label: string
+  icon?: string
+}
+
+export interface HeroVisualAutomation {
+  label: string
+  value?: string
+  status?: string
+  icon?: string
+}
+
+export interface HeroVisualSideCard {
+  icon?: string
+  title: string
+  text: string
+}
+
+export interface HeroVisualConfig {
+  title?: string
+  tabs?: string[]
+  metrics?: HeroVisualMetric[]
+  integrations?: HeroVisualIntegration[]
+  automations?: HeroVisualAutomation[]
+  sideCards?: HeroVisualSideCard[]
+}
+
 export interface HeroConfig {
   title: string
   subtitle: string
   tags: string[]
+  badge?: string
+  titleParts?: HeroTitlePart[]
+  benefits?: HeroBenefit[]
+  sla?: string
+  visual?: HeroVisualConfig
   primaryAction: {
     text: string
     type: "callback" | "link"

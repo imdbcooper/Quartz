@@ -128,6 +128,86 @@ function optionalLayoutArray(value: unknown, fieldName: string, allowed: Set<str
   })
 }
 
+function validateHeroVisual(data: JsonObject, fieldName: string) {
+  optionalString(data.title, fieldName + ".title")
+  if (data.tabs !== undefined) ensureStringArray(data.tabs, fieldName + ".tabs")
+
+  if (data.metrics !== undefined) {
+    ensureObjectArray(data.metrics, fieldName + ".metrics")
+    data.metrics.forEach((metric: JsonObject, index: number) => {
+      ensureString(metric.label, fieldName + ".metrics[" + index + "].label")
+      ensureString(metric.value, fieldName + ".metrics[" + index + "].value")
+      optionalString(metric.delta, fieldName + ".metrics[" + index + "].delta")
+      optionalString(metric.tone, fieldName + ".metrics[" + index + "].tone")
+      if (metric.points !== undefined) {
+        ensure(
+          Array.isArray(metric.points),
+          fieldName + ".metrics[" + index + "].points must be an array",
+        )
+        metric.points.forEach((point: unknown, pointIndex: number) =>
+          ensure(
+            typeof point === "number",
+            fieldName + ".metrics[" + index + "].points[" + pointIndex + "] must be a number",
+          ),
+        )
+      }
+    })
+  }
+
+  if (data.integrations !== undefined) {
+    ensureObjectArray(data.integrations, fieldName + ".integrations")
+    data.integrations.forEach((item: JsonObject, index: number) => {
+      ensureString(item.label, fieldName + ".integrations[" + index + "].label")
+      optionalString(item.icon, fieldName + ".integrations[" + index + "].icon")
+    })
+  }
+
+  if (data.automations !== undefined) {
+    ensureObjectArray(data.automations, fieldName + ".automations")
+    data.automations.forEach((item: JsonObject, index: number) => {
+      ensureString(item.label, fieldName + ".automations[" + index + "].label")
+      optionalString(item.value, fieldName + ".automations[" + index + "].value")
+      optionalString(item.status, fieldName + ".automations[" + index + "].status")
+      optionalString(item.icon, fieldName + ".automations[" + index + "].icon")
+    })
+  }
+
+  if (data.sideCards !== undefined) {
+    ensureObjectArray(data.sideCards, fieldName + ".sideCards")
+    data.sideCards.forEach((item: JsonObject, index: number) => {
+      ensureString(item.title, fieldName + ".sideCards[" + index + "].title")
+      ensureString(item.text, fieldName + ".sideCards[" + index + "].text")
+      optionalString(item.icon, fieldName + ".sideCards[" + index + "].icon")
+    })
+  }
+}
+
+function validateHeroOptionalFields(hero: JsonObject, fieldName: string) {
+  optionalString(hero.badge, fieldName + ".badge")
+  optionalString(hero.sla, fieldName + ".sla")
+
+  if (hero.titleParts !== undefined) {
+    ensureObjectArray(hero.titleParts, fieldName + ".titleParts")
+    hero.titleParts.forEach((part: JsonObject, index: number) => {
+      ensureString(part.text, fieldName + ".titleParts[" + index + "].text")
+      optionalBoolean(part.accent, fieldName + ".titleParts[" + index + "].accent")
+    })
+  }
+
+  if (hero.benefits !== undefined) {
+    ensureObjectArray(hero.benefits, fieldName + ".benefits")
+    hero.benefits.forEach((benefit: JsonObject, index: number) => {
+      ensureString(benefit.text, fieldName + ".benefits[" + index + "].text")
+      optionalString(benefit.icon, fieldName + ".benefits[" + index + "].icon")
+    })
+  }
+
+  if (hero.visual !== undefined) {
+    ensure(isPlainObject(hero.visual), fieldName + ".visual must be an object")
+    validateHeroVisual(hero.visual, fieldName + ".visual")
+  }
+}
+
 function homeVariantPath(slug: string) {
   return path.join(DATA_DIR, `home.${slug}.json`)
 }
@@ -176,6 +256,7 @@ function validateHomeContent(
     if (!partial || data.hero.secondaryAction !== undefined) {
       ensureString(data.hero.secondaryAction, "home.hero.secondaryAction")
     }
+    validateHeroOptionalFields(data.hero, "home.hero")
   }
 
   if (!partial || data.focus !== undefined) {

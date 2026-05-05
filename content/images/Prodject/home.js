@@ -462,6 +462,185 @@ function initHome() {
     })
   }
 
+  function createTextSpan(text, className) {
+    const span = document.createElement("span")
+    if (className) span.className = className
+    span.textContent = typeof text === "string" ? text : ""
+    return span
+  }
+
+  function renderHeroTitle(data) {
+    const title = document.querySelector("[data-home-hero-title]")
+    if (!title) return
+
+    const parts =
+      Array.isArray(data.hero?.titleParts) && data.hero.titleParts.length > 0
+        ? data.hero.titleParts
+        : [{ text: typeof data.hero?.title === "string" ? data.hero.title : "" }]
+
+    title.innerHTML = ""
+    parts.forEach((part) => {
+      title.appendChild(
+        createTextSpan(
+          typeof part.text === "string" ? part.text : "",
+          part.accent ? "central-hero__title-accent" : "",
+        ),
+      )
+    })
+  }
+
+  function renderHeroBenefits(data) {
+    const list = document.querySelector("[data-home-hero-benefits]")
+    if (!list || !Array.isArray(data.hero?.benefits)) return
+
+    list.innerHTML = ""
+    data.hero.benefits.forEach((benefit) => {
+      const item = document.createElement("div")
+      item.className = "central-hero__benefit"
+      item.appendChild(createHeroIcon(benefit.icon || "check_circle", "central-hero__benefit-icon"))
+      item.appendChild(createTextSpan(typeof benefit.text === "string" ? benefit.text : ""))
+      list.appendChild(item)
+    })
+  }
+
+  function renderHeroVisualTabs(visual) {
+    const list = document.querySelector("[data-home-hero-visual-tabs]")
+    if (!list || !Array.isArray(visual?.tabs)) return
+
+    list.innerHTML = ""
+    visual.tabs.forEach((tab, index) => {
+      list.appendChild(createTextSpan(String(tab), index === 0 ? "is-active" : ""))
+    })
+  }
+
+  function getSparklinePoints(metric) {
+    const points =
+      Array.isArray(metric.points) && metric.points.length > 1
+        ? metric.points
+        : [8, 14, 12, 20, 18, 28]
+    const min = Math.min(...points)
+    const max = Math.max(...points)
+    const range = Math.max(max - min, 1)
+    const step = 120 / Math.max(points.length - 1, 1)
+    return points
+      .map((point, index) => {
+        const x = Math.round(index * step)
+        const y = Math.round(42 - ((point - min) / range) * 34)
+        return x + "," + y
+      })
+      .join(" ")
+  }
+
+  function renderHeroVisualMetrics(visual) {
+    const list = document.querySelector("[data-home-hero-visual-metrics]")
+    if (!list || !Array.isArray(visual?.metrics)) return
+
+    list.innerHTML = ""
+    visual.metrics.forEach((metric) => {
+      const article = document.createElement("article")
+      article.className = "hero-metric hero-metric--" + (metric.tone || "blue")
+
+      const text = document.createElement("div")
+      text.appendChild(createTextSpan(metric.label))
+      const value = document.createElement("strong")
+      value.textContent = typeof metric.value === "string" ? metric.value : ""
+      text.appendChild(value)
+      if (typeof metric.delta === "string") {
+        const delta = document.createElement("em")
+        delta.textContent = metric.delta
+        text.appendChild(delta)
+      }
+
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+      svg.setAttribute("viewBox", "0 0 120 48")
+      svg.setAttribute("role", "img")
+      svg.setAttribute("aria-label", "График: " + (metric.label || "метрика"))
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "polyline")
+      line.setAttribute("points", getSparklinePoints(metric))
+      svg.appendChild(line)
+
+      article.appendChild(text)
+      article.appendChild(svg)
+      list.appendChild(article)
+    })
+  }
+
+  function renderHeroVisualIntegrations(visual) {
+    const list = document.querySelector("[data-home-hero-visual-integrations]")
+    if (!list || !Array.isArray(visual?.integrations)) return
+
+    list.innerHTML = ""
+    visual.integrations.forEach((integration) => {
+      const item = document.createElement("span")
+      item.appendChild(createHeroIcon(integration.icon || "extension", "hero-integrations__icon"))
+      item.appendChild(createTextSpan(integration.label))
+      list.appendChild(item)
+    })
+  }
+
+  function renderHeroVisualAutomations(visual) {
+    const list = document.querySelector("[data-home-hero-visual-automations]")
+    if (!list || !Array.isArray(visual?.automations)) return
+
+    list.innerHTML = ""
+    visual.automations.forEach((automation) => {
+      const item = document.createElement("div")
+      item.className = "hero-automation"
+      item.appendChild(createHeroIcon(automation.icon || "rule", "hero-automation__icon"))
+
+      const text = document.createElement("div")
+      const label = document.createElement("strong")
+      label.textContent = typeof automation.label === "string" ? automation.label : ""
+      text.appendChild(label)
+      if (typeof automation.value === "string") {
+        const value = document.createElement("small")
+        value.textContent = automation.value
+        text.appendChild(value)
+      }
+      item.appendChild(text)
+
+      const status = document.createElement("em")
+      status.textContent = typeof automation.status === "string" ? automation.status : "Активно"
+      item.appendChild(status)
+      list.appendChild(item)
+    })
+  }
+
+  function renderHeroSideCards(visual) {
+    const list = document.querySelector("[data-home-hero-side-cards]")
+    if (!list || !Array.isArray(visual?.sideCards)) return
+
+    list.innerHTML = ""
+    visual.sideCards.forEach((card) => {
+      const article = document.createElement("article")
+      article.className = "hero-side-card"
+      article.appendChild(createHeroIcon(card.icon || "verified", "hero-side-card__icon"))
+
+      const text = document.createElement("div")
+      const title = document.createElement("strong")
+      title.textContent = typeof card.title === "string" ? card.title : ""
+      const desc = document.createElement("p")
+      desc.textContent = typeof card.text === "string" ? card.text : ""
+      text.appendChild(title)
+      text.appendChild(desc)
+      article.appendChild(text)
+      list.appendChild(article)
+    })
+  }
+
+  function renderHero(data) {
+    renderHeroTitle(data)
+    renderHeroTags(data)
+    renderHeroBenefits(data)
+    if (data.hero?.visual) {
+      renderHeroVisualTabs(data.hero.visual)
+      renderHeroVisualMetrics(data.hero.visual)
+      renderHeroVisualIntegrations(data.hero.visual)
+      renderHeroVisualAutomations(data.hero.visual)
+      renderHeroSideCards(data.hero.visual)
+    }
+  }
+
   function renderFooterLinks(data) {
     const footerLinks = document.querySelector("[data-home-footer-links]")
     if (!footerLinks || !Array.isArray(data.footer?.links)) return
@@ -473,6 +652,76 @@ function initHome() {
       a.textContent = typeof link.text === "string" ? link.text : ""
       footerLinks.appendChild(a)
     })
+  }
+
+  const heroIconAliases = {
+    add_circle: "plus",
+    ads_click: "target",
+    arrow_forward: "arrow",
+    auto_awesome: "spark",
+    check_circle: "check",
+    dashboard_customize: "dashboard",
+    data_object: "code",
+    database: "database",
+    hub: "nodes",
+    integration_instructions: "code",
+    monitoring: "chart",
+    notifications: "bell",
+    payments: "card",
+    psychology: "spark",
+    receipt_long: "receipt",
+    rocket_launch: "rocket",
+    rule: "check",
+    schedule: "clock",
+    schema: "nodes",
+    send: "send",
+    shield: "shield",
+    shopping_bag: "bag",
+    terminal: "terminal",
+    trending_up: "chart",
+    verified: "check",
+  }
+
+  const heroIconPaths = {
+    arrow: "M5 12h12m-5-5 5 5-5 5",
+    bag: "M7 9h10l-.8 9H7.8L7 9Zm3 0V7a2 2 0 0 1 4 0v2",
+    bell: "M7 17h10l-1.2-2.2V11a3.8 3.8 0 0 0-7.6 0v3.8L7 17Zm3.4 1.7a2 2 0 0 0 3.2 0",
+    card: "M4 8.5h16v8H4v-8Zm0 2.6h16M7 14.5h3.2",
+    chart: "M4.5 17.5 9 13l3 2.4 6.5-8.1m-4.6.2h4.6v4.6",
+    check: "m5 12.5 4.2 4.1L19 7",
+    clock: "M12 4.5a7.5 7.5 0 1 0 0 15 7.5 7.5 0 0 0 0-15Zm0 3.4v4.4l3 1.8",
+    code: "m9 8-4 4 4 4m6-8 4 4-4 4m-2-9-2 10",
+    dashboard: "M5 6h6v5H5V6Zm8 0h6v3h-6V6ZM5 13h6v5H5v-5Zm8-2h6v7h-6v-7Z",
+    database:
+      "M5 7c0-1.4 3.1-2.5 7-2.5S19 5.6 19 7s-3.1 2.5-7 2.5S5 8.4 5 7Zm0 0v5c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5V7M5 12v5c0 1.4 3.1 2.5 7 2.5s7-1.1 7-2.5v-5",
+    nodes:
+      "M7 8a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm10 13a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5ZM7 21a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Zm2.1-4.1 5.8-9.8M9.3 7.2l5.4 9.6",
+    plus: "M12 5v14M5 12h14",
+    receipt: "M7 4.5h10v15l-2-1.2-2 1.2-2-1.2-2 1.2-2-1.2v-15Zm3 5h4m-4 4h5",
+    rocket:
+      "M8.4 15.6 5 19l4.8-1.4m4.8-2 1.4-4.8L19 5l-5.8 3-4.8 1.4-3 3 4.1 2.1 2.1 4.1 3-3Zm-1.1-5.1 2 2",
+    send: "m4.5 5.5 15 6.5-15 6.5 2-5.1L13 12 6.5 10.6l-2-5.1Z",
+    shield: "M12 4.5 18 7v4.7c0 3.5-2.4 6.3-6 7.8-3.6-1.5-6-4.3-6-7.8V7l6-2.5Zm-3 7.4 2.1 2.1 4-4",
+    spark:
+      "M12 3.8 13.8 9l5.4 1.8-5.4 1.8L12 18l-1.8-5.4-5.4-1.8L10.2 9 12 3.8Zm5 10.6.8 2.2 2.2.8-2.2.8-.8 2.2-.8-2.2-2.2-.8 2.2-.8.8-2.2Z",
+    target: "M12 4.5a7.5 7.5 0 1 0 7.5 7.5M12 8a4 4 0 1 0 4 4m-4 0 7-7m-3.5 0H19v3.5",
+    terminal: "M5 6.5h14v11H5v-11Zm3 3 2.5 2.5L8 14.5m4.2 0H16",
+  }
+
+  function createHeroIcon(iconName, className = "") {
+    const kind = heroIconAliases[iconName] || "spark"
+    const icon = document.createElement("span")
+    icon.className = ["hero-icon", "hero-icon--" + kind, className].filter(Boolean).join(" ")
+    icon.setAttribute("aria-hidden", "true")
+
+    const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+    svg.setAttribute("viewBox", "0 0 24 24")
+    svg.setAttribute("focusable", "false")
+    const path = document.createElementNS("http://www.w3.org/2000/svg", "path")
+    path.setAttribute("d", heroIconPaths[kind] || heroIconPaths.spark)
+    svg.appendChild(path)
+    icon.appendChild(svg)
+    return icon
   }
 
   function createMaterialIcon(iconName) {
@@ -630,7 +879,7 @@ function initHome() {
     renderFocusCards(data)
     renderServices(data)
     renderFaq(data)
-    renderHeroTags(data)
+    renderHero(data)
     renderFooterLinks(data)
     renderWorks(data)
 

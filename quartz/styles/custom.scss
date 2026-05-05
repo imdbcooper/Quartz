@@ -26,117 +26,44 @@
 // Landing Page Styles
 // ============================================
 
-// Central block (home)
-.central-hero {
-  position: relative;
-  margin-bottom: 0;
-  padding: 48px;
-  border-radius: 5px;
-  border: 1px solid #27272a;
-  background:
-    radial-gradient(circle at 2px 2px, rgba(96, 165, 250, 0.05) 1px, transparent 0) 0 0 / 24px 24px,
-    #161618;
-  overflow: hidden;
-  text-align: center;
-  box-shadow:
-    rgba(0, 0, 0, 0.1) 0px 20px 25px -5px,
-    rgba(0, 0, 0, 0.1) 0px 8px 10px -6px;
+// Central block (home) styles are registered by quartz/components/styles/landingHero.scss.
+
+body[data-slug="index"] .page {
+  max-width: min(100vw, 1440px);
 }
 
-.central-hero__glow {
-  position: absolute;
-  border-radius: 999px;
-  pointer-events: none;
+body[data-slug="index"] #quartz-body {
+  grid-template-columns: 0 minmax(0, 1fr) 0 !important;
+  grid-template-areas:
+    "grid-sidebar-left grid-header grid-sidebar-right"
+    "grid-sidebar-left grid-center grid-sidebar-right"
+    "grid-sidebar-left grid-footer grid-sidebar-right" !important;
+  column-gap: 0 !important;
 }
 
-.central-hero__glow--right {
-  top: -6rem;
-  right: -6rem;
-  width: 24rem;
-  height: 24rem;
-  background: color-mix(in srgb, var(--secondary) 14%, transparent);
-  filter: blur(100px);
+body[data-slug="index"] #quartz-body > .left.sidebar,
+body[data-slug="index"] #quartz-body > .right.sidebar {
+  display: none !important;
 }
 
-.central-hero__glow--left {
-  left: -6rem;
-  bottom: -6rem;
-  width: 16rem;
-  height: 16rem;
-  background: color-mix(in srgb, var(--secondary) 8%, transparent);
-  filter: blur(80px);
+body[data-slug="index"] #quartz-body > .center {
+  width: min(100%, 1360px);
+  min-width: 0;
+  margin-inline: auto;
+  padding-inline: clamp(16px, 3vw, 40px);
+  box-sizing: border-box;
 }
 
-.central-hero__glow--center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 128px;
-  height: 128px;
-  background: rgba(96, 165, 250, 0.2);
-  filter: blur(64px);
-  border-radius: 999px;
-  pointer-events: none;
+body[data-slug="index"] #quartz-body .page-header {
+  margin-top: clamp(18px, 3vw, 34px);
 }
 
-.central-hero__content {
-  position: relative;
-  z-index: 1;
-  max-width: 42rem;
-  margin: 0 auto;
+body[data-slug="index"] #quartz-body .page-header .popover-hint,
+body[data-slug="index"] #quartz-body .home-central,
+body[data-slug="index"] #quartz-body .central-hero {
+  min-width: 0;
 }
 
-#quartz-body .home-central .central-hero h2 {
-  margin: 0 auto 24px !important;
-  max-width: 672px !important; // Forces 2-line wrap at standard widths
-  font-family: "Inter", sans-serif !important;
-  font-size: 30px !important;
-  font-weight: 700 !important;
-  line-height: 36px !important;
-  letter-spacing: -0.75px !important;
-  color: #ffffff !important;
-}
-
-#quartz-body .home-central .central-hero .central-hero__subtitle {
-  margin: 0 0 32px !important;
-  font-family: "Inter", sans-serif !important;
-  font-size: 14px !important;
-  line-height: 20px !important;
-  color: #9ca3af !important;
-  font-weight: 500 !important;
-}
-
-#quartz-body .home-central .central-hero .central-hero__tags {
-  margin: 0 0 2.25rem !important;
-  padding: 0 !important;
-  list-style: none !important;
-  display: flex !important;
-  flex-wrap: wrap !important;
-  justify-content: center !important;
-  gap: 0.5rem !important;
-}
-
-#quartz-body .home-central .central-hero .tag-capsule {
-  display: inline-block !important;
-  padding: 6px 16px !important;
-  border-radius: 9999px !important;
-  border: 1px solid #27272a !important;
-  background: rgba(39, 39, 42, 0.5) !important;
-  font-family: "Inter", sans-serif !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
-  color: #9ca3af !important;
-}
-
-.central-hero__actions {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-#quartz-body .home-central .central-hero .central-hero__cta,
 #quartz-body .home-central .home-contact-cta .home-contact-cta__callback-button {
   display: inline-flex !important;
   align-items: center !important;
@@ -153,46 +80,6 @@
   font-weight: 700 !important;
   transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1) !important;
   gap: 10px !important;
-}
-
-.central-hero__cta {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  background: linear-gradient(
-    120deg,
-    #ffcc7a 0%,
-    #ff9f43 38%,
-    #ff8a1f 65%,
-    #ffbf6b 100%
-  ) !important;
-  background-size: 220% 220%;
-  animation: callback-gradient-shift 3.2s ease-in-out infinite;
-  color: #2a1202 !important;
-  border: 1px solid transparent;
-  cursor: pointer;
-  box-shadow:
-    rgba(251, 146, 60, 0.3) 0px 14px 24px -6px,
-    rgba(251, 146, 60, 0.2) 0px 6px 12px -6px;
-
-  &::before {
-    content: "";
-    position: absolute;
-    top: -140%;
-    left: -40%;
-    width: 45%;
-    height: 380%;
-    background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.56), transparent);
-    transform: rotate(18deg);
-    animation: callback-shine 2.8s linear infinite;
-    pointer-events: none;
-    opacity: 0.82;
-  }
-
-  &:hover {
-    transform: translateY(-1px);
-    filter: saturate(1.06) brightness(1.03);
-  }
 }
 
 .home-contact-cta__callback-button {
@@ -233,55 +120,6 @@
   &:hover {
     transform: translateY(-1px);
     filter: saturate(1.06) brightness(1.03);
-  }
-}
-
-.central-hero__secondary {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 1.15rem;
-  color: #9ca3af !important;
-  text-decoration: none !important;
-  font-size: 0.94rem;
-  font-weight: 600;
-  line-height: 1.4;
-  transition:
-    color 0.18s ease,
-    transform 0.18s ease;
-
-  &:hover {
-    color: #f4f4f5 !important;
-    transform: translateY(-1px);
-  }
-}
-
-@media (max-width: 600px) {
-  .central-hero {
-    padding: 1.4rem 1rem;
-  }
-
-  .central-hero__actions {
-    display: flex;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-  }
-
-  #quartz-body .home-central .central-hero .central-hero__cta {
-    display: flex !important;
-    width: 100% !important;
-    max-width: 100% !important;
-  }
-
-  .central-hero__cta {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .central-hero__secondary {
-    margin-top: 0.95rem;
-    font-size: 0.88rem;
   }
 }
 

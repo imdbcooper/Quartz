@@ -2,11 +2,137 @@
   "schemaVersion": 1,
   "pageLayout": ["hero", "focus", "services", "works", "faq", "contact"],
   "hero": {
-    "title": "Автоматизирую продажи, заявки и внутренние процессы с помощью Telegram, web и AI",
-    "subtitle": "20+ реализованных проектов • 3 года практики • От брифа до запуска за 2–6 недель",
-    "tags": ["Telegram Mini Apps", "Автоматизация процессов", "AI-интеграции"],
-    "primaryAction": "Обсудить проект",
-    "secondaryAction": "Все контакты"
+    "title": "Цифровые продукты для заявок, продаж и автоматизации бизнеса",
+    "subtitle": "Проектирую и разрабатываю лендинги, корпоративные сайты, интернет-магазины, Telegram-ботов, админки и React + Node приложения с CRM, оплатами, аналитикой и AI-интеграциями.",
+    "tags": ["Сайт под ключ", "React + Node", "CRM / оплаты / API", "Аналитика и SEO"],
+    "primaryAction": "Обсудить проект →",
+    "secondaryAction": "Смотреть кейсы",
+    "badge": "Разработка, которая работает на бизнес",
+    "titleParts": [
+      {
+        "text": "Запускаю сайты, сервисы и автоматизации, которые "
+      },
+      {
+        "text": "приводят заявки",
+        "accent": true
+      },
+      {
+        "text": " и ускоряют продажи"
+      }
+    ],
+    "benefits": [
+      {
+        "icon": "rocket_launch",
+        "text": "Быстрый запуск MVP и первых заявок"
+      },
+      {
+        "icon": "hub",
+        "text": "Интеграции с CRM, оплатами и API"
+      },
+      {
+        "icon": "schema",
+        "text": "Продуманная структура под рост"
+      },
+      {
+        "icon": "dashboard_customize",
+        "text": "Удобная админка для команды"
+      }
+    ],
+    "sla": "Ответ в течение дня",
+    "visual": {
+      "title": "Панель управления бизнесом",
+      "tabs": ["Overview", "Leads", "Revenue"],
+      "metrics": [
+        {
+          "label": "Выручка",
+          "value": "+34%",
+          "delta": "за 30 дней",
+          "tone": "blue",
+          "points": [10, 16, 13, 22, 19, 30, 36]
+        },
+        {
+          "label": "Заказы",
+          "value": "1 248",
+          "delta": "+18%",
+          "tone": "green",
+          "points": [12, 10, 18, 16, 25, 23, 31]
+        },
+        {
+          "label": "Конверсия",
+          "value": "8.7%",
+          "delta": "+2.1 п.п.",
+          "tone": "orange",
+          "points": [8, 12, 11, 17, 20, 18, 26]
+        }
+      ],
+      "integrations": [
+        {
+          "label": "Medusa",
+          "icon": "shopping_bag"
+        },
+        {
+          "label": "React",
+          "icon": "data_object"
+        },
+        {
+          "label": "Node.js",
+          "icon": "terminal"
+        },
+        {
+          "label": "PostgreSQL",
+          "icon": "database"
+        },
+        {
+          "label": "Stripe",
+          "icon": "payments"
+        },
+        {
+          "label": "Telegram",
+          "icon": "send"
+        },
+        {
+          "label": "Ещё",
+          "icon": "add_circle"
+        }
+      ],
+      "automations": [
+        {
+          "label": "Новая заявка → CRM",
+          "value": "2 сек",
+          "status": "Активно",
+          "icon": "hub"
+        },
+        {
+          "label": "Оплата → чек и уведомление",
+          "value": "Live",
+          "status": "Активно",
+          "icon": "receipt_long"
+        },
+        {
+          "label": "Менеджер → Telegram",
+          "value": "24/7",
+          "status": "Активно",
+          "icon": "notifications"
+        }
+      ],
+      "sideCards": [
+        {
+          "icon": "rocket_launch",
+          "title": "Быстрый запуск",
+          "text": "MVP и первые заявки без лишних этапов"
+        },
+        {
+          "icon": "shield",
+          "title": "Надёжность",
+          "text": "Архитектура, роли и контроль данных"
+        },
+        {
+          "icon": "trending_up",
+          "title": "Рост конверсии",
+          "text": "Структура, аналитика и CTA под решение"
+        }
+      ]
+    }
   },
   "focus": {
     "index": "01 / Какие задачи решаю",
@@ -110,10 +236,22 @@
           }
         ],
         "nav": [
-          { "icon": "hub", "label": "Audio-Scribe" },
-          { "icon": "folder_open", "label": "folder" },
-          { "icon": "edit_note", "label": "edit" },
-          { "icon": "swap_horiz", "label": "swap" }
+          {
+            "icon": "hub",
+            "label": "Audio-Scribe"
+          },
+          {
+            "icon": "folder_open",
+            "label": "folder"
+          },
+          {
+            "icon": "edit_note",
+            "label": "edit"
+          },
+          {
+            "icon": "swap_horiz",
+            "label": "swap"
+          }
         ],
         "cards": [
           {

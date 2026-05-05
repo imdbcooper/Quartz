@@ -901,6 +901,16 @@ select {
   background: rgba(255, 255, 255, 0.42);
 }
 
+.admin-hero-visual-editor {
+  gap: 18px;
+}
+
+.admin-hero-visual-editor > .admin-stack,
+.admin-hero-visual-editor > .admin-array,
+.admin-hero-visual-editor > .admin-field {
+  min-width: 0;
+}
+
 .admin-palette {
   display: flex;
   flex-wrap: wrap;
