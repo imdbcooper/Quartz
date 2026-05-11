@@ -243,23 +243,17 @@ export function renderPage(
 
   const LeftComponent = (
     <div class="left sidebar">
-      {left.map((BodyComponent) => {
-        console.log(
-          `[SSR] Rendering LEFT component: ${BodyComponent.displayName || "Unknown"} (Slug: ${slug})`,
-        )
-        return <BodyComponent {...componentData} />
-      })}
+      {left.map((BodyComponent) => (
+        <BodyComponent {...componentData} />
+      ))}
     </div>
   )
 
   const RightComponent = (
     <div class="right sidebar">
-      {right.map((BodyComponent) => {
-        console.log(
-          `[SSR] Rendering RIGHT component: ${BodyComponent.displayName || "Unknown"} (Slug: ${slug})`,
-        )
-        return <BodyComponent {...componentData} />
-      })}
+      {right.map((BodyComponent) => (
+        <BodyComponent {...componentData} />
+      ))}
     </div>
   )
 

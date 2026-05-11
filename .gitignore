@@ -6,7 +6,8 @@ prof
 tsconfig.tsbuildinfo
 .obsidian
 .quartz-cache
-.kilocode/skills/
+.kilocode/mcp.json
+.kilocode/skills/generated-images/
 private/
 .replit
 replit.nix

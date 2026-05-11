@@ -155,10 +155,10 @@ description: Используй, когда агенту нужно быстро
 Читать по необходимости:
 
 - `AGENTS.md` — правила работы с репозиторием.
-- `Landing_Page_Management.md` — управление landing-страницами.
-- `Multicontent_Admin_User_Guide.md` — пользовательская инструкция админки.
-- `Multicontent_Implementation_Guide.md` — детали реализации мультиконтента.
-- `Multicontent_Landing_Plan.md` — план/история внедрения мультиконтента.
+- `docs/multicontent-admin/landing-page-management.md` — управление landing-страницами.
+- `docs/multicontent-admin/user-guide.md` — пользовательская инструкция админки.
+- `docs/multicontent-admin/implementation-guide.md` — детали реализации мультиконтента.
+- `docs/multicontent-admin/landing-plan.md` — план/история внедрения мультиконтента.
 - `docs/home-central-integration.md` — интеграция центральных данных главной.
 
 ## Зоны внимания
@@ -166,7 +166,7 @@ description: Используй, когда агенту нужно быстро
 Перед выводами и изменениями учитывай:
 
 - `AGENTS.md` и `quartz.config.ts` могут расходиться по `baseUrl` и шрифтам; фактическую конфигурацию проверяй в `quartz.config.ts`.
-- `Multicontent_Landing_Plan.md` исторический: используй как контекст, а не как единственный источник истины.
+- `docs/multicontent-admin/landing-plan.md` исторический: используй как контекст, а не как единственный источник истины.
 - `content/images/Prodject/data.json` выглядит legacy; не считай его актуальным без проверки подключений.
 - `content/images/Prodject/contacts.json` выглядит legacy; текущие контакты идут из `quartz/static/data/contacts.json`.
 - `content/images/Prodject/contacts.js` старый и не подключён текущей страницей контактов.

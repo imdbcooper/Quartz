@@ -3,7 +3,7 @@
     "stitch": {
       "type": "streamable-http",
       "url": "https://stitch.googleapis.com/mcp",
-      "headers": { "X-Goog-Api-Key": "AQ.Ab8RN6LIJ45c2rjjOoRVcX7wmlcBoVO2GODKAsxNtmngndwARg" },
+      "headers": { "X-Goog-Api-Key": "YOUR_GOOGLE_STITCH_API_KEY_HERE" },
       "disabled": true,
       "alwaysAllow": []
     },

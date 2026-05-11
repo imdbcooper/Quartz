@@ -594,4 +594,4 @@ http://localhost:8080/
 
 Если нужно техническое описание системы, смотри:
 
-`Multicontent_Implementation_Guide.md`
+`docs/multicontent-admin/implementation-guide.md`
