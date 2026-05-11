@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "stitch": {
+      "type": "streamable-http",
+      "url": "https://stitch.googleapis.com/mcp",
+      "headers": { "X-Goog-Api-Key": "YOUR_GOOGLE_STITCH_API_KEY_HERE" },
+      "disabled": true,
+      "alwaysAllow": []
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"],
+      "disabled": false,
+      "alwaysAllow": []
+    }
+  }
+}

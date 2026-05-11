@@ -1,0 +1,221 @@
+// Shared types for all landing page components.
+// Edit the JSON files in quartz/static/data/ to change content.
+
+export interface HeroTitlePart {
+  text: string
+  accent?: boolean
+}
+
+export interface HeroBenefit {
+  icon?: string
+  text: string
+}
+
+export interface HeroVisualMetric {
+  label: string
+  value: string
+  delta?: string
+  tone?: string
+  points?: number[]
+}
+
+export interface HeroVisualIntegration {
+  label: string
+  icon?: string
+}
+
+export interface HeroVisualAutomation {
+  label: string
+  value?: string
+  status?: string
+  icon?: string
+}
+
+export interface HeroVisualSideCard {
+  icon?: string
+  title: string
+  text: string
+}
+
+export interface HeroVisualConfig {
+  title?: string
+  tabs?: string[]
+  metrics?: HeroVisualMetric[]
+  integrations?: HeroVisualIntegration[]
+  automations?: HeroVisualAutomation[]
+  sideCards?: HeroVisualSideCard[]
+}
+
+export interface HeroConfig {
+  title: string
+  subtitle: string
+  tags: string[]
+  badge?: string
+  titleParts?: HeroTitlePart[]
+  benefits?: HeroBenefit[]
+  sla?: string
+  visual?: HeroVisualConfig
+  primaryAction: {
+    text: string
+    type: "callback" | "link"
+    href?: string
+    icon?: string
+  }
+  secondaryAction?: {
+    text: string
+    href: string
+  }
+}
+
+export interface ContactsHeroConfig {
+  title: string
+  subtitle: string
+  tags: string[]
+  tgLink: string
+}
+
+export interface FocusCard {
+  icon: string
+  iconVariant: string
+  iconColor?: string
+  title: string
+  desc: string
+  resultIcon: string
+  resultText: string
+}
+
+export interface FocusConfig {
+  index: string
+  title: string
+  cards: FocusCard[]
+}
+
+export interface ServiceItem {
+  icon: string
+  iconVariant?: string
+  iconColor?: string
+  title: string
+  backText: string
+}
+
+export interface ServicesConfig {
+  index: string
+  title: string
+  items: ServiceItem[]
+}
+
+export interface WorkSlide {
+  dark: string
+  light: string
+  alt?: string
+  width?: number
+  height?: number
+}
+
+export interface WorkNavItem {
+  icon: string
+  label: string
+}
+
+export interface WorkCard {
+  variant: string
+  cornerIcon?: string
+  labelIcon?: string
+  label: string
+  title: string
+  description: string
+}
+
+export interface WorkItem {
+  id: string
+  badge: string
+  title: string
+  active?: boolean
+  slides: WorkSlide[]
+  nav: WorkNavItem[]
+  cards: WorkCard[]
+}
+
+export interface WorksConfig {
+  index: string
+  title: string
+  items?: WorkItem[]
+}
+
+export interface FaqItem {
+  question: string
+  answer: string
+}
+
+export interface FaqConfig {
+  index: string
+  title: string
+  items: FaqItem[]
+}
+
+export interface ContactCtaConfig {
+  title: string
+  subtitle: string
+  callbackTitle?: string
+  callbackDesc?: string
+  callbackButton?: string
+  modalTitle?: string
+  modalSubtitle?: string
+  legalPrefix?: string
+  legalLinkText?: string
+  note?: string
+}
+
+export interface ContactChannel {
+  type: string
+  icon: string
+  label: string
+  value: string
+  href: string
+}
+
+export interface ContactChannelsConfig {
+  index: string
+  title: string
+  channels: ContactChannel[]
+}
+
+export interface WorkflowStep {
+  num: string
+  icon: string
+  title: string
+  desc: string
+}
+
+export interface WorkflowConfig {
+  index: string
+  title: string
+  steps: WorkflowStep[]
+}
+
+export interface StartFormatConfig {
+  index: string
+  title: string
+  fast: {
+    title: string
+    desc: string
+    href?: string
+  }
+  full: {
+    title: string
+    desc: string
+    summary: string
+  }
+}
+
+export interface ContactsPageCtaConfig {
+  title: string
+  subtitle: string
+  tgText: string
+  tgHref: string
+  email: string
+  emailHref: string
+  tel: string
+  telHref: string
+  note?: string
+}
