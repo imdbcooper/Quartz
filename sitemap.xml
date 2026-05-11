@@ -51,16 +51,19 @@
     <lastmod>2026-03-11T01:16:25.000Z</lastmod>
   </url><url>
     <loc>https://slavx.ru/</loc>
-    <lastmod>2026-03-11T23:51:56.000Z</lastmod>
+    <lastmod>2026-04-13T16:24:21.000Z</lastmod>
   </url><url>
     <loc>https://slavx.ru/%D0%9Ao%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B</loc>
-    <lastmod>2026-03-11T21:52:01.000Z</lastmod>
+    <lastmod>2026-04-13T16:24:21.000Z</lastmod>
   </url><url>
     <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Audio-Scribe/Audio-Scribe-Bot</loc>
     <lastmod>2025-12-17T17:11:00.000Z</lastmod>
   </url><url>
-    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Audio-Scribe/</loc>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Audio-Scribe/Audio-Scribe-TMA</loc>
     <lastmod>2025-12-17T17:37:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Audio-Scribe/</loc>
+    <lastmod>2026-05-04T18:05:00.000Z</lastmod>
   </url><url>
     <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/Custom-%D0%BC%D0%B5%D0%BD%D1%8E-%D0%B4%D0%BB%D1%8F-Qartz-4</loc>
     <lastmod>2025-12-28T21:57:00.000Z</lastmod>
@@ -92,9 +95,66 @@
     <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Obsidian/%D0%AD%D0%BC%D0%B1%D0%B5%D0%B4%D0%B4%D0%B8%D0%BD%D0%B3%D0%B8-%D0%B2-Obsidian-Copilot-%D0%B4%D0%BB%D1%8F-%D0%B8%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D0%B0-%D0%B7%D0%B0%D0%BC%D0%B5%D1%82%D0%BE%D0%BA</loc>
     <lastmod>2025-12-28T21:59:00.000Z</lastmod>
   </url><url>
-    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/Index</loc>
-    <lastmod>2025-12-17T19:26:00.000Z</lastmod>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/PromtGen-Audio-Video</loc>
+    <lastmod>2026-05-04T20:00:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/PromtGen-Backend-Roadmap</loc>
+    <lastmod>2026-05-04T20:00:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/</loc>
+    <lastmod>2026-05-04T19:55:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/%D0%9A%D0%B0%D0%BA-%D1%83%D1%81%D1%82%D1%80%D0%BE%D0%B5%D0%BD-PromtGen</loc>
+    <lastmod>2026-05-04T20:00:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/TGPT/TelePost-Audio-Scribe-Integration</loc>
+    <lastmod>2026-05-04T17:57:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/TGPT/TelePost-Forms</loc>
+    <lastmod>2026-05-04T17:56:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/TGPT/Telegram-Bot-and-Invite-Codes</loc>
+    <lastmod>2026-05-04T17:55:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/TGPT/Telegram-Mini-App-Mail</loc>
+    <lastmod>2026-05-04T17:55:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/TGPT/</loc>
+    <lastmod>2026-05-04T18:05:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-roadmap</loc>
+    <lastmod>2026-05-04T22:05:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0</loc>
+    <lastmod>2026-05-04T22:05:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%B8%D0%BC%D0%BF%D0%BE%D1%80%D1%82-%D0%B8-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3</loc>
+    <lastmod>2026-05-04T22:05:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%BE%D0%B1%D0%B7%D0%BE%D1%80-%D0%B8-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8</loc>
+    <lastmod>2026-05-04T22:05:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/</loc>
+    <lastmod>2026-05-04T22:05:00.000Z</lastmod>
   </url><url>
     <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/</loc>
     <lastmod>2025-12-17T20:00:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/Hybrid-Retrieval-%D0%BD%D0%B0-LightRAG</loc>
+    <lastmod>2026-05-04T21:21:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/RAG-Content-Pipeline-%D0%BE%D1%82-%D1%81%D1%8B%D1%80%D1%8B%D1%85-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%BE%D0%B2-%D0%BA-%D0%B1%D0%B0%D0%B7%D0%B5-%D0%B7%D0%BD%D0%B0%D0%BD%D0%B8%D0%B9</loc>
+    <lastmod>2026-05-04T21:21:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/Roadmap-production-ready-RAG</loc>
+    <lastmod>2026-05-04T21:21:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/</loc>
+    <lastmod>2026-05-04T21:21:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/%D0%90%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0-%D0%B4%D0%B2%D1%83%D1%85%D0%BA%D0%BE%D0%BD%D1%82%D1%83%D1%80%D0%BD%D0%BE%D0%B9-RAG-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D1%8B</loc>
+    <lastmod>2026-05-04T21:21:00.000Z</lastmod>
+  </url><url>
+    <loc>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/%D0%9A%D0%B0%D1%87%D0%B5%D1%81%D1%82%D0%B2%D0%BE-%D0%B4%D0%B0%D0%BD%D0%BD%D1%8B%D1%85-%D0%BF%D0%B5%D1%80%D0%B5%D0%B4-%D0%B8%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%D0%B0%D1%86%D0%B8%D0%B5%D0%B9</loc>
+    <lastmod>2026-05-04T21:21:00.000Z</lastmod>
   </url></urlset>

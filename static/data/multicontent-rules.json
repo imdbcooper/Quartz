@@ -1,0 +1,31 @@
+{
+  "defaultCategory": "default",
+  "rules": [
+    {
+      "priority": 1,
+      "type": "utm",
+      "param": "utm_source",
+      "match": "telegram",
+      "category": "telegram"
+    },
+    { "priority": 2, "type": "utm", "param": "utm_source", "match": "vk", "category": "vk" },
+    {
+      "priority": 3,
+      "type": "utm",
+      "param": "utm_source",
+      "match": "google_ads",
+      "category": "ad"
+    },
+    {
+      "priority": 4,
+      "type": "utm",
+      "param": "utm_source",
+      "match": "yandex_ads",
+      "category": "ad"
+    },
+    { "priority": 5, "type": "referrer", "match": "t\\.me|telegram", "category": "telegram" },
+    { "priority": 6, "type": "referrer", "match": "google\\.", "category": "google" },
+    { "priority": 7, "type": "referrer", "match": "vk\\.com", "category": "vk" },
+    { "priority": 8, "type": "referrer", "match": "yandex\\.", "category": "google" }
+  ]
+}
