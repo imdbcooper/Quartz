@@ -22,7 +22,7 @@
 
 ## Theme and plugins
 
-- Theme fonts: `Schibsted Grotesk` (header), `Source Sans Pro` (body), `IBM Plex Mono` (code).
+- Theme fonts: `Inter` (header), `Inter` (body), `IBM Plex Mono` (code).
 - Light/dark palettes are defined in `quartz.config.ts`.
 - Plugins include Markdown transforms, syntax highlighting, TOC, link crawling, and KaTeX.
 - Emitters include `CustomOgImages()` (config comment says this can slow builds).

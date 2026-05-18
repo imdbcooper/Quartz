@@ -48,11 +48,9 @@ const defaultOptions: CardMenuOptions = {
   showNavButtons: true,
   navButtons: [
     { label: "Контакты", href: "/Кoнтакты" },
-    { label: "About", href: "/about" },
     { label: "RSS", href: "/index.xml" },
     { label: "Архив", href: "/tags" },
   ],
-  footerText: "This is my digital garden powered by Quartz.",
 }
 
 // SVG Icons from Lucide
