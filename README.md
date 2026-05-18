@@ -1,13 +1,29 @@
-# Quartz v4
+# Smirnoff site on Quartz
 
-> “[One] who works with the door open gets all kinds of interruptions, but [they] also occasionally gets clues as to what the world is and what might be important.” — Richard Hamming
+This repository contains the Quartz-based source for `slavx.ru`: the main site content, custom landing components, legal pages, multicontent logic, and local tooling used to manage site variants.
 
-Quartz is a set of tools that helps you publish your [digital garden](https://jzhao.xyz/posts/networked-thought) and notes as a website for free.
-Quartz v4 features a from-the-ground rewrite focusing on end-user extensibility and ease-of-use.
+## Project structure
 
-🔗 Read the documentation and get started: https://quartz.jzhao.xyz/
+- `content/` — primary site content
+- `docs/` — local project and Quartz-related docs
+- `quartz/` — Quartz source plus custom components, scripts, and styles
+- `quartz/static/data/` — JSON-backed landing, form, and carousel data
+- `tools/multicontent-admin/` — local admin for multicontent editing
 
-[Join the Discord Community](https://discord.gg/cRFFHYye7t)
+## Common commands
+
+Quartz requires **Node >= 22**.
+
+```bash
+npm ci
+```
+
+- `npm run site:dev` — build and serve the main site from `content/`
+- `npm run docs` — build and serve the docs tree from `docs/`
+- `npm run multicontent-admin` — start the local multicontent admin
+- `npm run check` — typecheck + prettier check
+- `npm run format` — format the repo with prettier
+- `npm test` — run unit tests
 
 ## Custom Components: Services Carousel
 
@@ -47,7 +63,8 @@ Data file shape (example):
       "note": "Reply within a day",
       "button": {
         "text": "Order",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     }
   ]
@@ -67,10 +84,6 @@ Notes:
 - Integration audit and architecture notes: `docs/home-central-integration.md`
 - Services carousel audit: `docs/carousel-audit.md`
 
-## Sponsors
+## Upstream Quartz reference
 
-<p align="center">
-  <a href="https://github.com/sponsors/jackyzha0">
-    <img src="https://cdn.jsdelivr.net/gh/jackyzha0/jackyzha0/sponsorkit/sponsors.svg" />
-  </a>
-</p>
+Upstream Quartz documentation: https://quartz.jzhao.xyz/

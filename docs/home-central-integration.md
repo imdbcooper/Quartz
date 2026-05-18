@@ -4,8 +4,8 @@
 
 ## 1. Что изменено по `git status`
 
-- Обновлён контент главной страницы: `content/index.md`
-- Добавлена страница политики ПДн: `content/privacy-policy.md`
+- Обновлена точка входа главной: `content/index.md` (frontmatter + подключение `home.js`)
+- Добавлена страница политики ПДн: `content/docs/privacy-policy.md`
 - Изменены тема/типографика: `quartz.config.ts`
 - Подключены Material Symbols: `quartz/components/Head.tsx`
 - Подключён новый JS-компонент: `quartz/components/HomeCallback.tsx`
@@ -13,7 +13,7 @@
 - Регистрация компонента в layout: `quartz.layout.ts`
 - Добавлен inline-скрипт модалки: `quartz/components/scripts/homeCallback.inline.ts`
 - Добавлен JSON-конфиг callback-формы: `quartz/static/data/home-callback-form.json`
-- Крупно обновлены стили секций home/callback: `quartz/styles/custom.scss`
+- Крупно обновлены стили секций home/callback: `quartz/styles/custom.scss` и `quartz/components/styles/`
 - `quartz/styles/base.scss` в основном переформатирован (структурных изменений поведения почти нет)
 - Удалены служебные скриншоты из `screenshots/`
 
@@ -31,17 +31,19 @@
 
 ### 3.1 Точки входа в разметке
 
-В `content/index.md`:
+`content/index.md` больше не хранит callback-разметку целиком: он оставляет frontmatter и подключение `home.js`, а сама home-страница рендерится layout-ом и Preact-компонентами.
 
-- Корневой контейнер сценария: `data-home-callback-root`
-- Кнопки открытия модалки: `data-home-callback-open`
-- Модалка: `data-home-callback-modal`
-- Диалог: `data-home-callback-dialog`
-- Элементы закрытия (фон/кнопка): `data-home-callback-close`
-- Контейнер формы:  
+Актуальные точки входа:
+
+- корневой контейнер сценария `data-home-callback-root` — `quartz/components/LandingContainer.tsx`
+- кнопки открытия модалки `data-home-callback-open` — внутри landing-компонентов
+- модалка `data-home-callback-modal` — `quartz/components/ContactCta.tsx`
+- диалог `data-home-callback-dialog` — `quartz/components/ContactCta.tsx`
+- элементы закрытия (фон/кнопка) `data-home-callback-close` — `quartz/components/ContactCta.tsx`
+- контейнер формы —  
   `<div class="feedback-form home-callback-modal__form" data-source="/static/data/home-callback-form.json"></div>`
 
-Важно: модалка работает только внутри корня с `data-home-callback-root`.
+Важно: модалка работает только внутри корня с `data-home-callback-root`, который задаёт `LandingContainer`.
 
 ### 3.2 Инициализация в Quartz
 
@@ -92,24 +94,24 @@
 ## 5. Как менять безопасно
 
 1. Хотите поменять адрес отправки callback-формы: редактируйте только `quartz/static/data/home-callback-form.json`.
-2. Хотите добавить ещё кнопку открытия: добавьте `data-home-callback-open` внутри блока `data-home-callback-root`.
-3. Хотите поменять тексты/структуру модалки: `content/index.md`.
+2. Хотите добавить ещё кнопку открытия: добавьте `data-home-callback-open` внутри блока `data-home-callback-root` в соответствующем landing-компоненте.
+3. Хотите поменять тексты/структуру модалки: `quartz/components/ContactCta.tsx`.
 4. Хотите поменять поведение модалки (close/focus/lock): `quartz/components/scripts/homeCallback.inline.ts`.
-5. Хотите поменять только внешний вид: `quartz/styles/custom.scss`.
+5. Хотите поменять только внешний вид: `quartz/styles/custom.scss` и/или соответствующий компонентный SCSS.
 6. Не удаляйте `Component.HomeCallback()` из `quartz.layout.ts`, иначе модалка перестанет открываться.
-7. Не удаляйте `content/privacy-policy.md`, пока в форме есть ссылка `/privacy-policy`.
+7. Не удаляйте `content/docs/privacy-policy.md`, пока в форме есть ссылка `/privacy-policy`.
 
 ## 6. Текущие ограничения
 
 - В скрипте нет полного focus-trap (Tab не циклируется строго внутри модалки).
-- Сценарий завязан на data-атрибуты и текущую DOM-структуру `content/index.md`.
+- Сценарий завязан на data-атрибуты и текущую DOM-структуру `quartz/components/LandingContainer.tsx` и `quartz/components/ContactCta.tsx`.
 - Изменения в `base.scss` в основном форматные; для поиска регрессий ориентируйтесь в первую очередь на `custom.scss`.
 
 ## 7. Мобильные фиксы (февраль 2026)
 
 После браузерного mobile smoke-test добавлены правки:
 
-- Исправлен путь кнопки `Все контакты` в hero: `content/index.md` -> `/Кoнтакты` (убран 404 по `/Все-контакты`).
+- Исправлен путь secondary action в hero на `/Кoнтакты` (сборка hero идёт через `quartz.layout.ts` и `quartz/static/data/home.json`).
 - Исправлено переполнение секции `home-contact-cta` на мобильных:
   - ограничена ширина контейнера в `@media (max-width: 900px)`
   - добавлены безопасные `max-width`/`box-sizing` для `home-contact-cta__callback`

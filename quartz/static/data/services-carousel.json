@@ -24,7 +24,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -34,7 +35,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -44,7 +46,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -54,7 +57,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -64,7 +68,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -74,7 +79,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -84,7 +90,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     }
   ]

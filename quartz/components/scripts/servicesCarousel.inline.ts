@@ -380,7 +380,12 @@ function buildBaseLayout(root: HTMLElement, data: CarouselData) {
   return { root, stageWrap, stage, ring }
 }
 
-function buildCard(root: HTMLElement, card: CarouselCard, fallbackNote?: string) {
+function buildCard(
+  root: HTMLElement,
+  card: CarouselCard,
+  fallbackNote?: string,
+  onAction?: (action: string, card: CarouselCard) => boolean,
+) {
   const cardEl = createEl("div", "services-carousel__card")
   const top = createEl("div", "services-carousel__card-top")
   const titleRow = createEl("div", "services-carousel__card-header")
@@ -426,9 +431,13 @@ function buildCard(root: HTMLElement, card: CarouselCard, fallbackNote?: string)
   }
 
   if (buttonConfig.action) {
-    button.dataset.action = buttonConfig.action
-    const handleAction = () => {
-      const detail = { action: buttonConfig.action, card }
+    const action = buttonConfig.action
+    button.dataset.action = action
+    const handleAction = (event: MouseEvent) => {
+      if (onAction?.(action, card)) {
+        event.preventDefault()
+      }
+      const detail = { action, card }
       root.dispatchEvent(new CustomEvent("services-carousel:action", { detail, bubbles: true }))
     }
     button.addEventListener("click", handleAction)
@@ -509,7 +518,13 @@ async function initCarousel(root: HTMLElement) {
 
   cards.forEach((card, index) => {
     const holder = createEl("div", "services-carousel__card-holder")
-    const cardEl = buildCard(root, card, fallbackNote)
+    const cardEl = buildCard(root, card, fallbackNote, (action, selectedCard) => {
+      if (action === "open-modal") {
+        modal.open(selectedCard)
+        return true
+      }
+      return false
+    })
     cardEl.dataset.cardIndex = String(index)
     holder.append(cardEl)
     elements.ring.append(holder)

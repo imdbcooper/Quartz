@@ -2,12 +2,12 @@ name: Build Preview Deployment
 
 on:
   pull_request:
+    branches: [main]
     types: [opened, synchronize]
   workflow_dispatch:
 
 jobs:
   build-preview:
-    if: ${{ github.repository == 'jackyzha0/quartz' }}
     runs-on: ubuntu-latest
     name: Build Preview
     steps:
@@ -19,14 +19,7 @@ jobs:
         uses: actions/setup-node@v6
         with:
           node-version: 22
-
-      - name: Cache dependencies
-        uses: actions/cache@v4
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+          cache: npm
 
       - run: npm ci
 
@@ -34,7 +27,7 @@ jobs:
         run: npm run check
 
       - name: Build Quartz
-        run: npx quartz build -d docs -v
+        run: npx quartz build -v
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v5

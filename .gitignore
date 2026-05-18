@@ -8,6 +8,7 @@ tsconfig.tsbuildinfo
 .quartz-cache
 .kilocode/mcp.json
 .kilocode/skills/generated-images/
+.devin/config.local.json
 private/
 .replit
 replit.nix
