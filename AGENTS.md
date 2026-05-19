@@ -10,9 +10,15 @@
 
 - `npm run quartz` run the Quartz CLI.
 - `npm run docs` build and serve docs (`npx quartz build --serve -d docs`).
+- `npm run site:dev` builds and serves the site with Quartz's clean-URL preview server.
+- `npm run site:preview` serves the existing `public/` output with clean-URL handling.
 - `npm run check` typecheck + prettier check.
 - `npm run format` format with prettier.
 - `npm test` run tests with `tsx --test`.
+
+## Local preview notes
+
+- `python -m http.server public` does not rewrite Quartz extensionless routes like `/Кoнтакты`; use `npm run site:dev` or `npm run site:preview` instead.
 
 ## Project context
 

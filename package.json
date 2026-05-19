@@ -15,6 +15,7 @@
     "quartz": "./quartz/bootstrap-cli.mjs",
     "docs": "npx quartz build --serve -d docs",
     "site:dev": "npx quartz build --serve --watch -d content",
+    "site:preview": "tsx tools/serve-public.ts",
     "multicontent-admin": "tsx tools/multicontent-admin/server.ts",
     "check": "tsc --noEmit && npx prettier . --check",
     "format": "npx prettier . --write",

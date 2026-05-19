@@ -6,6 +6,7 @@ prof
 tsconfig.tsbuildinfo
 .obsidian
 .quartz-cache
+.playwright-mcp
 .kilocode/mcp.json
 .kilocode/skills/generated-images/
 .devin/config.local.json
