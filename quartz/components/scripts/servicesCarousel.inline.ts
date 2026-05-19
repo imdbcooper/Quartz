@@ -93,6 +93,8 @@ function renderError(root: HTMLElement, message: string) {
 
 function createModal(root: HTMLElement, data: CarouselData) {
   let isOpen = false
+  let lastFocused: HTMLElement | null = null
+  let focusRestoreFrame = 0
   const modal = createEl("div", "services-carousel__modal")
   const backdrop = createEl("div", "services-carousel__modal-backdrop")
   const card = createEl("div", "services-carousel__modal-card")
@@ -129,10 +131,13 @@ function createModal(root: HTMLElement, data: CarouselData) {
     formAction !== "null" &&
     formAction !== "undefined" &&
     !/\/null(?:[/?#]|$)/.test(formAction)
+  const titleId = `services-carousel-modal-title-${Math.random().toString(36).slice(2, 10)}`
 
   modal.setAttribute("role", "dialog")
   modal.setAttribute("aria-modal", "true")
   modal.setAttribute("aria-hidden", "true")
+  modal.setAttribute("aria-labelledby", titleId)
+  title.id = titleId
 
   closeButton.type = "button"
   closeButton.textContent = "Закрыть"
@@ -189,16 +194,31 @@ function createModal(root: HTMLElement, data: CarouselData) {
     document.body.classList.remove("services-carousel-modal-open")
   }
 
-  const closeModal = () => {
+  const closeModal = (restoreFocus = true) => {
     modal.classList.remove("is-open")
     modal.setAttribute("aria-hidden", "true")
     isOpen = false
     unlockScroll()
     root.dispatchEvent(new CustomEvent("services-carousel:layout", { bubbles: true }))
+    if (restoreFocus && lastFocused?.isConnected) {
+      const focusTarget = lastFocused
+      if (focusRestoreFrame) {
+        window.cancelAnimationFrame(focusRestoreFrame)
+      }
+      focusRestoreFrame = window.requestAnimationFrame(() => {
+        focusRestoreFrame = 0
+        if (focusTarget.isConnected) {
+          focusTarget.focus()
+        }
+      })
+    }
+    lastFocused = null
   }
 
-  const openModal = (cardData: CarouselCard) => {
+  const openModal = (cardData: CarouselCard, trigger?: HTMLElement | null) => {
     if (isOpen) return
+    lastFocused =
+      trigger ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null)
     title.textContent = cardData.title
     if (cardData.price) {
       chosen.textContent = `Вы выбрали: ${cardData.price}`
@@ -216,9 +236,11 @@ function createModal(root: HTMLElement, data: CarouselData) {
   }
 
   const onBackdrop = () => closeModal()
+  const onClose = () => closeModal()
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       event.preventDefault()
+      event.stopPropagation()
       closeModal()
     }
   }
@@ -292,16 +314,20 @@ function createModal(root: HTMLElement, data: CarouselData) {
   }
 
   backdrop.addEventListener("click", onBackdrop)
-  closeButton.addEventListener("click", closeModal)
+  closeButton.addEventListener("click", onClose)
   form.addEventListener("submit", onSubmit)
   document.addEventListener("keydown", onKeyDown)
 
   window.addCleanup(() => {
     backdrop.removeEventListener("click", onBackdrop)
-    closeButton.removeEventListener("click", closeModal)
+    closeButton.removeEventListener("click", onClose)
     form.removeEventListener("submit", onSubmit)
     document.removeEventListener("keydown", onKeyDown)
     modal.remove()
+    if (focusRestoreFrame) {
+      window.cancelAnimationFrame(focusRestoreFrame)
+    }
+    lastFocused = null
     unlockScroll()
   })
 
@@ -384,7 +410,7 @@ function buildCard(
   root: HTMLElement,
   card: CarouselCard,
   fallbackNote?: string,
-  onAction?: (action: string, card: CarouselCard) => boolean,
+  onAction?: (action: string, card: CarouselCard, trigger: HTMLElement) => boolean,
 ) {
   const cardEl = createEl("div", "services-carousel__card")
   const top = createEl("div", "services-carousel__card-top")
@@ -434,7 +460,7 @@ function buildCard(
     const action = buttonConfig.action
     button.dataset.action = action
     const handleAction = (event: MouseEvent) => {
-      if (onAction?.(action, card)) {
+      if (onAction?.(action, card, button)) {
         event.preventDefault()
       }
       const detail = { action, card }
@@ -518,9 +544,9 @@ async function initCarousel(root: HTMLElement) {
 
   cards.forEach((card, index) => {
     const holder = createEl("div", "services-carousel__card-holder")
-    const cardEl = buildCard(root, card, fallbackNote, (action, selectedCard) => {
+    const cardEl = buildCard(root, card, fallbackNote, (action, selectedCard, trigger) => {
       if (action === "open-modal") {
-        modal.open(selectedCard)
+        modal.open(selectedCard, trigger)
         return true
       }
       return false
@@ -751,7 +777,9 @@ async function initCarousel(root: HTMLElement) {
       if (candidate !== null) {
         const card = cards[candidate]
         if (card) {
-          modal.open(card)
+          const trigger =
+            cardHolders[candidate]?.querySelector<HTMLElement>(".services-carousel__button") ?? null
+          modal.open(card, trigger)
         }
       }
     }

@@ -25,6 +25,8 @@ export default ((config: FaqConfig) => {
               class="faq-item faq-item--main"
               data-faq-main
               tabindex={0}
+              role="button"
+              aria-haspopup="dialog"
               data-faq-more
               style="cursor: pointer; position: relative; transition: border-color 0.2s;"
             >

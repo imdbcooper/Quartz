@@ -17,6 +17,7 @@ function mountHomeCallback(root: HTMLElement) {
 
   const closeButtons = Array.from(root.querySelectorAll<HTMLElement>("[data-home-callback-close]"))
   let lastFocused: HTMLElement | null = null
+  let focusRestoreFrame = 0
 
   const lockScroll = () => {
     document.documentElement.classList.add(LOCK_CLASS)
@@ -40,8 +41,20 @@ function mountHomeCallback(root: HTMLElement) {
     modal.hidden = true
     unlockScroll()
     if (restoreFocus) {
-      lastFocused?.focus()
+      const focusTarget = lastFocused
+      if (focusTarget?.isConnected) {
+        if (focusRestoreFrame) {
+          window.cancelAnimationFrame(focusRestoreFrame)
+        }
+        focusRestoreFrame = window.requestAnimationFrame(() => {
+          focusRestoreFrame = 0
+          if (focusTarget.isConnected) {
+            focusTarget.focus()
+          }
+        })
+      }
     }
+    lastFocused = null
   }
 
   const openModal = () => {
@@ -73,6 +86,7 @@ function mountHomeCallback(root: HTMLElement) {
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key === "Escape") {
       event.preventDefault()
+      event.stopPropagation()
       closeModal()
     }
   }
@@ -87,6 +101,9 @@ function mountHomeCallback(root: HTMLElement) {
     closeButtons.forEach((button) => button.removeEventListener("click", onClose))
     modal.removeEventListener("click", onModalClick)
     document.removeEventListener("keydown", onKeyDown)
+    if (focusRestoreFrame) {
+      window.cancelAnimationFrame(focusRestoreFrame)
+    }
     closeModal(false)
   })
 }
