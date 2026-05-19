@@ -5,13 +5,21 @@ import { FaqConfig } from "./landing/types"
 export default ((config: FaqConfig) => {
   const ContactsFaq: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
-      <section class="contacts-section" aria-labelledby="contacts-faq-title">
+      <section
+        class="contacts-section"
+        aria-labelledby="contacts-faq-title"
+        data-contacts-block="faq"
+      >
         <div class="contacts-section__head">
-          <span class="contacts-section__index">{config.index}</span>
-          <h2 id="contacts-faq-title">{config.title}</h2>
+          <span class="contacts-section__index" data-contacts-text="faq.index">
+            {config.index}
+          </span>
+          <h2 id="contacts-faq-title" data-contacts-text="faq.title">
+            {config.title}
+          </h2>
           <span class="contacts-section__line" aria-hidden="true" />
         </div>
-        <div class="contacts-faq-list">
+        <div class="contacts-faq-list" data-contacts-faq-list>
           {config.items.map((item) => (
             <details class="contacts-faq-item" key={item.question}>
               <summary>

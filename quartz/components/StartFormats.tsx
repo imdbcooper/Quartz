@@ -5,10 +5,18 @@ import { StartFormatConfig } from "./landing/types"
 export default ((config: StartFormatConfig) => {
   const StartFormats: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
-      <section class="contacts-section" aria-labelledby="contacts-start-title">
+      <section
+        class="contacts-section"
+        aria-labelledby="contacts-start-title"
+        data-contacts-block="formats"
+      >
         <div class="contacts-section__head">
-          <span class="contacts-section__index">{config.index}</span>
-          <h2 id="contacts-start-title">{config.title}</h2>
+          <span class="contacts-section__index" data-contacts-text="formats.index">
+            {config.index}
+          </span>
+          <h2 id="contacts-start-title" data-contacts-text="formats.title">
+            {config.title}
+          </h2>
           <span class="contacts-section__line" aria-hidden="true" />
         </div>
         <div class="contacts-start-stack">
@@ -18,13 +26,14 @@ export default ((config: StartFormatConfig) => {
                 <span class="material-symbols-outlined" aria-hidden="true">
                   flash_on
                 </span>
-                {config.fast.title}
+                <span data-contacts-text="formats.fast.title">{config.fast.title}</span>
               </h3>
-              <p>{config.fast.desc}</p>
+              <p data-contacts-text="formats.fast.desc">{config.fast.desc}</p>
             </div>
             <a
               href={config.fast.href ?? "https://t.me/slavxRu"}
               class="contacts-button contacts-button--primary"
+              data-contacts-link-fast
             >
               <span class="material-symbols-outlined" aria-hidden="true">
                 send
@@ -39,16 +48,16 @@ export default ((config: StartFormatConfig) => {
                 <span class="material-symbols-outlined" aria-hidden="true">
                   description
                 </span>
-                {config.full.title}
+                <span data-contacts-text="formats.full.title">{config.full.title}</span>
               </h3>
-              <p>{config.full.desc}</p>
+              <p data-contacts-text="formats.full.desc">{config.full.desc}</p>
             </div>
             <details class="contacts-brief" id="brief-form">
               <summary>
                 <span class="material-symbols-outlined" aria-hidden="true">
                   assignment
                 </span>
-                <span>{config.full.summary}</span>
+                <span data-contacts-text="formats.full.summary">{config.full.summary}</span>
               </summary>
               <div class="feedback-form" data-source="/static/data/feedback-form.json" />
               <p class="contacts-brief__legal">

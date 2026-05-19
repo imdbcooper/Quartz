@@ -602,6 +602,7 @@ function buildDrafts(data) {
   const drafts = {
     home: deepClone(data.home),
     contacts: deepClone(data.contacts),
+    contactsVariants: {},
     forms: deepClone(data.forms),
     rules: deepClone(data.rules),
     variants: {},
@@ -612,6 +613,9 @@ function buildDrafts(data) {
     .filter((category) => category.slug !== "default")
     .forEach((category) => {
       drafts.variants[category.slug] = deepClone(data.variants[category.slug] || data.home)
+      drafts.contactsVariants[category.slug] = deepClone(
+        data.contactVariants?.[category.slug] || data.contacts,
+      )
       drafts.categoryMeta[category.slug] = {
         label: category.label,
         extends: category.extends || "default",
@@ -683,13 +687,30 @@ async function saveHome() {
 }
 
 async function saveContacts() {
+  const selectedSlug = getSelectedCategorySlug()
+
   try {
-    await request("/api/contacts/save", {
+    if (selectedSlug === "default") {
+      await request("/api/contacts/save", {
+        method: "POST",
+        body: JSON.stringify({ content: state.drafts.contacts }),
+      })
+      await loadState("default")
+      setStatus("success", "Контакты сохранены.")
+      return
+    }
+
+    const meta = state.drafts.categoryMeta[selectedSlug]
+    await request("/api/contacts/categories/save", {
       method: "POST",
-      body: JSON.stringify({ content: state.drafts.contacts }),
+      body: JSON.stringify({
+        slug: selectedSlug,
+        extends: meta?.extends || "default",
+        content: state.drafts.contactsVariants[selectedSlug],
+      }),
     })
-    await loadState(state.ui.selectedCategory)
-    setStatus("success", "Контакты сохранены.")
+    await loadState(selectedSlug)
+    setStatus("success", `Контакты для категории ${selectedSlug} сохранены.`)
   } catch (error) {
     setStatus("error", error.message)
   }
@@ -757,16 +778,20 @@ async function createCategoryFromValues({ slug, label, fromSlug }) {
 }
 
 function openPreview(pathname) {
+  openCategoryPagePreview(pathname)
+}
+
+function openCategoryPagePreview(pathname, slug = null) {
   if (!state.data?.previewBaseUrl) return
   const url = new URL(pathname, state.data.previewBaseUrl)
+  if (slug && slug !== "default") {
+    url.searchParams.set("_mc_preview", slug)
+  }
   window.open(url.toString(), "_blank", "noopener")
 }
 
 function openCategoryPreview(slug) {
-  if (!state.data?.previewBaseUrl) return
-  const url = new URL("/", state.data.previewBaseUrl)
-  url.searchParams.set("_mc_preview", slug)
-  window.open(url.toString(), "_blank", "noopener")
+  openCategoryPagePreview("/", slug)
 }
 
 function getCategories() {
@@ -796,6 +821,11 @@ function getCategoryDisplayLabel(category) {
 function getSelectedHomeDraft() {
   const slug = getSelectedCategorySlug()
   return slug === "default" ? state.drafts.home : state.drafts.variants[slug]
+}
+
+function getSelectedContactsDraft() {
+  const slug = getSelectedCategorySlug()
+  return slug === "default" ? state.drafts.contacts : state.drafts.contactsVariants[slug]
 }
 
 function openCreateCategoryModal() {
@@ -1959,7 +1989,10 @@ function renderHomeTab() {
 }
 
 function renderContactsTab() {
-  const sections = buildContactsSections(state.drafts.contacts)
+  const selectedCategory = getSelectedCategory()
+  const selectedSlug = selectedCategory.slug
+  const selectedLabel = getCategoryDisplayLabel(selectedCategory)
+  const sections = buildContactsSections(getSelectedContactsDraft())
   const actions = el("div", { className: "admin-actions" }, [
     el("button", {
       className: "admin-button",
@@ -1971,13 +2004,15 @@ function renderContactsTab() {
       className: "admin-button--ghost",
       type: "button",
       text: "Открыть страницу",
-      onclick: () => openPreview(encodeURI("/Кoнтакты")),
+      onclick: () => openCategoryPagePreview("/Кoнтакты", selectedSlug),
     }),
   ])
 
   return panel(
-    "Страница контактов",
-    "Редактируется quartz/static/data/contacts.json. Этот раздел общий для всех категорий и не зависит от выбранного варианта главной.",
+    selectedSlug === "default" ? "Страница контактов" : `Контакты · ${selectedLabel}`,
+    selectedSlug === "default"
+      ? "Редактируется quartz/static/data/contacts.json. Это базовый контактный лендинг для всех категорий."
+      : `Редактируется quartz/static/data/contacts.${selectedSlug}.json. Этот вариант контактов применяется для выбранной категории так же, как и главная.`,
     [
       renderTabbedEditor(
         state.ui.contactsSubtab,
@@ -2237,13 +2272,23 @@ function render() {
   const categorySummaryTitle =
     selectedSlug === "default" ? "Основная категория" : getCategoryDisplayLabel(selectedCategory)
   const categorySummaryText =
-    selectedSlug === "default"
-      ? "Базовый контент главной страницы. Все рекламные варианты могут наследоваться от него."
-      : `Вариант для отдельного источника трафика. Формы ниже редактируют только ${selectedSlug}.`
+    state.ui.tab === "contacts"
+      ? selectedSlug === "default"
+        ? "Базовый контент страницы контактов. Все контактные варианты могут наследоваться от него."
+        : `Контактный вариант для категории ${selectedSlug}. Формы ниже всё ещё редактируются глобально.`
+      : state.ui.tab === "forms"
+        ? "Настройки форм глобальны для сайта и не маршрутизируются по категории."
+        : selectedSlug === "default"
+          ? "Базовый контент главной страницы. Все рекламные варианты могут наследоваться от него."
+          : `Вариант для отдельного источника трафика. Контент главной ниже редактирует только ${selectedSlug}.`
   const categoryFileLabel =
-    selectedSlug === "default"
-      ? "quartz/static/data/home.json"
-      : `quartz/static/data/home.${selectedSlug}.json`
+    state.ui.tab === "contacts"
+      ? selectedSlug === "default"
+        ? "quartz/static/data/contacts.json"
+        : `quartz/static/data/contacts.${selectedSlug}.json`
+      : selectedSlug === "default"
+        ? "quartz/static/data/home.json"
+        : `quartz/static/data/home.${selectedSlug}.json`
   const categoryMetaLabel =
     selectedSlug === "default"
       ? "Base content"

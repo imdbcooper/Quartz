@@ -5,13 +5,21 @@ import { ContactChannelsConfig } from "./landing/types"
 export default ((config: ContactChannelsConfig) => {
   const ContactChannels: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
-      <section class="contacts-section" aria-labelledby="contacts-fast-title">
+      <section
+        class="contacts-section"
+        aria-labelledby="contacts-fast-title"
+        data-contacts-block="channels"
+      >
         <div class="contacts-section__head">
-          <span class="contacts-section__index">{config.index}</span>
-          <h2 id="contacts-fast-title">{config.title}</h2>
+          <span class="contacts-section__index" data-contacts-text="fastContact.index">
+            {config.index}
+          </span>
+          <h2 id="contacts-fast-title" data-contacts-text="fastContact.title">
+            {config.title}
+          </h2>
           <span class="contacts-section__line" aria-hidden="true" />
         </div>
-        <div class="contacts-channels-grid">
+        <div class="contacts-channels-grid" data-contacts-channels-grid>
           {config.channels.map((ch) => (
             <a
               key={`${ch.type}-${ch.value}`}

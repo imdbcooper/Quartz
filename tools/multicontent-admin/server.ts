@@ -212,6 +212,10 @@ function homeVariantPath(slug: string) {
   return path.join(DATA_DIR, `home.${slug}.json`)
 }
 
+function contactsVariantPath(slug: string) {
+  return path.join(DATA_DIR, `contacts.${slug}.json`)
+}
+
 async function readJson(filePath: string) {
   return JSON.parse(await fs.readFile(filePath, "utf8"))
 }
@@ -380,68 +384,140 @@ function validateHomeContent(
   }
 }
 
-function validateContactsContent(data: unknown) {
+function validateContactsContent(
+  data: unknown,
+  options?: { requireExtends?: boolean; slug?: string; partial?: boolean },
+) {
   ensure(isPlainObject(data), "contacts content must be an object")
+  const partial = Boolean(options?.partial)
+  if (!partial || data.schemaVersion !== undefined) {
+    ensure(typeof data.schemaVersion === "number", "contacts.schemaVersion must be a number")
+  }
   optionalLayoutArray(data.pageLayout, "contacts.pageLayout", CONTACTS_LAYOUT_BLOCKS)
 
-  ensure(isPlainObject(data.hero), "contacts.hero must be an object")
-  ensureString(data.hero.title, "contacts.hero.title")
-  ensureString(data.hero.subtitle, "contacts.hero.subtitle")
-  ensureStringArray(data.hero.tags, "contacts.hero.tags")
-  ensureString(data.hero.tgLink, "contacts.hero.tgLink")
-  ensureString(data.hero.emailLink, "contacts.hero.emailLink")
+  if (options?.requireExtends) {
+    ensureString(data.extends, "contacts.extends")
+    if (options.slug) {
+      ensure(data.extends !== options.slug, "contacts.extends cannot reference itself")
+    }
+  } else if (data.extends !== undefined) {
+    optionalString(data.extends, "contacts.extends")
+  }
 
-  ensure(isPlainObject(data.fastContact), "contacts.fastContact must be an object")
-  ensureString(data.fastContact.index, "contacts.fastContact.index")
-  ensureString(data.fastContact.title, "contacts.fastContact.title")
-  ensureObjectArray(data.fastContact.channels, "contacts.fastContact.channels")
-  data.fastContact.channels.forEach((item: JsonObject, index: number) => {
-    ensureString(item.type, `contacts.fastContact.channels[${index}].type`)
-    ensureString(item.label, `contacts.fastContact.channels[${index}].label`)
-    ensureString(item.value, `contacts.fastContact.channels[${index}].value`)
-    ensureString(item.href, `contacts.fastContact.channels[${index}].href`)
-    ensureString(item.icon, `contacts.fastContact.channels[${index}].icon`)
-  })
+  if (!partial || data.hero !== undefined) {
+    ensure(isPlainObject(data.hero), "contacts.hero must be an object")
+    if (!partial || data.hero.title !== undefined)
+      ensureString(data.hero.title, "contacts.hero.title")
+    if (!partial || data.hero.subtitle !== undefined) {
+      ensureString(data.hero.subtitle, "contacts.hero.subtitle")
+    }
+    if (!partial || data.hero.tags !== undefined)
+      ensureStringArray(data.hero.tags, "contacts.hero.tags")
+    if (!partial || data.hero.tgLink !== undefined)
+      ensureString(data.hero.tgLink, "contacts.hero.tgLink")
+    if (!partial || data.hero.emailLink !== undefined) {
+      ensureString(data.hero.emailLink, "contacts.hero.emailLink")
+    }
+  }
 
-  ensure(isPlainObject(data.workflow), "contacts.workflow must be an object")
-  ensureString(data.workflow.index, "contacts.workflow.index")
-  ensureString(data.workflow.title, "contacts.workflow.title")
-  ensureObjectArray(data.workflow.steps, "contacts.workflow.steps")
-  data.workflow.steps.forEach((step: JsonObject, index: number) => {
-    ensureString(step.num, `contacts.workflow.steps[${index}].num`)
-    ensureString(step.icon, `contacts.workflow.steps[${index}].icon`)
-    ensureString(step.title, `contacts.workflow.steps[${index}].title`)
-    ensureString(step.desc, `contacts.workflow.steps[${index}].desc`)
-  })
+  if (!partial || data.fastContact !== undefined) {
+    ensure(isPlainObject(data.fastContact), "contacts.fastContact must be an object")
+    if (!partial || data.fastContact.index !== undefined) {
+      ensureString(data.fastContact.index, "contacts.fastContact.index")
+    }
+    if (!partial || data.fastContact.title !== undefined) {
+      ensureString(data.fastContact.title, "contacts.fastContact.title")
+    }
+    if (!partial || data.fastContact.channels !== undefined) {
+      ensureObjectArray(data.fastContact.channels, "contacts.fastContact.channels")
+      data.fastContact.channels.forEach((item: JsonObject, index: number) => {
+        ensureString(item.type, `contacts.fastContact.channels[${index}].type`)
+        ensureString(item.label, `contacts.fastContact.channels[${index}].label`)
+        ensureString(item.value, `contacts.fastContact.channels[${index}].value`)
+        ensureString(item.href, `contacts.fastContact.channels[${index}].href`)
+        ensureString(item.icon, `contacts.fastContact.channels[${index}].icon`)
+      })
+    }
+  }
 
-  ensure(isPlainObject(data.formats), "contacts.formats must be an object")
-  ensureString(data.formats.index, "contacts.formats.index")
-  ensureString(data.formats.title, "contacts.formats.title")
-  ensure(isPlainObject(data.formats.fast), "contacts.formats.fast must be an object")
-  ensureString(data.formats.fast.title, "contacts.formats.fast.title")
-  ensureString(data.formats.fast.desc, "contacts.formats.fast.desc")
-  ensureString(data.formats.fast.href, "contacts.formats.fast.href")
-  ensure(isPlainObject(data.formats.full), "contacts.formats.full must be an object")
-  ensureString(data.formats.full.title, "contacts.formats.full.title")
-  ensureString(data.formats.full.desc, "contacts.formats.full.desc")
-  ensureString(data.formats.full.summary, "contacts.formats.full.summary")
+  if (!partial || data.workflow !== undefined) {
+    ensure(isPlainObject(data.workflow), "contacts.workflow must be an object")
+    if (!partial || data.workflow.index !== undefined) {
+      ensureString(data.workflow.index, "contacts.workflow.index")
+    }
+    if (!partial || data.workflow.title !== undefined) {
+      ensureString(data.workflow.title, "contacts.workflow.title")
+    }
+    if (!partial || data.workflow.steps !== undefined) {
+      ensureObjectArray(data.workflow.steps, "contacts.workflow.steps")
+      data.workflow.steps.forEach((step: JsonObject, index: number) => {
+        ensureString(step.num, `contacts.workflow.steps[${index}].num`)
+        ensureString(step.icon, `contacts.workflow.steps[${index}].icon`)
+        ensureString(step.title, `contacts.workflow.steps[${index}].title`)
+        ensureString(step.desc, `contacts.workflow.steps[${index}].desc`)
+      })
+    }
+  }
 
-  ensure(isPlainObject(data.faq), "contacts.faq must be an object")
-  ensureString(data.faq.index, "contacts.faq.index")
-  ensureString(data.faq.title, "contacts.faq.title")
-  ensureObjectArray(data.faq.items, "contacts.faq.items")
-  data.faq.items.forEach((item: JsonObject, index: number) => {
-    ensureString(item.question, `contacts.faq.items[${index}].question`)
-    ensureString(item.answer, `contacts.faq.items[${index}].answer`)
-  })
+  if (!partial || data.formats !== undefined) {
+    ensure(isPlainObject(data.formats), "contacts.formats must be an object")
+    if (!partial || data.formats.index !== undefined) {
+      ensureString(data.formats.index, "contacts.formats.index")
+    }
+    if (!partial || data.formats.title !== undefined) {
+      ensureString(data.formats.title, "contacts.formats.title")
+    }
+    if (!partial || data.formats.fast !== undefined) {
+      ensure(isPlainObject(data.formats.fast), "contacts.formats.fast must be an object")
+      if (!partial || data.formats.fast.title !== undefined) {
+        ensureString(data.formats.fast.title, "contacts.formats.fast.title")
+      }
+      if (!partial || data.formats.fast.desc !== undefined) {
+        ensureString(data.formats.fast.desc, "contacts.formats.fast.desc")
+      }
+      if (!partial || data.formats.fast.href !== undefined) {
+        ensureString(data.formats.fast.href, "contacts.formats.fast.href")
+      }
+    }
+    if (!partial || data.formats.full !== undefined) {
+      ensure(isPlainObject(data.formats.full), "contacts.formats.full must be an object")
+      if (!partial || data.formats.full.title !== undefined) {
+        ensureString(data.formats.full.title, "contacts.formats.full.title")
+      }
+      if (!partial || data.formats.full.desc !== undefined) {
+        ensureString(data.formats.full.desc, "contacts.formats.full.desc")
+      }
+      if (!partial || data.formats.full.summary !== undefined) {
+        ensureString(data.formats.full.summary, "contacts.formats.full.summary")
+      }
+    }
+  }
 
-  ensure(isPlainObject(data.cta), "contacts.cta must be an object")
-  ensureString(data.cta.title, "contacts.cta.title")
-  ensureString(data.cta.subtitle, "contacts.cta.subtitle")
-  ensureString(data.cta.tgText, "contacts.cta.tgText")
-  ensureString(data.cta.email, "contacts.cta.email")
-  ensureString(data.cta.tel, "contacts.cta.tel")
-  optionalString(data.cta.note, "contacts.cta.note")
+  if (!partial || data.faq !== undefined) {
+    ensure(isPlainObject(data.faq), "contacts.faq must be an object")
+    if (!partial || data.faq.index !== undefined) ensureString(data.faq.index, "contacts.faq.index")
+    if (!partial || data.faq.title !== undefined) ensureString(data.faq.title, "contacts.faq.title")
+    if (!partial || data.faq.items !== undefined) {
+      ensureObjectArray(data.faq.items, "contacts.faq.items")
+      data.faq.items.forEach((item: JsonObject, index: number) => {
+        ensureString(item.question, `contacts.faq.items[${index}].question`)
+        ensureString(item.answer, `contacts.faq.items[${index}].answer`)
+      })
+    }
+  }
+
+  if (!partial || data.cta !== undefined) {
+    ensure(isPlainObject(data.cta), "contacts.cta must be an object")
+    if (!partial || data.cta.title !== undefined) ensureString(data.cta.title, "contacts.cta.title")
+    if (!partial || data.cta.subtitle !== undefined) {
+      ensureString(data.cta.subtitle, "contacts.cta.subtitle")
+    }
+    if (!partial || data.cta.tgText !== undefined)
+      ensureString(data.cta.tgText, "contacts.cta.tgText")
+    if (!partial || data.cta.email !== undefined) ensureString(data.cta.email, "contacts.cta.email")
+    if (!partial || data.cta.tel !== undefined) ensureString(data.cta.tel, "contacts.cta.tel")
+    optionalString(data.cta.note, "contacts.cta.note")
+  }
 }
 
 function validateFormConfig(data: unknown, fieldName: string) {
@@ -553,6 +629,54 @@ async function readVariantContent(slug: string, cache = new Map<string, JsonObje
   return merged
 }
 
+async function readContactsVariantContent(
+  slug: string,
+  meta: JsonObject,
+  cache = new Map<string, JsonObject>(),
+): Promise<JsonObject> {
+  if (slug === "default") {
+    const contacts = await readJson(CONTACTS_PATH)
+    validateContactsContent(contacts)
+    return contacts
+  }
+
+  if (cache.has(slug)) {
+    return cache.get(slug)!
+  }
+
+  const variantPath = contactsVariantPath(slug)
+  if (!existsSync(variantPath)) {
+    const parentSlug =
+      typeof meta.categories?.[slug]?.extends === "string" && meta.categories[slug].extends
+        ? meta.categories[slug].extends
+        : "default"
+    const inherited: JsonObject =
+      parentSlug === "default"
+        ? await readContactsVariantContent("default", meta, cache)
+        : await readContactsVariantContent(parentSlug, meta, cache)
+    const cloned: JsonObject = clone(inherited)
+    cache.set(slug, cloned)
+    return cloned
+  }
+
+  const variant = await readJson(variantPath)
+  validateContactsContent(variant, { requireExtends: true, slug, partial: true })
+
+  const parentSlug =
+    typeof variant.extends === "string" && variant.extends
+      ? variant.extends
+      : typeof meta.categories?.[slug]?.extends === "string" && meta.categories[slug].extends
+        ? meta.categories[slug].extends
+        : "default"
+  const base =
+    parentSlug === "default"
+      ? await readContactsVariantContent("default", meta, cache)
+      : await readContactsVariantContent(parentSlug, meta, cache)
+  const merged = mergeContent(base, variant)
+  cache.set(slug, merged)
+  return merged
+}
+
 async function readState() {
   const home = await readJson(HOME_PATH)
   const contacts = await readJson(CONTACTS_PATH)
@@ -575,11 +699,17 @@ async function readState() {
   validateRules(rules, categorySlugs)
 
   const variants: Record<string, JsonObject> = {}
+  const contactVariants: Record<string, JsonObject> = {}
   const cache = new Map<string, JsonObject>()
+  const contactsCache = new Map<string, JsonObject>()
   for (const slug of [...categorySlugs].sort()) {
     if (slug === "default") continue
     if (!existsSync(homeVariantPath(slug))) continue
     variants[slug] = await readVariantContent(slug, cache)
+  }
+  for (const slug of [...categorySlugs].sort()) {
+    if (slug === "default") continue
+    contactVariants[slug] = await readContactsVariantContent(slug, meta, contactsCache)
   }
 
   const categories = [...categorySlugs]
@@ -608,6 +738,7 @@ async function readState() {
     previewBaseUrl: PREVIEW_BASE_URL,
     home,
     contacts,
+    contactVariants,
     rules,
     forms,
     meta,
@@ -742,6 +873,38 @@ async function saveContacts(payload: JsonObject) {
   await writeJson(CONTACTS_PATH, payload.content)
 }
 
+async function saveContactsCategory(payload: JsonObject) {
+  const slug = ensureSlug(payload.slug)
+  ensure(slug !== "default", "default contacts are edited via contacts.json")
+  ensure(isPlainObject(payload.content), "contacts category content is required")
+
+  const meta = await readMetaAndSync()
+  ensure(meta.categories[slug], `category ${slug} does not exist`)
+
+  const extendsSlug =
+    typeof payload.extends === "string" && payload.extends.trim()
+      ? payload.extends.trim()
+      : meta.categories[slug].extends || "default"
+  ensure(
+    extendsSlug === "default" || Boolean(meta.categories[extendsSlug]),
+    "contacts category extends must exist",
+  )
+  ensure(extendsSlug !== slug, "contacts category cannot extend itself")
+
+  const nextContent = clone(payload.content)
+  nextContent.schemaVersion = 1
+  nextContent.extends = extendsSlug
+  validateContactsContent(nextContent, { requireExtends: true, slug, partial: true })
+
+  meta.categories[slug] = {
+    ...meta.categories[slug],
+    modified: todayStamp(),
+  }
+
+  await writeJson(contactsVariantPath(slug), nextContent)
+  await writeJson(META_PATH, meta)
+}
+
 async function saveForms(payload: JsonObject) {
   validateFormsPayload(payload.content)
   await writeJson(HOME_CALLBACK_FORM_PATH, payload.content.homeCallback)
@@ -769,13 +932,23 @@ async function createCategory(payload: JsonObject) {
   const fromSlug = payload.fromSlug ? ensureSlug(payload.fromSlug, "fromSlug") : "default"
   const source =
     fromSlug === "default" ? await readJson(HOME_PATH) : await readVariantContent(fromSlug)
+  const contactsSource =
+    fromSlug === "default"
+      ? await readJson(CONTACTS_PATH)
+      : await readContactsVariantContent(fromSlug, meta)
   validateHomeContent(source)
+  validateContactsContent(contactsSource)
 
   const label =
     typeof payload.label === "string" && payload.label.trim() ? payload.label.trim() : slug
   const today = todayStamp()
   const nextContent = {
     ...clone(source),
+    schemaVersion: 1,
+    extends: "default",
+  }
+  const nextContactsContent = {
+    ...clone(contactsSource),
     schemaVersion: 1,
     extends: "default",
   }
@@ -788,6 +961,7 @@ async function createCategory(payload: JsonObject) {
   }
 
   await writeJson(homeVariantPath(slug), nextContent)
+  await writeJson(contactsVariantPath(slug), nextContactsContent)
   await writeJson(META_PATH, meta)
 }
 
@@ -826,6 +1000,14 @@ async function saveCategory(payload: JsonObject) {
   }
 
   await writeJson(homeVariantPath(slug), nextContent)
+  const contactsPath = contactsVariantPath(slug)
+  const nextContactsContent = existsSync(contactsPath)
+    ? clone(await readJson(contactsPath))
+    : { schemaVersion: 1 }
+  nextContactsContent.schemaVersion = 1
+  nextContactsContent.extends = extendsSlug
+  validateContactsContent(nextContactsContent, { requireExtends: true, slug, partial: true })
+  await writeJson(contactsPath, nextContactsContent)
   await writeJson(META_PATH, meta)
 }
 
@@ -852,6 +1034,9 @@ async function deleteCategory(payload: JsonObject) {
 
   delete meta.categories[slug]
   await fs.rm(homeVariantPath(slug))
+  if (existsSync(contactsVariantPath(slug))) {
+    await fs.rm(contactsVariantPath(slug))
+  }
   await writeJson(META_PATH, meta)
 }
 
@@ -870,6 +1055,11 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "POST" && url.pathname === "/api/contacts/save") {
       await saveContacts(await readBody(req))
+      return sendJson(res, 200, { ok: true })
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/contacts/categories/save") {
+      await saveContactsCategory(await readBody(req))
       return sendJson(res, 200, { ok: true })
     }
 

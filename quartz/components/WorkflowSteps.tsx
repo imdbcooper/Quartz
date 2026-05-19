@@ -5,13 +5,21 @@ import { WorkflowConfig } from "./landing/types"
 export default ((config: WorkflowConfig) => {
   const WorkflowSteps: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
-      <section class="contacts-section" aria-labelledby="contacts-workflow-title">
+      <section
+        class="contacts-section"
+        aria-labelledby="contacts-workflow-title"
+        data-contacts-block="workflow"
+      >
         <div class="contacts-section__head">
-          <span class="contacts-section__index">{config.index}</span>
-          <h2 id="contacts-workflow-title">{config.title}</h2>
+          <span class="contacts-section__index" data-contacts-text="workflow.index">
+            {config.index}
+          </span>
+          <h2 id="contacts-workflow-title" data-contacts-text="workflow.title">
+            {config.title}
+          </h2>
           <span class="contacts-section__line" aria-hidden="true" />
         </div>
-        <div class="contacts-steps-grid">
+        <div class="contacts-steps-grid" data-contacts-steps-grid>
           {config.steps.map((step) => (
             <article class="contacts-step-card" key={step.num}>
               <div class="contacts-step-card__top">

@@ -5,14 +5,26 @@ import { ContactsHeroConfig } from "./landing/types"
 export default ((config: ContactsHeroConfig) => {
   const ContactsHero: QuartzComponent = (_props: QuartzComponentProps) => {
     return (
-      <section class="contacts-hero" aria-labelledby="contacts-hero-title">
+      <section
+        class="contacts-hero"
+        aria-labelledby="contacts-hero-title"
+        data-contacts-block="hero"
+      >
         <div class="contacts-hero__glow contacts-hero__glow--right" aria-hidden="true" />
         <div class="contacts-hero__glow contacts-hero__glow--left" aria-hidden="true" />
         <div class="contacts-hero__glow contacts-hero__glow--center" aria-hidden="true" />
         <div class="contacts-hero__content">
-          <h1 id="contacts-hero-title">{config.title}</h1>
-          <p class="contacts-hero__subtitle">{config.subtitle}</p>
-          <div class="contacts-hero__tags" aria-label="Форматы сотрудничества">
+          <h1 id="contacts-hero-title" data-contacts-text="hero.title">
+            {config.title}
+          </h1>
+          <p class="contacts-hero__subtitle" data-contacts-text="hero.subtitle">
+            {config.subtitle}
+          </p>
+          <div
+            class="contacts-hero__tags"
+            aria-label="Форматы сотрудничества"
+            data-contacts-hero-tags
+          >
             {config.tags.map((tag) => (
               <span class="contacts-tag" key={tag}>
                 {tag}
@@ -20,7 +32,11 @@ export default ((config: ContactsHeroConfig) => {
             ))}
           </div>
           <div class="contacts-hero__actions">
-            <a class="contacts-button contacts-button--primary" href={config.tgLink}>
+            <a
+              class="contacts-button contacts-button--primary"
+              href={config.tgLink}
+              data-contacts-link-tg
+            >
               <span class="material-symbols-outlined" aria-hidden="true">
                 send
               </span>
