@@ -8,58 +8,6 @@ function isHexColor(value) {
 }
 
 function initHome() {
-  const sliderRoot = document.querySelector("[data-okb-slider]")
-  if (sliderRoot && !sliderRoot.dataset.ready) {
-    sliderRoot.dataset.ready = "1"
-  }
-
-  let intervalId
-
-  function getFaqModal() {
-    return document.querySelector("[data-home-faq-modal]")
-  }
-
-  function openFaqModal() {
-    const modal = getFaqModal()
-    if (!modal) return
-
-    modal.hidden = false
-    modal.setAttribute("aria-hidden", "false")
-    modal.classList.add("is-open")
-    document.documentElement.classList.add("home-callback-modal-open")
-    document.body.classList.add("home-callback-modal-open")
-  }
-
-  function closeFaqModal() {
-    const modal = getFaqModal()
-    if (!modal) return
-
-    modal.classList.remove("is-open")
-    modal.setAttribute("aria-hidden", "true")
-    modal.hidden = true
-    document.documentElement.classList.remove("home-callback-modal-open")
-    document.body.classList.remove("home-callback-modal-open")
-  }
-
-  if (!window._homeFaqListenerAttached) {
-    window._homeFaqListenerAttached = true
-    document.addEventListener("click", (event) => {
-      if (event.target.closest("[data-faq-more]")) {
-        event.preventDefault()
-        openFaqModal()
-      }
-      if (event.target.closest("[data-home-faq-close]")) {
-        event.preventDefault()
-        closeFaqModal()
-      }
-
-      const modal = getFaqModal()
-      if (modal && event.target === modal) {
-        closeFaqModal()
-      }
-    })
-  }
-
   function byPath(obj, path) {
     if (!obj || typeof path !== "string") return undefined
 
@@ -283,31 +231,6 @@ function initHome() {
     }
   }
 
-  function bindServiceChipFlip(root = document) {
-    const isTouchLike = window.matchMedia("(hover: none), (pointer: coarse)").matches
-    const chips = root.querySelectorAll(".service-chip--flippable")
-    chips.forEach((card) => {
-      if (card.dataset.flipBound === "true") return
-      card.dataset.flipBound = "true"
-
-      if (!isTouchLike) return
-
-      card.addEventListener("click", () => {
-        const next = !card.classList.contains("is-open")
-        chips.forEach((other) => {
-          if (other !== card) other.classList.remove("is-open")
-        })
-        card.classList.toggle("is-open", next)
-      })
-
-      card.addEventListener("keydown", (event) => {
-        if (event.key !== "Enter" && event.key !== " ") return
-        event.preventDefault()
-        card.click()
-      })
-    })
-  }
-
   function renderFocusCards(data) {
     const dynamicFocusList = document.querySelector("[data-home-focus-list]")
     if (!dynamicFocusList || !Array.isArray(data.focus?.cards)) return
@@ -414,8 +337,7 @@ function initHome() {
       article.appendChild(inner)
       dynamicServicesList.appendChild(article)
     })
-
-    bindServiceChipFlip(dynamicServicesList)
+    document.dispatchEvent(new CustomEvent("home:services-rendered"))
   }
 
   function renderFaq(data) {
@@ -436,21 +358,12 @@ function initHome() {
       items.forEach((item) => {
         const article = document.createElement("article")
         article.className = "faq-modal-item"
+        article.dataset.faqQuestion = typeof item.question === "string" ? item.question : ""
+        article.dataset.faqAnswerText = typeof item.answer === "string" ? item.answer : ""
 
         const h3 = document.createElement("h3")
         h3.textContent = item.question
         article.appendChild(h3)
-
-        article.addEventListener("click", (event) => {
-          event.preventDefault()
-          event.stopPropagation()
-
-          const currentTitle = document.querySelector("[data-faq-title]")
-          const currentAnswer = document.querySelector("[data-faq-answer]")
-          if (currentTitle) currentTitle.textContent = item.question
-          if (currentAnswer) currentAnswer.textContent = item.answer
-          closeFaqModal()
-        })
 
         modalList.appendChild(article)
       })
@@ -879,7 +792,7 @@ function initHome() {
     data.works.items.forEach((item, index) => {
       list.appendChild(renderWorkItem(item, index))
     })
-    startSlider()
+    document.dispatchEvent(new CustomEvent("home:works-rendered"))
   }
 
   function applyHomeContent(data) {
@@ -932,142 +845,6 @@ function initHome() {
       console.error("Home load error:", error)
     }
   }
-
-  function startSlider() {
-    const slider = document.querySelector("[data-okb-slider]")
-    if (!slider) return
-
-    if (intervalId) clearInterval(intervalId)
-
-    const slides = slider.querySelectorAll(".okb-slider__slide")
-    const dots = slider.querySelectorAll(".okb-slider__dots .okb-slider__dot")
-    let cur = 0
-    const len = slides.length
-
-    function go(nextIndex) {
-      if (slides.length === 0) return
-      slides[cur].classList.remove("okb-slider__slide--active")
-      if (dots[cur]) dots[cur].classList.remove("okb-slider__dot--active")
-      cur = ((nextIndex % len) + len) % len
-      slides[cur].classList.add("okb-slider__slide--active")
-      if (dots[cur]) dots[cur].classList.add("okb-slider__dot--active")
-    }
-
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => go(index))
-    })
-
-    intervalId = setInterval(() => go(cur + 1), 4000)
-  }
-
-  async function loadProject(projectName) {
-    if (
-      Array.isArray(window.__homeWorksItems) &&
-      window.__homeWorksItems.length > 0 &&
-      document.querySelector("[data-home-works-list]")
-    ) {
-      return
-    }
-
-    try {
-      const res = await fetch("/images/Prodject/" + projectName + "/data.json")
-      if (!res.ok) throw new Error("Failed to load project")
-
-      const data = await res.json()
-      let projectBadge = data.badge
-      let projectTitle = data.title
-      if (data.head) {
-        if (typeof data.head.badge === "string") projectBadge = data.head.badge
-        if (typeof data.head.title === "string") projectTitle = data.head.title
-      }
-
-      const headBadge = document.querySelector(".okb-head .okb-badge")
-      const headTitle = document.querySelector(".okb-head h3")
-      if (headBadge && typeof projectBadge === "string") headBadge.textContent = projectBadge
-      if (headTitle && typeof projectTitle === "string") headTitle.textContent = projectTitle
-
-      const wasCard = document.querySelector(".okb-card--was")
-      const didCard = document.querySelector(".okb-card--did")
-      const resultCard = document.querySelector(".okb-card--result")
-
-      if (wasCard) {
-        const wasLabel = wasCard.querySelector(".okb-card__label p")
-        if (wasLabel && typeof data.was.label === "string") wasLabel.textContent = data.was.label
-        wasCard.querySelector("h4").textContent = data.was.title
-        wasCard.querySelector(".okb-card__sub").textContent = data.was.desc
-      }
-
-      if (didCard) {
-        const didLabel = didCard.querySelector(".okb-card__label p")
-        if (didLabel && typeof data.did.label === "string") didLabel.textContent = data.did.label
-        didCard.querySelector("h4").textContent = data.did.title
-        didCard.querySelector(".okb-card__sub").textContent = data.did.desc
-      }
-
-      if (resultCard) {
-        const resultLabel = resultCard.querySelector(".okb-card__label p")
-        if (resultLabel && typeof data.result.label === "string") {
-          resultLabel.textContent = data.result.label
-        }
-        resultCard.querySelector("h4").textContent = data.result.title
-        resultCard.querySelector(".okb-card__sub").textContent = data.result.desc
-      }
-
-      const sliderTrack = document.querySelector(".okb-slider__track")
-      const dotsContainer = document.querySelector(".okb-slider__dots")
-      if (sliderTrack) sliderTrack.innerHTML = ""
-      if (dotsContainer) dotsContainer.innerHTML = ""
-
-      if (sliderTrack && dotsContainer && Array.isArray(data.slides)) {
-        data.slides.forEach((slide, index) => {
-          const slideDiv = document.createElement("div")
-          slideDiv.className =
-            "okb-slider__slide" + (index === 0 ? " okb-slider__slide--active" : "")
-
-          const imgDark = document.createElement("img")
-          imgDark.className = "okb-slide-img okb-slide-img--dark"
-          imgDark.src = "/images/Prodject/" + projectName + "/" + slide.dark
-          imgDark.loading = "lazy"
-
-          const imgLight = document.createElement("img")
-          imgLight.className = "okb-slide-img okb-slide-img--light"
-          imgLight.src = "/images/Prodject/" + projectName + "/" + slide.light
-          imgLight.loading = "lazy"
-
-          slideDiv.appendChild(imgDark)
-          slideDiv.appendChild(imgLight)
-          sliderTrack.appendChild(slideDiv)
-
-          const dot = document.createElement("span")
-          dot.className = "okb-slider__dot" + (index === 0 ? " okb-slider__dot--active" : "")
-          dotsContainer.appendChild(dot)
-        })
-        startSlider()
-      }
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  document.addEventListener("click", (event) => {
-    const btn = event.target.closest(".okb-icon-btn[data-project]")
-    if (!btn) return
-    document
-      .querySelectorAll(".okb-icon-btn[data-project]")
-      .forEach((button) => button.classList.remove("okb-icon-btn--active"))
-
-    btn.classList.add("okb-icon-btn--active")
-    loadProject(btn.dataset.project)
-  })
-
-  const activeBtn = document.querySelector(".okb-icon-btn.okb-icon-btn--active[data-project]")
-  if (activeBtn) {
-    loadProject(activeBtn.dataset.project)
-  } else {
-    startSlider()
-  }
-
-  bindServiceChipFlip()
   loadHomeContent()
 }
 

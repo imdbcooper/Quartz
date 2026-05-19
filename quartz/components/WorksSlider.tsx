@@ -1,5 +1,7 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import { WorkCard, WorkItem, WorkSlide, WorksConfig } from "./landing/types"
+// @ts-ignore
+import script from "./scripts/worksSlider.inline"
 
 const DEFAULT_WORK_ITEMS: WorkItem[] = [
   {
@@ -186,5 +188,6 @@ export default ((config?: WorksConfig) => {
     )
   }
 
+  WorksSlider.afterDOMLoaded = script
   return WorksSlider
 }) satisfies QuartzComponentConstructor<WorksConfig | undefined>

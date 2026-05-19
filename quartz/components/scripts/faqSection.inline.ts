@@ -15,7 +15,6 @@ function mountFaqSection() {
 
   const mainTitle = document.querySelector<HTMLElement>("[data-faq-title]")
   const mainAnswer = document.querySelector<HTMLElement>("[data-faq-answer]")
-  const modalItems = faqModal.querySelectorAll<HTMLElement>(".faq-modal-item")
 
   function openFaqModal() {
     faqModal!.hidden = false
@@ -36,6 +35,7 @@ function mountFaqSection() {
   // Open modal on main FAQ click
   const onDocClick = (e: MouseEvent) => {
     const target = e.target as HTMLElement
+    const modalItem = target.closest<HTMLElement>(".faq-modal-item")
     if (target.closest("[data-faq-more]")) {
       e.preventDefault()
       openFaqModal()
@@ -47,24 +47,18 @@ function mountFaqSection() {
     if (faqModal && e.target === faqModal) {
       closeFaqModal()
     }
-  }
-
-  document.addEventListener("click", onDocClick)
-
-  // Click on modal item → update main card
-  modalItems.forEach((item) => {
-    const onClick = (e: Event) => {
+    if (modalItem && faqModal.contains(modalItem)) {
       e.preventDefault()
       e.stopPropagation()
-      const question = item.dataset.faqQuestion ?? ""
-      const answer = item.dataset.faqAnswerText ?? ""
+      const question = modalItem.dataset.faqQuestion ?? ""
+      const answer = modalItem.dataset.faqAnswerText ?? ""
       if (mainTitle) mainTitle.textContent = question
       if (mainAnswer) mainAnswer.textContent = answer
       closeFaqModal()
     }
-    item.addEventListener("click", onClick)
-    window.addCleanup(() => item.removeEventListener("click", onClick))
-  })
+  }
+
+  document.addEventListener("click", onDocClick)
 
   window.addCleanup(() => {
     document.removeEventListener("click", onDocClick)

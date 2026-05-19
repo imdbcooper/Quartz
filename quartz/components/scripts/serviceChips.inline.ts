@@ -37,4 +37,5 @@ function bindServiceChipFlip() {
 }
 
 document.addEventListener("nav", bindServiceChipFlip)
+document.addEventListener("home:services-rendered", bindServiceChipFlip)
 bindServiceChipFlip()
