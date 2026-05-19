@@ -19,4 +19,4 @@ This plugin has no configuration options.
 
 - Category: Emitter
 - Function name: `Plugin.CNAME()`.
-- Source: [`quartz/plugins/emitters/cname.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/emitters/cname.ts).
+- Source: `quartz/plugins/emitters/cname.ts`.

@@ -26,4 +26,4 @@ This plugin accepts the following configuration options:
 
 - Category: Transformer
 - Function name: `Plugin.OxHugoFlavoredMarkdown()`.
-- Source: [`quartz/plugins/transformers/oxhugofm.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/transformers/oxhugofm.ts).
+- Source: `quartz/plugins/transformers/oxhugofm.ts`.

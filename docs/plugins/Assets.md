@@ -17,4 +17,4 @@ This plugin has no configuration options.
 
 - Category: Emitter
 - Function name: `Plugin.Assets()`.
-- Source: [`quartz/plugins/emitters/assets.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/emitters/assets.ts).
+- Source: `quartz/plugins/emitters/assets.ts`.

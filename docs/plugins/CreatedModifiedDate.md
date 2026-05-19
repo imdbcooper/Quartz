@@ -24,4 +24,4 @@ When loading the frontmatter, the value of [[Frontmatter#List]] is used.
 
 - Category: Transformer
 - Function name: `Plugin.CreatedModifiedDate()`.
-- Source: [`quartz/plugins/transformers/lastmod.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/transformers/lastmod.ts).
+- Source: `quartz/plugins/transformers/lastmod.ts`.

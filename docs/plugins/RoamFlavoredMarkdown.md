@@ -23,4 +23,4 @@ This plugin accepts the following configuration options:
 
 - Category: Transformer
 - Function name: `Plugin.RoamFlavoredMarkdown()`.
-- Source: [`quartz/plugins/transformers/roam.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/transformers/roam.ts).
+- Source: `quartz/plugins/transformers/roam.ts`.

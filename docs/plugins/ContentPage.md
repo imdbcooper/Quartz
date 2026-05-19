@@ -15,4 +15,4 @@ This plugin has no configuration options.
 
 - Category: Emitter
 - Function name: `Plugin.ContentPage()`.
-- Source: [`quartz/plugins/emitters/contentPage.tsx`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/emitters/contentPage.tsx).
+- Source: `quartz/plugins/emitters/contentPage.tsx`.

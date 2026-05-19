@@ -34,4 +34,4 @@ This plugin has no configuration options.
 
 - Category: Emitter
 - Function name: `Plugin.AliasRedirects()`.
-- Source: [`quartz/plugins/emitters/aliases.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/emitters/aliases.ts).
+- Source: `quartz/plugins/emitters/aliases.ts`.

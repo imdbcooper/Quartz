@@ -38,13 +38,13 @@ afterBody: [
     provider: 'giscus',
     options: {
       // from data-repo
-      repo: 'jackyzha0/quartz',
+      repo: 'your-org/your-repo',
       // from data-repo-id
-      repoId: 'MDEwOlJlcG9zaXRvcnkzODcyMTMyMDg',
+      repoId: '<your-repo-id>',
       // from data-category
-      category: 'Announcements',
+      category: '<your-category-name>',
       // from data-category-id
-      categoryId: 'DIC_kwDOFxRnmM4B-Xg6',
+      categoryId: '<your-category-id>',
       // from data-lang
       lang: 'en'
     }

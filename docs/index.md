@@ -4,6 +4,9 @@ title: Welcome to Quartz 4
 
 Quartz is a fast, batteries-included static-site generator that transforms Markdown content into fully functional websites. Thousands of students, developers, and teachers are [[showcase|already using Quartz]] to publish personal notes, websites, and [digital gardens](https://jzhao.xyz/posts/networked-thought) to the web.
 
+> [!note]
+> This `docs/` tree is kept as a Quartz reference inside this fork. For fork-specific architecture and site customizations, start with the repository `README.md`, `docs/home-central-integration.md`, and `docs/carousel-audit.md`.
+
 ## 🪴 Get Started
 
 Quartz requires **at least [Node](https://nodejs.org/) v22** and `npm` v10.9.2 to function correctly. Ensure you have this installed on your machine before continuing.
@@ -11,13 +14,12 @@ Quartz requires **at least [Node](https://nodejs.org/) v22** and `npm` v10.9.2 t
 Then, in your terminal of choice, enter the following commands line by line:
 
 ```shell
-git clone https://github.com/jackyzha0/quartz.git
-cd quartz
-npm i
-npx quartz create
+git clone https://github.com/imdbcooper/Quartz.git
+cd Quartz
+npm ci
 ```
 
-This will guide you through initializing your Quartz with content. Once you've done so, see how to:
+This installs the fork locally. Once you're set up, see how to:
 
 1. [[authoring content|Writing content]] in Quartz
 2. [[configuration|Configure]] Quartz's behaviour
@@ -41,6 +43,6 @@ For a comprehensive list of features, visit the [features page](./features/). Yo
 
 ### 🚧 Troubleshooting + Updating
 
-Having trouble with Quartz? Try searching for your issue using the search feature. If you haven't already, [[upgrading|upgrade]] to the newest version of Quartz to see if this fixes your issue.
+Having trouble with Quartz? Try searching for your issue using the search feature. If you haven't already, [[upgrading|upgrade]] to the newest version used in this fork to see if this fixes your issue.
 
-If you're still having trouble, feel free to [submit an issue](https://github.com/jackyzha0/quartz/issues) if you feel you found a bug or ask for help in our [Discord Community](https://discord.gg/cRFFHYye7t).
+If you're still having trouble, open an issue in this fork's repository or use your normal project support path.

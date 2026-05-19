@@ -19,4 +19,4 @@ This plugin accepts the following configuration options:
 
 - Category: Emitter
 - Function name: `Plugin.TagPage()`.
-- Source: [`quartz/plugins/emitters/tagPage.tsx`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/emitters/tagPage.tsx).
+- Source: `quartz/plugins/emitters/tagPage.tsx`.

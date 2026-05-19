@@ -15,4 +15,4 @@ This plugin has no configuration options.
 
 - Category: Transformer
 - Function name: `Plugin.HardLineBreaks()`.
-- Source: [`quartz/plugins/transformers/linebreaks.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/transformers/linebreaks.ts).
+- Source: `quartz/plugins/transformers/linebreaks.ts`.

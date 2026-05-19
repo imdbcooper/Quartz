@@ -16,4 +16,4 @@ This plugin has no configuration options.
 
 - Category: Emitter
 - Function name: `Plugin.Favicon()`.
-- Source: [`quartz/plugins/emitters/favicon.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/emitters/favicon.ts).
+- Source: `quartz/plugins/emitters/favicon.ts`.

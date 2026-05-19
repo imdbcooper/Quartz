@@ -15,4 +15,4 @@ This plugin has no configuration options.
 
 - Category: Filter
 - Function name: `Plugin.RemoveDrafts()`.
-- Source: [`quartz/plugins/filters/draft.ts`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/filters/draft.ts).
+- Source: `quartz/plugins/filters/draft.ts`.

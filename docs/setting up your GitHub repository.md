@@ -21,7 +21,8 @@ git remote -v
 # if the origin doesn't match your own repository, set your repository as the origin
 git remote set-url origin REMOTE-URL
 
-# if you don't have upstream as a remote, add it so updates work
+# optional: if you want to track the original Quartz project separately,
+# add it as the upstream remote
 git remote add upstream https://github.com/jackyzha0/quartz.git
 ```
 

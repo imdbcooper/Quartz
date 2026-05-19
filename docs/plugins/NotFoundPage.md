@@ -15,4 +15,4 @@ This plugin has no configuration options.
 
 - Category: Emitter
 - Function name: `Plugin.NotFoundPage()`.
-- Source: [`quartz/plugins/emitters/404.tsx`](https://github.com/jackyzha0/quartz/blob/v4/quartz/plugins/emitters/404.tsx).
+- Source: `quartz/plugins/emitters/404.tsx`.
