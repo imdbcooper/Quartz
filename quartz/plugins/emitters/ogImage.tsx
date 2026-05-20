@@ -11,6 +11,7 @@ import { write } from "./helpers"
 import { BuildCtx } from "../../util/ctx"
 import { QuartzPluginData } from "../vfile"
 import fs from "node:fs/promises"
+import path from "node:path"
 import { styleText } from "util"
 
 const defaultOptions: SocialImageOptions = {
@@ -26,7 +27,7 @@ const defaultOptions: SocialImageOptions = {
  * @param opts options for generating image
  */
 async function generateSocialImage(
-  { cfg, description, fonts, title, fileData }: ImageOptions,
+  { cfg, description, fonts, title, fileData, avatarBase64 }: ImageOptions,
   userOpts: SocialImageOptions,
 ): Promise<Readable> {
   const { width, height } = userOpts
@@ -47,6 +48,7 @@ async function generateSocialImage(
     fonts,
     fileData,
     iconBase64,
+    avatarBase64,
   })
 
   const svg = await satori(imageComponent, {
@@ -65,6 +67,23 @@ async function generateSocialImage(
   return sharp(Buffer.from(svg)).webp({ quality: 40 })
 }
 
+async function loadAvatarBase64(
+  ctx: BuildCtx,
+  fileData: QuartzPluginData,
+): Promise<string | undefined> {
+  if (fileData.slug !== "index") return undefined
+
+  const avatarPath = path.resolve(ctx.argv.directory, "images", "avatar.png")
+
+  try {
+    const avatarData = await fs.readFile(avatarPath)
+    return `data:image/png;base64,${avatarData.toString("base64")}`
+  } catch (err) {
+    console.warn(styleText("yellow", `Warning: Could not find avatar at ${avatarPath}`))
+    return undefined
+  }
+}
+
 async function processOgImage(
   ctx: BuildCtx,
   fileData: QuartzPluginData,
@@ -75,11 +94,14 @@ async function processOgImage(
   const slug = fileData.slug!
   const titleSuffix = cfg.pageTitleSuffix ?? ""
   const title =
-    (fileData.frontmatter?.title ?? i18n(cfg.locale).propertyDefaults.title) + titleSuffix
+    (fileData.frontmatter?.socialTitle ??
+      fileData.frontmatter?.title ??
+      i18n(cfg.locale).propertyDefaults.title) + titleSuffix
   const description =
     fileData.frontmatter?.socialDescription ??
     fileData.frontmatter?.description ??
     unescapeHTML(fileData.description?.trim() ?? i18n(cfg.locale).propertyDefaults.description)
+  const avatarBase64 = await loadAvatarBase64(ctx, fileData)
 
   const stream = await generateSocialImage(
     {
@@ -88,6 +110,7 @@ async function processOgImage(
       fonts,
       cfg,
       fileData,
+      avatarBase64,
     },
     fullOptions,
   )

@@ -141,6 +141,7 @@ export type SocialImageOptions = {
     options: ImageOptions & {
       userOpts: UserOpts
       iconBase64?: string
+      avatarBase64?: string
     },
   ) => JSXInternal.Element
 }
@@ -168,6 +169,10 @@ export type ImageOptions = {
    * full file data of current page
    */
   fileData: QuartzPluginData
+  /**
+   * optional base64 avatar image for repo-specific OG templates
+   */
+  avatarBase64?: string
 }
 
 // This is the default template for generated social image.
