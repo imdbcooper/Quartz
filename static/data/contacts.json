@@ -1,4 +1,5 @@
 {
+  "schemaVersion": 1,
   "pageLayout": ["hero", "channels", "workflow", "formats", "faq", "cta"],
   "hero": {
     "title": "Запуск проекта за 24 часа",

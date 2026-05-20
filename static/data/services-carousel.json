@@ -24,7 +24,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -34,7 +35,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -44,7 +46,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -54,7 +57,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -64,7 +68,8 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
@@ -74,17 +79,19 @@
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     },
     {
-      "title": "Разаботка сайт",
+      "title": "Разработка сайта",
       "description": "Сайт визитка, для малого бизнеса",
       "price": "от 90 000 ₽",
       "note": "Ответ в течение дня",
       "button": {
         "text": "Заказать",
-        "href": "/contact"
+        "href": "/Кoнтакты",
+        "action": "open-modal"
       }
     }
   ]
