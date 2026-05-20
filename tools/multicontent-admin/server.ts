@@ -3,12 +3,18 @@ import path from "node:path"
 import fs from "node:fs/promises"
 import { existsSync } from "node:fs"
 import { fileURLToPath } from "node:url"
+import matter from "gray-matter"
 
 type JsonObject = Record<string, any>
+type ArticleCategory = {
+  path: string
+  label: string
+}
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const ROOT_DIR = path.resolve(__dirname, "../..")
 const CLIENT_DIR = path.join(__dirname, "client")
+const CONTENT_DIR = path.join(ROOT_DIR, "content")
 const DATA_DIR = path.join(ROOT_DIR, "quartz", "static", "data")
 const WORKS_UPLOAD_DIR = path.join(ROOT_DIR, "content", "images", "Prodject", "uploads", "works")
 const WORKS_UPLOAD_URL_PREFIX = "/images/Prodject/uploads/works"
@@ -26,6 +32,7 @@ const RULES_PATH = path.join(DATA_DIR, "multicontent-rules.json")
 const META_PATH = path.join(DATA_DIR, "multicontent-meta.json")
 const HOME_CALLBACK_FORM_PATH = path.join(DATA_DIR, "home-callback-form.json")
 const FEEDBACK_FORM_PATH = path.join(DATA_DIR, "feedback-form.json")
+const HOME_LATEST_ARTICLES_PATH = path.join(DATA_DIR, "home-latest-articles.json")
 
 const PORT = Number(process.env.MULTICONTENT_ADMIN_PORT || 3100)
 const PREVIEW_BASE_URL = process.env.MULTICONTENT_PREVIEW_BASE_URL || "http://localhost:8080"
@@ -543,6 +550,25 @@ function validateFormsPayload(data: unknown) {
   validateFormConfig(data.feedback, "forms.feedback")
 }
 
+function validateHomeLatestArticlesConfig(data: unknown, availableCategoryPaths?: Set<string>) {
+  ensure(isPlainObject(data), "home latest articles config must be an object")
+  ensureString(data.title, "homeLatestArticles.title")
+  ensure(data.title.trim().length > 0, "homeLatestArticles.title is required")
+  ensure(
+    typeof data.limit === "number" && Number.isInteger(data.limit) && data.limit > 0,
+    "homeLatestArticles.limit must be a positive integer",
+  )
+  ensureStringArray(data.categoryPaths, "homeLatestArticles.categoryPaths")
+  if (availableCategoryPaths) {
+    data.categoryPaths.forEach((categoryPath: string, index: number) => {
+      ensure(
+        availableCategoryPaths.has(categoryPath),
+        `homeLatestArticles.categoryPaths[${index}] must reference an existing section`,
+      )
+    })
+  }
+}
+
 function validateMeta(data: unknown) {
   ensure(isPlainObject(data), "meta must be an object")
   ensure(isPlainObject(data.categories), "meta.categories must be an object")
@@ -584,6 +610,36 @@ async function scanVariantSlugs() {
     .map((entry) => entry.match(/^home\.([a-z0-9-]+)\.json$/)?.[1] ?? null)
     .filter((entry): entry is string => Boolean(entry))
     .sort()
+}
+
+async function scanArticleCategories(dir = CONTENT_DIR): Promise<ArticleCategory[]> {
+  const entries = await fs.readdir(dir, { withFileTypes: true })
+  const categories: ArticleCategory[] = []
+
+  for (const entry of entries) {
+    const target = path.join(dir, entry.name)
+    if (entry.isDirectory()) {
+      categories.push(...(await scanArticleCategories(target)))
+      continue
+    }
+
+    if (!entry.isFile() || entry.name !== "index.md") continue
+
+    const relativeDir = path.relative(CONTENT_DIR, path.dirname(target)).split(path.sep).join("/")
+    if (!relativeDir) continue
+
+    let label = relativeDir.split("/").at(-1) || relativeDir
+    try {
+      const parsed = matter(await fs.readFile(target, "utf8"))
+      if (typeof parsed.data.title === "string" && parsed.data.title.trim()) {
+        label = parsed.data.title.trim()
+      }
+    } catch {}
+
+    categories.push({ path: relativeDir, label })
+  }
+
+  return categories.sort((a, b) => a.path.localeCompare(b.path))
 }
 
 async function readMetaAndSync() {
@@ -682,6 +738,8 @@ async function readState() {
   const contacts = await readJson(CONTACTS_PATH)
   const meta = await readMetaAndSync()
   const rules = await readJson(RULES_PATH)
+  const latestArticles = await readJson(HOME_LATEST_ARTICLES_PATH)
+  const articleCategories = await scanArticleCategories()
   const forms = {
     homeCallback: await readJson(HOME_CALLBACK_FORM_PATH),
     feedback: await readJson(FEEDBACK_FORM_PATH),
@@ -690,6 +748,7 @@ async function readState() {
   validateHomeContent(home)
   validateContactsContent(contacts)
   validateFormsPayload(forms)
+  validateHomeLatestArticlesConfig(latestArticles)
 
   const categorySlugs = new Set<string>([
     "default",
@@ -738,6 +797,8 @@ async function readState() {
     previewBaseUrl: PREVIEW_BASE_URL,
     home,
     contacts,
+    latestArticles,
+    articleCategories,
     contactVariants,
     rules,
     forms,
@@ -911,6 +972,15 @@ async function saveForms(payload: JsonObject) {
   await writeJson(FEEDBACK_FORM_PATH, payload.content.feedback)
 }
 
+async function saveHomeLatestArticles(payload: JsonObject) {
+  const articleCategories = await scanArticleCategories()
+  validateHomeLatestArticlesConfig(
+    payload.content,
+    new Set(articleCategories.map((category) => category.path)),
+  )
+  await writeJson(HOME_LATEST_ARTICLES_PATH, payload.content)
+}
+
 async function saveRules(payload: JsonObject) {
   const meta = await readMetaAndSync()
   const categories = new Set<string>([
@@ -1070,6 +1140,11 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "POST" && url.pathname === "/api/forms/save") {
       await saveForms(await readBody(req))
+      return sendJson(res, 200, { ok: true })
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/home-latest-articles/save") {
+      await saveHomeLatestArticles(await readBody(req))
       return sendJson(res, 200, { ok: true })
     }
 

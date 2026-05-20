@@ -49,6 +49,16 @@ function setMobileScrollLock(locked: boolean) {
   document.body.classList.toggle("mobile-no-scroll", locked)
 }
 
+function scheduleGraphRefresh() {
+  requestAnimationFrame(() => {
+    window.dispatchEvent(new Event("quartz:graphrefresh"))
+
+    window.setTimeout(() => {
+      window.dispatchEvent(new Event("quartz:graphrefresh"))
+    }, 220)
+  })
+}
+
 function toggleMenu(this: HTMLElement) {
   const nearestMenu = this.closest(".card-menu") as HTMLElement
   if (!nearestMenu) return
@@ -60,6 +70,9 @@ function toggleMenu(this: HTMLElement) {
   )
 
   setMobileScrollLock(!menuCollapsed)
+  if (!menuCollapsed) {
+    scheduleGraphRefresh()
+  }
 }
 
 function getStatePath(link: HTMLAnchorElement | null): FullSlug | null {
@@ -441,6 +454,7 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
       menu.classList.add("collapsed")
       menu.setAttribute("aria-expanded", "false")
       setMobileScrollLock(false)
+      scheduleGraphRefresh()
     } else {
       // Desktop: always expanded
       menu.classList.remove("collapsed")
@@ -473,6 +487,7 @@ setupCardMenu(initialSlug).then(() => {
       menu.classList.add("collapsed")
       menu.setAttribute("aria-expanded", "false")
       setMobileScrollLock(false)
+      scheduleGraphRefresh()
     } else {
       menu.classList.remove("collapsed")
       menu.setAttribute("aria-expanded", "true")

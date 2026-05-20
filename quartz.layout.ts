@@ -2,9 +2,91 @@ import { PageLayout, SharedLayout } from "./quartz/cfg"
 import * as Component from "./quartz/components"
 import homeData from "./quartz/static/data/home.json"
 import contactsData from "./quartz/static/data/contacts.json"
+import latestArticlesData from "./quartz/static/data/home-latest-articles.json"
 
 const HOME_BLOCK_ORDER = ["hero", "focus", "services", "works", "faq", "contact"] as const
 const CONTACTS_BLOCK_ORDER = ["hero", "channels", "workflow", "formats", "faq", "cta"] as const
+const homeGraphComponent = Component.Graph({
+  variant: "home",
+  title: "",
+  expandLabel: "Открыть полный граф",
+  legend: [
+    { label: "Проекты", tone: "projects" },
+    { label: "Статьи", tone: "blog" },
+    { label: "Документы", tone: "docs" },
+  ],
+  localGraph: {
+    variant: "home",
+    drag: true,
+    zoom: true,
+    depth: -1,
+    scale: 1,
+    repelForce: 0.75,
+    centerForce: 0.08,
+    linkDistance: 24,
+    fontSize: 0.46,
+    opacityScale: 0.7,
+    showTags: false,
+    focusOnHover: true,
+    enableRadial: false,
+  },
+  globalGraph: {
+    showTags: false,
+  },
+})
+const homeGraphOnIndex = Component.ConditionalRender({
+  component: homeGraphComponent,
+  condition: (page) => page.fileData.slug === "index",
+})
+const homeGraphDrawerComponent = Component.ConditionalRender({
+  component: Component.Graph({
+    variant: "home",
+    title: "",
+    expandLabel: "Открыть полный граф",
+    legend: [
+      { label: "Проекты", tone: "projects" },
+      { label: "Статьи", tone: "blog" },
+      { label: "Документы", tone: "docs" },
+    ],
+    localGraph: {
+      variant: "home",
+      drag: true,
+      zoom: true,
+      depth: -1,
+      scale: 1.08,
+      repelForce: 0.8,
+      centerForce: 0.07,
+      linkDistance: 22,
+      fontSize: 0.4,
+      opacityScale: 0.6,
+      showTags: false,
+      focusOnHover: true,
+      enableRadial: false,
+    },
+    globalGraph: {
+      showTags: false,
+    },
+  }),
+  condition: (page) => page.fileData.slug === "index",
+})
+const homeLatestArticlesOnIndex = Component.ConditionalRender({
+  component: Component.HomeLatestArticles(latestArticlesData),
+  condition: (page) => page.fileData.slug === "index",
+})
+const homeScrollSequenceOnIndex = Component.ConditionalRender({
+  component: Component.ScrollSequence({
+    basePath: "/static/foto_webp_540_flipped",
+    frameCount: 100,
+    startIndex: 1,
+    padLength: 3,
+    filePrefix: "foto_",
+    fileExtension: "webp",
+    frameWidth: 540,
+    frameHeight: 960,
+    alt: "Прокручиваемая image-sequence анимация девушки",
+  }),
+  condition: (page) => page.fileData.slug === "index",
+})
 
 function resolveBlockOrder<T extends string>(order: unknown, allowed: readonly T[]): T[] {
   if (!Array.isArray(order)) return [...allowed]
@@ -187,7 +269,10 @@ export const defaultContentPageLayout: PageLayout = {
         ],
       }),
     ),
-    Component.CardMenu(),
+    Component.CardMenu({
+      drawerComponent: homeGraphDrawerComponent,
+    }),
+    Component.DesktopOnly(homeScrollSequenceOnIndex),
   ],
   right: [
     Component.DesktopOnly(
@@ -202,14 +287,19 @@ export const defaultContentPageLayout: PageLayout = {
         ],
       }),
     ),
-    Component.Graph({
-      localGraph: {
-        showTags: false,
-      },
-      globalGraph: {
-        showTags: false,
-      },
+    Component.DesktopOnly(homeGraphOnIndex),
+    Component.ConditionalRender({
+      component: Component.Graph({
+        localGraph: {
+          showTags: false,
+        },
+        globalGraph: {
+          showTags: false,
+        },
+      }),
+      condition: (page) => page.fileData.slug !== "index",
     }),
+    Component.DesktopOnly(homeLatestArticlesOnIndex),
     Component.DesktopOnly(Component.TableOfContents()),
     Component.Backlinks(),
   ],

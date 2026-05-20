@@ -19,11 +19,22 @@ export interface D3Config {
   showTags: boolean
   focusOnHover?: boolean
   enableRadial?: boolean
+  variant?: "default" | "home"
+}
+
+interface GraphLegendItem {
+  label: string
+  tone: "projects" | "blog" | "docs" | "home" | "contact" | "default"
 }
 
 interface GraphOptions {
   localGraph: Partial<D3Config> | undefined
   globalGraph: Partial<D3Config> | undefined
+  variant?: "default" | "home"
+  title?: string
+  subtitle?: string
+  expandLabel?: string
+  legend?: GraphLegendItem[]
 }
 
 const defaultOptions: GraphOptions = {
@@ -41,6 +52,7 @@ const defaultOptions: GraphOptions = {
     removeTags: [],
     focusOnHover: false,
     enableRadial: false,
+    variant: "default",
   },
   globalGraph: {
     drag: true,
@@ -56,19 +68,37 @@ const defaultOptions: GraphOptions = {
     removeTags: [],
     focusOnHover: true,
     enableRadial: true,
+    variant: "default",
   },
 }
 
 export default ((opts?: Partial<GraphOptions>) => {
   const Graph: QuartzComponent = ({ displayClass, cfg }: QuartzComponentProps) => {
-    const localGraph = { ...defaultOptions.localGraph, ...opts?.localGraph }
+    const variant = opts?.variant ?? "default"
+    const title = opts?.title ?? i18n(cfg.locale).components.graph.title
+    const expandLabel = opts?.expandLabel ?? "Global Graph"
+    const hasHeader = Boolean(title || opts?.subtitle)
+    const localGraph = {
+      ...defaultOptions.localGraph,
+      ...opts?.localGraph,
+      variant: opts?.localGraph?.variant ?? variant,
+    }
     const globalGraph = { ...defaultOptions.globalGraph, ...opts?.globalGraph }
+    const graphClass = variant === "home" ? "graph graph--home" : "graph"
+
     return (
-      <div class={classNames(displayClass, "graph")}>
-        <h3>{i18n(cfg.locale).components.graph.title}</h3>
+      <div class={classNames(displayClass, graphClass)}>
+        {hasHeader ? (
+          <div class="graph__header">
+            <div>
+              {title ? <h3>{title}</h3> : null}
+              {opts?.subtitle ? <p class="graph__subtitle">{opts.subtitle}</p> : null}
+            </div>
+          </div>
+        ) : null}
         <div class="graph-outer">
           <div class="graph-container" data-cfg={JSON.stringify(localGraph)}></div>
-          <button class="global-graph-icon" aria-label="Global Graph">
+          <button class="global-graph-icon" aria-label={expandLabel} title={expandLabel}>
             <svg
               version="1.1"
               xmlns="http://www.w3.org/2000/svg"
@@ -94,6 +124,18 @@ export default ((opts?: Partial<GraphOptions>) => {
               />
             </svg>
           </button>
+          {opts?.legend?.length ? (
+            <div class="graph__legend" aria-hidden="true">
+              {opts.legend.map((item) => (
+                <span
+                  key={`${item.tone}-${item.label}`}
+                  class={`graph__legend-item graph__legend-item--${item.tone}`}
+                >
+                  {item.label}
+                </span>
+              ))}
+            </div>
+          ) : null}
         </div>
         <div class="global-graph-outer">
           <div class="global-graph-container" data-cfg={JSON.stringify(globalGraph)}></div>

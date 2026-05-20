@@ -1,5 +1,6 @@
 import { QuartzComponent, QuartzComponentConstructor, QuartzComponentProps } from "./types"
 import style from "./styles/cardMenu.scss"
+import { concatenateResources } from "../util/resources"
 
 // @ts-ignore
 import script from "./scripts/cardMenu.inline"
@@ -21,6 +22,7 @@ export interface CardMenuOptions {
   showNavButtons: boolean
   navButtons: Array<{ label: string; href: string }>
   footerText?: string
+  drawerComponent?: QuartzComponent
 }
 
 const defaultOptions: CardMenuOptions = {
@@ -80,10 +82,12 @@ let numMenus = 0
 export default ((userOpts?: Partial<CardMenuOptions>) => {
   const opts: CardMenuOptions = { ...defaultOptions, ...userOpts }
 
-  const CardMenu: QuartzComponent = ({ cfg, fileData, displayClass }: QuartzComponentProps) => {
+  const CardMenu: QuartzComponent = (props: QuartzComponentProps) => {
+    const { cfg, fileData, displayClass } = props
     const id = `card-menu-${numMenus++}`
     const title =
       opts.title ?? fileData.frontmatter?.title ?? i18n(cfg.locale).components.explorer.title
+    const DrawerComponent = opts.drawerComponent
 
     return (
       <div
@@ -148,6 +152,12 @@ export default ((userOpts?: Partial<CardMenuOptions>) => {
 
           {/* Menu sections - populated by script */}
           <ul class="card-menu-sections"></ul>
+
+          {DrawerComponent && (
+            <div class="card-menu-drawer-slot">
+              <DrawerComponent {...props} />
+            </div>
+          )}
 
           {/* Footer text */}
           {opts.footerText && (
@@ -222,7 +232,8 @@ export default ((userOpts?: Partial<CardMenuOptions>) => {
     )
   }
 
-  CardMenu.css = style
-  CardMenu.afterDOMLoaded = script
+  CardMenu.css = concatenateResources(style, opts.drawerComponent?.css)
+  CardMenu.beforeDOMLoaded = opts.drawerComponent?.beforeDOMLoaded
+  CardMenu.afterDOMLoaded = concatenateResources(script, opts.drawerComponent?.afterDOMLoaded)
   return CardMenu
 }) satisfies QuartzComponentConstructor

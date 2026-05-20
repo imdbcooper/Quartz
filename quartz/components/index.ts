@@ -43,6 +43,8 @@ import WorksSlider from "./WorksSlider"
 import ContactsHero from "./ContactsHero"
 import ContactsFaq from "./ContactsFaq"
 import ContactsCta from "./ContactsCta"
+import HomeLatestArticles from "./HomeLatestArticles"
+import ScrollSequence from "./ScrollSequence"
 
 export {
   ArticleTitle,
@@ -90,4 +92,6 @@ export {
   ContactsHero,
   ContactsFaq,
   ContactsCta,
+  HomeLatestArticles,
+  ScrollSequence,
 }

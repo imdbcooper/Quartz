@@ -9,6 +9,8 @@ import {
   forceLink,
   forceCollide,
   forceRadial,
+  forceX,
+  forceY,
   zoomIdentity,
   select,
   drag,
@@ -31,6 +33,9 @@ type NodeData = {
   id: SimpleSlug
   text: string
   tags: string[]
+  section: string
+  degree: number
+  featured: boolean
 } & SimulationNodeDatum
 
 type SimpleLinkData = {
@@ -50,6 +55,7 @@ type LinkRenderData = GraphicsInfo & {
 type NodeRenderData = GraphicsInfo & {
   simulationData: NodeData
   label: Text
+  baseLabelAlpha: number
 }
 
 const localStorageKey = "graph-visited"
@@ -68,10 +74,68 @@ type TweenNode = {
   stop: () => void
 }
 
+function getNodeSection(nodeId: SimpleSlug) {
+  return nodeId.startsWith("tags/") ? "tags" : nodeId.split("/")[0]
+}
+
+function isSectionOverviewNode(nodeId: SimpleSlug) {
+  if (nodeId === "index" || nodeId === "Кoнтакты") return true
+  const parts = nodeId.split("/")
+  return parts.length === 2 && parts[1] === "index"
+}
+
+function getHomeSectionTarget(section: string, width: number, height: number) {
+  switch (section) {
+    case "Проекты":
+      return { x: -width * 0.22, y: -height * 0.02 }
+    case "Blog":
+      return { x: width * 0.22, y: -height * 0.1 }
+    case "docs":
+      return { x: 0, y: height * 0.23 }
+    case "Кoнтакты":
+      return { x: width * 0.24, y: height * 0.2 }
+    case "index":
+      return { x: 0, y: 0 }
+    default:
+      return { x: 0, y: 0 }
+  }
+}
+
 async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   const slug = simplifySlug(fullSlug)
   const visited = getVisited()
   removeAllChildren(graph)
+  let deferredCleanup: (() => void) | null = null
+  let cancelled = false
+  const isDrawerGraph = graph.closest(".card-menu-content") !== null
+  const initialBounds = graph.getBoundingClientRect()
+  if (initialBounds.width === 0 || initialBounds.height === 0) {
+    const observer =
+      typeof ResizeObserver === "undefined"
+        ? null
+        : new ResizeObserver((entries) => {
+            const bounds = entries[0]?.contentRect
+            if (!bounds || bounds.width === 0 || bounds.height === 0) return
+
+            observer?.disconnect()
+            if (cancelled) return
+
+            void renderGraph(graph, fullSlug).then((cleanup) => {
+              if (cancelled) {
+                cleanup()
+              } else {
+                deferredCleanup = cleanup
+              }
+            })
+          })
+
+    observer?.observe(graph)
+    return () => {
+      cancelled = true
+      observer?.disconnect()
+      deferredCleanup?.()
+    }
+  }
 
   let {
     drag: enableDrag,
@@ -87,7 +151,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     showTags,
     focusOnHover,
     enableRadial,
+    variant,
   } = JSON.parse(graph.dataset["cfg"]!) as D3Config
+  const isHomeVariant = variant === "home"
 
   const data: Map<SimpleSlug, ContentDetails> = new Map(
     Object.entries<ContentDetails>(await fetchData).map(([k, v]) => [
@@ -143,22 +209,42 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     if (showTags) tags.forEach((tag) => neighbourhood.add(tag))
   }
 
-  const nodes = [...neighbourhood].map((url) => {
+  const rawNodes = [...neighbourhood].map((url) => {
     const text = url.startsWith("tags/") ? "#" + url.substring(5) : (data.get(url)?.title ?? url)
     return {
       id: url,
       text,
       tags: data.get(url)?.tags ?? [],
+      section: getNodeSection(url),
     }
   })
+  const filteredLinks = links.filter(
+    (l) => neighbourhood.has(l.source) && neighbourhood.has(l.target),
+  )
+  const degreeMap = rawNodes.reduce((acc, node) => {
+    acc.set(node.id, 0)
+    return acc
+  }, new Map<SimpleSlug, number>())
+  for (const link of filteredLinks) {
+    degreeMap.set(link.source, (degreeMap.get(link.source) ?? 0) + 1)
+    degreeMap.set(link.target, (degreeMap.get(link.target) ?? 0) + 1)
+  }
+
+  const nodes: NodeData[] = rawNodes.map((node) => {
+    const degree = degreeMap.get(node.id) ?? 0
+    return {
+      ...node,
+      degree,
+      featured: isSectionOverviewNode(node.id) || (isHomeVariant && degree >= 4),
+    }
+  })
+  const nodesById = new Map(nodes.map((node) => [node.id, node]))
   const graphData: { nodes: NodeData[]; links: LinkData[] } = {
     nodes,
-    links: links
-      .filter((l) => neighbourhood.has(l.source) && neighbourhood.has(l.target))
-      .map((l) => ({
-        source: nodes.find((n) => n.id === l.source)!,
-        target: nodes.find((n) => n.id === l.target)!,
-      })),
+    links: filteredLinks.map((l) => ({
+      source: nodesById.get(l.source)!,
+      target: nodesById.get(l.target)!,
+    })),
   }
 
   const width = graph.offsetWidth
@@ -170,6 +256,18 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     .force("center", forceCenter().strength(centerForce))
     .force("link", forceLink(graphData.links).distance(linkDistance))
     .force("collide", forceCollide<NodeData>((n) => nodeRadius(n)).iterations(3))
+
+  if (isHomeVariant) {
+    simulation
+      .force(
+        "sectionX",
+        forceX<NodeData>((n) => getHomeSectionTarget(n.section, width, height).x).strength(0.09),
+      )
+      .force(
+        "sectionY",
+        forceY<NodeData>((n) => getHomeSectionTarget(n.section, width, height).y).strength(0.09),
+      )
+  }
 
   const radius = (Math.min(width, height) / 2) * 0.8
   if (enableRadial) simulation.force("radial", forceRadial(radius).strength(0.2))
@@ -184,17 +282,45 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     "--dark",
     "--darkgray",
     "--bodyFont",
+    "--graph-home",
+    "--graph-projects",
+    "--graph-blog",
+    "--graph-docs",
+    "--graph-contact",
+    "--graph-neutral",
+    "--graph-link",
+    "--graph-label",
   ] as const
   const computedStyleMap = cssVars.reduce(
     (acc, key) => {
-      acc[key] = getComputedStyle(document.documentElement).getPropertyValue(key)
+      acc[key] = getComputedStyle(graph).getPropertyValue(key).trim()
       return acc
     },
     {} as Record<(typeof cssVars)[number], string>,
   )
 
-  // calculate color
+  const sectionColor = (section: string) => {
+    switch (section) {
+      case "index":
+        return computedStyleMap["--graph-home"] || computedStyleMap["--secondary"]
+      case "Проекты":
+        return computedStyleMap["--graph-projects"] || computedStyleMap["--secondary"]
+      case "Blog":
+        return computedStyleMap["--graph-blog"] || computedStyleMap["--tertiary"]
+      case "docs":
+        return computedStyleMap["--graph-docs"] || computedStyleMap["--secondary"]
+      case "Кoнтакты":
+        return computedStyleMap["--graph-contact"] || computedStyleMap["--secondary"]
+      default:
+        return computedStyleMap["--graph-neutral"] || computedStyleMap["--gray"]
+    }
+  }
+
   const color = (d: NodeData) => {
+    if (isHomeVariant) {
+      return sectionColor(d.section)
+    }
+
     const isCurrent = d.id === slug
     if (isCurrent) {
       return computedStyleMap["--secondary"]
@@ -206,10 +332,11 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
   }
 
   function nodeRadius(d: NodeData) {
-    const numLinks = graphData.links.filter(
-      (l) => l.source.id === d.id || l.target.id === d.id,
-    ).length
-    return 2 + Math.sqrt(numLinks)
+    if (isHomeVariant) {
+      return (d.featured ? 3.1 : 1.8) + Math.sqrt(d.degree) * 0.65
+    }
+
+    return 2 + Math.sqrt(d.degree)
   }
 
   let hoveredNodeId: string | null = null
@@ -254,15 +381,21 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const tweenGroup = new TweenGroup()
 
     for (const l of linkRenderData) {
-      let alpha = 1
+      let alpha = isHomeVariant ? 0.32 : 1
 
       // if we are hovering over a node, we want to highlight the immediate neighbours
       // with full alpha and the rest with default alpha
       if (hoveredNodeId) {
-        alpha = l.active ? 1 : 0.2
+        alpha = l.active ? 1 : isHomeVariant ? 0.08 : 0.2
       }
 
-      l.color = l.active ? computedStyleMap["--gray"] : computedStyleMap["--lightgray"]
+      l.color = isHomeVariant
+        ? l.active
+          ? computedStyleMap["--graph-home"] || computedStyleMap["--secondary"]
+          : computedStyleMap["--graph-link"] || computedStyleMap["--lightgray"]
+        : l.active
+          ? computedStyleMap["--gray"]
+          : computedStyleMap["--lightgray"]
       tweenGroup.add(new Tweened<LinkRenderData>(l).to({ alpha }, 200))
     }
 
@@ -373,21 +506,27 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
 
   for (const n of graphData.nodes) {
     const nodeId = n.id
+    const baseLabelAlpha = isHomeVariant && n.featured ? (isDrawerGraph ? 0.3 : 0.42) : 0
 
     const label = new Text({
       interactive: false,
       eventMode: "none",
       text: n.text,
-      alpha: 0,
+      alpha: baseLabelAlpha,
       anchor: { x: 0.5, y: 1.2 },
       style: {
         fontSize: fontSize * 15,
-        fill: computedStyleMap["--dark"],
+        fill: isHomeVariant
+          ? computedStyleMap["--graph-label"] || computedStyleMap["--dark"]
+          : computedStyleMap["--dark"],
         fontFamily: computedStyleMap["--bodyFont"],
       },
       resolution: window.devicePixelRatio * 4,
     })
     label.scale.set(1 / scale)
+    if (isHomeVariant) {
+      label.roundPixels = true
+    }
 
     let oldLabelOpacity = 0
     const isTagNode = nodeId.startsWith("tags/")
@@ -417,6 +556,12 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
 
     if (isTagNode) {
       gfx.stroke({ width: 2, color: computedStyleMap["--tertiary"] })
+    } else if (isHomeVariant) {
+      gfx.stroke({
+        width: n.featured ? 1.7 : 1,
+        color: color(n),
+        alpha: n.featured ? 0.88 : 0.38,
+      })
     }
 
     nodesContainer.addChild(gfx)
@@ -426,6 +571,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
       simulationData: n,
       gfx,
       label,
+      baseLabelAlpha,
       color: color(n),
       alpha: 1,
       active: false,
@@ -441,8 +587,10 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     const linkRenderDatum: LinkRenderData = {
       simulationData: l,
       gfx,
-      color: computedStyleMap["--lightgray"],
-      alpha: 1,
+      color: isHomeVariant
+        ? computedStyleMap["--graph-link"] || computedStyleMap["--lightgray"]
+        : computedStyleMap["--lightgray"],
+      alpha: isHomeVariant ? 0.32 : 1,
       active: false,
     }
 
@@ -514,9 +662,9 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
           let scaleOpacity = Math.max((scale - 1) / 3.75, 0)
           const activeNodes = nodeRenderData.filter((n) => n.active).flatMap((n) => n.label)
 
-          for (const label of labelsContainer.children) {
-            if (!activeNodes.includes(label)) {
-              label.alpha = scaleOpacity
+          for (const node of nodeRenderData) {
+            if (!activeNodes.includes(node.label)) {
+              node.label.alpha = Math.max(scaleOpacity, node.baseLabelAlpha)
             }
           }
         }),
@@ -528,7 +676,7 @@ async function renderGraph(graph: HTMLElement, fullSlug: FullSlug) {
     if (stopAnimation) return
     for (const n of nodeRenderData) {
       const { x, y } = n.simulationData
-      if (!x || !y) continue
+      if (x === undefined || y === undefined) continue
       n.gfx.position.set(x + width / 2, y + height / 2)
       if (n.label) {
         n.label.position.set(x + width / 2, y + height / 2)
@@ -589,10 +737,28 @@ document.addEventListener("nav", async (e: CustomEventMap["nav"]) => {
   const handleThemeChange = () => {
     void renderLocalGraph()
   }
+  let resizeRaf: number | null = null
+  const handleResize = () => {
+    if (resizeRaf !== null) {
+      cancelAnimationFrame(resizeRaf)
+    }
+
+    resizeRaf = requestAnimationFrame(() => {
+      resizeRaf = null
+      void renderLocalGraph()
+    })
+  }
 
   document.addEventListener("themechange", handleThemeChange)
+  window.addEventListener("resize", handleResize)
+  window.addEventListener("quartz:graphrefresh", handleResize)
   window.addCleanup(() => {
     document.removeEventListener("themechange", handleThemeChange)
+    window.removeEventListener("resize", handleResize)
+    window.removeEventListener("quartz:graphrefresh", handleResize)
+    if (resizeRaf !== null) {
+      cancelAnimationFrame(resizeRaf)
+    }
   })
 
   const containers = [...document.getElementsByClassName("global-graph-outer")] as HTMLElement[]

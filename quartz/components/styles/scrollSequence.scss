@@ -1,0 +1,73 @@
+@use "../../styles/variables.scss" as *;
+
+.scroll-sequence {
+  width: 100%;
+  max-width: 100%;
+  align-self: stretch;
+
+  @media all and ($mobile) {
+    display: none;
+  }
+}
+
+.scroll-sequence__shell {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 0;
+  border: 0;
+  background: transparent;
+}
+
+.scroll-sequence__viewport {
+  position: relative;
+  width: 100%;
+  height: clamp(15rem, 34vh, 22rem);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.scroll-sequence__canvas,
+.scroll-sequence__fallback {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.scroll-sequence__canvas {
+  position: relative;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.scroll-sequence__fallback {
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.scroll-sequence__loading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0.95rem;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  transition: opacity 180ms ease;
+  pointer-events: none;
+
+  &::before {
+    content: "";
+    width: 3.25rem;
+    height: 0.28rem;
+    border-radius: 999px;
+    background: var(--gray);
+    opacity: 0.18;
+  }
+}
+
+.scroll-sequence.is-ready .scroll-sequence__loading {
+  opacity: 0;
+}

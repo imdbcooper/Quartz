@@ -603,6 +603,7 @@ function buildDrafts(data) {
     home: deepClone(data.home),
     contacts: deepClone(data.contacts),
     contactsVariants: {},
+    latestArticles: deepClone(data.latestArticles),
     forms: deepClone(data.forms),
     rules: deepClone(data.rules),
     variants: {},
@@ -647,6 +648,19 @@ async function loadState(preferredCategory = null) {
   } finally {
     state.loading = false
     render()
+  }
+}
+
+async function saveLatestArticles() {
+  try {
+    await request("/api/home-latest-articles/save", {
+      method: "POST",
+      body: JSON.stringify({ content: state.drafts.latestArticles }),
+    })
+    await loadState(state.ui.selectedCategory)
+    setStatus("success", "Блок последних статей сохранён.")
+  } catch (error) {
+    setStatus("error", error.message)
   }
 }
 
@@ -2026,6 +2040,90 @@ function renderContactsTab() {
   )
 }
 
+function renderLatestArticlesTab() {
+  const data = state.drafts.latestArticles
+  const articleCategories = state.data?.articleCategories || []
+
+  return panel(
+    "Последние статьи на главной",
+    "Глобальная настройка sidebar-блока под Graph на главной странице.",
+    [
+      sectionBody([
+        el("div", { className: "admin-actions" }, [
+          el("button", {
+            className: "admin-button",
+            type: "button",
+            text: "Сохранить",
+            onclick: saveLatestArticles,
+          }),
+          el("button", {
+            className: "admin-button--ghost",
+            type: "button",
+            text: "Открыть главную",
+            onclick: () => openPreview("/"),
+          }),
+        ]),
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Заголовок блока", data.title || "", (value) => {
+            data.title = value
+          }),
+          textInput(
+            "Сколько статей показывать",
+            data.limit ?? 5,
+            (value) => {
+              data.limit = value === "" ? 1 : Number(value)
+            },
+            { type: "number" },
+          ),
+        ]),
+        el("div", { className: "admin-stack" }, [
+          el("div", { className: "admin-section__label", text: "Разделы для показа" }),
+          el("div", {
+            className: "admin-meta-note",
+            text: "Категории берутся из content/**/index.md. Можно выбрать несколько разделов, а на главной покажутся самые свежие статьи из них.",
+          }),
+          articleCategories.length === 0
+            ? el("div", {
+                className: "admin-empty",
+                text: "Не удалось найти ни одного раздела с index.md.",
+              })
+            : el(
+                "div",
+                { className: "admin-stack" },
+                articleCategories.map((category) => {
+                  const checked = (data.categoryPaths || []).includes(category.path)
+                  const input = el("input", {
+                    type: "checkbox",
+                    checked,
+                    onchange: (event) => {
+                      const enabled = event.target.checked
+                      const nextValues = new Set(data.categoryPaths || [])
+                      if (enabled) nextValues.add(category.path)
+                      else nextValues.delete(category.path)
+                      data.categoryPaths = articleCategories
+                        .map((item) => item.path)
+                        .filter((path) => nextValues.has(path))
+                    },
+                  })
+
+                  return el("label", { className: "admin-check" }, [
+                    input,
+                    el("span", {}, [
+                      el("strong", { text: category.label }),
+                      el("span", {
+                        className: "admin-meta-note",
+                        text: `  ${category.path}`,
+                      }),
+                    ]),
+                  ])
+                }),
+              ),
+        ]),
+      ]),
+    ],
+  )
+}
+
 function renderFormConfigEditor(formKey, title, description) {
   const form = state.drafts.forms[formKey]
   return {
@@ -2237,6 +2335,7 @@ function panel(title, description, body) {
 function renderActiveTab() {
   if (!state.drafts) return null
   if (state.ui.tab === "home") return renderHomeTab()
+  if (state.ui.tab === "articles") return renderLatestArticlesTab()
   if (state.ui.tab === "contacts") return renderContactsTab()
   if (state.ui.tab === "forms") return renderFormsTab()
   return renderRulesTab()
@@ -2269,28 +2368,46 @@ function render() {
     : `Theme is ${resolvedTheme}. Click to switch to ${nextMode}.`
   const selectedCategory = getSelectedCategory()
   const selectedSlug = selectedCategory.slug
+  const usesCategorySelection = state.ui.tab === "home" || state.ui.tab === "contacts"
   const categorySummaryTitle =
-    selectedSlug === "default" ? "Основная категория" : getCategoryDisplayLabel(selectedCategory)
-  const categorySummaryText =
-    state.ui.tab === "contacts"
-      ? selectedSlug === "default"
-        ? "Базовый контент страницы контактов. Все контактные варианты могут наследоваться от него."
-        : `Контактный вариант для категории ${selectedSlug}. Формы ниже всё ещё редактируются глобально.`
+    state.ui.tab === "articles"
+      ? "Последние статьи на главной"
       : state.ui.tab === "forms"
-        ? "Настройки форм глобальны для сайта и не маршрутизируются по категории."
-        : selectedSlug === "default"
-          ? "Базовый контент главной страницы. Все рекламные варианты могут наследоваться от него."
-          : `Вариант для отдельного источника трафика. Контент главной ниже редактирует только ${selectedSlug}.`
+        ? "Формы сайта"
+        : state.ui.tab === "rules"
+          ? "Правила маршрутизации"
+          : selectedSlug === "default"
+            ? "Основная категория"
+            : getCategoryDisplayLabel(selectedCategory)
+  const categorySummaryText =
+    state.ui.tab === "articles"
+      ? "Глобальная настройка блока под графом на главной. От traffic-category не зависит."
+      : state.ui.tab === "contacts"
+        ? selectedSlug === "default"
+          ? "Базовый контент страницы контактов. Все контактные варианты могут наследоваться от него."
+          : `Контактный вариант для категории ${selectedSlug}. Формы ниже всё ещё редактируются глобально.`
+        : state.ui.tab === "forms"
+          ? "Настройки форм глобальны для сайта и не маршрутизируются по категории."
+          : selectedSlug === "default"
+            ? "Базовый контент главной страницы. Все рекламные варианты могут наследоваться от него."
+            : `Вариант для отдельного источника трафика. Контент главной ниже редактирует только ${selectedSlug}.`
   const categoryFileLabel =
-    state.ui.tab === "contacts"
-      ? selectedSlug === "default"
-        ? "quartz/static/data/contacts.json"
-        : `quartz/static/data/contacts.${selectedSlug}.json`
-      : selectedSlug === "default"
-        ? "quartz/static/data/home.json"
-        : `quartz/static/data/home.${selectedSlug}.json`
-  const categoryMetaLabel =
-    selectedSlug === "default"
+    state.ui.tab === "articles"
+      ? "quartz/static/data/home-latest-articles.json"
+      : state.ui.tab === "forms"
+        ? "quartz/static/data/home-callback-form.json · quartz/static/data/feedback-form.json"
+        : state.ui.tab === "rules"
+          ? "quartz/static/data/multicontent-rules.json"
+          : state.ui.tab === "contacts"
+            ? selectedSlug === "default"
+              ? "quartz/static/data/contacts.json"
+              : `quartz/static/data/contacts.${selectedSlug}.json`
+            : selectedSlug === "default"
+              ? "quartz/static/data/home.json"
+              : `quartz/static/data/home.${selectedSlug}.json`
+  const categoryMetaLabel = !usesCategorySelection
+    ? "Global settings"
+    : selectedSlug === "default"
       ? "Base content"
       : `Slug: ${selectedSlug}${selectedCategory.extends ? ` · Extends: ${selectedCategory.extends}` : ""}`
 
@@ -2335,7 +2452,7 @@ function render() {
         el("div", { className: "admin-category-toolbar__controls" }, [
           el("div", {
             className: "admin-category-toolbar__eyebrow",
-            text: "Категория для редактирования",
+            text: usesCategorySelection ? "Категория для редактирования" : "Глобальная настройка",
           }),
           el("div", { className: "admin-category-select-wrap" }, [
             el(
@@ -2343,7 +2460,9 @@ function render() {
               {
                 className: "admin-category-select",
                 value: selectedSlug,
+                disabled: usesCategorySelection ? null : "true",
                 onchange: (event) => {
+                  if (!usesCategorySelection) return
                   state.ui.selectedCategory = event.target.value
                   render()
                 },
@@ -2365,22 +2484,24 @@ function render() {
               text: "expand_more",
             }),
           ]),
-          el("div", { className: "admin-category-toolbar__actions" }, [
-            el("button", {
-              className: "admin-button--ghost admin-button--toolbar",
-              type: "button",
-              text: "Создать категорию",
-              onclick: openCreateCategoryModal,
-            }),
-            selectedSlug !== "default"
-              ? el("button", {
-                  className: "admin-button--ghost admin-button--toolbar-danger",
+          usesCategorySelection
+            ? el("div", { className: "admin-category-toolbar__actions" }, [
+                el("button", {
+                  className: "admin-button--ghost admin-button--toolbar",
                   type: "button",
-                  text: "Удалить категорию",
-                  onclick: deleteCategory,
-                })
-              : null,
-          ]),
+                  text: "Создать категорию",
+                  onclick: openCreateCategoryModal,
+                }),
+                selectedSlug !== "default"
+                  ? el("button", {
+                      className: "admin-button--ghost admin-button--toolbar-danger",
+                      type: "button",
+                      text: "Удалить категорию",
+                      onclick: deleteCategory,
+                    })
+                  : null,
+              ])
+            : null,
         ]),
         el("div", { className: "admin-category-summary" }, [
           el("div", { className: "admin-category-summary__meta" }, [
@@ -2396,6 +2517,7 @@ function render() {
 
   const tabs = [
     { id: "home", label: "Главная" },
+    { id: "articles", label: "Статьи" },
     { id: "contacts", label: "Контакты" },
     { id: "forms", label: "Формы" },
     { id: "rules", label: "Правила" },

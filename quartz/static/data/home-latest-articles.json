@@ -1,0 +1,5 @@
+{
+  "title": "Последние статьи",
+  "limit": 5,
+  "categoryPaths": ["Blog/Hi Tech News", "Проекты"]
+}

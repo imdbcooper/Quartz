@@ -226,6 +226,34 @@ button.mobile-menu {
   gap: 0.75rem;
 }
 
+.card-menu-drawer-slot {
+  display: none;
+
+  &:empty {
+    display: none;
+    margin-top: 0;
+  }
+
+  @media all and ($mobile) {
+    display: block;
+    margin-top: 1rem;
+  }
+
+  .graph {
+    margin-top: 0;
+  }
+
+  .graph > .graph-outer {
+    margin: 0;
+  }
+
+  @media all and ($mobile) {
+    .graph > .graph-outer {
+      height: min(46dvh, 360px);
+    }
+  }
+}
+
 // Card section (top-level folders)
 .card-section {
   background-color: var(--light);
