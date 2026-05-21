@@ -17,11 +17,11 @@ export interface ScrollSequenceOptions {
 }
 
 const defaultOptions: ScrollSequenceOptions = {
-  basePath: "/static/foto_webp_540_flipped",
+  basePath: "/static/processed_images",
   frameCount: 100,
   startIndex: 1,
   padLength: 3,
-  filePrefix: "foto_",
+  filePrefix: "frame_",
   fileExtension: "webp",
   frameWidth: 540,
   frameHeight: 960,

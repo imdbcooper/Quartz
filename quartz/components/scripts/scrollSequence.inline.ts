@@ -26,11 +26,11 @@ function parseNumber(value: string | undefined, fallback: number) {
 
 function getConfig(root: HTMLElement): SequenceConfig {
   return {
-    basePath: root.dataset.basePath || "/static/foto_webp_540_flipped",
+    basePath: root.dataset.basePath || "/static/processed_images",
     frameCount: Math.max(1, parseNumber(root.dataset.frameCount, 100)),
     startIndex: parseNumber(root.dataset.startIndex, 1),
     padLength: parseNumber(root.dataset.padLength, 3),
-    filePrefix: root.dataset.filePrefix || "foto_",
+    filePrefix: root.dataset.filePrefix || "frame_",
     fileExtension: (root.dataset.fileExtension || "webp").replace(/^\./, ""),
   }
 }

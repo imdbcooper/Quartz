@@ -3,9 +3,64 @@ import * as Component from "./quartz/components"
 import homeData from "./quartz/static/data/home.json"
 import contactsData from "./quartz/static/data/contacts.json"
 import latestArticlesData from "./quartz/static/data/home-latest-articles.json"
+import { readdirSync } from "node:fs"
+import { fileURLToPath } from "node:url"
 
 const HOME_BLOCK_ORDER = ["hero", "focus", "services", "works", "faq", "contact"] as const
 const CONTACTS_BLOCK_ORDER = ["hero", "channels", "workflow", "formats", "faq", "cta"] as const
+const homeScrollSequenceBasePath = "/static/processed_images"
+const homeScrollSequenceDir = fileURLToPath(new URL("./processed_images", import.meta.url))
+
+function escapeForRegExp(value: string) {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+}
+
+function resolveHomeScrollSequenceOptions() {
+  const fallback = {
+    basePath: homeScrollSequenceBasePath,
+    frameCount: 100,
+    startIndex: 1,
+    padLength: 3,
+    filePrefix: "frame_",
+    fileExtension: "webp",
+    frameWidth: 540,
+    frameHeight: 960,
+    alt: "Прокручиваемая image-sequence анимация девушки",
+  }
+
+  try {
+    const frameFiles = readdirSync(homeScrollSequenceDir, { withFileTypes: true })
+      .filter((entry) => entry.isFile() && /\.(webp|png|jpe?g|avif)$/i.test(entry.name))
+      .map((entry) => entry.name)
+      .sort((left, right) => left.localeCompare(right, undefined, { numeric: true }))
+
+    const firstFrame = frameFiles[0]
+    const firstMatch = firstFrame?.match(/^(.*?)(\d+)\.([^.]+)$/i)
+    if (!firstMatch) return fallback
+
+    const [, filePrefix, startIndex, fileExtension] = firstMatch
+    const padLength = startIndex.length
+    const framePattern = new RegExp(
+      `^${escapeForRegExp(filePrefix)}\\d{${padLength}}\\.${escapeForRegExp(fileExtension)}$`,
+      "i",
+    )
+    const matchingFrames = frameFiles.filter((frame) => framePattern.test(frame))
+
+    return {
+      ...fallback,
+      frameCount: matchingFrames.length || fallback.frameCount,
+      startIndex: Number(startIndex),
+      padLength,
+      filePrefix,
+      fileExtension,
+    }
+  } catch {
+    return fallback
+  }
+}
+
+const homeScrollSequenceOptions = resolveHomeScrollSequenceOptions()
+
 const homeGraphComponent = Component.Graph({
   variant: "home",
   title: "",
@@ -74,17 +129,7 @@ const homeLatestArticlesOnIndex = Component.ConditionalRender({
   condition: (page) => page.fileData.slug === "index",
 })
 const homeScrollSequenceOnIndex = Component.ConditionalRender({
-  component: Component.ScrollSequence({
-    basePath: "/static/foto_webp_540_flipped",
-    frameCount: 100,
-    startIndex: 1,
-    padLength: 3,
-    filePrefix: "foto_",
-    fileExtension: "webp",
-    frameWidth: 540,
-    frameHeight: 960,
-    alt: "Прокручиваемая image-sequence анимация девушки",
-  }),
+  component: Component.ScrollSequence(homeScrollSequenceOptions),
   condition: (page) => page.fileData.slug === "index",
 })
 
