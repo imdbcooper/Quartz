@@ -33,6 +33,7 @@ const META_PATH = path.join(DATA_DIR, "multicontent-meta.json")
 const HOME_CALLBACK_FORM_PATH = path.join(DATA_DIR, "home-callback-form.json")
 const FEEDBACK_FORM_PATH = path.join(DATA_DIR, "feedback-form.json")
 const HOME_LATEST_ARTICLES_PATH = path.join(DATA_DIR, "home-latest-articles.json")
+const SITE_GEOMETRY_BACKGROUND_PATH = path.join(DATA_DIR, "site-geometry-background.json")
 
 const PORT = Number(process.env.MULTICONTENT_ADMIN_PORT || 3100)
 const PREVIEW_BASE_URL = process.env.MULTICONTENT_PREVIEW_BASE_URL || "http://localhost:8080"
@@ -114,6 +115,11 @@ function optionalNumber(value: unknown, fieldName: string) {
 function optionalBoolean(value: unknown, fieldName: string) {
   if (value === undefined) return
   ensure(typeof value === "boolean", `${fieldName} must be a boolean`)
+}
+
+function ensureNumberInRange(value: unknown, fieldName: string, min: number, max: number) {
+  ensure(typeof value === "number" && Number.isFinite(value), `${fieldName} must be a number`)
+  ensure(value >= min && value <= max, `${fieldName} must be between ${min} and ${max}`)
 }
 
 function optionalHexColor(value: unknown, fieldName: string) {
@@ -213,6 +219,20 @@ function validateHeroOptionalFields(hero: JsonObject, fieldName: string) {
     ensure(isPlainObject(hero.visual), fieldName + ".visual must be an object")
     validateHeroVisual(hero.visual, fieldName + ".visual")
   }
+}
+
+function validateSiteGeometryBackground(data: unknown) {
+  ensure(isPlainObject(data), "siteGeometryBackground must be an object")
+  ensure(
+    typeof data.schemaVersion === "number",
+    "siteGeometryBackground.schemaVersion must be a number",
+  )
+  ensure(typeof data.enabled === "boolean", "siteGeometryBackground.enabled must be a boolean")
+  ensureNumberInRange(data.speed, "siteGeometryBackground.speed", 0.2, 3)
+  ensureNumberInRange(data.density, "siteGeometryBackground.density", 0.25, 2)
+  ensureNumberInRange(data.connectionDistance, "siteGeometryBackground.connectionDistance", 80, 260)
+  ensureNumberInRange(data.lineOpacity, "siteGeometryBackground.lineOpacity", 0, 2)
+  ensureNumberInRange(data.nodeOpacity, "siteGeometryBackground.nodeOpacity", 0, 2)
 }
 
 function homeVariantPath(slug: string) {
@@ -739,6 +759,7 @@ async function readState() {
   const meta = await readMetaAndSync()
   const rules = await readJson(RULES_PATH)
   const latestArticles = await readJson(HOME_LATEST_ARTICLES_PATH)
+  const siteGeometryBackground = await readJson(SITE_GEOMETRY_BACKGROUND_PATH)
   const articleCategories = await scanArticleCategories()
   const forms = {
     homeCallback: await readJson(HOME_CALLBACK_FORM_PATH),
@@ -749,6 +770,7 @@ async function readState() {
   validateContactsContent(contacts)
   validateFormsPayload(forms)
   validateHomeLatestArticlesConfig(latestArticles)
+  validateSiteGeometryBackground(siteGeometryBackground)
 
   const categorySlugs = new Set<string>([
     "default",
@@ -798,6 +820,7 @@ async function readState() {
     home,
     contacts,
     latestArticles,
+    siteGeometryBackground,
     articleCategories,
     contactVariants,
     rules,
@@ -981,6 +1004,11 @@ async function saveHomeLatestArticles(payload: JsonObject) {
   await writeJson(HOME_LATEST_ARTICLES_PATH, payload.content)
 }
 
+async function saveSiteGeometryBackground(payload: JsonObject) {
+  validateSiteGeometryBackground(payload.content)
+  await writeJson(SITE_GEOMETRY_BACKGROUND_PATH, payload.content)
+}
+
 async function saveRules(payload: JsonObject) {
   const meta = await readMetaAndSync()
   const categories = new Set<string>([
@@ -1145,6 +1173,11 @@ const server = http.createServer(async (req, res) => {
 
     if (req.method === "POST" && url.pathname === "/api/home-latest-articles/save") {
       await saveHomeLatestArticles(await readBody(req))
+      return sendJson(res, 200, { ok: true })
+    }
+
+    if (req.method === "POST" && url.pathname === "/api/site-geometry-background/save") {
+      await saveSiteGeometryBackground(await readBody(req))
       return sendJson(res, 200, { ok: true })
     }
 

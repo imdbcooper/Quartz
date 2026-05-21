@@ -3,6 +3,7 @@ import * as Component from "./quartz/components"
 import homeData from "./quartz/static/data/home.json"
 import contactsData from "./quartz/static/data/contacts.json"
 import latestArticlesData from "./quartz/static/data/home-latest-articles.json"
+import siteGeometryBackgroundData from "./quartz/static/data/site-geometry-background.json"
 import { readdirSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 
@@ -262,6 +263,7 @@ export const sharedPageComponents: SharedLayout = {
   head: Component.Head(),
   header: [],
   afterBody: [
+    Component.SiteGeometryBackground(siteGeometryBackgroundData),
     Component.ServicesCarousel(),
     Component.FeedbackForm(),
     Component.HomeCallback(),

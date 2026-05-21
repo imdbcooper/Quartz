@@ -45,6 +45,7 @@ import ContactsFaq from "./ContactsFaq"
 import ContactsCta from "./ContactsCta"
 import HomeLatestArticles from "./HomeLatestArticles"
 import ScrollSequence from "./ScrollSequence"
+import SiteGeometryBackground from "./SiteGeometryBackground"
 
 export {
   ArticleTitle,
@@ -94,4 +95,5 @@ export {
   ContactsCta,
   HomeLatestArticles,
   ScrollSequence,
+  SiteGeometryBackground,
 }

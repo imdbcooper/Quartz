@@ -1,0 +1,82 @@
+body.has-site-geometry-bg {
+  position: relative;
+}
+
+body.has-site-geometry-bg #quartz-root {
+  position: relative;
+  z-index: 1;
+}
+
+[data-site-geometry-bg-host] {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+[data-site-geometry-bg-host]::before,
+[data-site-geometry-bg-host]::after {
+  content: "";
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(110px);
+  opacity: 1;
+}
+
+[data-site-geometry-bg-host]::before {
+  top: -18vh;
+  right: -12vw;
+  width: 42vw;
+  height: 42vw;
+  background: rgba(96, 165, 250, 0.07);
+}
+
+[data-site-geometry-bg-host]::after {
+  left: -14vw;
+  bottom: -24vh;
+  width: 34vw;
+  height: 34vw;
+  background: rgba(132, 165, 157, 0.05);
+}
+
+:root[saved-theme="dark"] [data-site-geometry-bg-host]::before {
+  background: rgba(96, 165, 250, 0.11);
+}
+
+:root[saved-theme="dark"] [data-site-geometry-bg-host]::after {
+  background: rgba(251, 146, 60, 0.06);
+}
+
+[data-site-geometry-bg-canvas] {
+  display: block;
+  width: 100%;
+  height: 100%;
+  opacity: 0.96;
+}
+
+@media (max-width: 800px) {
+  [data-site-geometry-bg-host]::before {
+    top: -20vh;
+    right: -22vw;
+    width: 72vw;
+    height: 72vw;
+  }
+
+  [data-site-geometry-bg-host]::after {
+    left: -24vw;
+    bottom: -26vh;
+    width: 58vw;
+    height: 58vw;
+  }
+
+  [data-site-geometry-bg-canvas] {
+    opacity: 0.82;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-site-geometry-bg-canvas] {
+    opacity: 0.74;
+  }
+}

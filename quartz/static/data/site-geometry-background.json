@@ -1,0 +1,9 @@
+{
+  "schemaVersion": 1,
+  "enabled": true,
+  "speed": 1.7,
+  "density": 1.12,
+  "connectionDistance": 176,
+  "lineOpacity": 1.08,
+  "nodeOpacity": 1.14
+}

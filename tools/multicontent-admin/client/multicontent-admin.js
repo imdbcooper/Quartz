@@ -186,6 +186,9 @@ function textInput(labelText, value, onInput, options = {}) {
     type: options.type || "text",
     value: value ?? "",
     placeholder: options.placeholder || "",
+    min: options.min ?? null,
+    max: options.max ?? null,
+    step: options.step ?? null,
     readonly: options.readOnly ? "true" : null,
     oninput: (event) => onInput(event.target.value),
   })
@@ -604,6 +607,7 @@ function buildDrafts(data) {
     contacts: deepClone(data.contacts),
     contactsVariants: {},
     latestArticles: deepClone(data.latestArticles),
+    siteGeometryBackground: deepClone(data.siteGeometryBackground),
     forms: deepClone(data.forms),
     rules: deepClone(data.rules),
     variants: {},
@@ -659,6 +663,19 @@ async function saveLatestArticles() {
     })
     await loadState(state.ui.selectedCategory)
     setStatus("success", "Блок последних статей сохранён.")
+  } catch (error) {
+    setStatus("error", error.message)
+  }
+}
+
+async function saveSiteGeometryBackground() {
+  try {
+    await request("/api/site-geometry-background/save", {
+      method: "POST",
+      body: JSON.stringify({ content: state.drafts.siteGeometryBackground }),
+    })
+    await loadState(state.ui.selectedCategory)
+    setStatus("success", "Параметры фоновой анимации сохранены.")
   } catch (error) {
     setStatus("error", error.message)
   }
@@ -2124,6 +2141,108 @@ function renderLatestArticlesTab() {
   )
 }
 
+function renderSiteGeometryBackgroundTab() {
+  const data = state.drafts.siteGeometryBackground
+  const setNumber = (key, fallback) => (value) => {
+    if (value === "") {
+      data[key] = fallback
+      return
+    }
+    const parsed = Number(value)
+    if (Number.isFinite(parsed)) {
+      data[key] = parsed
+    }
+  }
+
+  return panel(
+    "Фон сайта",
+    "Глобальные параметры animated geometry background. Редактируется quartz/static/data/site-geometry-background.json.",
+    [
+      sectionBody([
+        el("div", { className: "admin-actions" }, [
+          el("button", {
+            className: "admin-button",
+            type: "button",
+            text: "Сохранить",
+            onclick: saveSiteGeometryBackground,
+          }),
+          el("button", {
+            className: "admin-button--ghost",
+            type: "button",
+            text: "Открыть главную",
+            onclick: () => openPreview("/"),
+          }),
+        ]),
+        el("div", { className: "admin-stack" }, [
+          el("div", { className: "admin-section__label", text: "Состояние" }),
+          checkboxInput(
+            "Включить animated geometry background на всём сайте",
+            Boolean(data.enabled),
+            (value) => {
+              data.enabled = value
+            },
+          ),
+          el("div", {
+            className: "admin-meta-note",
+            text: "Изменения применяются глобально после сохранения и пересборки preview/сайта.",
+          }),
+        ]),
+        el("div", { className: "admin-grid admin-grid--two" }, [
+          textInput("Скорость", data.speed ?? 1.35, setNumber("speed", 1.35), {
+            type: "number",
+            min: 0.2,
+            max: 3,
+            step: 0.05,
+          }),
+          textInput("Плотность частиц", data.density ?? 1.12, setNumber("density", 1.12), {
+            type: "number",
+            min: 0.25,
+            max: 2,
+            step: 0.05,
+          }),
+          textInput(
+            "Дистанция связей",
+            data.connectionDistance ?? 176,
+            setNumber("connectionDistance", 176),
+            {
+              type: "number",
+              min: 80,
+              max: 260,
+              step: 1,
+            },
+          ),
+          textInput(
+            "Прозрачность линий",
+            data.lineOpacity ?? 1.08,
+            setNumber("lineOpacity", 1.08),
+            {
+              type: "number",
+              min: 0,
+              max: 2,
+              step: 0.05,
+            },
+          ),
+          textInput(
+            "Прозрачность точек",
+            data.nodeOpacity ?? 1.14,
+            setNumber("nodeOpacity", 1.14),
+            {
+              type: "number",
+              min: 0,
+              max: 2,
+              step: 0.05,
+            },
+          ),
+        ]),
+        el("div", {
+          className: "admin-empty",
+          text: "Скорость ускоряет дрейф частиц. Плотность меняет количество точек. Дистанция связей управляет длиной линий, а opacity-поля — читаемостью mesh в light/dark темах.",
+        }),
+      ]),
+    ],
+  )
+}
+
 function renderFormConfigEditor(formKey, title, description) {
   const form = state.drafts.forms[formKey]
   return {
@@ -2336,6 +2455,7 @@ function renderActiveTab() {
   if (!state.drafts) return null
   if (state.ui.tab === "home") return renderHomeTab()
   if (state.ui.tab === "articles") return renderLatestArticlesTab()
+  if (state.ui.tab === "background") return renderSiteGeometryBackgroundTab()
   if (state.ui.tab === "contacts") return renderContactsTab()
   if (state.ui.tab === "forms") return renderFormsTab()
   return renderRulesTab()
@@ -2372,39 +2492,45 @@ function render() {
   const categorySummaryTitle =
     state.ui.tab === "articles"
       ? "Последние статьи на главной"
-      : state.ui.tab === "forms"
-        ? "Формы сайта"
-        : state.ui.tab === "rules"
-          ? "Правила маршрутизации"
-          : selectedSlug === "default"
-            ? "Основная категория"
-            : getCategoryDisplayLabel(selectedCategory)
+      : state.ui.tab === "background"
+        ? "Фон сайта"
+        : state.ui.tab === "forms"
+          ? "Формы сайта"
+          : state.ui.tab === "rules"
+            ? "Правила маршрутизации"
+            : selectedSlug === "default"
+              ? "Основная категория"
+              : getCategoryDisplayLabel(selectedCategory)
   const categorySummaryText =
     state.ui.tab === "articles"
       ? "Глобальная настройка блока под графом на главной. От traffic-category не зависит."
-      : state.ui.tab === "contacts"
-        ? selectedSlug === "default"
-          ? "Базовый контент страницы контактов. Все контактные варианты могут наследоваться от него."
-          : `Контактный вариант для категории ${selectedSlug}. Формы ниже всё ещё редактируются глобально.`
-        : state.ui.tab === "forms"
-          ? "Настройки форм глобальны для сайта и не маршрутизируются по категории."
-          : selectedSlug === "default"
-            ? "Базовый контент главной страницы. Все рекламные варианты могут наследоваться от него."
-            : `Вариант для отдельного источника трафика. Контент главной ниже редактирует только ${selectedSlug}.`
+      : state.ui.tab === "background"
+        ? "Параметры глобального particle-mesh фона. Не зависят от traffic-category и применяются ко всему сайту."
+        : state.ui.tab === "contacts"
+          ? selectedSlug === "default"
+            ? "Базовый контент страницы контактов. Все контактные варианты могут наследоваться от него."
+            : `Контактный вариант для категории ${selectedSlug}. Формы ниже всё ещё редактируются глобально.`
+          : state.ui.tab === "forms"
+            ? "Настройки форм глобальны для сайта и не маршрутизируются по категории."
+            : selectedSlug === "default"
+              ? "Базовый контент главной страницы. Все рекламные варианты могут наследоваться от него."
+              : `Вариант для отдельного источника трафика. Контент главной ниже редактирует только ${selectedSlug}.`
   const categoryFileLabel =
     state.ui.tab === "articles"
       ? "quartz/static/data/home-latest-articles.json"
-      : state.ui.tab === "forms"
-        ? "quartz/static/data/home-callback-form.json · quartz/static/data/feedback-form.json"
-        : state.ui.tab === "rules"
-          ? "quartz/static/data/multicontent-rules.json"
-          : state.ui.tab === "contacts"
-            ? selectedSlug === "default"
-              ? "quartz/static/data/contacts.json"
-              : `quartz/static/data/contacts.${selectedSlug}.json`
-            : selectedSlug === "default"
-              ? "quartz/static/data/home.json"
-              : `quartz/static/data/home.${selectedSlug}.json`
+      : state.ui.tab === "background"
+        ? "quartz/static/data/site-geometry-background.json"
+        : state.ui.tab === "forms"
+          ? "quartz/static/data/home-callback-form.json · quartz/static/data/feedback-form.json"
+          : state.ui.tab === "rules"
+            ? "quartz/static/data/multicontent-rules.json"
+            : state.ui.tab === "contacts"
+              ? selectedSlug === "default"
+                ? "quartz/static/data/contacts.json"
+                : `quartz/static/data/contacts.${selectedSlug}.json`
+              : selectedSlug === "default"
+                ? "quartz/static/data/home.json"
+                : `quartz/static/data/home.${selectedSlug}.json`
   const categoryMetaLabel = !usesCategorySelection
     ? "Global settings"
     : selectedSlug === "default"
@@ -2518,6 +2644,7 @@ function render() {
   const tabs = [
     { id: "home", label: "Главная" },
     { id: "articles", label: "Статьи" },
+    { id: "background", label: "Фон" },
     { id: "contacts", label: "Контакты" },
     { id: "forms", label: "Формы" },
     { id: "rules", label: "Правила" },
