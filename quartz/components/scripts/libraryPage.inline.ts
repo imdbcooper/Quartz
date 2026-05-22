@@ -270,6 +270,7 @@ function getScrollDelta(event: WheelEvent) {
 function bindHorizontalScrollbar(
   railWrap: HTMLElement,
   rail: HTMLElement,
+  controls: HTMLElement,
   scrollbar: HTMLElement,
   thumb: HTMLElement,
 ) {
@@ -279,23 +280,28 @@ function bindHorizontalScrollbar(
   let thumbWidth = 0
   let maxScroll = 0
   let maxThumbOffset = 0
+  let hasOverflow = false
 
   const syncScrollbar = () => {
     const trackWidth = Math.max(0, railWrap.clientWidth)
     maxScroll = Math.max(0, railWrap.scrollWidth - railWrap.clientWidth)
-    if (trackWidth === 0 || maxScroll <= 1) {
+    if (trackWidth === 0) {
       scrollbar.hidden = true
       thumb.style.width = ""
       thumb.style.setProperty("--library-scrollbar-thumb-x", "0px")
       return
     }
 
+    hasOverflow = maxScroll > 1
     const visibleRatio = railWrap.scrollWidth > 0 ? railWrap.clientWidth / railWrap.scrollWidth : 1
-    thumbWidth = clamp(36, trackWidth, Math.round(trackWidth * visibleRatio))
+    thumbWidth = hasOverflow
+      ? clamp(36, trackWidth, Math.round(trackWidth * visibleRatio))
+      : trackWidth
     maxThumbOffset = Math.max(0, trackWidth - thumbWidth)
 
-    const progress = maxScroll > 0 ? railWrap.scrollLeft / maxScroll : 0
+    const progress = hasOverflow && maxScroll > 0 ? railWrap.scrollLeft / maxScroll : 0
     scrollbar.hidden = false
+    scrollbar.classList.toggle("is-disabled", !hasOverflow)
     thumb.style.width = `${thumbWidth}px`
     thumb.style.setProperty(
       "--library-scrollbar-thumb-x",
@@ -304,7 +310,7 @@ function bindHorizontalScrollbar(
   }
 
   const setScrollFromClientX = (clientX: number, preserveThumbOffset: boolean) => {
-    if (maxScroll <= 0) return
+    if (!hasOverflow || maxScroll <= 0) return
 
     const rect = scrollbar.getBoundingClientRect()
     if (rect.width <= 0) return
@@ -335,8 +341,15 @@ function bindHorizontalScrollbar(
   }
 
   const onScroll = () => syncScrollbar()
-  const onWheel = (event: WheelEvent) => {
-    if (scrollbar.hidden) return
+  const onRailWheel = (event: WheelEvent) => {
+    const verticalDelta = event.deltaY
+    if (!Number.isFinite(verticalDelta) || verticalDelta === 0) return
+
+    event.preventDefault()
+    window.scrollBy({ top: verticalDelta, left: 0, behavior: "auto" })
+  }
+  const onControlsWheel = (event: WheelEvent) => {
+    if (scrollbar.hidden || !hasOverflow) return
 
     const delta = getScrollDelta(event)
     if (delta === 0) return
@@ -345,7 +358,7 @@ function bindHorizontalScrollbar(
     railWrap.scrollLeft += delta
   }
   const onPointerDown = (event: PointerEvent) => {
-    if (event.button !== 0 || scrollbar.hidden) return
+    if (event.button !== 0 || scrollbar.hidden || !hasOverflow) return
 
     const target = event.target
     const targetIsThumb = target instanceof Node ? thumb.contains(target) : false
@@ -377,7 +390,8 @@ function bindHorizontalScrollbar(
   const onWindowResize = () => syncScrollbar()
 
   railWrap.addEventListener("scroll", onScroll)
-  scrollbar.addEventListener("wheel", onWheel, { passive: false })
+  railWrap.addEventListener("wheel", onRailWheel, { passive: false })
+  controls.addEventListener("wheel", onControlsWheel, { passive: false })
   scrollbar.addEventListener("pointerdown", onPointerDown)
   scrollbar.addEventListener("pointermove", onPointerMove)
   scrollbar.addEventListener("pointerup", onPointerUp)
@@ -393,7 +407,8 @@ function bindHorizontalScrollbar(
 
   addCleanup(() => {
     railWrap.removeEventListener("scroll", onScroll)
-    scrollbar.removeEventListener("wheel", onWheel)
+    railWrap.removeEventListener("wheel", onRailWheel)
+    controls.removeEventListener("wheel", onControlsWheel)
     scrollbar.removeEventListener("pointerdown", onPointerDown)
     scrollbar.removeEventListener("pointermove", onPointerMove)
     scrollbar.removeEventListener("pointerup", onPointerUp)
@@ -752,6 +767,7 @@ function mountLibraryPage(root: HTMLElement) {
     const count = createEl("span", "library-page__category-count")
     const railWrap = createEl("div", "library-page__rail-wrap")
     const rail = createEl("div", "library-page__rail")
+    const controls = createEl("div", "library-page__scroll-controls")
     const scrollbar = createEl("div", "library-page__scrollbar")
     const scrollbarThumb = createEl("div", "library-page__scrollbar-thumb")
     const hint = createEl("p", "library-page__rail-hint")
@@ -765,7 +781,7 @@ function mountLibraryPage(root: HTMLElement) {
       normalizeText(category.description) || "Описание категории пока не добавлено."
     count.textContent = "Загрузка..."
     hint.textContent = hoverMedia.matches
-      ? "Тяните полосу прокрутки ниже или крутите колесо мыши прямо над ней."
+      ? "Крутите колесо над этой строкой или тяните полосу ниже."
       : "Пролистывайте обложки по горизонтали."
     rail.setAttribute("aria-label", `Книги категории ${category.name}`)
     rail.tabIndex = 0
@@ -776,10 +792,17 @@ function mountLibraryPage(root: HTMLElement) {
     titleWrap.append(title, description)
     header.append(titleWrap, count)
     scrollbar.append(scrollbarThumb)
+    controls.append(hint, scrollbar)
     railWrap.append(rail)
-    section.append(header, railWrap, scrollbar, hint)
+    section.append(header, railWrap, controls)
     categoriesContainer.append(section)
-    const syncScrollbar = bindHorizontalScrollbar(railWrap, rail, scrollbar, scrollbarThumb)
+    const syncScrollbar = bindHorizontalScrollbar(
+      railWrap,
+      rail,
+      controls,
+      scrollbar,
+      scrollbarThumb,
+    )
     categorySections.set(category.id, { section, railWrap, rail, count, syncScrollbar })
     syncScrollbar()
 
