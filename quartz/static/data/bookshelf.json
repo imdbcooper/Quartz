@@ -1,0 +1,6 @@
+{
+  "schemaVersion": 1,
+  "backendBaseUrl": "https://book.slavx.ru",
+  "catalogPath": "/static/generated/bookshelf-catalog.json",
+  "previewDescriptionLength": 260
+}

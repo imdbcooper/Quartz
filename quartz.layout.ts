@@ -3,14 +3,19 @@ import * as Component from "./quartz/components"
 import homeData from "./quartz/static/data/home.json"
 import contactsData from "./quartz/static/data/contacts.json"
 import latestArticlesData from "./quartz/static/data/home-latest-articles.json"
+import bookshelfData from "./quartz/static/data/bookshelf.json"
 import siteGeometryBackgroundData from "./quartz/static/data/site-geometry-background.json"
+import { generateBookshelfStaticAssets } from "./quartz/util/bookshelfCatalog"
 import { readdirSync } from "node:fs"
 import { fileURLToPath } from "node:url"
 
 const HOME_BLOCK_ORDER = ["hero", "focus", "services", "works", "faq", "contact"] as const
 const CONTACTS_BLOCK_ORDER = ["hero", "channels", "workflow", "formats", "faq", "cta"] as const
+const LIBRARY_PAGE_SLUG = "library"
 const homeScrollSequenceBasePath = "/static/processed_images"
 const homeScrollSequenceDir = fileURLToPath(new URL("./processed_images", import.meta.url))
+
+await generateBookshelfStaticAssets(bookshelfData)
 
 function escapeForRegExp(value: string) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
@@ -127,11 +132,15 @@ const homeGraphDrawerComponent = Component.ConditionalRender({
 })
 const homeLatestArticlesOnIndex = Component.ConditionalRender({
   component: Component.HomeLatestArticles(latestArticlesData),
-  condition: (page) => page.fileData.slug === "index",
+  condition: (page) => page.fileData.slug === "index" || page.fileData.slug === LIBRARY_PAGE_SLUG,
 })
 const homeScrollSequenceOnIndex = Component.ConditionalRender({
   component: Component.ScrollSequence(homeScrollSequenceOptions),
   condition: (page) => page.fileData.slug === "index",
+})
+const libraryPageOnLibrary = Component.ConditionalRender({
+  component: Component.LibraryPage(bookshelfData),
+  condition: (page) => page.fileData.slug === LIBRARY_PAGE_SLUG,
 })
 
 function resolveBlockOrder<T extends string>(order: unknown, allowed: readonly T[]): T[] {
@@ -289,17 +298,27 @@ export const defaultContentPageLayout: PageLayout = {
       }),
       condition: (page) => page.fileData.slug === "Кoнтакты",
     }),
+    libraryPageOnLibrary,
     Component.ConditionalRender({
       component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "Кoнтакты",
+      condition: (page) =>
+        page.fileData.slug !== "index" &&
+        page.fileData.slug !== "Кoнтакты" &&
+        page.fileData.slug !== LIBRARY_PAGE_SLUG,
     }),
     Component.ConditionalRender({
       component: Component.ArticleTitle(),
-      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "Кoнтакты",
+      condition: (page) =>
+        page.fileData.slug !== "index" &&
+        page.fileData.slug !== "Кoнтакты" &&
+        page.fileData.slug !== LIBRARY_PAGE_SLUG,
     }),
     Component.ConditionalRender({
       component: Component.ContentMeta(),
-      condition: (page) => page.fileData.slug !== "index" && page.fileData.slug !== "Кoнтакты",
+      condition: (page) =>
+        page.fileData.slug !== "index" &&
+        page.fileData.slug !== "Кoнтакты" &&
+        page.fileData.slug !== LIBRARY_PAGE_SLUG,
     }),
   ],
   left: [
@@ -347,8 +366,14 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.DesktopOnly(homeLatestArticlesOnIndex),
-    Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
+    Component.ConditionalRender({
+      component: Component.DesktopOnly(Component.TableOfContents()),
+      condition: (page) => page.fileData.slug !== LIBRARY_PAGE_SLUG,
+    }),
+    Component.ConditionalRender({
+      component: Component.Backlinks(),
+      condition: (page) => page.fileData.slug !== LIBRARY_PAGE_SLUG,
+    }),
   ],
 }
 

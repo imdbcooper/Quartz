@@ -44,6 +44,7 @@ import ContactsHero from "./ContactsHero"
 import ContactsFaq from "./ContactsFaq"
 import ContactsCta from "./ContactsCta"
 import HomeLatestArticles from "./HomeLatestArticles"
+import LibraryPage from "./LibraryPage"
 import ScrollSequence from "./ScrollSequence"
 import SiteGeometryBackground from "./SiteGeometryBackground"
 
@@ -94,6 +95,7 @@ export {
   ContactsFaq,
   ContactsCta,
   HomeLatestArticles,
+  LibraryPage,
   ScrollSequence,
   SiteGeometryBackground,
 }

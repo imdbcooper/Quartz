@@ -1,5 +1,6 @@
 public
 node_modules
+quartz/static/generated
 .quartz-cache
 .playwright-mcp
 .devin/config.local.json
