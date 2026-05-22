@@ -1,5 +1,9 @@
 import type {} from "./util"
 
+const MOBILE_MEDIA_QUERY = "(max-width: 800px)"
+const TOUCH_MEDIA_QUERY = "(hover: none), (pointer: coarse)"
+const REDUCED_MOTION_MEDIA_QUERY = "(prefers-reduced-motion: reduce)"
+
 type RuntimeWindow = Window & {
   __homeWorksItems?: unknown[]
 }
@@ -44,11 +48,17 @@ function mountSlider(slider: HTMLElement) {
     return () => dot.removeEventListener("click", onClick)
   })
 
-  const intervalId = window.setInterval(() => go(cur + 1), 4000)
+  const shouldAutoplay =
+    !window.matchMedia(MOBILE_MEDIA_QUERY).matches &&
+    !window.matchMedia(TOUCH_MEDIA_QUERY).matches &&
+    !window.matchMedia(REDUCED_MOTION_MEDIA_QUERY).matches
+  const intervalId = shouldAutoplay ? window.setInterval(() => go(cur + 1), 4000) : null
 
   return () => {
     dotCleanups.forEach((cleanup) => cleanup())
-    window.clearInterval(intervalId)
+    if (intervalId !== null) {
+      window.clearInterval(intervalId)
+    }
   }
 }
 

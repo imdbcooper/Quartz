@@ -1333,7 +1333,7 @@ body[data-slug="index"] #quartz-body > .center .central-hero {
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: reduce), (max-width: 800px), (hover: none), (pointer: coarse) {
   .home-contact-cta__callback-icon,
   .home-contact-cta__callback-icon-wrap::after,
   .central-hero__cta,
@@ -1341,7 +1341,12 @@ body[data-slug="index"] #quartz-body > .center .central-hero {
   .home-contact-cta__callback-button,
   .home-callback-modal__form .feedback-form__submit,
   .home-contact-cta__callback-button::before,
-  .home-callback-modal__form .feedback-form__submit::before {
+  .home-callback-modal__form .feedback-form__submit::before,
+  .contacts-button--primary,
+  .contacts-central .contacts-hero .contacts-button[data-home-callback-open],
+  .contacts-central .contacts-hero .contacts-button[data-home-callback-open]::before,
+  .contacts-brief summary,
+  .contacts-brief summary::before {
     animation: none !important;
   }
 }

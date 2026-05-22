@@ -99,37 +99,6 @@ const homeGraphOnIndex = Component.ConditionalRender({
   component: homeGraphComponent,
   condition: (page) => page.fileData.slug === "index",
 })
-const homeGraphDrawerComponent = Component.ConditionalRender({
-  component: Component.Graph({
-    variant: "home",
-    title: "",
-    expandLabel: "Открыть полный граф",
-    legend: [
-      { label: "Проекты", tone: "projects" },
-      { label: "Статьи", tone: "blog" },
-      { label: "Документы", tone: "docs" },
-    ],
-    localGraph: {
-      variant: "home",
-      drag: true,
-      zoom: true,
-      depth: -1,
-      scale: 1.08,
-      repelForce: 0.8,
-      centerForce: 0.07,
-      linkDistance: 22,
-      fontSize: 0.4,
-      opacityScale: 0.6,
-      showTags: false,
-      focusOnHover: true,
-      enableRadial: false,
-    },
-    globalGraph: {
-      showTags: false,
-    },
-  }),
-  condition: (page) => page.fileData.slug === "index",
-})
 const homeLatestArticlesOnIndex = Component.ConditionalRender({
   component: Component.HomeLatestArticles(latestArticlesData),
   condition: (page) => page.fileData.slug === "index" || page.fileData.slug === LIBRARY_PAGE_SLUG,
@@ -335,9 +304,7 @@ export const defaultContentPageLayout: PageLayout = {
         ],
       }),
     ),
-    Component.CardMenu({
-      drawerComponent: homeGraphDrawerComponent,
-    }),
+    Component.CardMenu(),
     Component.DesktopOnly(homeScrollSequenceOnIndex),
   ],
   right: [
@@ -355,14 +322,16 @@ export const defaultContentPageLayout: PageLayout = {
     ),
     Component.DesktopOnly(homeGraphOnIndex),
     Component.ConditionalRender({
-      component: Component.Graph({
-        localGraph: {
-          showTags: false,
-        },
-        globalGraph: {
-          showTags: false,
-        },
-      }),
+      component: Component.DesktopOnly(
+        Component.Graph({
+          localGraph: {
+            showTags: false,
+          },
+          globalGraph: {
+            showTags: false,
+          },
+        }),
+      ),
       condition: (page) => page.fileData.slug !== "index",
     }),
     Component.DesktopOnly(homeLatestArticlesOnIndex),

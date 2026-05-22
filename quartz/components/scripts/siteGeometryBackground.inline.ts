@@ -1,5 +1,6 @@
 const SITE_GEOMETRY_REDUCED_MOTION_MEDIA_QUERY = "(prefers-reduced-motion: reduce)"
 const SITE_GEOMETRY_MOBILE_MEDIA_QUERY = "(max-width: 800px)"
+const SITE_GEOMETRY_TOUCH_MEDIA_QUERY = "(hover: none), (pointer: coarse)"
 
 type SiteGeometryConfig = {
   enabled: boolean
@@ -165,6 +166,15 @@ function mountSiteGeometryBackground() {
     return
   }
 
+  const mobileMedia = window.matchMedia(SITE_GEOMETRY_MOBILE_MEDIA_QUERY)
+  const touchMedia = window.matchMedia(SITE_GEOMETRY_TOUCH_MEDIA_QUERY)
+  const saveData =
+    (navigator as Navigator & { connection?: { saveData?: boolean } }).connection?.saveData === true
+  if (mobileMedia.matches || touchMedia.matches || saveData) {
+    removeSiteGeometryHost()
+    return
+  }
+
   const { host, canvas } = ensureSiteGeometryHost()
   if (host.dataset.siteGeometryBackgroundMounted === "true") return
 
@@ -174,7 +184,6 @@ function mountSiteGeometryBackground() {
   host.dataset.siteGeometryBackgroundMounted = "true"
 
   const reducedMotionMedia = window.matchMedia(SITE_GEOMETRY_REDUCED_MOTION_MEDIA_QUERY)
-  const mobileMedia = window.matchMedia(SITE_GEOMETRY_MOBILE_MEDIA_QUERY)
 
   let destroyed = false
   let animationFrame = 0
