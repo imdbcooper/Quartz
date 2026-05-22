@@ -186,10 +186,13 @@ html.library-modal-open {
   overflow-y: hidden;
   overscroll-behavior: contain;
   margin: 0 -0.15rem;
-  padding: 0.15rem 0.15rem 0.75rem;
-  scrollbar-width: thin;
-  scrollbar-color: color-mix(in srgb, var(--library-accent) 42%, transparent)
-    color-mix(in srgb, var(--dark) 8%, transparent);
+  padding: 0.15rem 0.15rem 0.35rem;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.library-page__rail-wrap::-webkit-scrollbar {
+  display: none;
 }
 
 .library-page__rail {
@@ -200,6 +203,39 @@ html.library-modal-open {
   align-items: start;
   width: max-content;
   min-width: 100%;
+}
+
+.library-page__scrollbar {
+  position: relative;
+  height: 0.9rem;
+  margin: 0.05rem 0 0.3rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--dark) 8%, transparent);
+  cursor: grab;
+  user-select: none;
+  touch-action: none;
+}
+
+.library-page__scrollbar[hidden] {
+  display: none;
+}
+
+.library-page__scrollbar.is-dragging {
+  cursor: grabbing;
+}
+
+.library-page__scrollbar-thumb {
+  --library-scrollbar-thumb-x: 0px;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 0.4rem;
+  border-radius: inherit;
+  background: color-mix(in srgb, var(--library-accent) 62%, var(--light));
+  box-shadow:
+    0 4px 12px rgba(15, 23, 42, 0.16),
+    0 0 0 1px color-mix(in srgb, var(--library-accent) 14%, transparent);
+  transform: translate3d(var(--library-scrollbar-thumb-x), -50%, 0);
 }
 
 .library-page__rail-hint {
@@ -221,9 +257,7 @@ html.library-modal-open {
 .library-page__book:focus-visible .library-page__book-cover,
 .library-page__book:hover .library-page__book-cover {
   transform: translateY(-4px);
-  box-shadow:
-    0 16px 30px rgba(15, 23, 42, 0.18),
-    0 0 0 1px color-mix(in srgb, var(--dark) 18%, transparent);
+  box-shadow: 0 16px 30px rgba(15, 23, 42, 0.18);
 }
 
 .library-page__book-cover {
@@ -233,7 +267,6 @@ html.library-modal-open {
   overflow: hidden;
   border-radius: var(--library-cover-radius);
   background: transparent;
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--dark) 10%, transparent);
   transition:
     transform 180ms ease,
     box-shadow 180ms ease;
@@ -505,6 +538,12 @@ html.library-modal-open {
 @media (max-width: 900px) {
   .library-page__preview {
     display: none;
+  }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .library-page__scrollbar {
+    display: none !important;
   }
 }
 

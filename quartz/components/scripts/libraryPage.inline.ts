@@ -44,6 +44,7 @@ type CategorySection = {
   railWrap: HTMLElement
   rail: HTMLElement
   count: HTMLElement
+  syncScrollbar: () => void
 }
 
 const HOVER_MEDIA_QUERY = "(hover: hover) and (pointer: fine)"
@@ -258,6 +259,152 @@ function syncImage(
   image.onload = () => showImage()
   image.onerror = () => showFallback()
   image.src = source
+}
+
+function getScrollDelta(event: WheelEvent) {
+  const dominantDelta =
+    Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
+  return Number.isFinite(dominantDelta) ? dominantDelta : 0
+}
+
+function bindHorizontalScrollbar(
+  railWrap: HTMLElement,
+  rail: HTMLElement,
+  scrollbar: HTMLElement,
+  thumb: HTMLElement,
+) {
+  let resizeObserver: ResizeObserver | null = null
+  let dragPointerId: number | null = null
+  let dragOffset = 0
+  let thumbWidth = 0
+  let maxScroll = 0
+  let maxThumbOffset = 0
+
+  const syncScrollbar = () => {
+    const trackWidth = Math.max(0, railWrap.clientWidth)
+    maxScroll = Math.max(0, railWrap.scrollWidth - railWrap.clientWidth)
+    if (trackWidth === 0 || maxScroll <= 1) {
+      scrollbar.hidden = true
+      thumb.style.width = ""
+      thumb.style.setProperty("--library-scrollbar-thumb-x", "0px")
+      return
+    }
+
+    const visibleRatio = railWrap.scrollWidth > 0 ? railWrap.clientWidth / railWrap.scrollWidth : 1
+    thumbWidth = clamp(36, trackWidth, Math.round(trackWidth * visibleRatio))
+    maxThumbOffset = Math.max(0, trackWidth - thumbWidth)
+
+    const progress = maxScroll > 0 ? railWrap.scrollLeft / maxScroll : 0
+    scrollbar.hidden = false
+    thumb.style.width = `${thumbWidth}px`
+    thumb.style.setProperty(
+      "--library-scrollbar-thumb-x",
+      `${Math.round(progress * maxThumbOffset)}px`,
+    )
+  }
+
+  const setScrollFromClientX = (clientX: number, preserveThumbOffset: boolean) => {
+    if (maxScroll <= 0) return
+
+    const rect = scrollbar.getBoundingClientRect()
+    if (rect.width <= 0) return
+
+    const relativeX = clamp(0, rect.width, clientX - rect.left)
+    const nextThumbOffset = clamp(
+      0,
+      maxThumbOffset,
+      preserveThumbOffset ? relativeX - dragOffset : relativeX - thumbWidth / 2,
+    )
+    const progress = maxThumbOffset > 0 ? nextThumbOffset / maxThumbOffset : 0
+    railWrap.scrollLeft = progress * maxScroll
+  }
+
+  const stopDragging = (pointerId?: number) => {
+    if (dragPointerId === null) return
+
+    const activePointerId = dragPointerId
+    dragPointerId = null
+    scrollbar.classList.remove("is-dragging")
+    if (
+      typeof pointerId === "number" &&
+      activePointerId === pointerId &&
+      scrollbar.hasPointerCapture?.(pointerId)
+    ) {
+      scrollbar.releasePointerCapture(pointerId)
+    }
+  }
+
+  const onScroll = () => syncScrollbar()
+  const onWheel = (event: WheelEvent) => {
+    if (scrollbar.hidden) return
+
+    const delta = getScrollDelta(event)
+    if (delta === 0) return
+
+    event.preventDefault()
+    railWrap.scrollLeft += delta
+  }
+  const onPointerDown = (event: PointerEvent) => {
+    if (event.button !== 0 || scrollbar.hidden) return
+
+    const target = event.target
+    const targetIsThumb = target instanceof Node ? thumb.contains(target) : false
+    dragPointerId = event.pointerId
+    dragOffset = targetIsThumb
+      ? clamp(0, thumbWidth, event.clientX - thumb.getBoundingClientRect().left)
+      : thumbWidth / 2
+
+    scrollbar.classList.add("is-dragging")
+    scrollbar.setPointerCapture?.(event.pointerId)
+    setScrollFromClientX(event.clientX, targetIsThumb)
+    event.preventDefault()
+  }
+  const onPointerMove = (event: PointerEvent) => {
+    if (dragPointerId !== event.pointerId) return
+
+    setScrollFromClientX(event.clientX, true)
+    event.preventDefault()
+  }
+  const onPointerUp = (event: PointerEvent) => {
+    if (dragPointerId !== event.pointerId) return
+    stopDragging(event.pointerId)
+  }
+  const onPointerCancel = (event: PointerEvent) => {
+    if (dragPointerId !== event.pointerId) return
+    stopDragging(event.pointerId)
+  }
+  const onLostPointerCapture = () => stopDragging()
+  const onWindowResize = () => syncScrollbar()
+
+  railWrap.addEventListener("scroll", onScroll)
+  scrollbar.addEventListener("wheel", onWheel, { passive: false })
+  scrollbar.addEventListener("pointerdown", onPointerDown)
+  scrollbar.addEventListener("pointermove", onPointerMove)
+  scrollbar.addEventListener("pointerup", onPointerUp)
+  scrollbar.addEventListener("pointercancel", onPointerCancel)
+  scrollbar.addEventListener("lostpointercapture", onLostPointerCapture)
+  window.addEventListener("resize", onWindowResize)
+
+  if ("ResizeObserver" in window) {
+    resizeObserver = new ResizeObserver(() => syncScrollbar())
+    resizeObserver.observe(railWrap)
+    resizeObserver.observe(rail)
+  }
+
+  addCleanup(() => {
+    railWrap.removeEventListener("scroll", onScroll)
+    scrollbar.removeEventListener("wheel", onWheel)
+    scrollbar.removeEventListener("pointerdown", onPointerDown)
+    scrollbar.removeEventListener("pointermove", onPointerMove)
+    scrollbar.removeEventListener("pointerup", onPointerUp)
+    scrollbar.removeEventListener("pointercancel", onPointerCancel)
+    scrollbar.removeEventListener("lostpointercapture", onLostPointerCapture)
+    window.removeEventListener("resize", onWindowResize)
+    resizeObserver?.disconnect()
+    stopDragging()
+  })
+
+  return syncScrollbar
 }
 
 function mountLibraryPage(root: HTMLElement) {
@@ -512,12 +659,14 @@ function mountLibraryPage(root: HTMLElement) {
         "library-page__category-empty",
         "В этой категории пока нет книг.",
       )
+      section.syncScrollbar()
       return
     }
 
     books.forEach((book) => {
       section.rail.append(createBookButton(book))
     })
+    section.syncScrollbar()
   }
 
   const loadStaticCategories = () => {
@@ -589,6 +738,7 @@ function mountLibraryPage(root: HTMLElement) {
         "library-page__category-error",
         formatLoadError(error, config.backendBaseUrl),
       )
+      section.syncScrollbar()
     }
   }
 
@@ -602,17 +752,9 @@ function mountLibraryPage(root: HTMLElement) {
     const count = createEl("span", "library-page__category-count")
     const railWrap = createEl("div", "library-page__rail-wrap")
     const rail = createEl("div", "library-page__rail")
+    const scrollbar = createEl("div", "library-page__scrollbar")
+    const scrollbarThumb = createEl("div", "library-page__scrollbar-thumb")
     const hint = createEl("p", "library-page__rail-hint")
-    const onSectionWheel = (event: WheelEvent) => {
-      const hasOverflow = railWrap.scrollWidth > railWrap.clientWidth + 1
-      if (!hasOverflow) return
-
-      const delta = Math.abs(event.deltaY) >= Math.abs(event.deltaX) ? event.deltaY : event.deltaX
-      if (!Number.isFinite(delta) || delta === 0) return
-
-      event.preventDefault()
-      railWrap.scrollLeft += delta
-    }
 
     section.dataset.categoryId = String(category.id)
     section.setAttribute("aria-labelledby", titleId)
@@ -622,24 +764,24 @@ function mountLibraryPage(root: HTMLElement) {
     description.textContent =
       normalizeText(category.description) || "Описание категории пока не добавлено."
     count.textContent = "Загрузка..."
-    hint.textContent = "Пролистывайте обложки по горизонтали."
+    hint.textContent = hoverMedia.matches
+      ? "Тяните полосу прокрутки ниже или крутите колесо мыши прямо над ней."
+      : "Пролистывайте обложки по горизонтали."
     rail.setAttribute("aria-label", `Книги категории ${category.name}`)
     rail.tabIndex = 0
+    scrollbar.hidden = true
 
     Array.from({ length: 6 }, () => createSkeletonBook()).forEach((item) => rail.append(item))
 
     titleWrap.append(title, description)
     header.append(titleWrap, count)
+    scrollbar.append(scrollbarThumb)
     railWrap.append(rail)
-    section.append(header, railWrap, hint)
+    section.append(header, railWrap, scrollbar, hint)
     categoriesContainer.append(section)
-    section.addEventListener("wheel", onSectionWheel, { passive: false })
-
-    categorySections.set(category.id, { section, railWrap, rail, count })
-
-    addCleanup(() => {
-      section.removeEventListener("wheel", onSectionWheel)
-    })
+    const syncScrollbar = bindHorizontalScrollbar(railWrap, rail, scrollbar, scrollbarThumb)
+    categorySections.set(category.id, { section, railWrap, rail, count, syncScrollbar })
+    syncScrollbar()
 
     if (Array.isArray(category.books)) {
       const normalizedBooks = category.books.map((book) =>
