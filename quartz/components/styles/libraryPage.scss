@@ -184,11 +184,13 @@ html.library-modal-open {
 .library-page__rail-wrap {
   overflow-x: auto;
   overflow-y: hidden;
-  overscroll-behavior: contain;
+  overscroll-behavior-x: contain;
+  overscroll-behavior-y: auto;
   margin: 0 -0.15rem;
   padding: 0.15rem 0.15rem 0.12rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
 }
 
 .library-page__rail-wrap::-webkit-scrollbar {
