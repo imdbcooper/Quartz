@@ -13,7 +13,7 @@ export interface BookshelfCatalogBook {
   author: string
   description?: string | null
   file_extension?: string | null
-  coverUrl: string
+  coverUrl?: string | null
   coverSrc?: string
   number: number
 }
@@ -46,10 +46,20 @@ type RemoteBook = {
   author: string
   description?: string | null
   file_extension?: string | null
-  coverUrl: string
+  coverUrl?: string | null
   number: number
 }
 
+type RemoteBookPage = {
+  items?: RemoteBook[]
+  books?: RemoteBook[]
+  total?: number
+  limit?: number
+  offset?: number
+  hasMore?: boolean
+}
+
+const booksPageLimit = 100
 const generatedStaticDir = fileURLToPath(new URL("../static/generated", import.meta.url))
 const mirroredCoverDir = path.join(generatedStaticDir, "book-library-covers")
 const defaultCatalogFile = path.join(generatedStaticDir, "bookshelf-catalog.json")
@@ -95,6 +105,54 @@ async function fetchJson<T>(url: string): Promise<T> {
   return (await response.json()) as T
 }
 
+function normalizeRemoteBookPage(value: RemoteBookPage | RemoteBook[]) {
+  if (Array.isArray(value)) {
+    return {
+      items: value,
+      total: value.length,
+      limit: value.length || booksPageLimit,
+      offset: 0,
+      hasMore: false,
+    }
+  }
+
+  const items = Array.isArray(value.items)
+    ? value.items
+    : Array.isArray(value.books)
+      ? value.books
+      : []
+
+  return {
+    items,
+    total: Number(value.total) || items.length,
+    limit: Number(value.limit) || booksPageLimit,
+    offset: Number(value.offset) || 0,
+    hasMore: Boolean(value.hasMore),
+  }
+}
+
+async function fetchCategoryBooks(baseUrl: string, categoryId: number) {
+  const books: RemoteBook[] = []
+  let offset = 0
+  let limit = booksPageLimit
+  let hasMore = true
+
+  while (hasMore) {
+    const page = normalizeRemoteBookPage(
+      await fetchJson<RemoteBookPage | RemoteBook[]>(
+        `${baseUrl}/api/categories/${categoryId}/books?limit=${limit}&offset=${offset}`,
+      ),
+    )
+
+    books.push(...page.items)
+    limit = page.limit || limit
+    offset = page.offset + page.items.length
+    hasMore = page.hasMore && page.items.length > 0
+  }
+
+  return books
+}
+
 async function mirrorCover(baseUrl: string, book: RemoteBook) {
   const normalizedCoverUrl = typeof book.coverUrl === "string" ? book.coverUrl.trim() : ""
   if (!normalizedCoverUrl) return ""
@@ -130,7 +188,7 @@ export async function generateBookshelfStaticAssets(config: BookshelfCatalogConf
     const catalogCategories: BookshelfCatalogCategory[] = []
 
     for (const category of categories) {
-      const books = await fetchJson<RemoteBook[]>(`${baseUrl}/api/categories/${category.id}/books`)
+      const books = await fetchCategoryBooks(baseUrl, category.id)
       const catalogBooks: BookshelfCatalogBook[] = []
 
       for (const book of books) {

@@ -20,9 +20,26 @@ type Book = {
   author: string
   description?: string | null
   file_extension?: string | null
-  coverUrl: string
+  coverUrl?: string | null
   coverSrc?: string | null
   number: number
+}
+
+type BookPagePayload = {
+  items?: Book[]
+  books?: Book[]
+  total?: number
+  limit?: number
+  offset?: number
+  hasMore?: boolean
+}
+
+type NormalizedBookPage<TBook> = {
+  items: TBook[]
+  total: number
+  limit: number
+  offset: number
+  hasMore: boolean
 }
 
 type CatalogPayload = {
@@ -39,6 +56,8 @@ type DisplayBook = Book & {
   formatLabel: string
 }
 
+type DisplayBookPage = NormalizedBookPage<DisplayBook>
+
 type CategorySection = {
   section: HTMLElement
   railWrap: HTMLElement
@@ -47,6 +66,7 @@ type CategorySection = {
   syncScrollbar: () => void
 }
 
+const BOOKS_PAGE_LIMIT = 24
 const HOVER_MEDIA_QUERY = "(hover: hover) and (pointer: fine)"
 const MODAL_LOCK_CLASS = "library-modal-open"
 
@@ -71,6 +91,11 @@ function createEl<K extends keyof HTMLElementTagNameMap>(tag: K, className?: str
 function readNumber(value: string | undefined, fallback: number) {
   const parsed = Number(value)
   return Number.isFinite(parsed) ? parsed : fallback
+}
+
+function readPayloadNumber(value: unknown, fallback: number, minimum = 0) {
+  const parsed = Number(value)
+  return Number.isFinite(parsed) && parsed >= minimum ? parsed : fallback
 }
 
 function resolveBackendBaseUrl(rawValue: string | undefined) {
@@ -125,6 +150,15 @@ function pluralizeBooks(count: number) {
   return `${count} книг`
 }
 
+function formatBookPageCount(page: NormalizedBookPage<unknown>) {
+  const visibleCount = page.offset + page.items.length
+  if (page.hasMore || page.total > visibleCount) {
+    return `${pluralizeBooks(visibleCount)} из ${page.total}`
+  }
+
+  return pluralizeBooks(page.total)
+}
+
 function getFormatLabel(value: string | null | undefined) {
   const normalized = normalizeText(value).replace(/^\./, "")
   return normalized ? normalized.toUpperCase() : "Файл"
@@ -155,16 +189,56 @@ function readConfig(root: HTMLElement): LibraryPageConfig {
 }
 
 function normalizeBook(book: Book, categoryName: string, config: LibraryPageConfig): DisplayBook {
+  const staticCoverSrc = typeof book.coverSrc === "string" ? book.coverSrc.trim() : ""
+  const remoteCoverUrl = typeof book.coverUrl === "string" ? book.coverUrl.trim() : ""
+
   return {
     ...book,
     categoryName,
-    coverSrc: book.coverSrc
-      ? resolveResourceUrl(book.coverSrc)
-      : book.coverUrl
-        ? buildUrl(config.backendBaseUrl, book.coverUrl)
+    coverSrc: staticCoverSrc
+      ? resolveResourceUrl(staticCoverSrc)
+      : remoteCoverUrl
+        ? buildUrl(config.backendBaseUrl, remoteCoverUrl)
         : "",
     excerpt: clipText(book.description, config.previewDescriptionLength),
     formatLabel: getFormatLabel(book.file_extension),
+  }
+}
+
+function normalizeBookPage(value: BookPagePayload | Book[]): NormalizedBookPage<Book> {
+  if (!Array.isArray(value)) {
+    const items = Array.isArray(value.items)
+      ? value.items
+      : Array.isArray(value.books)
+        ? value.books
+        : []
+
+    return {
+      items,
+      total: readPayloadNumber(value.total, items.length),
+      limit: readPayloadNumber(value.limit, BOOKS_PAGE_LIMIT, 1),
+      offset: readPayloadNumber(value.offset, 0),
+      hasMore: Boolean(value.hasMore),
+    }
+  }
+
+  return {
+    items: value,
+    total: value.length,
+    limit: value.length || BOOKS_PAGE_LIMIT,
+    offset: 0,
+    hasMore: false,
+  }
+}
+
+function normalizeDisplayBookPage(
+  page: NormalizedBookPage<Book>,
+  categoryName: string,
+  config: LibraryPageConfig,
+): DisplayBookPage {
+  return {
+    ...page,
+    items: page.items.map((book) => normalizeBook(book, categoryName, config)),
   }
 }
 
@@ -477,8 +551,8 @@ function mountLibraryPage(root: HTMLElement) {
 
   const hoverMedia = window.matchMedia(HOVER_MEDIA_QUERY)
   const categorySections = new Map<number, CategorySection>()
-  const booksCache = new Map<number, DisplayBook[]>()
-  const pendingLoads = new Map<number, Promise<DisplayBook[]>>()
+  const booksCache = new Map<number, DisplayBookPage>()
+  const pendingLoads = new Map<number, Promise<DisplayBookPage>>()
   let staticCatalogPromise: Promise<Category[] | null> | null = null
   let observer: IntersectionObserver | null = null
   let modalOpen = false
@@ -660,12 +734,13 @@ function mountLibraryPage(root: HTMLElement) {
     return button
   }
 
-  const renderBooks = (category: Category, books: DisplayBook[]) => {
+  const renderBooks = (category: Category, page: DisplayBookPage) => {
     const section = categorySections.get(category.id)
     if (!section) return
 
+    const books = page.items
     section.rail.innerHTML = ""
-    section.count.textContent = pluralizeBooks(books.length)
+    section.count.textContent = formatBookPageCount(page)
 
     if (books.length === 0) {
       renderCategoryMessage(
@@ -706,10 +781,15 @@ function mountLibraryPage(root: HTMLElement) {
 
     const request = (async () => {
       try {
-        const books = await fetchJson<Book[]>(
-          buildUrl(config.backendBaseUrl, `/api/categories/${category.id}/books`),
+        const page = normalizeBookPage(
+          await fetchJson<BookPagePayload | Book[]>(
+            buildUrl(
+              config.backendBaseUrl,
+              `/api/categories/${category.id}/books?limit=${BOOKS_PAGE_LIMIT}&offset=0`,
+            ),
+          ),
         )
-        const normalized = books.map((book) => normalizeBook(book, category.name, config))
+        const normalized = normalizeDisplayBookPage(page, category.name, config)
         booksCache.set(category.id, normalized)
         return normalized
       } catch (liveError) {
@@ -717,8 +797,10 @@ function mountLibraryPage(root: HTMLElement) {
         const staticCategory = staticCategories?.find((item) => item.id === category.id)
 
         if (Array.isArray(staticCategory?.books)) {
-          const normalized = staticCategory.books.map((book) =>
-            normalizeBook(book, category.name, config),
+          const normalized = normalizeDisplayBookPage(
+            normalizeBookPage(staticCategory.books),
+            category.name,
+            config,
           )
           booksCache.set(category.id, normalized)
           return normalized
@@ -742,9 +824,9 @@ function mountLibraryPage(root: HTMLElement) {
     section.count.textContent = "Загрузка..."
 
     try {
-      const books = await loadBooks(category)
+      const page = await loadBooks(category)
       section.section.dataset.loaded = "true"
-      renderBooks(category, books)
+      renderBooks(category, page)
     } catch (error) {
       section.section.dataset.loaded = "error"
       renderCategoryMessage(
@@ -807,12 +889,14 @@ function mountLibraryPage(root: HTMLElement) {
     syncScrollbar()
 
     if (Array.isArray(category.books)) {
-      const normalizedBooks = category.books.map((book) =>
-        normalizeBook(book, category.name, config),
+      const normalizedPage = normalizeDisplayBookPage(
+        normalizeBookPage(category.books),
+        category.name,
+        config,
       )
-      booksCache.set(category.id, normalizedBooks)
+      booksCache.set(category.id, normalizedPage)
       section.dataset.loaded = "true"
-      renderBooks(category, normalizedBooks)
+      renderBooks(category, normalizedPage)
       return
     }
 
