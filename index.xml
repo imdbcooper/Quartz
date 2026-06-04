@@ -6,65 +6,65 @@
       <description>Last 10 notes on Smirnoff</description>
       <generator>Quartz -- quartz.jzhao.xyz</generator>
       <item>
-    <title>Библиотека</title>
-    <link>https://slavx.ru/library</link>
-    <guid>https://slavx.ru/library</guid>
-    <description><![CDATA[ Категории и книги из BOOK-LIBRARY. Выберите раздел, пролистывайте обложки по горизонтали и открывайте подробности книги в отдельном окне. ]]></description>
-    <pubDate>Fri, 22 May 2026 07:09:42 GMT</pubDate>
+    <title>Политика cookie и локального хранения данных</title>
+    <link>https://slavx.ru/docs/cookie-policy</link>
+    <guid>https://slavx.ru/docs/cookie-policy</guid>
+    <description><![CDATA[ Информация об использовании cookie, localStorage и аналитики на сайте slavx.ru. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 16:03:09 GMT</pubDate>
   </item><item>
-    <title>Telegram, Web и AI-решения под бизнес-задачи</title>
-    <link>https://slavx.ru/</link>
-    <guid>https://slavx.ru/</guid>
-    <description><![CDATA[ Помогаю компаниям запускать Telegram-ботов, web-сервисы и AI-сценарии с понятным планом, сроками и коммуникацией. ]]></description>
-    <pubDate>Wed, 20 May 2026 08:01:23 GMT</pubDate>
+    <title>Docs</title>
+    <link>https://slavx.ru/docs/</link>
+    <guid>https://slavx.ru/docs/</guid>
+    <description><![CDATA[ Документы и юридическая информация сайта slavx.ru ]]></description>
+    <pubDate>Thu, 04 Jun 2026 16:03:09 GMT</pubDate>
   </item><item>
-    <title>Контакты</title>
-    <link>https://slavx.ru/%D0%9Ao%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B</link>
-    <guid>https://slavx.ru/%D0%9Ao%D0%BD%D1%82%D0%B0%D0%BA%D1%82%D1%8B</guid>
-    <description><![CDATA[ Получите план запуска вашего проекта. Telegram-боты, Web-приложения, AI-интеграции. Быстрый ответ, понятный следующий шаг. ]]></description>
-    <pubDate>Tue, 19 May 2026 09:14:12 GMT</pubDate>
+    <title>Сведения об операторе и реквизиты</title>
+    <link>https://slavx.ru/docs/operator-details</link>
+    <guid>https://slavx.ru/docs/operator-details</guid>
+    <description><![CDATA[ Контактные и идентификационные сведения владельца сайта slavx.ru. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 16:03:09 GMT</pubDate>
   </item><item>
-    <title>BOOK-LIBRARY: roadmap</title>
-    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-roadmap</link>
-    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-roadmap</guid>
-    <description><![CDATA[ План развития библиотеки: безопасность, импорт, поиск, резервные копии и интеграция с Quartz-сайтом. ]]></description>
-    <pubDate>Mon, 04 May 2026 22:05:00 GMT</pubDate>
+    <title>Согласие на обработку персональных данных</title>
+    <link>https://slavx.ru/docs/personal-data-consent</link>
+    <guid>https://slavx.ru/docs/personal-data-consent</guid>
+    <description><![CDATA[ Форма согласия пользователя на обработку персональных данных при отправке заявок через slavx.ru. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 16:03:09 GMT</pubDate>
   </item><item>
-    <title>BOOK-LIBRARY: архитектура</title>
-    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0</link>
-    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%B0%D1%80%D1%85%D0%B8%D1%82%D0%B5%D0%BA%D1%82%D1%83%D1%80%D0%B0</guid>
-    <description><![CDATA[ Как связаны SvelteKit frontend, Express API, SQLite, файловое хранилище и legacy-интерфейс. ]]></description>
-    <pubDate>Mon, 04 May 2026 22:05:00 GMT</pubDate>
+    <title>Политика обработки персональных данных</title>
+    <link>https://slavx.ru/docs/privacy-policy</link>
+    <guid>https://slavx.ru/docs/privacy-policy</guid>
+    <description><![CDATA[ Порядок обработки персональных данных пользователей сайта slavx.ru и форм обратной связи. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 16:03:09 GMT</pubDate>
   </item><item>
-    <title>BOOK-LIBRARY: импорт, метаданные и каталог</title>
-    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%B8%D0%BC%D0%BF%D0%BE%D1%80%D1%82-%D0%B8-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3</link>
-    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%B8%D0%BC%D0%BF%D0%BE%D1%80%D1%82-%D0%B8-%D0%BA%D0%B0%D1%82%D0%B0%D0%BB%D0%BE%D0%B3</guid>
-    <description><![CDATA[ Как проект извлекает данные из книг, ищет обложки и собирает карточки каталога. ]]></description>
-    <pubDate>Mon, 04 May 2026 22:05:00 GMT</pubDate>
+    <title>Hi Tech News</title>
+    <link>https://slavx.ru/Blog/Hi-Tech-News/</link>
+    <guid>https://slavx.ru/Blog/Hi-Tech-News/</guid>
+    <description><![CDATA[ Подборка новостей и разборов о технологиях, ИИ и цифровых продуктах. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 16:03:08 GMT</pubDate>
   </item><item>
-    <title>BOOK-LIBRARY: обзор и сценарии</title>
-    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%BE%D0%B1%D0%B7%D0%BE%D1%80-%D0%B8-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8</link>
-    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/BOOK-LIBRARY-%D0%BE%D0%B1%D0%B7%D0%BE%D1%80-%D0%B8-%D1%81%D1%86%D0%B5%D0%BD%D0%B0%D1%80%D0%B8%D0%B8</guid>
-    <description><![CDATA[ Как устроен каталог электронной библиотеки для читателя и администратора. ]]></description>
-    <pubDate>Mon, 04 May 2026 22:05:00 GMT</pubDate>
+    <title>PromtGen: аудио и видео направление</title>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/PromtGen-Audio-Video</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/PromtGen-Audio-Video</guid>
+    <description><![CDATA[ Как видео-модуль VEO 3 уже работает в проекте и куда можно развивать аудио/видео pipeline дальше. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 05:10:00 GMT</pubDate>
   </item><item>
-    <title>BOOK-LIBRARY</title>
-    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/</link>
-    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/book-library/</guid>
-    <description><![CDATA[ Электронная библиотека с публичным каталогом, админкой, загрузкой книг и автоимпортом метаданных. ]]></description>
-    <pubDate>Mon, 04 May 2026 22:05:00 GMT</pubDate>
+    <title>PromtGen: backend roadmap</title>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/PromtGen-Backend-Roadmap</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/PromtGen-Backend-Roadmap</guid>
+    <description><![CDATA[ План развития PromtGen от клиентского генератора промтов к платформе с backend, сессиями и генерацией внутри проекта. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 05:10:00 GMT</pubDate>
   </item><item>
-    <title>Hybrid Retrieval на LightRAG</title>
-    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/Hybrid-Retrieval-%D0%BD%D0%B0-LightRAG</link>
-    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/Hybrid-Retrieval-%D0%BD%D0%B0-LightRAG</guid>
-    <description><![CDATA[ Как LightRAG соединяет Qdrant, Neo4j, PostgreSQL, query modes и streaming-интерфейсы чата. ]]></description>
-    <pubDate>Mon, 04 May 2026 21:21:00 GMT</pubDate>
+    <title>PromtGen: VEO 3 guided workflow</title>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/PromtGen-VEO-3-guided-workflow</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/PromtGen-VEO-3-guided-workflow</guid>
+    <description><![CDATA[ Текущий Video Promo workspace в PromtGen: Setup, specs, product elements, visual direction, storyboard, review и export для VEO 3. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 05:10:00 GMT</pubDate>
   </item><item>
-    <title>RAG Content Pipeline: от сырых документов к базе знаний</title>
-    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/RAG-Content-Pipeline-%D0%BE%D1%82-%D1%81%D1%8B%D1%80%D1%8B%D1%85-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%BE%D0%B2-%D0%BA-%D0%B1%D0%B0%D0%B7%D0%B5-%D0%B7%D0%BD%D0%B0%D0%BD%D0%B8%D0%B9</link>
-    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/rag-content-pipeline/RAG-Content-Pipeline-%D0%BE%D1%82-%D1%81%D1%8B%D1%80%D1%8B%D1%85-%D0%B4%D0%BE%D0%BA%D1%83%D0%BC%D0%B5%D0%BD%D1%82%D0%BE%D0%B2-%D0%BA-%D0%B1%D0%B0%D0%B7%D0%B5-%D0%B7%D0%BD%D0%B0%D0%BD%D0%B8%D0%B9</guid>
-    <description><![CDATA[ Как документы, сайты и изображения проходят путь от загрузки до RAG-индекса и чата. ]]></description>
-    <pubDate>Mon, 04 May 2026 21:21:00 GMT</pubDate>
+    <title>PromtGen</title>
+    <link>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/</link>
+    <guid>https://slavx.ru/%D0%9F%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Promt-Gen/</guid>
+    <description><![CDATA[ Генератор промтов для товарных карточек, видео-промо, AI-описаний и будущего media generation workflow. ]]></description>
+    <pubDate>Thu, 04 Jun 2026 05:10:00 GMT</pubDate>
   </item>
     </channel>
   </rss>
