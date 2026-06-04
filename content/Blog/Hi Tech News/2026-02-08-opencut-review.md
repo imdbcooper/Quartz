@@ -16,14 +16,14 @@ tags:
 cssclasses: ""
 updated: 2026-02-08 18:15
 draft: false
-preview_image: /images/opencut-review-card.jpg
+preview_image: /images/opencut-review-card.webp
 ---
 
 # OpenCut: открытый видеоредактор с акцентом на приватность
 
 ## Введение
 
-![[images/opencut-review-card.jpg]]
+![[images/opencut-review-card.webp]]
 
 OpenCut - это open-source альтернатива массовым мобильным и веб-редакторам видео. Проект позиционируется как бесплатный редактор для web, desktop и mobile, где базовые функции не закрыты пейволлом, а монтаж остается на устройстве пользователя. По описанию команды в [README OpenCut](https://github.com/OpenCut-app/OpenCut/blob/main/README.md), ключевая идея проста: доступный монтаж без подписки и с контролем над данными.
 

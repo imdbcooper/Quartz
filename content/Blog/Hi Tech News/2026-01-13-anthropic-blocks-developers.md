@@ -17,14 +17,14 @@ tags:
 cssclasses: ""
 updated: 2026-02-06 15:22
 draft: false
-preview_image: /images/2026-01-13-anthropic-blocks-developers-card.jpg
+preview_image: /images/2026-01-13-anthropic-blocks-developers-card.webp
 ---
 
 # Anthropic и блокировка третьесторонних инструментов: полный технический анализ
 
 ## Введение
 
-![[images/2026-01-13-anthropic-blocks-developers-inline.jpg]]
+![[images/2026-01-13-anthropic-blocks-developers-inline.webp]]
 
 В январе 2026 года Anthropic реализовала строгие технические защиты против использования её моделей Claude через сторонние приложения, нарушив работу популярных инструментов типа OpenCode, Roo Code и других. Это была реакция на годовую практику "спуфинга" (подделки) клиента Claude Code для обхода дорогого API и получения доступа к дешевым подпискам.
 

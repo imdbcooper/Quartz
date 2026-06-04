@@ -17,14 +17,14 @@ tags:
 cssclasses: ""
 updated: 2026-02-07 21:51
 draft: false
-preview_image: /images/tesla-optimus-vs-atlas-card.png
+preview_image: /images/tesla-optimus-vs-atlas-card.webp
 ---
 
 # Tesla Optimus vs Atlas: кто ближе к массовому рынку гуманоидов
 
 ## Введение
 
-![[images/tesla-optimus-vs-atlas-card.png]]
+![[images/tesla-optimus-vs-atlas-card.webp]]
 
 Если смотреть только на ролики, кажется, что рынок гуманоидов уже почти зрелый: роботы ходят, поднимают коробки, открывают двери и уверенно двигаются рядом с людьми. Но в промышленности решают не ролики, а три скучных вещи: стабильность смены, стоимость одного цикла операции и безопасность без постоянного ручного контроля. Именно на этом этапе чаще всего ломаются самые громкие обещания.
 

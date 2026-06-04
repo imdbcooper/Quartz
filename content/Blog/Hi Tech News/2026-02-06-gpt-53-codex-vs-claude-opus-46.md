@@ -18,14 +18,14 @@ tags:
 cssclasses: ""
 updated: 2026-02-06 20:15
 draft: false
-preview_image: /images/2026-02-06-gpt-53-codex-vs-claude-opus-46-card.jpg
+preview_image: /images/2026-02-06-gpt-53-codex-vs-claude-opus-46-card.webp
 ---
 
 # GPT-5.3-Codex vs Claude Opus 4.6: сравнительный анализ для инженерных экосистем
 
 ## Введение
 
-![[images/2026-02-06-gpt-53-codex-vs-claude-opus-46-card.jpg]]
+![[images/2026-02-06-gpt-53-codex-vs-claude-opus-46-card.webp]]
 
 Если вы выбираете «основной движок» для инженерной команды на 2026 год, то выбор между GPT-5.3-Codex и Claude Opus 4.6 превращается не в спор «кто умнее», а в вопрос архитектуры: как устроены рабочие циклы, где лежит ответственность за качество, и как модель вписывается в инструменты. OpenAI прямо позиционирует GPT-5.3-Codex как модель, ориентированную на агентные инженерные задачи и долгие циклы разработки. Источник: [OpenAI](https://openai.com/index/introducing-gpt-5-3-codex/). Anthropic, в свою очередь, подчеркивает, что Opus 4.6 — их самый мощный флагман для кодинга и агентных сценариев. Источник: [Anthropic](https://www.anthropic.com/claude/opus).
 

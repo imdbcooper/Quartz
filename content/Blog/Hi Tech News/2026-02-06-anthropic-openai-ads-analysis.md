@@ -17,12 +17,12 @@ tags:
 cssclasses: ""
 updated: 2026-02-06 14:56
 draft: false
-preview_image: /images/2026-02-06-anthropic-openai-ads-analysis-card.jpg
+preview_image: /images/2026-02-06-anthropic-openai-ads-analysis-card.webp
 ---
 
 # Нечестная реклама Anthropic против OpenAI: где маркетинг, а где манипуляция
 
-![[images/2026-02-06-anthropic-openai-ads-analysis-inline.png]]
+![[images/2026-02-06-anthropic-openai-ads-analysis-inline.webp]]
 
 История с рекламой внутри ChatGPT быстро вышла за пределы продуктовой новости и превратилась в публичный конфликт двух лидеров рынка. OpenAI официально объявила, что тестирует рекламу в бесплатных и более доступных тарифах: объявления будут внизу ответа, с отдельной маркировкой, а модель не должна подстраивать сам ответ под интересы рекламодателя ([OpenAI](https://openai.com/index/our-approach-to-advertising-and-expanding-access/), [Help Center](https://help.openai.com/en/articles/20001047-ads-in-chatgpt)). На этом фоне Anthropic выпустила кампанию с тезисом «для Claude рекламы не будет», и фактически использовала шаг конкурента как главный сюжет для своего продвижения ([Anthropic](https://www.anthropic.com/news/claude-is-a-space-to-think), [CNBC](https://www.cnbc.com/2026/02/04/anthropic-no-ads-claude-chatbot-openai-chatgpt.html)).
 
