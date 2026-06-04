@@ -3,7 +3,7 @@ publish: true
 title: "PromtGen"
 description: "Генератор промтов для товарных карточек, видео-промо, AI-описаний и будущего media generation workflow."
 created: 2025-12-17 17:40
-updated: 2026-05-04 19:55
+updated: 2026-06-04 05:10
 tags:
   - blog
   - project
@@ -19,6 +19,8 @@ PromtGen — клиентское React-приложение для подгот
 Проект решает простую рабочую задачу: вместо ручной сборки длинного промта пользователь пошагово выбирает категорию товара, сцену, свет, фон, преимущества, характеристики и storyboard. На выходе получается копируемый prompt или JSON payload, который можно передать дальше в генеративный пайплайн.
 
 Сейчас PromtGen работает как frontend-first инструмент. Основная логика живёт в React/Vite-приложении: форма собирает состояние в браузере, подсказки и presets помогают не забывать важные детали, а отдельные AI-assisted действия через Gemini ускоряют подготовку описаний и кадров.
+
+Текущий UI стал ближе к полноценному guided workspace: Image Cards используют пошаговый workflow, а Video Promo получил Guided/Fast режимы, review rail и отдельные представления Summary, Prompt и JSON.
 
 ## Что уже закрывает проект
 
@@ -38,5 +40,6 @@ PromtGen полезен там, где нужно быстро привести 
 ## Подробнее
 
 - [[Как устроен PromtGen|Как устроен PromtGen]] — архитектура текущего React-приложения, основные режимы и реальные кейсы использования.
+- [[PromtGen VEO 3 guided workflow|PromtGen: VEO 3 guided workflow]] — актуальный разбор Video Promo workspace: setup, style, storyboard, review и export.
 - [[PromtGen Audio Video|PromtGen: аудио и видео направление]] — как устроен VEO 3 workflow и где в нём появляется будущий audio layer.
 - [[PromtGen Backend Roadmap|PromtGen: backend roadmap]] — план перехода от клиентского prompt builder к платформе с backend, сессиями и генерацией внутри проекта.

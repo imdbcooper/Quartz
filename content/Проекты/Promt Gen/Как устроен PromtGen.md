@@ -3,7 +3,7 @@ publish: true
 title: "Как устроен PromtGen"
 description: "Клиентское React-приложение для сборки промтов под товарные карточки, видео-промо и AI-описания."
 created: 2026-05-04 19:18
-updated: 2026-05-04 20:00
+updated: 2026-06-04 05:10
 tags:
   - blog
 cssclasses: ""
@@ -31,6 +31,22 @@ PromtGen делает этот процесс управляемым:
 - поддерживает русский и английский интерфейс.
 
 Это не просто textarea для промта, а workspace, где пользователь постепенно собирает коммерческий визуальный сценарий.
+
+## Текущий UI workflow
+
+В image-режиме PromtGen ведёт пользователя через step header: сначала задаётся продукт и категория, затем визуальная сцена, benefits/specs, дополнительные инструкции и review результата. Правая панель работает как review-зона: там видно итоговый prompt, пустые поля не раздувают output, а copy action остаётся под рукой.
+
+Video Promo стал отдельным guided workspace. В нём есть два темпа работы: **Guided** для последовательного прохождения Setup, Style, Storyboard и Preview, и **Fast** для быстрого редактирования ключевых полей без длинного мастера.
+
+Внутри video-flow логика разделена так:
+
+- **Setup** — продукт, категория, длительность, aspect ratio и reference;
+- **Specs и elements** — характеристики товара и отдельные product elements, которые должны попасть в кадр;
+- **Style** — visual style, фон, свет, палитра и custom override;
+- **Storyboard** — сцены и shots с длительностью, камерой, эффектами, behavior patterns и overlay text;
+- **Preview** — review rail, Summary, Prompt, JSON payload и prompt export по отдельным сценам.
+
+За счёт этого Video Promo уже выглядит не как дополнительная форма, а как рабочее место для подготовки VEO 3 brief.
 
 ## Основные режимы
 
@@ -62,10 +78,13 @@ PromtGen делает этот процесс управляемым:
 - длительность ролика;
 - визуальный стиль;
 - фон, свет и палитру;
+- product specs и product elements;
+- visual style, включая custom style override/generation;
 - storyboard из сцен и кадров;
 - движения камеры;
 - эффекты и product behavior patterns;
 - overlay text и иконки;
+- review/export rail;
 - итоговый full prompt, prompt по сценам и JSON payload.
 
 Структура storyboard устроена как `VeoFormState -> scenes -> shots`: сцены держат крупную структуру ролика, а кадры описывают конкретные действия, длительность, движение камеры, эффекты и текст.
@@ -102,12 +121,17 @@ index.tsx
         -> DescriptionPanel (lazy)
      -> Video Promo workspace
         -> VeoPanel (lazy)
+           -> Setup / Style / Storyboard / Preview
+           -> Product specs / product elements
+           -> Custom visual style override
+           -> Review rail / Summary / Prompt / JSON
+           -> URL state for video UI
 ```
 
 Ключевые файлы:
 
-- `App.tsx` — главный orchestration-компонент: режим image/video, язык, тема, image prompt builder, query-state для `view`;
-- `components/VeoPanel.tsx` — видео-workspace: state, storyboard, validation, AI-assisted actions, preview и JSON export;
+- `App.tsx` — главный orchestration-компонент: режим image/video, язык, тема, image prompt builder, query-state для image `view`;
+- `components/VeoPanel.tsx` — видео-workspace: Guided/Fast UI state, product specs, product elements, custom style override, storyboard, validation, review rail, URL state, preview и JSON export;
 - `constants.ts` — UI-строки, category presets, VEO options, behavior patterns;
 - `types.ts` — доменные типы: `FormState`, `VeoFormState`, `VeoScene`, `VeoShot`, `CategoryKey`, `Language`;
 - `components/DescriptionPanel.tsx` — клиентская Gemini-интеграция для описаний;
@@ -139,11 +163,12 @@ index.tsx
 
 1. Пользователь выбирает режим `Video Promo (VEO 3)`.
 2. `VeoPanel` ведёт собственный `VeoFormState`.
-3. Пользователь заполняет core setup, visual direction и storyboard.
-4. Derived-state рассчитывает blockers и advisories.
-5. Если заполнены обязательные поля, preview показывает summary, full prompt, prompt по сценам и JSON payload.
+3. Пользователь выбирает Guided или Fast workflow.
+4. В Guided режиме проходит setup, visual direction, specs/elements, storyboard и preview; в Fast режиме быстрее редактирует ключевые поля.
+5. Derived-state рассчитывает blockers и advisories.
+6. Если заполнены обязательные поля, preview показывает summary, full prompt, prompt по сценам и JSON payload.
 
-Валидация сейчас проверяет минимум: тип товара, описание продукта, наличие хотя бы одного описания кадра и совпадение суммы длительностей кадров с общей длительностью ролика. Отсутствие референса отмечается как advisory, а не как блокер.
+Валидация сейчас проверяет минимум: тип товара, описание продукта, наличие хотя бы одного описания кадра и совпадение суммы длительностей кадров с общей длительностью ролика. Отсутствие референса отмечается как advisory, а не как блокер. Storyboard ограничен 5 сценами и 5 shots на сцену; product specs и product elements тоже ограничены пятью пунктами, чтобы brief не превращался в бесконечный список.
 
 ## Где проект уже полезен
 
@@ -171,11 +196,10 @@ PromtGen помогает быстро собрать prompt для product card
 
 Текущая версия — сильный frontend-прототип / внутренний инструмент, но ещё не полноценная платформа:
 
-- нет backend API;
-- нет авторизации;
+- нет backend API, базы, очередей, авторизации и persistent sessions;
+- нет server-side AI proxy: Gemini key остаётся client-side через Vite-переменную;
 - нет серверного хранения drafts и истории сессий;
-- AI-ключ используется на клиенте, что не подходит для зрелого production;
-- нет отдельного test-suite;
+- формального test-suite нет, в package scripts есть только dev/build/preview;
 - `VeoPanel.tsx` содержит много логики в одном крупном компоненте;
 - prompt builders частично распределены по компонентам.
 
@@ -183,5 +207,6 @@ PromtGen помогает быстро собрать prompt для product card
 
 ## Связанные материалы
 
+- [[PromtGen VEO 3 guided workflow|VEO 3 guided workflow в текущем Video Promo]]
 - [[PromtGen Audio Video|Аудио и видео направление PromtGen]]
 - [[PromtGen Backend Roadmap|Роадмап: backend и генерация внутри проекта]]

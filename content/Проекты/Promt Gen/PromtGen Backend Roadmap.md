@@ -3,7 +3,7 @@ publish: true
 title: "PromtGen: backend roadmap"
 description: "План развития PromtGen от клиентского генератора промтов к платформе с backend, сессиями и генерацией внутри проекта."
 created: 2026-05-04 19:22
-updated: 2026-05-04 20:00
+updated: 2026-06-04 05:10
 tags:
   - blog
 cssclasses: ""
@@ -13,9 +13,9 @@ preview_image: "/images/promptgen-backend-roadmap-cover.png"
 
 # PromtGen: backend roadmap
 
-Текущая версия PromtGen — это клиентское React/Vite-приложение. Оно уже полезно как генератор промтов: собирает image prompts, video prompts, JSON payload для VEO-сценариев и AI-описания через Gemini. Но архитектурно это ещё frontend-first инструмент без backend API, авторизации, базы данных, истории генераций и безопасного серверного слоя для AI-вызовов.
+Текущая версия PromtGen — это клиентское React/Vite-приложение. Оно уже полезно как генератор промтов: собирает image prompts, video prompts, JSON payload для VEO-сценариев и AI-описания через Gemini. Но архитектурно это всё ещё static SPA без backend API, авторизации, базы данных, persistent sessions, очередей и безопасного серверного слоя для AI-вызовов.
 
-Следующий большой этап — добавить backend и перенести проект от режима «собрали prompt и скопировали наружу» к режиму «собрали задачу, сгенерировали результат внутри проекта, сохранили историю и вернулись к ней позже».
+Этот roadmap пока не реализован. Его смысл — описать путь от режима «собрали prompt и скопировали наружу» к режиму «собрали задачу, сгенерировали результат внутри проекта, сохранили историю и вернулись к ней позже», не приписывая текущему продукту backend-возможности.
 
 ## Текущее состояние
 
@@ -27,7 +27,7 @@ preview_image: "/images/promptgen-backend-roadmap-cover.png"
 4. prompt собирается в браузере;
 5. AI-assisted функции вызываются с клиента через `@google/genai`;
 6. результат копируется вручную;
-7. история и draft сохраняются только в текущем состоянии интерфейса / частично в URL-параметрах видео-модуля.
+7. история и draft не сохраняются на сервере; часть UI state доступна через URL state, но это не persistent session.
 
 Сильные стороны текущей версии:
 
@@ -40,13 +40,14 @@ preview_image: "/images/promptgen-backend-roadmap-cover.png"
 
 Ограничения:
 
-- API-ключ Gemini живёт на клиенте;
+- API-ключ Gemini живёт на клиенте через Vite-переменную;
 - нет user/session model;
 - нельзя хранить проекты и версии промтов;
 - нет очередей для тяжёлой генерации;
 - нельзя безопасно подключать платные image/video/audio модели;
 - нет биллинга, rate limits и аудита запросов;
-- невозможно полноценно продолжать работу с генерациями между устройствами.
+- невозможно полноценно продолжать работу с генерациями между устройствами;
+- формального test-suite нет: package scripts ограничены dev/build/preview.
 
 ## Цель backend-этапа
 
@@ -192,16 +193,17 @@ Backend должен валидировать:
 
 ### Этап 1. Подготовка доменной модели
 
-Цель: отделить бизнес-логику от UI.
+Цель: отделить бизнес-логику от UI и подготовить минимальную базу для backend без изменения пользовательского сценария.
 
 Задачи:
 
 - вынести image prompt builder из `App.tsx`;
 - вынести video prompt builder из `VeoPanel.tsx`;
 - вынести validation для `VeoFormState`;
+- покрыть prompt builders и validation unit-тестами, потому что формального test-suite сейчас нет;
 - описать версии prompt templates;
-- добавить unit-тесты на prompt builders;
-- унифицировать типы для будущего API.
+- унифицировать типы для будущего API;
+- подготовить server-side Gemini proxy как первый реальный backend endpoint, чтобы убрать ключ из client-side кода.
 
 Результат: frontend работает как раньше, но логика готова к переиспользованию на сервере.
 
@@ -321,13 +323,15 @@ PromptSession
 
 ## Приоритеты MVP
 
-Если идти прагматично, первый backend MVP должен включать только то, что даёт максимальную пользу:
+Если идти прагматично, первые реальные шаги должны быть уже, чем полноценный product backend:
 
-1. server-side Gemini proxy для текущих AI-assisted функций;
-2. prompt sessions с сохранением drafts;
-3. image generation job;
-4. asset storage для результатов;
-5. минимальный экран истории генераций.
+1. extraction of prompt builders из крупных UI-компонентов;
+2. unit-тесты на prompt builders и validation;
+3. server-side Gemini proxy для текущих AI-assisted функций;
+4. prompt sessions с сохранением drafts;
+5. image generation job;
+6. asset storage для результатов;
+7. минимальный экран истории генераций.
 
 Видео generation можно подключать после того, как будет готова очередь и понятная модель jobs, потому что видео дороже и дольше по времени.
 
@@ -364,5 +368,6 @@ PromptSession
 
 ## Связанные материалы
 
+- [[PromtGen VEO 3 guided workflow|VEO 3 guided workflow в текущем Video Promo]]
 - [[Как устроен PromtGen|Как устроен проект и кейсы использования]]
 - [[PromtGen Audio Video|Аудио и видео направление PromtGen]]
