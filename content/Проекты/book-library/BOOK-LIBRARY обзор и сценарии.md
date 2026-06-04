@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/book-library-overview.png"
+preview_image: "/images/book-library-overview.webp"
 ---
 
 # BOOK-LIBRARY: обзор и сценарии

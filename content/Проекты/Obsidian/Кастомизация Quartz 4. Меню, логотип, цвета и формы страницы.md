@@ -9,7 +9,7 @@ tags:
   - tutorial
 cssclasses: ""
 draft: false
-preview_image: /images/castom.jpeg
+preview_image: /images/castom.webp
 ---
 
 # Кастомизация Quartz 4 в текущем проекте

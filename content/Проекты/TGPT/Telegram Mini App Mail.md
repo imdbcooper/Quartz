@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/tgpt-mini-app-mail-cover.png
+preview_image: /images/tgpt-mini-app-mail-cover.webp
 ---
 
 # Почта в Telegram Mini App TelePost

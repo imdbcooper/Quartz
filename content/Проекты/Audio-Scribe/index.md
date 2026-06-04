@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/audio-scribe-cover.png
+preview_image: /images/audio-scribe-cover.webp
 ---
 
 Audio Scribe начинался как сервис для расшифровки аудио и видео, но эта страница уже не про один экран транскрибации. Это входная карта проекта: что входит в платформу, где пользователь встречается с ботом и workspace, а где начинаются backend, очереди и control plane, которые держат обработку и операционную часть.

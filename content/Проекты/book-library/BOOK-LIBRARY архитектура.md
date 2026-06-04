@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/book-library-architecture.png"
+preview_image: "/images/book-library-architecture.webp"
 ---
 
 # BOOK-LIBRARY: архитектура

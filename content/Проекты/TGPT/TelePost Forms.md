@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/tgpt-forms-cover.png
+preview_image: /images/tgpt-forms-cover.webp
 ---
 
 # Forms в TelePost

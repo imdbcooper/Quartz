@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/book-library-roadmap.png"
+preview_image: "/images/book-library-roadmap.webp"
 ---
 
 # BOOK-LIBRARY: roadmap

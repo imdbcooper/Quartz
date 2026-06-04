@@ -8,7 +8,7 @@ tags:
   - "project"
 cssclasses: ""
 draft: false
-preview_image: "/images/rag-content-pipeline-cover.png"
+preview_image: "/images/rag-content-pipeline-cover.webp"
 ---
 
 RAG Content Pipeline — это входная точка в проектный раздел о том, как превратить разрозненные документы, страницы и изображения в базу знаний, с которой уже можно разговаривать через чат или API. В центре здесь связка двух репозиториев: PFRAG и RAG. Первый приводит контент в пригодный для индексации вид, второй отвечает за поиск, хранение контекста и диалоговый слой.

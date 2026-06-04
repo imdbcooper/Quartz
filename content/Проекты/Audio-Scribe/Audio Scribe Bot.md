@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/audio-scribe-bot-cover.png
+preview_image: /images/audio-scribe-bot-cover.webp
 ---
 
 # Audio Scribe Bot: быстрый Telegram-вход в рабочую платформу

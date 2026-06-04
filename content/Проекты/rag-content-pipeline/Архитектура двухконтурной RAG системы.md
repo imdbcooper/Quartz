@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/rag-two-loop-architecture.png"
+preview_image: "/images/rag-two-loop-architecture.webp"
 ---
 
 # Архитектура двухконтурной RAG системы

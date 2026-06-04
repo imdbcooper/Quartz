@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/tgpt-audio-scribe-integration-cover.png
+preview_image: /images/tgpt-audio-scribe-integration-cover.webp
 ---
 
 # TelePost и Audio Scribe: будущая интеграция

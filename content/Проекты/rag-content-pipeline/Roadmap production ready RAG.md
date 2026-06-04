@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/rag-production-roadmap.png"
+preview_image: "/images/rag-production-roadmap.webp"
 ---
 
 # Roadmap production ready RAG

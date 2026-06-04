@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/Isometric_3d_illustration_202512282149.jpeg
+preview_image: /images/Isometric_3d_illustration_202512282149.webp
 ---
 
 # Custom меню для Quartz 4

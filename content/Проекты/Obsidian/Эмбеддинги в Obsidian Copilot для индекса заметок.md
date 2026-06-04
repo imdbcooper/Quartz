@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/A_fantasy_concept_202512282146.jpeg
+preview_image: /images/A_fantasy_concept_202512282146.webp
 ---
 
 # Эмбеддинги в Obsidian Copilot для индекса заметок

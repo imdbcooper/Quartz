@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/Isometric_3d_render_202512282207.jpeg
+preview_image: /images/Isometric_3d_render_202512282207.webp
 ---
 
 # Подключение моделей Perplexity к Obsidian через Copilot

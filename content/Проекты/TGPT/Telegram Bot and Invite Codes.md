@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/tgpt-bot-invite-codes-cover.png
+preview_image: /images/tgpt-bot-invite-codes-cover.webp
 ---
 
 # Telegram-бот и invite-коды в TelePost

@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/rag-content-lifecycle.png"
+preview_image: "/images/rag-content-lifecycle.webp"
 ---
 
 # RAG Content Pipeline: от сырых документов к базе знаний

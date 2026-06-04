@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/A_futuristic_concept_202512282143.jpeg
+preview_image: /images/A_futuristic_concept_202512282143.webp
 ---
 
 # Gemini CLI в Obsidian: установка и настройка

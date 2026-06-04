@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/book-library-import-search.png"
+preview_image: "/images/book-library-import-search.webp"
 ---
 
 # BOOK-LIBRARY: импорт, метаданные и каталог

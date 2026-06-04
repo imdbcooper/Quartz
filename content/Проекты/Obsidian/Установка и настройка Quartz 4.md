@@ -9,7 +9,7 @@ tags:
   - tutorial
 cssclasses: ""
 draft: false
-preview_image: /images/setupquartz.jpeg
+preview_image: /images/setupquartz.webp
 ---
 
 # Установка и настройка Quartz 4 в этом репозитории

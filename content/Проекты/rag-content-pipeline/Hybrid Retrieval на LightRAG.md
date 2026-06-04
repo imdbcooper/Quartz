@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/rag-hybrid-retrieval.png"
+preview_image: "/images/rag-hybrid-retrieval.webp"
 ---
 
 # Hybrid Retrieval на LightRAG

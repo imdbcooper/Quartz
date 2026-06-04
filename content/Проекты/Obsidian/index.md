@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/Obsidian.png
+preview_image: /images/Obsidian.webp
 ---
 
 # Obsidian и Quartz

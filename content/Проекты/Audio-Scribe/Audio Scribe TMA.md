@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/audio-scribe-tma-cover.png
+preview_image: /images/audio-scribe-tma-cover.webp
 ---
 
 # Audio Scribe TMA: workspace, где транскрибация стала одним из входов

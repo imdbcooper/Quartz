@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: "/images/prmt.jpeg"
+preview_image: "/images/prmt.webp"
 ---
 
 # PromtGen

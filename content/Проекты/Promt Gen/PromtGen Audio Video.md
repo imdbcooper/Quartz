@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: "/images/promptgen-audio-video-cover.png"
+preview_image: "/images/promptgen-audio-video-cover.webp"
 ---
 
 # PromtGen: аудио и видео направление
@@ -194,7 +194,7 @@ Behavior patterns подходят для сценариев, где надо п
 
 ## Визуал статьи
 
-Для этой статьи используется отдельная обложка `/images/promptgen-audio-video-cover.png`: неоновый media-workstation с holographic storyboard timeline, видеокадрами товара и audio waveform под таймлайном. Главное изображение проекта `/images/prmt.jpeg` сохранено для основной карточки PromtGen.
+Для этой статьи используется отдельная обложка `/images/promptgen-audio-video-cover.webp`: неоновый media-workstation с holographic storyboard timeline, видеокадрами товара и audio waveform под таймлайном. Главное изображение проекта `/images/prmt.webp` сохранено для основной карточки PromtGen.
 
 ## Связанные материалы
 

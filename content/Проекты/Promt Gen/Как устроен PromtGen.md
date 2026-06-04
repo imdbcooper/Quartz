@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: "/images/promptgen-architecture-cases.png"
+preview_image: "/images/promptgen-architecture-cases.webp"
 ---
 
 # Как устроен PromtGen

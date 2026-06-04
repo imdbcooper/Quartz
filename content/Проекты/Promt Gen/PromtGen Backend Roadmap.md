@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: "/images/promptgen-backend-roadmap-cover.png"
+preview_image: "/images/promptgen-backend-roadmap-cover.webp"
 ---
 
 # PromtGen: backend roadmap
@@ -360,7 +360,7 @@ PromptSession
 - Не добавлять много providers без adapter interface.
 - Не запускать video generation без очередей и хранения статусов.
 - Не смешивать billing, auth и generation в одном неразделённом сервисе.
-- Не менять главное изображение карточки проекта: текущий `preview_image` должен остаться `/images/prmt.jpeg`.
+- Не менять главное изображение карточки проекта: текущий `preview_image` должен остаться `/images/prmt.webp`.
 
 ## Целевая пользовательская история
 
@@ -382,7 +382,7 @@ PromptSession
 
 ## Визуал roadmap
 
-Для roadmap используется отдельная обложка `/images/promptgen-backend-roadmap-cover.png`: неоновая карта архитектуры с frontend, backend API, базой данных, очередями и generation nodes. Главное изображение проекта `/images/prmt.jpeg` сохранено для основной карточки PromtGen.
+Для roadmap используется отдельная обложка `/images/promptgen-backend-roadmap-cover.webp`: неоновая карта архитектуры с frontend, backend API, базой данных, очередями и generation nodes. Главное изображение проекта `/images/prmt.webp` сохранено для основной карточки PromtGen.
 
 ## Связанные материалы
 
