@@ -11,13 +11,13 @@ draft: false
 preview_image: /images/medusastore-overview-cover.png
 ---
 
-MedusaStore лучше рассматривать не как один storefront, а как набор сценариев вокруг магазина: покупатель выбирает товар и оформляет заказ, администратор управляет commerce-данными, маркетолог ведёт контент и кампании, поддержка работает с отзывами и коммуникациями, а разработчик получает повторяемую основу для следующего проекта.
+MedusaStore полезнее читать как карту готового ecommerce-проекта, а не как описание одной витрины. Здесь важен не только storefront StudioPro, а весь путь вокруг магазина: покупатель выбирает товар и оформляет заказ, администратор управляет commerce-данными, маркетолог ведёт контент и кампании, поддержка разбирает отзывы и коммуникации, а разработчик получает повторяемую основу для следующего проекта.
 
-Это важное отличие от обычного boilerplate. В проекте уже видны реальные продуктовые маршруты: каталог, корзина, checkout, аккаунт, отзывы, CMS-страницы, рассылочные настройки, российские интеграции и staging-деплой. Но часть функций намеренно оставлена opt-in или default-off, чтобы не выдавать подготовленную интеграцию за production-live сервис.
+Поэтому это не просто набор интеграций, собранных рядом с Medusa. В проекте уже видны связанные продуктовые маршруты: каталог, корзина, checkout, аккаунт, отзывы, CMS-страницы, рассылочные настройки, российские интеграции и staging-деплой. Одни части отвечают за пользовательский опыт, другие — за операционную работу магазина, третьи — за безопасное развёртывание и проверку. При этом часть функций намеренно оставлена opt-in или default-off, чтобы не выдавать подготовленную интеграцию за production-live сервис.
 
 ## Сценарий покупателя
 
-Покупатель приходит в storefront StudioPro, видит премиальную бизнес-витрину, переходит в каталог, открывает карточку товара, добавляет позицию в корзину и проходит checkout. Storefront работает с Medusa Store API: backend остаётся source of truth для товаров, цен, корзин, заказов и checkout-состояний.
+Для покупателя MedusaStore выглядит как обычный интернет-магазин: он приходит в storefront StudioPro, смотрит витрину, переходит в каталог, открывает карточку товара, добавляет позицию в корзину и проходит checkout. За этим привычным маршрутом стоит Medusa Store API: backend остаётся source of truth для товаров, цен, корзин, заказов и checkout-состояний.
 
 В пользовательском слое есть несколько важных деталей:
 
@@ -27,11 +27,11 @@ MedusaStore лучше рассматривать не как один storefron
 - reviews: публичные отзывы, rating summary, helpful votes, image uploads и moderation flow;
 - static contacts и content pages, которые могут приходить из Payload при включённом CMS-слое.
 
-VK ID onboarding предусмотрен как отдельный входной сценарий. Если у пользователя нет нормального email, используется placeholder email, а checkout gate не должен молча пропускать состояние, где для заказа не хватает обязательных данных.
+VK ID onboarding предусмотрен как отдельный входной сценарий, чтобы пользователь мог зайти не только через классический email-флоу. Если у пользователя нет нормального email, используется placeholder email. При этом checkout gate не должен молча пропускать состояние, где для заказа не хватает обязательных данных: удобный вход не отменяет проверку заказа перед оформлением.
 
 ## Сценарий администратора магазина
 
-Администратор работает с commerce-частью через Medusa Admin и кастомные расширения. Backend содержит modules, workflows, subscribers, routes и admin widgets, поэтому магазин не ограничивается стандартной витриной Medusa.
+Администратор видит другую сторону той же системы: не каталог как картинку для покупателя, а commerce-операции за ним. Работа идёт через Medusa Admin и кастомные расширения. Backend содержит modules, workflows, subscribers, routes и admin widgets, поэтому магазин не ограничивается стандартной витриной Medusa.
 
 Ключевые зоны администрирования:
 
@@ -46,28 +46,30 @@ Live shipment execution через ApiShip выключен по умолчан�
 
 ## Сценарий маркетолога
 
-Маркетологу важен не только каталог. В MedusaStore есть Payload CMS как отдельный content/admin слой: Pages, Posts, Media, Users, MarketingCampaigns, а также globals Navigation, Footer и SiteSettings.
+Маркетологу важен не только каталог: магазин должен объяснять, куда попал посетитель, какие страницы вокруг покупки доступны и как с пользователем продолжается коммуникация после первого касания. В MedusaStore для этого есть Payload CMS как отдельный content/admin слой: Pages, Posts, Media, Users, MarketingCampaigns, а также globals Navigation, Footer и SiteSettings.
 
-Через этот слой можно вести страницы, новости, медиа, настройки навигации и маркетинговые кампании. В проекте предусмотрены drafts, preview и revalidation, но Payload не становится commerce backend. Он не хранит provider secrets, платежную правду или заказы.
+Через этот слой можно вести страницы, новости, медиа, настройки навигации и маркетинговые кампании, не смешивая контент с commerce-ядром. В проекте предусмотрены drafts, preview и revalidation, но Payload не становится commerce backend. Он не хранит provider secrets, платежную правду или заказы.
 
 Маркетинговый контур связан с preferences, campaigns, delivery journal, unsubscribe и double opt-in. Это не «просто форма подписки», а заготовка для нормальной коммуникационной дисциплины: кто согласился, на что согласился, что отправлено и как пользователь может отказаться.
 
 ## Сценарий поддержки
 
-Поддержка соприкасается с отзывами, уведомлениями и спорными пользовательскими состояниями. В проекте есть reviews subsystem: публичные отзывы, rating summary, helpful votes, image uploads, moderation и административные widgets/routes.
+Поддержка оказывается там, где пользовательский путь перестаёт быть линейным: отзыв ждёт модерации, уведомление не должно потеряться, а в профиле или checkout появляются спорные состояния. В проекте есть reviews subsystem: публичные отзывы, rating summary, helpful votes, image uploads, moderation и административные widgets/routes.
 
-Уведомления могут идти через local, SMTP, UniSender, SMS, VK или fallback/disabled semantics. Это удобно для staging и разработки: отсутствие production-провайдера не должно ломать весь checkout или moderation flow. Но для production всё равно нужен отдельный проход по SMTP/mailserver, deliverability, шаблонам и retry-поведению.
+Уведомления могут идти через local, SMTP, UniSender, SMS, VK или fallback/disabled semantics. Это удобно для staging и разработки: отсутствие production-провайдера не должно ломать весь checkout или moderation flow. Но для production всё равно нужен отдельный проход по SMTP/mailserver, deliverability, шаблонам и retry-поведению, потому что коммуникации — часть сервиса, а не декоративное дополнение.
 
 ## Сценарий разработчика или агентства
 
-Для разработчика MedusaStore ценен как повторяемая база. Root-level scripts управляют env, bootstrap, local dev, backend, storefront, Payload, smoke и staging deploy. Локально Docker Compose поднимает PostgreSQL, Redis и Medusa backend, а storefront и Payload чаще идут host processes.
+Для разработчика или агентства MedusaStore ценен как повторяемая база, которую можно разбирать не по отдельным папкам, а по жизненному циклу магазина: поднять окружение, проверить backend, посмотреть storefront, подключить Payload, прогнать smoke и вывести staging. Root-level scripts управляют env, bootstrap, local dev, backend, storefront, Payload, smoke и staging deploy. Локально Docker Compose поднимает PostgreSQL, Redis и Medusa backend, а storefront и Payload чаще идут host processes.
 
-На staging работает production-mode compose stack: PostgreSQL, Redis, Medusa backend, Payload CMS, Storefront, Caddy и optional AI Assistant. Canonical deploy — GitHub Actions `Deploy Staging`, secrets — только через GitHub Secrets/Variables.
+На staging работает production-mode compose stack: PostgreSQL, Redis, Medusa backend, Payload CMS, Storefront, Caddy и optional AI Assistant. Canonical deploy — GitHub Actions `Deploy Staging`, secrets — только через GitHub Secrets/Variables. Так проект показывает не только «что написано», но и как это должно жить за пределами локальной демонстрации.
 
 В этом смысле MedusaStore хорошо ложится рядом с [[MedusaStore архитектура backend storefront и staging|архитектурным разбором проекта]] и инфраструктурными заметками вроде [[Инфраструктура Quartz-проекта команды preview CI и деплой|Quartz preview/CI/deploy]]: ценность не только в коде, но и в том, как система разворачивается и проверяется.
 
 ## Optional assistant
 
-AI Assistant присутствует как optional слой: FastAPI service, backend adapter routes, reindex intents и storefront/widget integration. Но он выключен по умолчанию и не должен описываться как live-функция магазина. Это скорее подготовленная поверхность для будущего консультанта по каталогу, заказам, контенту и поддержке.
+AI Assistant присутствует как optional слой: FastAPI service, backend adapter routes, reindex intents и storefront/widget integration. Но он выключен по умолчанию и не должен описываться как live-функция магазина. Это скорее подготовленная поверхность для будущего консультанта по каталогу, заказам, контенту и поддержке, который может появиться рядом с магазином, но не подменяет базовый ecommerce-flow.
 
 Подробнее этот слой вынесен отдельно в [[MedusaStore AI Assistant и roadmap production hardening|roadmap production hardening]], потому что смешивать ассистента с базовым checkout было бы нечестно: магазин может работать без него, а production-готовность ассистента требует отдельной безопасности, rate limiting и эксплуатационных правил.
+
+В итоге обзор показывает MedusaStore как связанную ecommerce-систему: storefront опирается на backend, контент живёт в своём слое, операционные сценарии отделены от маркетинговых, а экспериментальные возможности явно помечены как optional. Главная ценность проекта — не в одном эффектном экране, а в том, что разные участники магазина могут двигаться по своим сценариям, оставаясь внутри одной понятной архитектуры.
