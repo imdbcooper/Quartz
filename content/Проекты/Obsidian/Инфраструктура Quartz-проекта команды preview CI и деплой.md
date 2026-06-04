@@ -8,7 +8,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/quartz-infrastructure.png
+preview_image: "/images/quartz-infrastructure.webp"
 ---
 
 # Инфраструктура Quartz-проекта

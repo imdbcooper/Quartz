@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: "/images/promtgen-veo-workflow-cover.png"
+preview_image: "/images/promtgen-veo-workflow-cover.webp"
 ---
 
 # PromtGen: VEO 3 guided workflow

@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/medusastore-integrations-cover.png
+preview_image: "/images/medusastore-integrations-cover.webp"
 ---
 
 MedusaStore здесь стоит рассматривать не как абстрактный international starter, а как магазин, который должен пройти знакомый российскому покупателю путь: войти без лишнего трения, выбрать доставку, оплатить заказ, получить понятные статусы и при этом оставить оператору достаточно контроля.

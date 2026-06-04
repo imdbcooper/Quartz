@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/book-library-admin.png"
+preview_image: "/images/book-library-admin.webp"
 ---
 
 # BOOK-LIBRARY: React-админка и операционный центр

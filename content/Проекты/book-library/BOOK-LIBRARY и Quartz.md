@@ -8,7 +8,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/book-library-quartz.png"
+preview_image: "/images/book-library-quartz.webp"
 ---
 
 # BOOK-LIBRARY и Quartz

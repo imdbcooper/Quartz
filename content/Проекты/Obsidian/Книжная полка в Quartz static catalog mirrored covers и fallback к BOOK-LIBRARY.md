@@ -8,7 +8,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/quartz-bookshelf.png
+preview_image: "/images/quartz-bookshelf.webp"
 ---
 
 # Книжная полка в Quartz

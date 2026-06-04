@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/medusastore-cover.png
+preview_image: "/images/medusastore-cover.webp"
 ---
 
 MedusaStore — входная точка в проект про e-commerce runtime, который собирает вокруг Medusa не только магазинную логику, но и всё, что обычно быстро расползается по отдельным репозиториям: витрину, контент, интеграции, staging и будущие production-задачи. Это не starter «поставил и забыл» и не демо-магазин ради скриншотов, а основа, на которой можно разбирать, как устроена рабочая storefront-система.

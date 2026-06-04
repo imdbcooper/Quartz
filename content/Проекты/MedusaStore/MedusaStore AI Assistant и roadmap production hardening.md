@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/medusastore-ai-roadmap-cover.png
+preview_image: "/images/medusastore-ai-roadmap-cover.webp"
 ---
 
 AI Assistant в MedusaStore — optional слой, а не обязательная часть checkout. Это важно проговорить сразу: магазин, каталог, корзина и базовый storefront не должны зависеть от ассистента. Покупатель должен иметь возможность выбрать товар, собрать корзину и дойти до оплаты даже тогда, когда AI-контур полностью выключен.

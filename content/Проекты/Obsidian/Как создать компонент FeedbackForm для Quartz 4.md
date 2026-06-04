@@ -9,7 +9,7 @@ tags:
   - tutorial
 cssclasses: ""
 draft: false
-preview_image: /images/quartz-feedback-form.png
+preview_image: "/images/quartz-feedback-form.webp"
 ---
 
 # Как устроен FeedbackForm для Quartz 4

@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/audio-scribe-workspace-cover.png
+preview_image: "/images/audio-scribe-workspace-cover.webp"
 ---
 
 # Audio Scribe Workspace: задачи, календарь и напоминания после расшифровки

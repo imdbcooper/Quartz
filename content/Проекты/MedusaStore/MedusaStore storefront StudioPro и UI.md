@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/medusastore-storefront-cover.png
+preview_image: "/images/medusastore-storefront-cover.webp"
 ---
 
 Storefront в MedusaStore называется StudioPro. Это shopper-facing приложение на Next.js 15.3.9, React 19, Medusa SDK/UI и Tailwind — та часть проекта, где покупатель уже не думает о backend, SDK и CMS, а просто выбирает предложение, читает детали, кладёт товар в корзину и доходит до checkout. Его задача — показать магазин не как абстрактный starter, а как бизнес-витрину с каталогом, офферами, checkout, аккаунтом, отзывами и контентными страницами.

@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/medusastore-payload-cover.png
+preview_image: "/images/medusastore-payload-cover.webp"
 ---
 
 Когда у магазина появляются не только товары, но и история вокруг них — посадочные страницы, новости, промо-блоки, навигация, медиа и сезонные кампании, — складывать всё это в commerce backend быстро становится неудобно. В MedusaStore эту часть берёт на себя Payload CMS.

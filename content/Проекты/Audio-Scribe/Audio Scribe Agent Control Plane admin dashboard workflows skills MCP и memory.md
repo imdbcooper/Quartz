@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/audio-scribe-agent-cover.png
+preview_image: "/images/audio-scribe-agent-cover.webp"
 ---
 
 # Audio Scribe Agent Control Plane: admin dashboard, workflows, skills, MCP и memory

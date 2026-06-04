@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/
+preview_image: "/images/projects-cover.webp"
 ---
 
 # Проекты

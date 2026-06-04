@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/audio-scribe-architecture-cover.png
+preview_image: "/images/audio-scribe-architecture-cover.webp"
 ---
 
 # Audio Scribe: архитектура backend, очереди и production-контур

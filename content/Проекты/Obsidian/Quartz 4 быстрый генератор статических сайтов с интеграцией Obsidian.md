@@ -9,7 +9,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/quartz-smirnoff.png
+preview_image: "/images/quartz-smirnoff.webp"
 ---
 
 # Quartz 4 в этом проекте

@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/medusastore-architecture-cover.png
+preview_image: "/images/medusastore-architecture-cover.webp"
 ---
 
 MedusaStore устроен вокруг простой, но важной идеи: у магазина должно быть понятное место, где живёт commerce truth, отдельная витрина для покупателя, отдельный слой для контента и безопасная площадка, где всё это можно проверить до production. Поэтому Medusa backend отвечает за товары, корзины и заказы, storefront показывает покупательский интерфейс, Payload CMS управляет контентом, PostgreSQL и Redis хранят состояние, а Caddy открывает наружу только нужные публичные endpoints staging-окружения.

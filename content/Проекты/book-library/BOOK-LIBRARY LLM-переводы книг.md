@@ -7,7 +7,7 @@ tags:
   - "blog"
 cssclasses: ""
 draft: false
-preview_image: "/images/book-library-translations.png"
+preview_image: "/images/book-library-translations.webp"
 ---
 
 # BOOK-LIBRARY: LLM-переводы книг

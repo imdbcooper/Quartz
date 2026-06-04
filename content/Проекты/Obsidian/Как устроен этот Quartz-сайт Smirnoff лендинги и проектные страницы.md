@@ -8,7 +8,7 @@ tags:
   - project
 cssclasses: ""
 draft: false
-preview_image: /images/quartz-smirnoff-site.png
+preview_image: "/images/quartz-smirnoff-site.webp"
 ---
 
 # Как устроен этот Quartz-сайт Smirnoff

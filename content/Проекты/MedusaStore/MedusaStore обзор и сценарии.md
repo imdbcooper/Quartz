@@ -8,7 +8,7 @@ tags:
   - blog
 cssclasses: ""
 draft: false
-preview_image: /images/medusastore-overview-cover.png
+preview_image: "/images/medusastore-overview-cover.webp"
 ---
 
 MedusaStore полезнее читать как карту готового ecommerce-проекта, а не как описание одной витрины. Здесь важен не только storefront StudioPro, а весь путь вокруг магазина: покупатель выбирает товар и оформляет заказ, администратор управляет commerce-данными, маркетолог ведёт контент и кампании, поддержка разбирает отзывы и коммуникации, а разработчик получает повторяемую основу для следующего проекта.
