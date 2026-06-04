@@ -1,346 +1,169 @@
 ---
 publish: true
-title: Кастомизация Quartz 4
-description: Кастомизация Quartz 4. Меню, логотип, цвета и формы страницы
+title: "Кастомизация Quartz 4: меню, тема и layout сайта Smirnoff"
+description: "Разбор фактической кастомизации Quartz в проекте Smirnoff: конфиг, layout, CardMenu, landing-страницы, превью и custom OG."
 created: 2025-12-16
-updated: 2025-12-17 17:08
+updated: 2026-06-04 02:45
 tags:
+  - blog
   - tutorial
-  - obsidian
-  - Quartz
 cssclasses: ""
 draft: false
 preview_image: /images/castom.jpeg
 ---
 
-![[123.png]]
+# Кастомизация Quartz 4 в текущем проекте
 
-## Рекомендуемые размеры изображений для превью
+Эта заметка про фактическое состояние сайта Smirnoff, а не про набор универсальных примеров. В проекте уже изменены тема, layout, меню, страницы-лендинги, списки с превью, библиотека и social images.
 
-> Подробный гайд по настройке превью: [[Карточки превью для статей Qartz 4|Карточки превью для статей Quartz 4]].
+> Подробный разбор карточек: [[Карточки превью для статей Quartz 4|Карточки превью для статей Quartz 4]]. Меню отдельно разобрано здесь: [[Custom меню для Quartz 4|Custom меню для Quartz 4]].
 
-Для корректного отображения изображений в карточках превью без появления полей или искажения пропорций:
+## Главный конфиг
 
-- **Рекомендуемый размер**: 400x300 пикселей (соотношение сторон 4:3)
-- **Минимальный размер**: 300x200 пикселей
-- **Максимальный размер**: 800x600 пикселей
-- **Форматы**: PNG, JPG, WebP
+Основные настройки лежат в `quartz.config.ts`. Сейчас сайт настроен так:
 
-Изображения будут автоматически масштабироваться и подгоняться под размеры контейнера с помощью CSS свойства `object-fit: cover`, которое сохраняет пропорции и обрезает лишнее.
-
----
-
-На основе имеющейся документации и актуальной информации о Quartz 4, вот основные точки кастомизации:
-
----
-
-## 1. Основные настройки в `quartz.config.ts`
-
-Это главный файл конфигурации. Вот ключевые параметры (актуальные поля соответствуют коду в `quartz.config.ts`):
-
-```typescript
-const config: QuartzConfig = {
-  configuration: {
-    pageTitle: "🧠 Мой Цифровой Сад",
-    pageTitleSuffix: "",
-    enableSPA: true,
-    enablePopovers: true,
-    analytics: { provider: "plausible" },
-    locale: "ru-RU",
-    baseUrl: "yoursite.com",
-
-    // В коде по умолчанию используются без подчёркиваний
-    ignorePatterns: ["private", "templates", ".obsidian"],
-
-    // Какой тип даты брать по умолчанию: "created" | "modified" | "published"
-    defaultDateType: "modified",
-
-    theme: {
-      // Дополнительно доступны опции шрифтов/кеша CDN
-      fontOrigin: "googleFonts",
-      cdnCaching: true,
-
-      typography: {
-        header: "Merriweather",
-        body: "Source Sans Pro",
-        code: "IBM Plex Mono",
-      },
-
-      // Ключи цветов соответствуют реальной структуре
-      colors: {
-        lightMode: {
-          light: "#faf8f3",
-          lightgray: "#e5e5e5",
-          gray: "#b8b8b8",
-          darkgray: "#4e4e4e",
-          dark: "#2b2b2b",
-          secondary: "#7fbbb3",
-          tertiary: "#d08770",
-          highlight: "rgba(127, 187, 179, 0.15)",
-          textHighlight: "#fff23688",
-        },
-        darkMode: {
-          light: "#1e1e1e",
-          lightgray: "#393b44",
-          gray: "#646464",
-          darkgray: "#d4d4d4",
-          dark: "#ebebec",
-          secondary: "#7b97aa",
-          tertiary: "#84a59d",
-          highlight: "rgba(143, 159, 169, 0.15)",
-          textHighlight: "#b3aa0288",
-        },
-      },
-    },
-  },
-
-  plugins: {
-    transformers: [
-      /* трансформеры */
-    ],
-    filters: [
-      /* фильтры */
-    ],
-    emitters: [
-      /* эмиттеры */
-    ],
-  },
+```ts
+configuration: {
+  pageTitle: "Smirnoff",
+  pageTitleSuffix: "",
+  enableSPA: true,
+  enablePopovers: true,
+  analytics: { provider: "plausible" },
+  locale: "en-US",
+  baseUrl: "slavx.ru",
+  ignorePatterns: ["private", "templates", ".obsidian"],
+  defaultDateType: "modified",
 }
 ```
 
-(актуально для `defaultContentPageLayout`):
+Из важного:
 
-```typescript
-export const defaultContentPageLayout: PageLayout = {
-  beforeBody: [
-    Component.ConditionalRender({
-      component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "index",
-    }),
-    Component.ArticleTitle(),
-    Component.ContentMeta(),
-    Component.TagList(),
-  ],
-  left: [
-    Component.PageTitle(),
-    Component.MobileOnly(Component.Spacer()),
-    Component.Flex({
-      components: [
-        { Component: Component.Search(), grow: true },
-        { Component: Component.Darkmode() },
-        { Component: Component.ReaderMode() },
-      ],
-    }),
-    Component.Explorer(),
-  ],
-  right: [
-    Component.Graph(),
-    Component.DesktopOnly(Component.TableOfContents()),
-    Component.Backlinks(),
-  ],
+- `enableSPA` нужен для плавной навигации без полной перезагрузки;
+- `enablePopovers` включает всплывающие превью внутренних ссылок;
+- `baseUrl` выставлен под основной домен `slavx.ru`;
+- Plausible подключён как аналитика;
+- черновики фильтруются через `RemoveDrafts` и frontmatter `draft: false` / `draft: true`.
+
+## Тема и шрифты
+
+Тема тоже описана в `quartz.config.ts`:
+
+```ts
+typography: {
+  header: "Inter",
+  body: "Inter",
+  code: "IBM Plex Mono",
 }
 ```
 
-> Примечание: тип `PageLayout` включает только `beforeBody`, `left` и `right`. Для общих элементов страницы (например, `afterBody` с комментариями или футером) нужно редактировать `sharedPageComponents` (тип `SharedLayout`) в `quartz.layout.ts`.
+Палитра задана отдельно для light и dark mode. В светлой теме используются мягкий почти белый фон, тёмный текст и сине-серый `secondary`. В тёмной теме фон уходит в `#111111`, а акцент — в голубой `#60a5fa`.
 
-**Как добавить пользовательское меню:**
+Это лучше держать в конфиге, а не размазывать по отдельным CSS-переопределениям. Тогда компоненты Quartz продолжают пользоваться общими переменными: `var(--light)`, `var(--dark)`, `var(--secondary)`, `var(--highlight)`.
 
-> Полное руководство: [[Custom меню для Qartz 4|Продвинутая настройка меню Quartz 4]].
+## Плагины и emitters
 
-1. Отредактируйте компонент `Component.Explorer()` или его опции, чтобы скрыть/отобразить нужные папки
-2. Используйте `ignorePatterns` в `quartz.config.ts` для скрытия папок
-3. Добавьте ссылки вручную в `index.md` (если хотите простое меню)
+В проекте включены стандартные для Quartz вещи:
 
-```markdown
----
-title: Главная
----
+- frontmatter;
+- created/modified date;
+- syntax highlighting;
+- Obsidian-flavored Markdown;
+- GitHub-flavored Markdown;
+- table of contents;
+- crawl links;
+- descriptions;
+- KaTeX;
+- RSS и sitemap.
 
-# 🧠 Мой цифровой сад
+Для страниц папок и тегов включён `usePreviewList: true`, поэтому вместо обычных списков используются карточки `PagePreviewList`.
 
-## Главное меню
+В конце списка emitters подключён `CustomOgImages` с `smirnoffSocialImage`. Это даёт кастомные картинки для шаринга, но может замедлять сборку. Если нужно быстро проверить изменения, этот emitter — первый кандидат на временное отключение.
 
-- [[Заметки]]
-- [[Проекты]]
-- [[О сайте]]
-- [[Контакты]]
-```
+## Layout: что видно на страницах
 
----
+Фактическая раскладка задаётся в `quartz.layout.ts`.
 
-## 3. Добавление логотипа
+В `sharedPageComponents.afterBody` подключены общие ресурсы и блоки:
 
-**Вариант 1: Через эмодзи (быстро)**
+- `SiteGeometryBackground`;
+- `ServicesCarousel`;
+- `FeedbackForm`;
+- `HomeCallback`;
+- `CookieConsent`;
+- `Footer`.
 
-```typescript
-pageTitle: "🪴 My Garden" // Логотип через эмодзи
-```
+Для обычной content-страницы layout такой:
 
-**Вариант 2: Через логотип-файл (сложнее)**
+- слева: `Avatar`, мобильный блок `Search` + `Darkmode` + `ReaderMode`, затем `CardMenu`;
+- справа: десктопный `Search`, `Darkmode`, `ReaderMode`, граф, latest articles на главной и библиотеке, TOC и Backlinks;
+- перед body: breadcrumbs, title и meta, но только для обычных страниц.
 
-1. Поместите логотип в `content/static/logo.png` — `Assets` эмиттер скопирует его в выходную папку как `/static/logo.png`.
-2. Отредактируйте `quartz/components/PageTitle.tsx`, добавив изображение рядом с названием (следуя существующему стилю компонентов):
+## Landing-исключения
 
-```typescript
-import { pathToRoot } from "../util/path"
-import { QuartzComponent, QuartzComponentProps } from "./types"
-import { classNames } from "../util/lang"
-import { i18n } from "../i18n"
+Главная, контакты и библиотека не рендерятся как обычная статья.
 
-const PageTitle: QuartzComponent = ({ fileData, cfg, displayClass }: QuartzComponentProps) => {
-  const title = cfg?.pageTitle ?? i18n(cfg.locale).propertyDefaults.title
-  const baseDir = pathToRoot(fileData.slug!)
-  return (
-    <h2 class={classNames(displayClass, "page-title")}>
-      <a href={baseDir}>
-        <img src="/static/logo.png" alt="Logo" style="height: 28px; margin-right: 8px;" />
-        {title}
-      </a>
-    </h2>
-  )
-}
+Для `index` в `beforeBody` вставляется `LandingContainer` с блоками из `home.json`: hero, focus, services, works, FAQ и contact CTA. Там же на главной появляется специальный граф и scroll sequence.
 
-PageTitle.css = `
-.page-title img { vertical-align: middle; }
-`
+Для `Кoнтакты` используется другой `LandingContainer` с данными из `contacts.json`: hero, каналы связи, workflow, форматы старта, FAQ и CTA.
 
-export default (() => PageTitle) satisfies QuartzComponentConstructor
-```
+Для `library` подключается `LibraryPage`, а обычные `ArticleTitle`, `ContentMeta`, TOC и Backlinks для неё отключаются. Библиотека получает свой интерфейс с горизонтальными rails, hover preview и modal.
 
-Это соответствует шаблону компонентов в проекте и корректно использует `cfg`, `fileData` и встроенную систему стилей.
+## CardMenu вместо Explorer
 
----
+Стандартный Explorer заменён на `CardMenu`. Компонент находится в `quartz/components/CardMenu.tsx`, стили — в `cardMenu.scss`, поведение — в `cardMenu.inline.ts`.
 
-## 4. Кастомизация цветов
+Сейчас в `CardMenuOptions` есть:
 
-**Быстрый способ — через `quartz/styles/custom.scss`:**
+- `folderDefaultState`;
+- `folderClickBehavior`;
+- `useSavedState`;
+- `sortFn`, `filterFn`, `mapFn`, `order`;
+- `showNavButtons`;
+- `navButtons`;
+- `footerText`;
+- `drawerComponent`.
 
-```scss
-// Общие переменные цветов
-:root {
-  --primary-color: #0a6ed1; // Голубой
-  --secondary-color: #0f828f; // Бирюзовый
-  --accent-color: #d08770; // Оранжевый
-  --bg-light: #faf8f3; // Светлый фон
-  --bg-dark: #1e1e1e; // Тёмный фон
-  --text-primary: #2b2b2b; // Основной текст
-  --text-secondary: #b8b8b8; // Вторичный текст
-}
+В текущих default options навигационные кнопки включены: Контакты, RSS, Архив. Меню фильтрует `tags`, сортирует папки и файлы с учётом чисел и сохраняет состояние секций в браузере.
 
-// Применение к элементам
-body {
-  background-color: var(--bg-light);
-  color: var(--text-primary);
-}
+## Data-driven страницы
 
-a {
-  color: var(--primary-color);
+Часть сайта управляется JSON-файлами из `quartz/static/data`:
 
-  &:hover {
-    color: var(--secondary-color);
-  }
-}
+- `home.json` — главная;
+- `contacts.json` — контакты;
+- `home-latest-articles.json` — блок свежих материалов;
+- `bookshelf.json` — настройки библиотеки;
+- `feedback-form.json` — поля формы;
+- `site-geometry-background.json` — декоративный фон.
 
-.article-title {
-  color: var(--text-primary);
-  border-bottom: 3px solid var(--primary-color);
-}
+Это хороший приём для страниц, где Markdown быстро стал бы неудобным. Текст и структура остаются рядом с проектом, но компонент получает уже нормализованные данные.
 
-// Для тёмного режима
-@media (prefers-color-scheme: dark) {
-  body {
-    background-color: var(--bg-dark);
-    color: white;
-  }
-}
-```
+## Команды
 
----
-
-## 5. Формы страницы (layout)
-
-Quartz 4 имеет два основных макета:
-
-**Content Layout** (для статей):
-
-```
-[Боковая панель] [Основной контент] [Граф связей]
-```
-
-**List Layout** (для списков/тегов):
-
-```
-[Хлебные крошки]
-[Заголовок]
-[Список статей]
-```
-
-**Чтобы создать кастомный макет:**
-
-1. Отредактируйте `quartz.layout.ts`
-2. Создайте новый `PageLayout` объект (учитывайте, что `PageLayout` содержит только `beforeBody`, `left` и `right`)
-3. Назначьте его в `defaultContentPageLayout` или `defaultListPageLayout`
-
-```typescript
-export const customPageLayout: PageLayout = {
-  beforeBody: [Component.Breadcrumbs(), Component.ArticleTitle()],
-  left: [
-    Component.PageTitle(),
-    Component.Flex({ components: [{ Component: Component.Search(), grow: true }] }),
-  ],
-  right: [Component.TableOfContents()],
-}
-```
-
-Чтобы добавить общие элементы страницы, например комментарии, редактируйте `sharedPageComponents.afterBody` (тип `SharedLayout`) в `quartz.layout.ts`:
-
-```typescript
-export const sharedPageComponents: SharedLayout = {
-  head: Component.Head(),
-  header: [],
-  afterBody: [Component.Comments()], // <-- сюда добавляются общие секции страницы
-  footer: Component.Footer({
-    /* ... */
-  }),
-}
-```
-
----
-
-## 6. Быстрый чек-лист кастомизации
-
-- [ ] Изменил `pageTitle` в `quartz.config.ts`
-- [ ] Задал правильный `baseUrl`
-- [ ] Настроил `ignorePatterns` для скрытия черновиков (без подчёркиваний: `private`, `templates` и т.д.)
-- [ ] Выбрал шрифты в `typography` (header, body, code)
-- [ ] Задал цвета в `colors.lightMode` и `colors.darkMode` (используйте `secondary`, `tertiary`, `highlight`, `textHighlight`)
-- [ ] Отредактировал `quartz.layout.ts` — добавил/убрал компоненты в `beforeBody`, `left`, `right`
-- [ ] Создал `index.md` с главным меню
-- [ ] Добавил логотип (эмодзи или файл в `content/static`)
-- [ ] Проверил локально: `npx quartz build --serve -d <output-dir>` или `npm run docs`
-- [ ] Опубликовал через Publication Center
-
----
-
-## 7. Полезные ссылки и команды
+Актуальные команды из `package.json`:
 
 ```bash
-# Локальный запуск / просмотр (локальный preview)
-npx quartz build --serve -d <output-dir>
-# или (специальный скрипт для документации)
-npm run docs  # запускает: npx quartz build --serve -d docs
-
-# Сборка статического сайта (production)
-npx quartz build -d <output-dir>
-# Получить информацию о бандле/артефактах
-npx quartz build --bundleInfo -d docs
+npm run quartz
+npm run docs
+npm run site:dev
+npm run site:preview
+npm run check
+npm run format
+npm test
 ```
 
-**Ключевые файлы для редактирования:**
+Для локальной разработки лучше использовать `npm run site:dev`. Для проверки уже собранного `public` — `npm run site:preview`, потому что он использует `tools/serve-public.ts` и поддерживает clean URLs.
 
-- `quartz.config.ts` — конфигурация и цвета
-- `quartz.layout.ts` — структура меню и панелей
-- `quartz/styles/custom.scss` — кастомные стили
-- `content/index.md` — главная страница и меню
+## Чек-лист кастомизации
 
-Этой информации должно хватить для быстрой кастомизации вашего Quartz 4! 🚀
+Когда меняешь внешний вид или структуру сайта, я проверяю такие точки:
+
+- `quartz.config.ts`: `baseUrl`, тема, plugins, emitters;
+- `quartz.layout.ts`: колонки, conditional renders, landing-исключения;
+- `quartz/static/data`: JSON для data-driven страниц;
+- `CardMenu`: nav buttons, фильтры, сортировка, mobile drawer;
+- `PagePreviewList`: наличие `preview_image` в статьях;
+- `CustomOgImages`: нужен ли он в текущей сборке или мешает скорости;
+- generated-каталог библиотеки: не попал ли он случайно в ручные правки после build.
+
+Кастомизация Quartz в этом проекте уже давно вышла за рамки «поменять цвет и логотип». Это скорее сборка сайта из Markdown, JSON и Preact-компонентов, где Quartz остаётся статическим генератором, а кастомные части закрывают реальные сценарии Smirnoff.

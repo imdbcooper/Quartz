@@ -1,335 +1,134 @@
 ---
 publish: true
-title: Как создать компонент FeedbackForm для Quartz 4
-description: Пошаговый гайд по созданию компонента FeedbackForm и подключению его на страницах Quartz.
+title: "Как устроен компонент FeedbackForm для Quartz 4"
+description: "Текущий подход к FeedbackForm в сайте Smirnoff: ресурсный placeholder, inline-скрипт, JSON-конфиг и связь с HomeCallback."
 created: 2026-01-15
-modified: 2026-01-15T20:21:03.521+03:00
+modified: 2026-06-04 02:45
 tags:
+  - blog
   - tutorial
-  - Quartz
-  - components
-  - obsidian
 cssclasses: ""
 draft: false
+preview_image: /images/quartz-feedback-form.png
 ---
 
-Ниже — рабочая схема создания компонента на основе FeedbackForm. Вы получите:
+# Как устроен FeedbackForm для Quartz 4
 
-- TSX-компонент
-- Клиентский скрипт (`.inline.ts`)
-- SCSS-стили
-- Подключение в layout
-- Использование в контенте через HTML
-- Настройку через JSON
+`FeedbackForm` в этом проекте не рендерит готовую форму прямо в TSX. Это важная деталь. Компонент работает как ресурсный placeholder: подключает стили и inline-скрипт, а реальный DOM формы создаётся уже в браузере по JSON-конфигу.
 
----
+Такой подход удобен для Quartz со SPA-навигацией. Страница может меняться без полной перезагрузки, поэтому форма должна уметь монтироваться повторно после события `nav`.
 
-## 1. Создайте компонент TSX
+## Компонент как placeholder
 
-Файл: `quartz/components/FeedbackForm.tsx`
+`quartz/components/FeedbackForm.tsx` устроен минимально:
 
 ```tsx
-import { QuartzComponent, QuartzComponentConstructor } from "./types"
-import style from "./styles/feedbackForm.scss"
-// @ts-ignore
-import script from "./scripts/feedbackForm.inline"
-
 const FeedbackForm: QuartzComponent = () => {
   return <div class="feedback-form-resources" aria-hidden="true"></div>
 }
 
 FeedbackForm.css = style
 FeedbackForm.afterDOMLoaded = script
-
-export default (() => FeedbackForm) satisfies QuartzComponentConstructor
 ```
 
-Идея простая: компонент подключает стили и клиентский скрипт, а сам DOM собирается уже в браузере.
+На странице этот `div` сам по себе ничего не показывает. Его задача — протащить CSS и `feedbackForm.inline.ts` в ресурсы Quartz.
 
----
+## Где создаётся настоящая форма
 
-## 2. Создайте клиентский скрипт
-
-Файл: `quartz/components/scripts/feedbackForm.inline.ts`
-
-Внутри:
-
-- ищем элементы формы на странице
-- читаем JSON-конфиг
-- строим поля
-- отправляем JSON на `action`
-
-Важно: Quartz использует SPA-навигацию, поэтому нужно подписаться на событие `nav`.
-
-```ts
-document.addEventListener("nav", mountForms)
-mountForms()
-```
-
-Именно так форма “перерисовывается” при переходах без перезагрузки.
-
----
-
-## 3. Добавьте стили
-
-Файл: `quartz/components/styles/feedbackForm.scss`
-
-Здесь описываются:
-
-- карточка формы
-- поля ввода
-- группы чекбоксов/радио
-- кнопки и статусы
-
-SCSS подключается через `FeedbackForm.css = style`.
-
----
-
-## 4. Экспортируйте компонент
-
-Файл: `quartz/components/index.ts`
-
-```ts
-import FeedbackForm from "./FeedbackForm"
-
-export {
-  // ...
-  FeedbackForm,
-}
-```
-
----
-
-## 5. Подключите компонент в layout
-
-Файл: `quartz.layout.ts`
-
-Чтобы скрипт и стили работали на всех страницах:
-
-```ts
-export const sharedPageComponents: SharedLayout = {
-  // ...
-  afterBody: [Component.ServicesCarousel(), Component.FeedbackForm()],
-}
-```
-
-Если нужен компонент только на отдельных страницах — можно добавить его в конкретный layout или через `ConditionalRender`.
-
----
-
-## 6. Используйте компонент в контенте
-
-Quartz не всегда корректно обрабатывает кастомный HTML-тег, поэтому используем `div`:
+Настоящая форма создаётся в `quartz/components/scripts/feedbackForm.inline.ts`. Скрипт ищет элементы вида:
 
 ```html
 <div class="feedback-form" data-source="/static/data/feedback-form.json"></div>
 ```
 
-Это надежный способ, который гарантированно не экранируется в Markdown.
+После этого он:
 
----
+- загружает JSON из `data-source`;
+- создаёт поля;
+- валидирует обязательные значения;
+- собирает JSON-payload;
+- отправляет его на `action`;
+- показывает статус отправки прямо в карточке.
 
-## 7. Настройка через JSON
+Скрипт подписывается на SPA-событие `nav`, чтобы форма продолжала работать после внутренних переходов Quartz.
 
-Конфиг лежит в `quartz/static/data/` и подтягивается через `data-source`.
+## Конфиг формы
 
-Пример:
+Данные лежат в `quartz/static/data/feedback-form.json`. Сейчас это не абстрактная форма «напишите нам», а бриф на разработку:
 
-```json
-{
-  "title": "Форма обратной связи",
-  "subtitle": "Коротко, по делу. Я свяжусь с вами.",
-  "action": "https://app.slavx.ru/api/v1/f/12a7dd50d5c0",
-  "method": "POST",
-  "submitLabel": "Отправить",
-  "privacyNote": "Без спама",
-  "fields": [
-    {
-      "type": "text",
-      "name": "name",
-      "placeholder": "Имя / компания",
-      "required": true,
-      "layout": "two-columns"
-    },
-    { "type": "email", "name": "email", "placeholder": "Почта", "required": true },
-    {
-      "type": "textarea",
-      "name": "message",
-      "placeholder": "Сообщение",
-      "required": true,
-      "rows": 5
-    }
-  ]
-}
-```
+- имя;
+- компания;
+- телефон;
+- email;
+- Telegram;
+- тип услуги;
+- scope работ;
+- бюджет через range;
+- сроки;
+- материалы;
+- описание задачи;
+- согласие на обработку персональных данных.
 
-Форма отправляет JSON-пayload и показывает статус прямо в карточке.
+`action` указывает на endpoint `https://app.slavx.ru/api/v1/f/12a7dd50d5c0`, метод — `POST`.
 
----
+## Почему JSON, а не Markdown
 
-## 8. Разъяснения полей (JSON)
-
-Ниже — расшифровка параметров для `fields[]`:
-
-- `type` — тип поля: `text`, `email`, `tel`, `textarea`, `select`, `checkbox`, `radio`, `range`, `hidden`.
-- `name` — ключ, под которым поле уйдет в JSON-payload; обязателен для всех типов, иначе значение не попадет в отправку.
-- `label` — текст подписи (для `checkbox`/`radio` это заголовок группы).
-- `placeholder` — подсказка внутри поля (для `text`, `email`, `tel`, `textarea`).
-- `required` — делает поле обязательным; для группы чекбоксов требуется выбрать минимум один.
-- `value` — значение по умолчанию; важно для `hidden` и одиночного `checkbox`.
-- `rows` — высота `textarea`.
-- `options` — варианты для `select`, `checkbox`, `radio` (каждый вариант: `label`, `value`, `checked`).
-- `multiple` — включает множественный выбор для `select`.
-- `autocomplete` — HTML-атрибут автозаполнения.
-- `help` — вспомогательный текст под полем.
-- `min` — минимальное значение для `range`.
-- `max` — максимальное значение для `range`.
-- `step` — шаг изменения для `range`.
-- `unit` — подпись справа от значения (например, `₽`).
-- `showValue` — показывать значение у `range` (по умолчанию `true`).
-- `layout` — специальный макет, `two-columns` автоматически группирует указанные поля в два столбца (подходит для контактных данных).
-
----
-
-## 9. Поддерживаемые поля
-
-`text`, `email`, `tel`, `textarea`, `select`, `checkbox`, `radio`, `range`, `hidden`.
-
-Пример с выпадающим списком и чекбоксами:
+Форма быстро становится неудобной, если описывать её в Markdown или HTML-вставках. JSON даёт нормальную структуру:
 
 ```json
 {
-  "fields": [
-    {
-      "type": "select",
-      "name": "service",
-      "label": "Услуга",
-      "required": true,
-      "options": [
-        { "label": "Аудит", "value": "audit" },
-        { "label": "Разработка", "value": "dev" }
-      ]
-    },
-    {
-      "type": "checkbox",
-      "name": "channels",
-      "label": "Удобный канал",
-      "required": true,
-      "options": [
-        { "label": "Telegram", "value": "telegram" },
-        { "label": "Email", "value": "email" }
-      ]
-    },
-    {
-      "type": "radio",
-      "name": "budget",
-      "label": "Бюджет",
-      "required": true,
-      "options": [
-        { "label": "до 50k", "value": "50k" },
-        { "label": "50–200k", "value": "200k" }
-      ]
-    }
-  ]
+  "type": "email",
+  "name": "email",
+  "label": "Email",
+  "placeholder": "you@example.com",
+  "required": true,
+  "autocomplete": "email"
 }
 ```
 
-Пример со слайдером бюджета:
+Так проще менять поля, порядок, варианты select/checkbox и обязательность. Код компонента при этом остаётся тем же.
 
-```json
-{
-  "fields": [
-    {
-      "type": "range",
-      "name": "budget",
-      "label": "Бюджет, ₽",
-      "min": 50000,
-      "max": 500000,
-      "step": 25000,
-      "value": 150000,
-      "unit": "₽"
-    }
-  ]
-}
+## Подключение в layout
+
+`FeedbackForm` подключён глобально в `sharedPageComponents.afterBody`:
+
+```ts
+afterBody: [
+  Component.SiteGeometryBackground(siteGeometryBackgroundData),
+  Component.ServicesCarousel(),
+  Component.FeedbackForm(),
+  Component.HomeCallback(),
+  Component.CookieConsent(),
+]
 ```
 
-Пример двухколоночной раскладки для контактных данных:
+Это не значит, что форма видна на каждой странице. Глобально подключаются ресурсы. Конкретное место формы определяется HTML-placeholder в контенте или компоненте.
 
-```json
-{
-  "fields": [
-    {
-      "type": "text",
-      "name": "name",
-      "label": "Имя",
-      "placeholder": "Как к вам обращаться",
-      "required": true,
-      "layout": "two-columns"
-    },
-    {
-      "type": "text",
-      "name": "company",
-      "label": "Компания",
-      "placeholder": "Название компании",
-      "layout": "two-columns"
-    },
-    {
-      "type": "tel",
-      "name": "phone",
-      "label": "Телефон",
-      "placeholder": "+7...",
-      "layout": "two-columns"
-    },
-    {
-      "type": "email",
-      "name": "email",
-      "label": "Email",
-      "placeholder": "you@example.com",
-      "required": true,
-      "layout": "two-columns"
-    }
-  ]
-}
-```
+## Связь с HomeCallback
 
----
+Рядом подключён `HomeCallback`. Он тоже выглядит как ресурсный компонент: отдаёт скрытый placeholder и подключает `homeCallback.inline.ts`. По смыслу это соседняя часть того же пользовательского сценария: CTA на главной или в лендинговых блоках открывает callback/brief-механику, а `FeedbackForm` отвечает за полноценную форму.
 
-## 10. Кнопки и дополнительные действия
+Поэтому при изменении формы нужно проверять не только `FeedbackForm`, но и кнопки, которые открывают или ведут к ней на главной и странице контактов.
 
-Можно добавить свои кнопки и ссылки:
+## Юридические документы
 
-```json
-{
-  "actions": [
-    { "type": "submit", "label": "Отправить" },
-    {
-      "type": "link",
-      "label": "Написать в Telegram",
-      "href": "https://t.me/your_handle",
-      "variant": "secondary"
-    }
-  ]
-}
-```
+В форме есть обязательное согласие на обработку персональных данных. Это не декоративный checkbox: он связан с юридической частью сайта. На лендинговых блоках также есть тексты и ссылки на legal-документы, например в contact CTA главной.
 
----
+Если меняется текст согласия, privacy note или сценарий отправки, нужно сверять это с юридическими страницами сайта. Форма собирает персональные данные, значит текст должен быть не только красивым, но и аккуратным.
 
-## 11. Что отправляется на сервер
+## Что менять на практике
 
-Форма отправляет JSON:
+Чаще всего правятся только данные:
 
-- `select` → строка (или массив при `multiple`)
-- `checkbox` → массив выбранных значений
-- `radio` → выбранное значение
-- `hidden` → статическое значение
-- `text/email/tel/textarea` → строка
+- `title` и `subtitle` формы;
+- набор `fields`;
+- варианты `options`;
+- `privacyNote`;
+- `submitLabel`;
+- endpoint `action`, если меняется backend.
 
-Если `action` не задан — выводится ошибка. При успехе форма очищается.
-
----
+Код компонента трогать стоит только если нужен новый тип поля или другая логика отправки.
 
 ## Итог
 
-Так вы получаете компонент, который можно вставить на любую страницу, а его поведение настраивать только через JSON — без изменения кода.
-
-- `layout` — не обязательная подсказка рендереру, `two-columns` помещает поля в двухколоночный контейнер (подходит для контактных данных).
+`FeedbackForm` в текущем Quartz-проекте — это не «форма в TSX», а связка из placeholder-компонента, inline-скрипта и JSON-конфига. Такой вариант хорошо подходит для статического сайта: Markdown остаётся чистым, форма настраивается данными, а клиентское поведение переживает SPA-переходы.
