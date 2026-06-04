@@ -77,7 +77,8 @@ async function loadAvatarBase64(
 
   try {
     const avatarData = await fs.readFile(avatarPath)
-    return `data:image/webp;base64,${avatarData.toString("base64")}`
+    const pngAvatar = await sharp(avatarData).png().toBuffer()
+    return `data:image/png;base64,${pngAvatar.toString("base64")}`
   } catch (err) {
     console.warn(styleText("yellow", `Warning: Could not find avatar at ${avatarPath}`))
     return undefined
