@@ -1,7 +1,7 @@
 ---
 title: "Docs"
 description: "Документы и юридическая информация сайта slavx.ru"
-preview_image: /images/docs-index-cover.png
+preview_image: /images/docs-index-cover.webp
 publish: true
 ---
 

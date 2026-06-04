@@ -1,7 +1,7 @@
 ---
 title: "Сведения об операторе и реквизиты"
 description: "Контактные и идентификационные сведения владельца сайта slavx.ru."
-preview_image: /images/operator-details-cover.png
+preview_image: /images/operator-details-cover.webp
 publish: true
 aliases:
   - /operator-details

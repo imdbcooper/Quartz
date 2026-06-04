@@ -1,7 +1,7 @@
 ---
 title: "Политика cookie и локального хранения данных"
 description: "Информация об использовании cookie, localStorage и аналитики на сайте slavx.ru."
-preview_image: /images/cookie-policy-cover.png
+preview_image: /images/cookie-policy-cover.webp
 publish: true
 aliases:
   - /cookie-policy

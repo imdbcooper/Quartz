@@ -1,7 +1,7 @@
 ---
 title: "Согласие на обработку персональных данных"
 description: "Форма согласия пользователя на обработку персональных данных при отправке заявок через slavx.ru."
-preview_image: /images/personal-data-consent-cover.png
+preview_image: /images/personal-data-consent-cover.webp
 publish: true
 aliases:
   - /consent
