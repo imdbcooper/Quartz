@@ -1,7 +1,7 @@
 ---
 publish: true
 title: Audio Scribe Agent Control Plane admin dashboard workflows skills MCP и memory
-description: Внутренний операционный слой Audio Scribe: admin dashboard, feature flags, agent runs, workflows, skills, MCP, memory, sandbox и artifacts.
+description: "Внутренний операционный слой Audio Scribe: admin dashboard, feature flags, agent runs, workflows, skills, MCP, memory, sandbox и artifacts."
 created: 2026-06-04 03:26
 updated: 2026-06-04 03:26
 tags:
