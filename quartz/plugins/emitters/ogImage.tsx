@@ -73,11 +73,11 @@ async function loadAvatarBase64(
 ): Promise<string | undefined> {
   if (fileData.slug !== "index") return undefined
 
-  const avatarPath = path.resolve(ctx.argv.directory, "images", "avatar.png")
+  const avatarPath = path.resolve(ctx.argv.directory, "images", "avatar.webp")
 
   try {
     const avatarData = await fs.readFile(avatarPath)
-    return `data:image/png;base64,${avatarData.toString("base64")}`
+    return `data:image/webp;base64,${avatarData.toString("base64")}`
   } catch (err) {
     console.warn(styleText("yellow", `Warning: Could not find avatar at ${avatarPath}`))
     return undefined

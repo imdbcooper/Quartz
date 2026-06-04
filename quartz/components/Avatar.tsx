@@ -9,7 +9,7 @@ type AvatarOptions = {
   altText?: string
 }
 
-const DEFAULT_IMAGE_PATH = "images/avatar.png"
+const DEFAULT_IMAGE_PATH = "images/avatar.webp"
 
 const defaultOptions: AvatarOptions = {
   imagePath: DEFAULT_IMAGE_PATH,
