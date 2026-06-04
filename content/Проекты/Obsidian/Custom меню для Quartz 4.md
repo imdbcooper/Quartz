@@ -93,11 +93,13 @@ navButtons: [
 У текущего `CardMenu` есть полезная опция `drawerComponent`. Она позволяет вставить внутрь меню дополнительный компонент:
 
 ```tsx
-{DrawerComponent && (
-  <div class="card-menu-drawer-slot">
-    <DrawerComponent {...props} />
-  </div>
-)}
+{
+  DrawerComponent && (
+    <div class="card-menu-drawer-slot">
+      <DrawerComponent {...props} />
+    </div>
+  )
+}
 ```
 
 Чтобы у вложенного компонента не потерялись стили и скрипты, используется `concatenateResources`:
